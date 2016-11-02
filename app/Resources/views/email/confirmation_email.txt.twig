@@ -1,0 +1,20 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block subject %}
+    plusHC registration confirmation
+{% endblock %}
+
+{% block body_text %}
+    Your access informations:
+
+    Email: {{ user.email }}
+    Username: {{ user.username }}
+    Password: {{ user.plainPassword }}
+
+    You can change the system generated password once you have activated the account.
+
+    Activation url: {{ confirmationUrl }}
+{% endblock %}
+
+{% block body_html %}
+{% endblock %}
