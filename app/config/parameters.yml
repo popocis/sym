@@ -1,0 +1,29 @@
+# This file is auto-generated during the composer install
+parameters:
+    #database_host: 127.0.0.1
+    #database_port: null
+    #database_name: symfony
+    #database_user: root
+    #database_password: null
+
+    database_host:  localhost
+    database_port:  3306
+    database_name:  plushc_project
+    database_user:  root
+    database_password:  root
+
+    # Mail setup for development environment
+    dev_mailer_transport: gmail
+    dev_mailer_host: null
+    dev_mailer_user:
+    dev_mailer_password: 
+
+    # Mail setup for production environment
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: 2ebbcfa9d29b52f473318fce0eb131a8acd7fd04
+
+
+
