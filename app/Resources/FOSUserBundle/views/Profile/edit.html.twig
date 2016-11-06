@@ -1,0 +1,31 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+    {#% include "FOSUserBundle:Profile:edit_content.html.twig" %#}
+
+    <form name="fos_user_profile_form" method="post" action="/profile/edit" class="fos_user_profile_edit">
+        <div id="fos_user_profile_form">
+            <div>
+                <label for="fos_user_profile_form_email" class="required">form.email</label>
+                <input type="email" id="fos_user_profile_form_email" name="fos_user_profile_form[email]" required="required" value="vincenzo.pandico@gmail.com">
+            </div>
+            <div>
+                <label for="fos_user_profile_form_current_password" class="required">form.current_password</label>
+                <input type="password" id="fos_user_profile_form_current_password" name="fos_user_profile_form[current_password]" required="required">
+            </div>
+            <div>
+                <label for="fos_user_profile_form_name" class="required">Name</label>
+                <input type="text" id="fos_user_profile_form_name" name="fos_user_profile_form[name]" required="required" maxlength="255" pattern=".{3,}" value="vincenzo">
+            </div>
+            <div>
+                <label for="fos_user_profile_form_surname" class="required">Surname</label>
+                <input type="text" id="fos_user_profile_form_surname" name="fos_user_profile_form[surname]" required="required" maxlength="255" pattern=".{3,}" value="pandico">
+            </div>
+            <input type="hidden" id="fos_user_profile_form__token" name="fos_user_profile_form[_token]" value="{{ csrf_token('profile') }}">
+        </div>
+        <div>
+            <input type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+        </div>
+    </form>
+
+{% endblock fos_user_content %}

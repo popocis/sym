@@ -32,7 +32,7 @@ monolog:
 
 # Swiftmailer Configuration
 swiftmailer:
-    delivery_address: 'vincenzo.pandico@gmail.com'
+    delivery_address: '%dev_mailer_user%'
     transport: "%dev_mailer_transport%"
     host:      "%dev_mailer_host%"
     username:  "%dev_mailer_user%"

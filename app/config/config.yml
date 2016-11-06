@@ -69,12 +69,17 @@ fos_user:
     service:
         mailer: fos_user.mailer.twig_swift
     registration:
+        form:
+            type: AppBundle\Form\RegistrationType
         confirmation:
             enabled: true
             template: email/confirmation_email.txt.twig
             from_email:
                 address:        registration@example.com
                 sender_name:    plusHC Registration
+    profile:
+        form:
+            type: AppBundle\Form\ProfileType
     resetting:
         email:
             template: email/resetting_password_email.txt.twig
