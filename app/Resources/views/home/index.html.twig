@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    HOME TEMPLATE<br><br>
+    <br>TODO TEMPLATE:<br>
+    - inizizare a definire i template twig: header, content, ... usando remark template<br>
+    - se sono loggato come ROLE_SUPER_ADMIN -> lista di tutti gli utenti (attivi) e filtro ROLE_ADMIN o ROLE_USER<br>
+    - se sono loggato come ROLE_ADMIN -> lista di tutti gli utenti (attivi) + vari filtri in base allo stato o altri da definire<br>
+    - se sono loggato come ROLE_USER -> le mie informazioni + "bacheca"<br>
+    - template pagina LOGIN<br>
+    <br>TODO FUNZIONALITÀ:<br>
+    - in fase di registrazione di un utente generare password automaticamente?<br>
+    - pagina gestione utente inserito -> visualizzazione e modifica + inserimento documenti/immagini/segnalazione informazioni<br>
+    - definire gli stati degli utenti -> tabella associata ad ogni singolo utente che ne indica la tipologia (CONTACT o CLIENT)<br>
+    - definire i reminder/alert<br>
+
+    - user controller aggiungere filtri per lista<br>
+    - user edit form per aggiornare i dati<br>
+
+{% endblock %}

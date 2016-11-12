@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    USER LIST TEMPLATE<br>
+
+    get all users
+    {% for user in users %}
+        <li>{{ user.name }}, {{ user.surname }} | view | <a href="user/edit/{{ user.id }}">edit</a> </li>
+    {% endfor %}
+
+{% endblock %}
