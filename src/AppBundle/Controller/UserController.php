@@ -30,7 +30,7 @@ class UserController extends Controller{
 		$userManager = $this->get('fos_user.user_manager');
 		
 		$user = $userManager->findUserBy(array('id' => $id));
-
+		
 		$form = $this->createFormBuilder($user)
             ->add('username', TextType::class, array('label' => 'Username utente:'))
 			->add('name', TextType::class, array('label' => 'Nome:'))
@@ -78,5 +78,18 @@ class UserController extends Controller{
 			'isSubmitted' => $form->isSubmitted(),
 			'isValid' => $form->isValid()
 		));
+	}
+
+	/**
+	 * @Route("/user/view/{id}", name="userView")
+	 */
+	//edit single user
+	//se utente loggato è ROLE_ADMIN allora può modificare se l'oggetto è di tipo ROLE_USER
+	//se utente loggato è ROLE_SUPER_ADMIN allora può modificare tutti gli utenti?
+	//da sistemare
+	public function viewAction($id){
+		$userManager = $this->get('fos_user.user_manager');
+		$user = $userManager->findUserBy(array('id' => $id));
+		return $this->render('user/view.html.twig', array('user' => $user));
 	}
 }
