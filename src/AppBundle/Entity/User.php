@@ -30,11 +30,10 @@ class User extends BaseUser
 	 *
 	 * @Assert\NotBlank(message="Please enter your name.", groups={"Registration", "Profile"})
 	 * @Assert\Length(
-	 *     min=3,
-	 *     max=255,
-	 *     minMessage="The name is too short.",
-	 *     maxMessage="The name is too long.",
-	 *     groups={"Registration", "Profile"}
+	 *     min = 2,
+     *     max = 50,
+     *     minMessage = "Your first name must be at least {{ limit }} characters long",
+     *     maxMessage = "Your first name cannot be longer than {{ limit }} characters"
 	 * )
 	 */
 	protected $name;

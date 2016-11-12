@@ -6,4 +6,17 @@
 
     {{ user.name }}, {{ user.surname }}
 
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    isSubmitted: {{ isSubmitted ? 'true' : 'false' }}
+    isValid: {{ isValid ? 'true' : 'false' }}
+
+    <ul>
+    {% for error in errors %}
+    <li>{{ error.message }}</li>
+    {% endfor %}
+    </ul>
+
 {% endblock %}
