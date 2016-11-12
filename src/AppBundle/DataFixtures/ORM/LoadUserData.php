@@ -32,6 +32,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		//$user->setPassword('$2a$10$H7SpSzqmpWzFNh9whB74eulZZzo7XT7bQ.vvxStKomLfh06AX/ulG');
 		$user->setEnabled(true);
 		$user->setRoles(array('ROLE_SUPER_ADMIN'));
+		$user->setName('vincenzo');
+		$user->setSurname('pandico');
 
 		// Update the user
 		$userManager->updateUser($user, true);
@@ -46,6 +48,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		//$user->setPassword('$2a$10$H7SpSzqmpWzFNh9whB74eulZZzo7XT7bQ.vvxStKomLfh06AX/ulG');
 		$user->setEnabled(true);
 		$user->setRoles(array('ROLE_SUPER_ADMIN'));
+		$user->setName('dario');
+		$user->setSurname('zilocchi');
 
 		// Update the user
 		$userManager->updateUser($user, true);

@@ -18,3 +18,9 @@ services:
         class: AppBundle\Form\ProfileType
         tags:
             - { name: form.type, alias: app_user_profile }
+    app.registration_listener:
+        class: AppBundle\EventListener\RegistrationListener
+        arguments:
+            - @security.context
+        tags:
+            - { name: kernel.event_subscriber }
