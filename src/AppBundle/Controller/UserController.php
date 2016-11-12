@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UserController extends Controller{
 	/**
-	 * @Route("/user", name="user")
+	 * @Route("/user/list", name="user")
 	 */
 	//get all users
 	public function indexAction(){
@@ -30,7 +30,7 @@ class UserController extends Controller{
 		$userManager = $this->get('fos_user.user_manager');
 		
 		$user = $userManager->findUserBy(array('id' => $id));
-		
+
 		$form = $this->createFormBuilder($user)
             ->add('username', TextType::class, array('label' => 'Username utente:'))
 			->add('name', TextType::class, array('label' => 'Nome:'))
@@ -40,20 +40,6 @@ class UserController extends Controller{
             ->getForm();
 
 		$form->handleRequest($request);
-
-		$validator = $this->get('validator');
-		$errors = $validator->validate($user);
-
-		if (count($errors) > 0) {
-			/*
-			* Uses a __toString method on the $errors variable which is a
-			* ConstraintViolationList object. This gives us a nice string
-			* for debugging.
-			*/
-			$errorsString = (string) $errors;
-
-			return new Response($errorsString);
-		}
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			// $form->getData() holds the submitted values
@@ -74,7 +60,6 @@ class UserController extends Controller{
 		return $this->render('user/edit.html.twig', array(
 			'user' => $user,
 			'form' => $form->createView(),
-			'errors' => $errors,
 			'isSubmitted' => $form->isSubmitted(),
 			'isValid' => $form->isValid()
 		));
