@@ -1,0 +1,40 @@
+
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+
+    <body class="page-login-v3 layout-full">
+    <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Page -->
+    <div class="page vertical-align text-xs-center" data-animsition-in="fade-in" data-animsition-out="fade-out">>
+        <div class="page-content vertical-align-middle">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="brand">
+                        <img class="brand-img" src="../../assets//images/logo-dark.png" alt="..." width="200">
+                    </div>
+                    {{ form_errors(form) }}
+                    <form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" method="post" class="fos_user_resetting_reset">
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="password" class="form-control empty" id="fos_user_resetting_form_plainPassword_first" name="fos_user_resetting_form[plainPassword][first]" required="required" data-plugin="formMaterial">
+                            <label class="floating-label" for="fos_user_resetting_form_plainPassword_first">New password</label>
+                        </div>
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="password" class="form-control empty" id="fos_user_resetting_form_plainPassword_second" name="fos_user_resetting_form[plainPassword][second]" required="required" data-plugin="formMaterial">
+                            <label class="floating-label required" for="fos_user_resetting_form_plainPassword_second">Repeat password</label>
+                        </div>
+                        <input type="hidden" id="fos_user_resetting_form__token" name="fos_user_resetting_form[_token]" value="{{ csrf_token('resetting') }}">
+                        <button type="submit" class="btn btn-primary btn-block btn-lg m-t-40">Reset password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Page -->
+
+    </body>
+
+{% endblock fos_user_content %}

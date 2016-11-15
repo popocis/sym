@@ -87,4 +87,8 @@ fos_user:
                 address:        resetting@example.com
                 sender_name:    plusHC Resetting password
 
-
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~

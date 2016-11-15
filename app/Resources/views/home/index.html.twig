@@ -2,6 +2,10 @@
 
 {% block body %}
 
+    {% for user in users %}
+        <li>{{ user.name }}, {{ user.surname }} | <a href="user/view/{{ user.id }}">view</a>  | <a href="user/edit/{{ user.id }}">edit</a> </li>
+    {% endfor %}
+
     HOME TEMPLATE<br><br>
     <br>TODO TEMPLATE:<br>
     - inizizare a definire i template twig: header, content, ... usando remark template<br>

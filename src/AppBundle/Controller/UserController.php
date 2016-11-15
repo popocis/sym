@@ -9,35 +9,28 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UserController extends Controller{
-	/**
-	 * @Route("/user/list", name="user")
-	 */
-	//get all users
-	public function indexAction(){
-		$userManager = $this->get('fos_user.user_manager');
-		$users = $userManager->findUsers();
-		return $this->render('user/index.html.twig', array('users' => $users));
-	}
 
 	/**
 	 * @Route("/user/edit/{id}", name="userEdit")
 	 */
-	//edit single user
-	//se utente loggato è ROLE_ADMIN allora può modificare se l'oggetto è di tipo ROLE_USER
-	//se utente loggato è ROLE_SUPER_ADMIN allora può modificare tutti gli utenti?
-	//da sistemare
 	public function editAction(Request $request, $id){
+
+		//edit single user
+		//se utente loggato è ROLE_ADMIN allora può modificare se l'oggetto è di tipo ROLE_USER
+		//se utente loggato è ROLE_SUPER_ADMIN allora può modificare tutti gli utenti?
+		//da sistemare
+
 		$userManager = $this->get('fos_user.user_manager');
-		
+
 		$user = $userManager->findUserBy(array('id' => $id));
 
 		$form = $this->createFormBuilder($user)
-            ->add('username', TextType::class, array('label' => 'Username utente:'))
+			->add('username', TextType::class, array('label' => 'Username utente:'))
 			->add('name', TextType::class, array('label' => 'Nome:'))
 			->add('surname', TextType::class, array('label' => 'Cognome:'))
-            //->add('dueDate', DateType::class)
-            ->add('save', SubmitType::class, array('label' => 'Modifica le informazioni sull\'utente'))
-            ->getForm();
+			//->add('dueDate', DateType::class)
+			->add('save', SubmitType::class, array('label' => 'Modifica le informazioni sull\'utente'))
+			->getForm();
 
 		$form->handleRequest($request);
 
@@ -68,11 +61,13 @@ class UserController extends Controller{
 	/**
 	 * @Route("/user/view/{id}", name="userView")
 	 */
-	//edit single user
-	//se utente loggato è ROLE_ADMIN allora può modificare se l'oggetto è di tipo ROLE_USER
-	//se utente loggato è ROLE_SUPER_ADMIN allora può modificare tutti gli utenti?
-	//da sistemare
 	public function viewAction($id){
+
+		//edit single user
+		//se utente loggato è ROLE_ADMIN allora può modificare se l'oggetto è di tipo ROLE_USER
+		//se utente loggato è ROLE_SUPER_ADMIN allora può modificare tutti gli utenti?
+		//da sistemare
+
 		$userManager = $this->get('fos_user.user_manager');
 		$user = $userManager->findUserBy(array('id' => $id));
 		return $this->render('user/view.html.twig', array('user' => $user));
