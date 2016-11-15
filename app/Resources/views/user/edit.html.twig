@@ -4,7 +4,17 @@
 
     EDIT USER TEMPLATE<br>
 
-    {{ user.name }}, {{ user.surname }}
+    {{ user.name }}, {{ user.surname }}<br/>
+
+    ROLES<br/>
+    <ul>
+    {% for role in user.getRoles() %}
+        <li>{{ role }}</li>
+    {% endfor %}
+    </ul>
+
+    {#{{ user.getRoles() }}<br/>#}
+    {#{{ roles }}<br/>#}
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
