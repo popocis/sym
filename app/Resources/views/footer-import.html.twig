@@ -1,0 +1,55 @@
+<!-- Core  -->
+<script src="{{ asset('assets/vendor/babel-external-helpers/babel-external-helpers.js') }}"></script>
+<script src="{{ asset('assets/vendor/tether/tether.js') }}"></script>
+<script src="{{ asset('assets/vendor/bootstrap/bootstrap.js') }}"></script>
+<script src="{{ asset('assets/vendor/mousewheel/jquery.mousewheel.js') }}"></script>
+<script src="{{ asset('assets/vendor/asscrollbar/jquery-asScrollbar.js') }}"></script>
+<script src="{{ asset('assets/vendor/asscrollable/jquery-asScrollable.js') }}"></script>
+<script src="{{ asset('assets/vendor/ashoverscroll/jquery-asHoverScroll.js') }}"></script>
+<script src="{{ asset('assets/vendor/waves/waves.js') }}"></script>
+<!-- Plugins -->
+<script src="{{ asset('assets/vendor/switchery/switchery.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/slidepanel/jquery-slidePanel.js') }}"></script>
+<script src="{{ asset('assets/vendor/matchheight/jquery.matchHeight-min.js') }}"></script>
+<script src="{{ asset('assets/vendor/peity/jquery.peity.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery-placeholder/jquery.placeholder.js') }}"></script>
+<script src="{{ asset('assets/vendor/bootstrap-table/bootstrap-table.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/bootstrap-table/extensions/mobile/bootstrap-table-mobile.js') }}"></script>
+<!-- Scripts -->
+<script src="{{ asset('assets/js/State.js') }}"></script>
+<script src="{{ asset('assets/js/Component.js') }}"></script>
+<script src="{{ asset('assets/js/Plugin.js') }}"></script>
+<script src="{{ asset('assets/js/Base.js') }}"></script>
+<script src="{{ asset('assets/js/Config.js') }}"></script>
+<script src="{{ asset('assets/js/Section/Menubar.js') }}"></script>
+<script src="{{ asset('assets/js/Section/Sidebar.js') }}"></script>
+<script src="{{ asset('assets/js/Section/PageAside.js') }}"></script>
+<script src="{{ asset('assets/js/Plugin/menu.js') }}"></script>
+<!-- Page -->
+<script src="{{ asset('assets/js/Site.js') }}"></script>
+<script src="{{ asset('assets/js/Plugin/asscrollable.js') }}"></script>
+<script src="{{ asset('assets/js/Plugin/slidepanel.js') }}"></script>
+<script src="{{ asset('assets/js/Plugin/switchery.js') }}"></script>
+<script src="{{ asset('assets/js/Plugin/matchheight.js') }}"></script>
+<script src="{{ asset('assets/js/Plugin/peity.js') }}"></script>
+<script src="{{ asset('assets/js/Plugin/jquery-placeholder.js') }}"></script>
+<script src="{{ asset('assets/js/Plugin/material.js') }}"></script>
+<script src="{{ asset('assets/custom/dashboard.js') }}"></script>
+
+<!- code to combine all js into 1 file->
+{#% block javascripts %}
+    {% javascripts
+    'assets/vendor/babel-external-helpers/babel-external-helpers.js'
+    'assets/vendor/jquery/jquery.js'
+    'assets/vendor/tether/tether.js'
+    'assets/vendor/bootstrap/bootstrap.js'
+    'assets/vendor/animsition/animsition.js'
+    'assets/vendor/mousewheel/jquery.mousewheel.js'
+    'assets/vendor/asscrollbar/jquery-asScrollbar.js'
+    'assets/vendor/asscrollable/jquery-asScrollable.js'
+    'assets/vendor/ashoverscroll/jquery-asHoverScroll.js'
+    'assets/vendor/waves/waves.js'
+    output='js/plugin.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %#}

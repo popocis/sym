@@ -2,11 +2,42 @@
 
 {% block body %}
 
-    {% for user in users %}
-        <li>{{ user.name }}, {{ user.surname }} | <a href="user/view/{{ user.id }}">view</a>  | <a href="user/edit/{{ user.id }}">edit</a> </li>
-    {% endfor %}
+    <table id="table" data-toggle="table" data-search="true" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+        <thead>
+            <tr>
+                <th data-field="name" data-sortable="true">Name</th>
+                <th data-field="surname">Surname</th>
+                <th data-field="email">Email</th>
+                <th data-field="phone">Phone</th>
+                <th data-field="view"></th>
+                <th data-field="edit"></th>
+            </tr>
+        </thead>
+    </table>
 
-    HOME TEMPLATE<br><br>
+
+    <script>
+        $( document ).ready(function() {
+
+            var $table = $("#table");
+            var data = [
+                {% for user in users %}
+                {
+                    "name": '{{ user.name }}',
+                    "surname": '{{ user.surname }}',
+                    "email": '{{ user.email }}',
+                    "phone": '{{ user.phoneNumber }}',
+                    "view": '<a href="user/view/{{ user.id }}">view</a>',
+                    "edit": '<a href="user/edit/{{ user.id }}">edit</a>',
+                },
+                {% endfor %}
+
+            ];
+            $table.bootstrapTable({data: data});
+        });
+    </script>
+
+    <br><br>
     <br>TODO TEMPLATE:<br>
     - inizizare a definire i template twig: header, content, ... usando remark template<br>
     - se sono loggato come ROLE_SUPER_ADMIN -> lista di tutti gli utenti (attivi) e filtro ROLE_ADMIN o ROLE_USER<br>
@@ -22,5 +53,22 @@
 
     - user controller aggiungere filtri per lista<br>
     - user edit form per aggiornare i dati<br>
+
+    CAMPI UTENTE<br>
+    aggiungere <br>
+    -> telefono<br>
+    -> stato utente (commerciale, prospect, cliente) anche se questi nomi non sono quelli ufficiali... non so si potrebbe fare un campo con valore 1,2,3 e poi mapparli<br>
+    <br>
+    Poi il flusso dei dati in linea di massima è questo:<br>
+    <br>
+    SE OPERATORE contatta o e contattato da utente dovrà segnare per quell'utente<br>
+    <br>
+    1) metodo di contatto (sarà un dropdown con valori definiti ma ancora da definire)<br>
+    2) motivo di contatto (sarà un dropdown con valori definiti ma ancora da definire)<br>
+    3) data<br>
+    <br>
+    SE MOTIVO è PREVENTIVO allora utente da commerciale diventa prospect e si attiverà modulo creazione preventivo (al modulo preventivo ci pensiavo una volta fatto il resto)<br>
+    <br>
+    SE MOTIVO è ACCETTAZIONE PREVENTIVO allora utente da prospect diventa cliente
 
 {% endblock %}

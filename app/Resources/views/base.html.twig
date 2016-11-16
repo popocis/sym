@@ -4,125 +4,22 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-
-        <!-- Stylesheets -->
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-extend.min') }}.css">
-        <link rel="stylesheet" href="{{ asset('assets/css/site.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/skins/cyan.min.css') }}">
-        <!-- Plugins -->
-        <link rel="stylesheet" href="{{ asset('assets/vendor/asscrollable/asScrollable.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/switchery/switchery.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/slidepanel/slidePanel.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/flag-icon-css/flag-icon.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/waves/waves.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/custom/dashboard.css') }}">
-        <!-- Fonts -->
-        <link rel="stylesheet" href="{{ asset('assets/fonts/material-design/material-design.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/fonts/brand-icons/brand-icons.min.css') }}">
-        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
-
-        {% block stylesheets %}
-            {#% stylesheets
-            'assets/css/*'
-            'assets/vendor/animsition/animsition.min.css'
-            'assets/vendor/asscrollable/asScrollable.min.css'
-            'assets/vendor/switchery/switchery.min.css'
-            'assets/vendor/intro-js/introjs.css'
-            'assets/vendor/slidepanel/slidePanel.min.css'
-            'assets/vendor/flag-icon-css/flag-icon.min.css'
-            'assets/vendor/waves/waves.min.css'
-            'assets/fonts/material-design/material-design.min.css'
-            'assets/fonts/brand-icons/brand-icons.min.css'
-            'assets/fonts/Roboto/Roboto.min.css'
-            'assets/css/custom.css'
-            filter='cssrewrite' output='css/stylesheets.css' %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-            {% endstylesheets %#}
-        {% endblock %}
-
-        <!--[if lt IE 9]>
-        <script src="{{ asset('assets/vendor/html5shiv/html5shiv.min.js') }}"></script>
-        <![endif]-->
-        <!--[if lt IE 10]>
-        <script src="{{ asset('assets/vendor/media-match/media.match.min.js') }}"></script>
-        <script src="{{ asset('assets/vendor/respond/respond.min.js') }}"></script>
-        <![endif]-->
-        <script src="{{ asset('assets/vendor/breakpoints/breakpoints.js') }}"></script>
-        <script>
-            Breakpoints();
-        </script>
-
+        {% include 'head-import.html.twig' %}
     </head>
-    <body>
-
-        {% include 'header.html.twig' %}
-
-        <body class="dashboard">
-            <!--[if lt IE 8]>
+    <body class="dashboard">
+        <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-            <![endif]-->
-            <!-- Page -->
-            <div class="page">
-                <div class="page-content container-fluid">
-                    <div class="row">
-                        {% block body %}{% endblock %}
-                    </div>
+        <![endif]-->
+        {% include 'header.html.twig' %}
+        <!-- Page -->
+        <div class="page">
+            <div class="page-content container-fluid">
+                <div class="row">
+                    {% block body %}{% endblock %}
                 </div>
             </div>
-        </body>
-
+        </div>
         {% include 'sidebar.html.twig' %}
-
-        <!-- Core  -->
-        <script src="{{ asset('assets/vendor/babel-external-helpers/babel-external-helpers.js') }}"></script>
-        <script src="{{ asset('assets/vendor/jquery/jquery.js') }}"></script>
-        <script src="{{ asset('assets/vendor/tether/tether.js') }}"></script>
-        <script src="{{ asset('assets/vendor/bootstrap/bootstrap.js') }}"></script>
-        <script src="{{ asset('assets/vendor/mousewheel/jquery.mousewheel.js') }}"></script>
-        <script src="{{ asset('assets/vendor/asscrollbar/jquery-asScrollbar.js') }}"></script>
-        <script src="{{ asset('assets/vendor/asscrollable/jquery-asScrollable.js') }}"></script>
-        <script src="{{ asset('assets/vendor/ashoverscroll/jquery-asHoverScroll.js') }}"></script>
-        <script src="{{ asset('assets/vendor/waves/waves.js') }}"></script>
-        <!-- Plugins -->
-        <script src="{{ asset('assets/vendor/switchery/switchery.min.js') }}"></script>
-        <script src="{{ asset('assets/vendor/slidepanel/jquery-slidePanel.js') }}"></script>
-        <script src="{{ asset('assets/vendor/matchheight/jquery.matchHeight-min.js') }}"></script>
-        <script src="{{ asset('assets/vendor/peity/jquery.peity.min.js') }}"></script>
-        <!-- Scripts -->
-        <script src="{{ asset('assets/js/State.js') }}"></script>
-        <script src="{{ asset('assets/js/Component.js') }}"></script>
-        <script src="{{ asset('assets/js/Plugin.js') }}"></script>
-        <script src="{{ asset('assets/js/Base.js') }}"></script>
-        <script src="{{ asset('assets/js/Config.js') }}"></script>
-        <script src="{{ asset('assets/js/Section/Menubar.js') }}"></script>
-        <script src="{{ asset('assets/js/Section/Sidebar.js') }}"></script>
-        <script src="{{ asset('assets/js/Section/PageAside.js') }}"></script>
-        <script src="{{ asset('assets/js/Plugin/menu.js') }}"></script>
-        <!-- Page -->
-        <script src="{{ asset('assets/js/Site.js') }}"></script>
-        <script src="{{ asset('assets/js/Plugin/asscrollable.js') }}"></script>
-        <script src="{{ asset('assets/js/Plugin/slidepanel.js') }}"></script>
-        <script src="{{ asset('assets/js/Plugin/switchery.js') }}"></script>
-        <script src="{{ asset('assets/js/Plugin/matchheight.js') }}"></script>
-        <script src="{{ asset('assets/js/Plugin/peity.js') }}"></script>
-        <script src="{{ asset('assets/custom/dashboard.js') }}"></script>
-
-        {#% block javascripts %}
-            {% javascripts
-            'assets/vendor/babel-external-helpers/babel-external-helpers.js'
-            'assets/vendor/jquery/jquery.js'
-            'assets/vendor/tether/tether.js'
-            'assets/vendor/bootstrap/bootstrap.js'
-            'assets/vendor/animsition/animsition.js'
-            'assets/vendor/mousewheel/jquery.mousewheel.js'
-            'assets/vendor/asscrollbar/jquery-asScrollbar.js'
-            'assets/vendor/asscrollable/jquery-asScrollable.js'
-            'assets/vendor/ashoverscroll/jquery-asHoverScroll.js'
-            'assets/vendor/waves/waves.js'
-            output='js/plugin.js' %}
-            <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endblock %#}
+        {% include 'footer-import.html.twig' %}
     </body>
 </html>

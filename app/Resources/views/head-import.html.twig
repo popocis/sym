@@ -1,0 +1,53 @@
+<!-- Stylesheets -->
+<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/bootstrap-extend.min') }}.css">
+<link rel="stylesheet" href="{{ asset('assets/css/site.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/skins/cyan.min.css') }}">
+<!-- Plugins -->
+<link rel="stylesheet" href="{{ asset('assets/vendor/asscrollable/asScrollable.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/switchery/switchery.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/slidepanel/slidePanel.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/flag-icon-css/flag-icon.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/waves/waves.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-table/bootstrap-table.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/login-v3.css') }}">
+<!-- Custom -->
+<link rel="stylesheet" href="{{ asset('assets/custom/dashboard.css') }}">
+<!-- Fonts -->
+<link rel="stylesheet" href="{{ asset('assets/fonts/material-design/material-design.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/fonts/brand-icons/brand-icons.min.css') }}">
+<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+
+<script src="{{ asset('assets/vendor/jquery/jquery.js') }}"></script>
+
+<!- code to combine all css into 1 file->
+{% block stylesheets %}
+    {#% stylesheets
+    'assets/css/*'
+    'assets/vendor/animsition/animsition.min.css'
+    'assets/vendor/asscrollable/asScrollable.min.css'
+    'assets/vendor/switchery/switchery.min.css'
+    'assets/vendor/intro-js/introjs.css'
+    'assets/vendor/slidepanel/slidePanel.min.css'
+    'assets/vendor/flag-icon-css/flag-icon.min.css'
+    'assets/vendor/waves/waves.min.css'
+    'assets/fonts/material-design/material-design.min.css'
+    'assets/fonts/brand-icons/brand-icons.min.css'
+    'assets/fonts/Roboto/Roboto.min.css'
+    'assets/css/custom.css'
+    filter='cssrewrite' output='css/stylesheets.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %#}
+{% endblock %}
+
+<!--[if lt IE 9]>
+<script src="{{ asset('assets/vendor/html5shiv/html5shiv.min.js') }}"></script>
+<![endif]-->
+<!--[if lt IE 10]>
+<script src="{{ asset('assets/vendor/media-match/media.match.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/respond/respond.min.js') }}"></script>
+<![endif]-->
+<script src="{{ asset('assets/vendor/breakpoints/breakpoints.js') }}"></script>
+<script>
+    Breakpoints();
+</script>

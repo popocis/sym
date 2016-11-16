@@ -34,6 +34,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setRoles(array('ROLE_SUPER_ADMIN'));
 		$user->setName('vincenzo');
 		$user->setSurname('pandico');
+		$user->setPhonenumber(12345678);
 
 		// Update the user
 		$userManager->updateUser($user, true);
@@ -50,6 +51,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setRoles(array('ROLE_SUPER_ADMIN'));
 		$user->setName('dario');
 		$user->setSurname('zilocchi');
+		$user->setPhonenumber(87654321);
 
 		// Update the user
 		$userManager->updateUser($user, true);
