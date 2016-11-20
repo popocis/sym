@@ -22,5 +22,6 @@ services:
         class: AppBundle\EventListener\RegistrationListener
         arguments:
             - @security.context
+            - @fos_user.util.token_generator
         tags:
             - { name: kernel.event_subscriber }
