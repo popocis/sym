@@ -4,6 +4,10 @@
 
     VIEW USER TEMPLATE<br>
 
-    {{ user.name }}, {{ user.surname }}
+    {{ user.id }}, {{ user.name }}, {{ user.surname }}, {{ user.email }}, {{ user.phoneNumber }}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 
 {% endblock %}

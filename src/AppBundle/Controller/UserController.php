@@ -2,10 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\UserEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UserController extends Controller {
@@ -50,16 +53,48 @@ class UserController extends Controller {
 	/**
 	 * @Route("/user/view/{id}", name="userView")
 	 */
-	public function viewAction($id) {
-		//edit single user
-		//se utente loggato è ROLE_ADMIN allora può modificare se l'oggetto è di tipo ROLE_USER
-		//se utente loggato è ROLE_SUPER_ADMIN allora può modificare tutti gli utenti?
-		//da sistemare
+	public function viewAction(Request $request, $id) {
 
 		$user = $this->checkUser($id);
-		$roles = $this->checkUserRoles($user);
+
+		// just setup a fresh $userEvent object
+		$userEvent = new UserEvent();
+
+		$form = $this->createFormBuilder($userEvent)
+			->add('contactMethod', ChoiceType::class, array(
+				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp'),
+				'choices_as_values' => true,
+			))
+			->add('contactReason', ChoiceType::class, array(
+				'choices' => array('general' => 'general', 'commercial' => 'commercial', 'estimate' => 'estimate', 'accepted estimate' => 'acceptedEstimate'),
+				'choices_as_values' => true,
+			))
+			->add('notes', TextType::class)
+			->add('date', DateType::class)
+			->add('save', SubmitType::class, array('label' => 'Save Event'))
+			->getForm();
+
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			// $form->getData() holds the submitted values
+			// but, the original `$task` variable has also been updated
+			$userEvent = $form->getData();
+
+			$userOperator = $this->get('security.token_storage')->getToken()->getUser();
+			//echo $userOperator->getId();
+
+			$userEvent->setAdminUser($userOperator);
+			$userEvent->setCustomerUser($user);
+
+			// ... perform some action, such as saving the task to the database
+			// for example, if Task is a Doctrine entity, save it!
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($userEvent);
+			$em->flush();
+		}
 		
-		return $this->render('user/view.html.twig', array('user' => $user));
+		return $this->render('user/view.html.twig', array('user' => $user,  'form' => $form->createView()));
 	}
 
 	private function checkUser($id) {

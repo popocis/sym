@@ -57,7 +57,7 @@ class User extends BaseUser
 	 *
 	 * @Assert\NotBlank(message="Please enter phone number.", groups={"Registration", "Profile"})
 	 * @Assert\Length(
-	 *     min=8,
+	 *     min=6,
 	 *     max=20,
 	 *     minMessage="Phone number is too short.",
 	 *     maxMessage="Phone number is too long.",
@@ -68,17 +68,8 @@ class User extends BaseUser
 	protected $phoneNumber;
 
 	/**
-	 * @ORM\Column(type="integer", length=1)
-	 *
-	 * @Assert\NotBlank(message="Please select user status.", groups={"Registration", "Profile"})
-	 * @Assert\Length(
-	 *     min=1,
-	 *     max=1,
-	 *     minMessage="Please select 1 status.",
-	 *     maxMessage="Please select 1 status.",
-	 *     groups={"Registration", "Profile"}
-	 * )
-	 * @Assert\Regex(pattern="/^[0-9]{1,1}$/", message="Selection not valid")
+	 * @ORM\Column(type="string", length=255)
+	 * @Assert\Choice(choices = {"commercial", "prospect", "client"}, message = "Choose a valid user status.")
 	 */
 	protected $status;
 

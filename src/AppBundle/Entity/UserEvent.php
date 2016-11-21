@@ -4,19 +4,22 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class ContactMethod
 {
     const Phone = 1;
     const Email = 2;
-    // etc.
+	const Viber = 3;
+	const WhatsApp = 4;
 }
 
 abstract class ContactReason
 {
     const Estimate = 1;
     const AcceptedEstimate = 2;
-    // etc.
+	const Commercial = 3;
+	const General = 4;
 }
 
 /**
@@ -44,13 +47,16 @@ class UserEvent
 	 */
 	protected $customerUser;
 
+
 	/**
-	 * @ORM\Column(type="integer")
+	 * @ORM\Column(type="string", length=255)
+	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp"}, message = "Choose a valid contact method.")
 	 */
 	protected $contactMethod;
 
 	/**
-	 * @ORM\Column(type="integer")
+	 * @ORM\Column(type="string", length=255)
+	 * @Assert\Choice(choices = {"general", "commercial", "estimate", "acceptedEstimate"}, message = "Choose a valid contact reason.")
 	 */
 	protected $contactReason;
 
