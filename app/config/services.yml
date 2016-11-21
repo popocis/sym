@@ -23,5 +23,6 @@ services:
         arguments:
             - @security.context
             - @fos_user.util.token_generator
+            - @router
         tags:
             - { name: kernel.event_subscriber }

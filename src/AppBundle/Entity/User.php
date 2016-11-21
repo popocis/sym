@@ -23,6 +23,7 @@ class User extends BaseUser
 	public function __construct(){
 		parent::__construct();
 		// your own logic
+		$this->registrationDate = new \DateTime();
 	}
 
 	/**
@@ -73,6 +74,11 @@ class User extends BaseUser
 	 */
 	protected $status;
 
+	/**
+	 * @ORM\Column(type="datetime")
+	 */
+	protected $registrationDate;
+
 	public function getName(){
 		return $this->name;
 	}
@@ -87,6 +93,10 @@ class User extends BaseUser
 
 	public function getStatus(){
 		return $this->status;
+	}
+
+	public function getRegistrationDate() {
+		return $this->registrationDate;
 	}
 
 	public function setName($name){
@@ -106,6 +116,11 @@ class User extends BaseUser
 
 	public function setStatus($status){
 		$this->status = $status;
+		return $this;
+	}
+
+	public function setRegistrationDate($value) {
+		$this->registrationDate = $value;
 		return $this;
 	}
 

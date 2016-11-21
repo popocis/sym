@@ -2,13 +2,15 @@
 
 {% block body %}
 
-    <table id="table" data-toggle="table" data-search="true" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+    <table id="table" data-toggle="table" data-search="true" data-pagination="true" data-sort-name="registration_date" data-sort-order="desc">
         <thead>
             <tr>
-                <th data-field="name" data-sortable="true">Name</th>
+                <th data-field="name">Name</th>
                 <th data-field="surname">Surname</th>
                 <th data-field="email">Email</th>
                 <th data-field="phone">Phone</th>
+                <th data-field="registration_date" data-sortable="true">Registration date</th>
+                <th data-field="enabled">Confirmed subscription</th>
                 <th data-field="view"></th>
                 <th data-field="edit"></th>
             </tr>
@@ -27,6 +29,8 @@
                     "surname": '{{ user.surname }}',
                     "email": '{{ user.email }}',
                     "phone": '{{ user.phoneNumber }}',
+                    "registration_date": '{{ user.registrationDate|date('d/m/Y') }}',
+                    "enabled": '{{ user.enabled ? 'yes':'no' }}',
                     "view": '<a href="user/view/{{ user.id }}">view</a>',
                     "edit": '<a href="user/edit/{{ user.id }}">edit</a>',
                 },
