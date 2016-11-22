@@ -22,31 +22,38 @@ class UserController extends Controller {
 		//se utente loggato è ROLE_SUPER_ADMIN allora può modificare tutti gli utenti?
 		//da sistemare
 
-		$user = $this->checkUser($id);
-		$roles = $this->checkUserRoles($user);
+		$user = $this->getUserObj($id);
+		$userRoles = $this->checkUserRoles($user);
+		$loggedUser = $this->getUser();
+		$loggedRoles = $loggedUser->getRoles();
 
 		$form = $this->createFormBuilder($user)
-			->add('username', TextType::class, array('label' => 'Username utente:'))
-			->add('name', TextType::class, array('label' => 'Nome:'))
-			->add('surname', TextType::class, array('label' => 'Cognome:'))
-			->add('save', SubmitType::class, array('label' => 'Modifica le informazioni sull\'utente'))
+			->add('username', TextType::class)
+			->add('name', TextType::class)
+			->add('surname', TextType::class)
+			->add('surname', TextType::class)
+			->add('surname')
+			->add('phoneNumber')
+			->add('status', ChoiceType::class, array(
+			'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
+			'choices_as_values' => true,
+			))
+			->add('save', SubmitType::class)
 			->getForm();
 
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$user = $form->getData();
+			$userManager = $this->get('fos_user.user_manager');
 			$userManager->updateUser($user, true);
-
+			//Redirect to user view
 			//return $this->redirectToRoute('task_success');
 		}
 
 		return $this->render('user/edit.html.twig', array(
 			'user' => $user,
-			'roles' => $user->getRoles(),
-			'form' => $form->createView(),
-			'isSubmitted' => $form->isSubmitted(),
-			'isValid' => $form->isValid()
+			'form' => $form->createView()
 		));
 	}
 
@@ -55,7 +62,7 @@ class UserController extends Controller {
 	 */
 	public function viewAction(Request $request, $id) {
 
-		$user = $this->checkUser($id);
+		$user = $this->getUserObj($id);
 
 		// just setup a fresh $userEvent object
 		$userEvent = new UserEvent();
@@ -97,7 +104,7 @@ class UserController extends Controller {
 		return $this->render('user/view.html.twig', array('user' => $user,  'form' => $form->createView()));
 	}
 
-	private function checkUser($id) {
+	private function getUserObj($id) {
 		$userManager = $this->get('fos_user.user_manager');
 		$user = $userManager->findUserBy(array('id' => $id));
 
@@ -109,18 +116,8 @@ class UserController extends Controller {
 	}
 
 	private function checkUserRoles($user) {
-		$loggedUser = $this->getUser();
-		$loggedRoles = $loggedUser->getRoles();
-		
-		$isAdmin = in_array('ROLE_ADMIN', $loggedRoles);
-		$isSuperAdmin = in_array('ROLE_SUPER_ADMIN', $loggedRoles);
-
+		//resitutisci i ruoli per utente passato
 		$roles = $user->getRoles();
-
-		if ((in_array('ROLE_ADMIN', $roles) || in_array('ROLE_SUPER_ADMIN', $roles)) && !$isSuperAdmin) {
-			throw new AccessDeniedException('You need to be a super admin to view this page');
-		}
-
 		return $roles;
 	}
 }

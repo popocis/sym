@@ -33,6 +33,7 @@ security:
             anonymous:    true
 
     access_control:
+            - { path: ^/register/confirm/, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/register, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }

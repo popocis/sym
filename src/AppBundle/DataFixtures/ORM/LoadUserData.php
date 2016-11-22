@@ -29,7 +29,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
 		// Create ROLE_SUPER_ADMIN
 		$user = $userManager->createUser();
-		$user->setUsername('vincenzo.pandico');
+		$user->setUsername('vincenzo.pandico@gmail.com');
 		$user->setEmail('vincenzo.pandico@gmail.com');
 		$user->setPlainPassword('password');
 		//$user->setPassword('$2a$10$H7SpSzqmpWzFNh9whB74eulZZzo7XT7bQ.vvxStKomLfh06AX/ulG');
@@ -38,13 +38,13 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setName('vincenzo');
 		$user->setSurname('pandico');
 		$user->setPhonenumber(12345678);
-		$user->setStatus(0);
+		$user->setStatus('operator');
 
 		// Update the user
 		$userManager->updateUser($user, true);
 
 		$user = $userManager->createUser();
-		$user->setUsername('dario.zilocchi');
+		$user->setUsername('dario.zilocchi@gmail.com');
 		$user->setEmail('dario.zilocchi@gmail.com');
 		$user->setPlainPassword('password');
 		//$user->setPassword('$2a$10$H7SpSzqmpWzFNh9whB74eulZZzo7XT7bQ.vvxStKomLfh06AX/ulG');
@@ -53,29 +53,46 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setName('dario');
 		$user->setSurname('zilocchi');
 		$user->setPhonenumber(87654321);
-		$user->setStatus(0);
+		$user->setStatus('operator');
 
 		// Update the user
 		$userManager->updateUser($user, true);
 
+		$user = $userManager->createUser();
+		$user->setUsername('operatore1@email.com');
+		$user->setEmail('operatore1@email.com');
+		$user->setPlainPassword('password');
+		//$user->setPassword('$2a$10$H7SpSzqmpWzFNh9whB74eulZZzo7XT7bQ.vvxStKomLfh06AX/ulG');
+		$user->setEnabled(true);
+		$user->setRoles(array('ROLE_ADMIN'));
+		$user->setName('nome1');
+		$user->setSurname('cognome1');
+		$user->setPhonenumber(87654321);
+		$user->setStatus('operator');
 
-		$adminUser = $user;
-		$customerUser = $this->createGenericUser($userManager, 'foo', 'bar'); 
-		$event = $this->createGenericUserEvent($manager, $adminUser, $customerUser);
+		// Update the user
+		$userManager->updateUser($user, true);
+
+		for ($i = 1; $i <= 3000; $i++) {
+			$this->createGenericUser($userManager, 'nome', 'cognome',$i);
+		}
+
+
+		//TODO
+		//$event = $this->createGenericUserEvent($manager, $adminUser, $customerUser);
 	}
 
-	private function createGenericUser($um, $name, $surname) {
+	private function createGenericUser($um, $name, $surname, $index) {
 		$user = $um->createUser();
-
-		$user->setUsername($name + '.' + $surname);
-		$user->setEmail($name + '.' + $surname + '@gmail.com');
+		$user->setUsername($name.'.'.$surname.$index.'@email.com');
+		$user->setEmail($name.'.'.$surname.$index.'@email.com');
 		$user->setPlainPassword('password');
 		$user->setEnabled(true);
 		$user->setRoles(array('ROLE_USER'));
-		$user->setName($name);
-		$user->setSurname($surname);
+		$user->setName($name.$index);
+		$user->setSurname($surname.$index);
 		$user->setPhonenumber(12345678);
-		$user->setStatus(0);
+		$user->setStatus('commercial');
 
 		$um->updateUser($user, true);
 

@@ -70,7 +70,7 @@ class User extends BaseUser
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"commercial", "prospect", "client"}, message = "Choose a valid user status.")
+	 * @Assert\Choice(choices = {"commercial", "prospect", "client", "operator"}, message = "Choose a valid user status.")
 	 */
 	protected $status;
 

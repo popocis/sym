@@ -16,7 +16,7 @@ class RegistrationType extends AbstractType{
 		$builder->add('surname');
 		$builder->add('phoneNumber');
 		$builder->add('status', ChoiceType::class, array(
-			'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client'),
+			'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
 			'choices_as_values' => true,
 		));
 	}

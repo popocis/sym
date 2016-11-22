@@ -6,6 +6,10 @@
 
     {{ user.id }}, {{ user.name }}, {{ user.surname }}, {{ user.email }}, {{ user.phoneNumber }}
 
+    {% if is_granted('ROLE_USER') %}
+        <p>ROLE_USER</p>
+    {% endif %}
+
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}

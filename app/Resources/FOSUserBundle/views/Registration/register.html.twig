@@ -2,60 +2,51 @@
 
 {% block body %}
 
-    {# 3 modi per renderizzare la form #}
-
-    {# 1 includendo direttamente da FOSUserBundle #}
     {# % include "FOSUserBundle:Registration:register_content.html.twig" % #}
-
 
 <div class="row">
     <div class="col-sm-6">
         <!-- Panel Static Labels -->
         <div class="panel">
             <div class="panel-heading">
-                <h3 class="panel-title">User registration</h3>
+                <h3 class="panel-title">USER REGISTRATION</h3>
             </div>
             <div class="panel-body">
                 {{ form_errors(form) }}
                 {{ form_errors(form.name) }}
                 {{ form_errors(form.surname) }}
                 {{ form_errors(form.phoneNumber) }}
-                {# 2 manualmente (attenzione anche a produrre il token -> per ogni tipo di form fosuserbundle usa un tipo diverso. In questo caso csrf_token('registration')) #}
                 <form name="fos_user_registration_form" method="post" action="/register/" class="fos_user_registration_register">
-                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="email" id="fos_user_registration_form_email" class="form-control" name="fos_user_registration_form[email]" required="required" data-plugin="formMaterial">
-                            <label class="floating-label" for="fos_user_registration_form_email" >Email</label>
-                        </div>
-                        <!--<div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="password" id="fos_user_registration_form_plainPassword_first" class="form-control" name="fos_user_registration_form[plainPassword][first]" required="required">
-                            <label class="floating-label" for="fos_user_registration_form_plainPassword_first">Password</label>
-                        </div>
-                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="password" id="fos_user_registration_form_plainPassword_second" class="form-control" name="fos_user_registration_form[plainPassword][second]" required="required">
-                            <label class="floating-label" for="fos_user_registration_form_plainPassword_second">Password confirm</label>
-                        </div>-->
-                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="fos_user_registration_form_name" class="form-control" name="fos_user_registration_form[name]" required="required" maxlength="255" pattern=".{3,}">
-                            <label class="floating-label" for="fos_user_registration_form_name">Name</label>
-                        </div>
-                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="fos_user_registration_form_surname" class="form-control" name="fos_user_registration_form[surname]" required="required" maxlength="255" pattern=".{3,}">
-                            <label class="floating-label" for="fos_user_registration_form_surname">Surname</label>
-                        </div>
-                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="fos_user_registration_form_phoneNumber" class="form-control" name="fos_user_registration_form[phoneNumber]" required="required" maxlength="20" pattern="[0-9]{6,20}">
-                            <label class="floating-label" for="fos_user_registration_form_phoneNumber">Phone number</label>
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="control-label" for="fos_user_registration_form_status">Status</label>
-                            <select id="fos_user_registration_form_status" class="form-control" name="fos_user_registration_form[status]">
+                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                        <input type="email" id="fos_user_registration_form_email" class="form-control" name="fos_user_registration_form[email]" required="required" data-plugin="formMaterial">
+                        <label class="floating-label" for="fos_user_registration_form_email" >Email</label>
+                    </div>
+                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                        <input type="text" id="fos_user_registration_form_name" class="form-control" name="fos_user_registration_form[name]" required="required" maxlength="255" pattern=".{3,}">
+                        <label class="floating-label" for="fos_user_registration_form_name">Name</label>
+                    </div>
+                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                        <input type="text" id="fos_user_registration_form_surname" class="form-control" name="fos_user_registration_form[surname]" required="required" maxlength="255" pattern=".{3,}">
+                        <label class="floating-label" for="fos_user_registration_form_surname">Surname</label>
+                    </div>
+                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                        <input type="text" id="fos_user_registration_form_phoneNumber" class="form-control" name="fos_user_registration_form[phoneNumber]" required="required" maxlength="20" pattern="[0-9]{6,20}">
+                        <label class="floating-label" for="fos_user_registration_form_phoneNumber">Phone number</label>
+                    </div>
+                    <div class="form-group form-material">
+                        <label class="control-label" for="fos_user_registration_form_status">Status</label>
+                        <select id="fos_user_registration_form_status" class="form-control" name="fos_user_registration_form[status]">
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <option value="commercial">Commercial</option>
                                 <option value="prospect">Prospect</option>
                                 <option value="client">Client</option>
-                            </select>
-                        </div>
-                        <input type="hidden" id="fos_user_registration_form__token" name="fos_user_registration_form[_token]" value="{{ csrf_token('registration') }}">
-                        <button type="submit" id="_submit" class="btn btn-primary waves-effect waves-light" name="_submit">Save user</button>
+                            {% elseif is_granted('ROLE_SUPER_ADMIN') %}
+                                <option value="operator">Operator</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <input type="hidden" id="fos_user_registration_form__token" name="fos_user_registration_form[_token]" value="{{ csrf_token('registration') }}">
+                    <button type="submit" id="_submit" class="btn btn-primary waves-effect waves-light" name="_submit">Save user</button>
                 </form>
             </div>
         </div>

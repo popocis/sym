@@ -1,31 +1,52 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends 'base.html.twig' %}
 
-{% block fos_user_content %}
+{% block body %}
+
     {#% include "FOSUserBundle:Profile:edit_content.html.twig" %#}
 
-    <form name="fos_user_profile_form" method="post" action="/profile/edit" class="fos_user_profile_edit">
-        <div id="fos_user_profile_form">
-            <div>
-                <label for="fos_user_profile_form_email" class="required">form.email</label>
-                <input type="email" id="fos_user_profile_form_email" name="fos_user_profile_form[email]" required="required" value="vincenzo.pandico@gmail.com">
-            </div>
-            <div>
-                <label for="fos_user_profile_form_current_password" class="required">form.current_password</label>
-                <input type="password" id="fos_user_profile_form_current_password" name="fos_user_profile_form[current_password]" required="required">
-            </div>
-            <div>
-                <label for="fos_user_profile_form_name" class="required">Name</label>
-                <input type="text" id="fos_user_profile_form_name" name="fos_user_profile_form[name]" required="required" maxlength="255" pattern=".{3,}" value="vincenzo">
-            </div>
-            <div>
-                <label for="fos_user_profile_form_surname" class="required">Surname</label>
-                <input type="text" id="fos_user_profile_form_surname" name="fos_user_profile_form[surname]" required="required" maxlength="255" pattern=".{3,}" value="pandico">
-            </div>
-            <input type="hidden" id="fos_user_profile_form__token" name="fos_user_profile_form[_token]" value="{{ csrf_token('profile') }}">
-        </div>
-        <div>
-            <input type="submit" value="{{ 'profile.edit.submit'|trans }}" />
-        </div>
-    </form>
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- Panel Static Labels -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">EDIT PERSONAL PROFILE</h3>
+                </div>
+                <div class="panel-body">
+                    {{ form_errors(form) }}
+                    {{ form_errors(form.name) }}
+                    {{ form_errors(form.surname) }}
+                    {{ form_errors(form.phoneNumber) }}
+                    {{ form_errors(form.current_password) }}
 
-{% endblock fos_user_content %}
+                    <form name="fos_user_profile_form" method="post" action="/profile/edit" class="fos_user_profile_edit">
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="email" id="fos_user_profile_form_email" class="form-control" name="fos_user_profile_form[email]" required="required" value="{{ app.user.email }}">
+                            <label class="floating-label" for="fos_user_profile_form_email" class="required">Email</label>
+                        </div>
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="text" id="fos_user_profile_form_name" class="form-control" name="fos_user_profile_form[name]" required="required" maxlength="255" pattern=".{3,}" value="{{ app.user.name }}">
+                            <label class="floating-label" for="fos_user_profile_form_name" class="required">Name</label>
+                        </div>
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="text" id="fos_user_profile_form_surname" class="form-control" name="fos_user_profile_form[surname]" required="required" maxlength="255" pattern=".{3,}" value="{{ app.user.surname }}">
+                            <label class="floating-label" for="fos_user_profile_form_surname" class="required">Surname</label>
+                        </div>
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="number" id="fos_user_profile_form_phoneNumber" class="form-control" name="fos_user_profile_form[phoneNumber]" required="required" maxlength="20" pattern="[0-9]{6,20}" value="{{ app.user.phoneNumber }}">
+                            <label class="floating-label" for="fos_user_profile_form_phoneNumber" class="required">Phone number</label>
+                        </div>
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="password" id="fos_user_profile_form_current_password" class="form-control" name="fos_user_profile_form[current_password]" required="required">
+                            <label class="floating-label" for="fos_user_profile_form_current_password" class="required">Insert password to continue</label>
+                        </div>
+                        <input type="hidden" id="fos_user_profile_form__token" name="fos_user_profile_form[_token]" value="{{ csrf_token('profile') }}">
+                        <button type="submit" id="_submit" class="btn btn-primary waves-effect waves-light" name="_submit">Update</button>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}

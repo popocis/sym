@@ -2,25 +2,54 @@
 
 {% block body %}
 
-    EDIT USER TEMPLATE<br>
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- Panel Static Labels -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">USER EDIT {{ user.name }} {{ user.surname }}</h3>
+                </div>
+                <div class="panel-body">
+                    {{ form_errors(form) }}
+                    {{ form_errors(form.name) }}
+                    {{ form_errors(form.surname) }}
+                    {{ form_errors(form.phoneNumber) }}
+                    <form name="form" method="post">
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="email" id="form_username" class="form-control" name="form[username]" value="{{ user.email }}" required="required" data-plugin="formMaterial" disabled>
+                            <label class="floating-label" for="form_username">Username</label>
+                        </div>
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="text" id="form_name" class="form-control" name="form[name]" value="{{ user.name }}" required="required" data-plugin="formMaterial">
+                            <label class="floating-label" for="form_name">Name</label>
+                        </div>
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="text" id="form_surname" class="form-control" name="form[surname]" maxlength="255" pattern=".{3,}" value="{{ user.surname }}" required="required" data-plugin="formMaterial">
+                            <label class="floating-label" for="form_surname">Surname</label>
+                        </div>
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="number" id="form_phoneNumber" class="form-control" name="form[phoneNumber]" maxlength="20" pattern="[0-9]{6,20}" value="{{ user.phoneNumber }}" required="required" data-plugin="formMaterial">
+                            <label class="floating-label" for="form_phoneNumber">Phone number</label>
+                        </div>
+                        <div class="form-group form-material">
+                            <label for="form_status" class="control-label">Status</label>
+                            <select id="form_status" class="form-control" name="form[status]">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <option value="commercial">Commercial</option>
+                                    <option value="prospect">Prospect</option>
+                                    <option value="client">Client</option>
+                                {% elseif is_granted('ROLE_SUPER_ADMIN') %}
+                                    <option value="operator">Operator</option>
+                                {% endif %}
+                            </select>
+                        </div>
 
-    {{ user.name }}, {{ user.surname }}<br/>
-
-    ROLES<br/>
-    <ul>
-    {% for role in user.getRoles() %}
-        <li>{{ role }}</li>
-    {% endfor %}
-    </ul>
-
-    {#{{ user.getRoles() }}<br/>#}
-    {#{{ roles }}<br/>#}
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
-
-    isSubmitted: {{ isSubmitted ? 'true' : 'false' }}
-    isValid: {{ isValid ? 'true' : 'false' }}
+                        {{ form_row(form._token) }}
+                        <button type="submit" id="form_save" class="btn btn-primary waves-effect waves-light" name="form[save]">Update user</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
