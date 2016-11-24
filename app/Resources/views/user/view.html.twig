@@ -10,8 +10,42 @@
         <p>ROLE_USER</p>
     {% endif %}
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+    <form name="form" method="post">
+        <div class="form-group form-material">
+            <label for="form_contactMethod" class="control-label">Contact method</label>
+            <select id="form_contactMethod" class="form-control" name="form[contactMethod]">
+                <option value="phone">phone</option>
+                <option value="email">email</option>
+                <option value="viber">viber</option>
+                <option value="whatsapp">whatsapp</option>
+            </select>
+        </div>
+        <div class="form-group form-material">
+            <label for="form_contactReason" class="control-label">Contact reason</label>
+            <select id="form_contactReason" class="form-control" name="form[contactReason]">
+                <option value="general">general</option>
+                <option value="commercial">commercial</option>
+                <option value="estimate">estimate</option>
+                <option value="acceptedEstimate">accepted estimate</option>
+            </select>
+        </div>
+        <div class="form-group form-material">
+            <label for="form_notes" class="control-label">Notes</label>
+            <textarea type="text" id="form_notes" class="form-control" name="form[notes]" rows="3" ></textarea>
+        </div>
+        <div class="form-group form-material">
+            <label class="required">Date</label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="icon md-calendar" aria-hidden="true"></i>
+                </span>
+                <input type="text" id="form_date" class="form-control" class="datepicker" name="form[date]" data-plugin="datepicker" required="required">
+            </div>
+        </div>
+
+        <input type="hidden" id="form__token" name="form[_token]" value="{{ form._token.vars.value }}">
+        <button type="submit" id="form_save" class="btn btn-primary waves-effect waves-light" name="form[save]">Add event</button>
+    </form>
+
 
 {% endblock %}

@@ -77,7 +77,11 @@ class UserController extends Controller {
 				'choices_as_values' => true,
 			))
 			->add('notes', TextType::class)
-			->add('date', DateType::class)
+			->add('date', DateType::class, array(
+				'widget' => 'single_text',
+				'html5' => false,
+				'format' => 'dd/MM/yyy',
+			))
 			->add('save', SubmitType::class, array('label' => 'Save Event'))
 			->getForm();
 
@@ -93,7 +97,7 @@ class UserController extends Controller {
 
 			$userEvent->setAdminUser($userOperator);
 			$userEvent->setCustomerUser($user);
-
+			
 			// ... perform some action, such as saving the task to the database
 			// for example, if Task is a Doctrine entity, save it!
 			$em = $this->getDoctrine()->getManager();

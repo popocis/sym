@@ -61,12 +61,12 @@ class UserEvent
 	protected $contactReason;
 
 	/**
-	 * @ORM\Column(type="datetime")
+	 * @ORM\Column(type="date")
 	 */
 	protected $date;
 
 	/**
-	 * @ORM\Column(type="string", length=255)
+	 * @ORM\Column(type="string", length=255, nullable=true)
 	 */
 	protected $notes;
 
