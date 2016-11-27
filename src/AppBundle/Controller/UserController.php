@@ -28,12 +28,11 @@ class UserController extends Controller {
 		$loggedRoles = $loggedUser->getRoles();
 
 		$form = $this->createFormBuilder($user)
-			->add('username', TextType::class)
-			->add('name', TextType::class)
-			->add('surname', TextType::class)
-			->add('surname', TextType::class)
+			->add('username')
+			->add('name')
 			->add('surname')
 			->add('phoneNumber')
+			->add('taxCode')
 			->add('status', ChoiceType::class, array(
 			'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
 			'choices_as_values' => true,
@@ -104,8 +103,10 @@ class UserController extends Controller {
 			$em->persist($userEvent);
 			$em->flush();
 		}
-		
-		return $this->render('user/view.html.twig', array('user' => $user,  'form' => $form->createView()));
+
+		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id));
+
+		return $this->render('user/view.html.twig', array('user' => $user, 'userEvents' => $events, 'form' => $form->createView()));
 	}
 
 	private function getUserObj($id) {

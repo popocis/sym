@@ -98,7 +98,7 @@ class UserEvent
 	}
 
 	public function getNotes() {
-		return $this->date;
+		return $this->notes;
 	}
 
 	public function setAdminUser($value) {

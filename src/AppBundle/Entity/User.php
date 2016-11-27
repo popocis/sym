@@ -54,9 +54,8 @@ class User extends BaseUser
 	protected $surname;
 
 	/**
-	 * @ORM\Column(type="integer", length=255)
+	 * @ORM\Column(type="integer", length=255, nullable=true)
 	 *
-	 * @Assert\NotBlank(message="Please enter phone number.", groups={"Registration", "Profile"})
 	 * @Assert\Length(
 	 *     min=6,
 	 *     max=20,
@@ -67,6 +66,65 @@ class User extends BaseUser
 	 * @Assert\Regex(pattern="/^[0-9]{6,20}$/", message="Not valid number")
 	 */
 	protected $phoneNumber;
+
+	/**
+	 * @ORM\Column(type="integer", length=6, nullable=true)
+	 *
+	 * @Assert\Length(
+	 *     min=1,
+	 *     max=6,
+	 *     minMessage="Street number is too short.",
+	 *     maxMessage="Street number is too long.",
+	 *     groups={"Registration", "Profile"}
+	 * )
+	 */
+	protected $streetNumber;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 *
+	 * @Assert\Length(
+	 *     min=3,
+	 *     max=255,
+	 *     minMessage="Street name is too short.",
+	 *     maxMessage="Street name is too long.",
+	 *     groups={"Registration", "Profile"}
+	 * )
+	 */
+	protected $streetName;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 *
+	 * @Assert\Length(
+	 *     min=3,
+	 *     max=255,
+	 *     minMessage="City name is too short.",
+	 *     maxMessage="City name is too long.",
+	 *     groups={"Registration", "Profile"}
+	 * )
+	 */
+	protected $cityName;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 *
+	 * @Assert\Country
+	 */
+	protected $countryName;
+
+
+	/**
+	 * @ORM\Column(type="string", length=2, nullable=true)
+	 *
+	 * @Assert\Length(
+	 *     min = 2,
+	 *     max = 2,
+	 *     minMessage = "Code must be at least {{ limit }} characters long",
+	 *     maxMessage = "Code cannot be longer than {{ limit }} characters"
+	 * )
+	 */
+	protected $taxCode;
 
 	/**
 	 * @ORM\Column(type="string", length=255)
@@ -91,6 +149,26 @@ class User extends BaseUser
 		return $this->phoneNumber;
 	}
 
+	public function getStreetNumber(){
+		return $this->streetNumber;
+	}
+
+	public function getStreetName(){
+		return $this->streetName;
+	}
+
+	public function getCityName(){
+		return $this->cityName;
+	}
+
+	public function getCountryName(){
+		return $this->countryName;
+	}
+
+	public function getTaxCode(){
+		return $this->taxCode;
+	}
+
 	public function getStatus(){
 		return $this->status;
 	}
@@ -111,6 +189,31 @@ class User extends BaseUser
 
 	public function setPhoneNumber($phoneNumber){
 		$this->phoneNumber = $phoneNumber;
+		return $this;
+	}
+
+	public function setStreetNumber($streetNumber){
+		$this->streetNumber = $streetNumber;
+		return $this;
+	}
+
+	public function setStreetName($streetName){
+		$this->streetName = $streetName;
+		return $this;
+	}
+
+	public function setCityName($cityName){
+		$this->cityName = $cityName;
+		return $this;
+	}
+
+	public function setCountryName($countryName){
+		$this->countryName = $countryName;
+		return $this;
+	}
+
+	public function setTaxCode($taxCode){
+		$this->taxCode = $taxCode;
 		return $this;
 	}
 

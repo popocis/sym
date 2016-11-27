@@ -6,15 +6,31 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Intl\Intl;
 
 class RegistrationType extends AbstractType{
 
 	public function buildForm(FormBuilderInterface $builder, array $options){
+
 		$builder->remove('username');
 		$builder->remove('plainPassword');
 		$builder->add('name');
 		$builder->add('surname');
 		$builder->add('phoneNumber');
+		$builder->add('streetNumber');
+		$builder->add('streetName');
+		$builder->add('cityName');
+		$builder->add('countryName', CountryType::class, array('multiple'=>false));
+		/*$builder->add('countryName', 'choice', array(
+			'empty_value' => 'Choose an option',
+			'choices' => array(
+				'Italy' => 'IT',
+				'Croatia' => 'HR'
+			),
+			'choices_as_values' => true,
+		));*/
+		$builder->add('taxCode');
 		$builder->add('status', ChoiceType::class, array(
 			'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
 			'choices_as_values' => true,

@@ -2,6 +2,12 @@
 
 {% block body %}
 
+    {# renders all fields #}
+    {#{ form_widget(form) }#}
+
+    {# renders all fields *and* the form start and end tags #}
+    {#{ form(form) }#}
+
     <div class="row">
         <div class="col-sm-6">
             <!-- Panel Static Labels -->
@@ -30,6 +36,10 @@
                         <div class="form-group form-material floating" data-plugin="formMaterial">
                             <input type="number" id="form_phoneNumber" class="form-control" name="form[phoneNumber]" maxlength="20" pattern="[0-9]{6,20}" value="{{ user.phoneNumber }}" required="required" data-plugin="formMaterial">
                             <label class="floating-label" for="form_phoneNumber">Phone number</label>
+                        </div>
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="text" id="form_taxCode" class="form-control" name="form[taxCode]" maxlength="16" pattern=".{11,}" value="{{ user.taxCode }}">
+                            <label class="floating-label" for="form_taxCode">Tax code</label>
                         </div>
                         <div class="form-group form-material">
                             <label for="form_status" class="control-label">Status</label>

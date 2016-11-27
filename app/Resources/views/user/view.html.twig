@@ -2,50 +2,121 @@
 
 {% block body %}
 
-    VIEW USER TEMPLATE<br>
+    <table id="table" data-toggle="table" data-search="true" data-pagination="true">
+        <thead>
+        <tr>
+            <th data-field="contactMethod">Contact Method</th>
+            <th data-field="contactReason">Contact Reason</th>
+            <th data-field="date">Date</th>
+            <th data-field="notes">Notes</th>
+        </tr>
+        </thead>
+    </table>
 
-    {{ user.id }}, {{ user.name }}, {{ user.surname }}, {{ user.email }}, {{ user.phoneNumber }}
 
-    {% if is_granted('ROLE_USER') %}
-        <p>ROLE_USER</p>
-    {% endif %}
+    <script>
+        $( document ).ready(function() {
+            var $table = $("#table");
+            var data = [
+                {% for event in userEvents %}
+                {
+                    "contactMethod": '{{ event.contactMethod }}',
+                    "contactReason": '{{ event.contactReason }}',
+                    "date": '{{ event.date|date('d/m/Y') }}',
+                    "notes": '{{ event.notes }}',
+                },
+                {% endfor %}
+            ];
+            $table.bootstrapTable({data: data});
+        });
+    </script>
 
-    <form name="form" method="post">
-        <div class="form-group form-material">
-            <label for="form_contactMethod" class="control-label">Contact method</label>
-            <select id="form_contactMethod" class="form-control" name="form[contactMethod]">
-                <option value="phone">phone</option>
-                <option value="email">email</option>
-                <option value="viber">viber</option>
-                <option value="whatsapp">whatsapp</option>
-            </select>
-        </div>
-        <div class="form-group form-material">
-            <label for="form_contactReason" class="control-label">Contact reason</label>
-            <select id="form_contactReason" class="form-control" name="form[contactReason]">
-                <option value="general">general</option>
-                <option value="commercial">commercial</option>
-                <option value="estimate">estimate</option>
-                <option value="acceptedEstimate">accepted estimate</option>
-            </select>
-        </div>
-        <div class="form-group form-material">
-            <label for="form_notes" class="control-label">Notes</label>
-            <textarea type="text" id="form_notes" class="form-control" name="form[notes]" rows="3" ></textarea>
-        </div>
-        <div class="form-group form-material">
-            <label class="required">Date</label>
-            <div class="input-group">
-                <span class="input-group-addon">
-                  <i class="icon md-calendar" aria-hidden="true"></i>
-                </span>
-                <input type="text" id="form_date" class="form-control" class="datepicker" name="form[date]" data-plugin="datepicker" required="required">
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- Panel Static Labels -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">USER DETAILS</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group form-material" data-plugin="formMaterial">
+                        <label class="form-control-label" for="inputDisabled">USER ID</label>
+                        <input type="text" class="form-control" id="inputDisabled" placeholder="{{ user.id }}" disabled="">
+                    </div>
+                    <div class="form-group form-material" data-plugin="formMaterial">
+                        <label class="form-control-label" for="inputDisabled">Name</label>
+                        <input type="text" class="form-control" id="inputDisabled" placeholder="{{ user.name }}" disabled="">
+                    </div>
+                    <div class="form-group form-material" data-plugin="formMaterial">
+                        <label class="form-control-label" for="inputDisabled">Surname</label>
+                        <input type="text" class="form-control" id="inputDisabled" placeholder="{{ user.surname }}" disabled="">
+                    </div>
+                    <div class="form-group form-material" data-plugin="formMaterial">
+                        <label class="form-control-label" for="inputDisabled">Email</label>
+                        <input type="text" class="form-control" id="inputDisabled" placeholder="{{ user.email }}" disabled="">
+                    </div>
+                    <div class="form-group form-material" data-plugin="formMaterial">
+                        <label class="form-control-label" for="inputDisabled">Phone</label>
+                        <input type="text" class="form-control" id="inputDisabled" placeholder="{{ user.phoneNumber }}" disabled="">
+                    </div>
+                    <div class="form-group form-material" data-plugin="formMaterial">
+                        <label class="form-control-label" for="inputDisabled">Tax code</label>
+                        <input type="text" class="form-control" id="inputDisabled" placeholder="{{ user.taxCode }}" disabled="">
+                    </div>
+
+                    {% if is_granted('ROLE_USER') %}
+                        <p>ROLE_USER</p>
+                    {% endif %}
+                </div>
             </div>
         </div>
+        <div class="col-sm-6">
+            <!-- Panel Static Labels -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">ADD EVENT {{ user.name }} {{ user.surname }}</h3>
+                </div>
+                <div class="panel-body">
+                    <form name="form" method="post">
+                        <div class="form-group form-material">
+                            <label for="form_contactMethod" class="control-label">Contact method</label>
+                            <select id="form_contactMethod" class="form-control" name="form[contactMethod]">
+                                <option value="phone">phone</option>
+                                <option value="email">email</option>
+                                <option value="viber">viber</option>
+                                <option value="whatsapp">whatsapp</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-material">
+                            <label for="form_contactReason" class="control-label">Contact reason</label>
+                            <select id="form_contactReason" class="form-control" name="form[contactReason]">
+                                <option value="general">general</option>
+                                <option value="commercial">commercial</option>
+                                <option value="estimate">estimate</option>
+                                <option value="acceptedEstimate">accepted estimate</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-material">
+                            <label for="form_notes" class="control-label">Notes</label>
+                            <textarea type="text" id="form_notes" class="form-control" name="form[notes]" rows="3" ></textarea>
+                        </div>
+                        <div class="form-group form-material">
+                            <label class="required">Date</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                  <i class="icon md-calendar" aria-hidden="true"></i>
+                                </span>
+                                <input type="text" id="form_date" class="form-control" class="datepicker" name="form[date]" data-plugin="datepicker" required="required">
+                            </div>
+                        </div>
 
-        <input type="hidden" id="form__token" name="form[_token]" value="{{ form._token.vars.value }}">
-        <button type="submit" id="form_save" class="btn btn-primary waves-effect waves-light" name="form[save]">Add event</button>
-    </form>
+                        <input type="hidden" id="form__token" name="form[_token]" value="{{ form._token.vars.value }}">
+                        <button type="submit" id="form_save" class="btn btn-primary waves-effect waves-light" name="form[save]">Add event</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}

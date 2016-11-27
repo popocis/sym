@@ -9,9 +9,6 @@ class ProfileType extends AbstractType{
 
 	public function buildForm(FormBuilderInterface $builder, array $options){
 		$builder->remove('username');
-		$builder->add('name');
-		$builder->add('surname');
-		$builder->add('phoneNumber');
 	}
 
 	public function getParent(){

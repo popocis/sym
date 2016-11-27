@@ -9,6 +9,7 @@
                 <th data-field="surname">Surname</th>
                 <th data-field="email">Email</th>
                 <th data-field="phone">Phone</th>
+                <th data-field="taxCode">Tax Code</th>
                 <th data-field="registration_date" data-sortable="true">Registration date</th>
                 <th data-field="enabled">Confirmed subscription</th>
                 <th data-field="view"></th>
@@ -20,7 +21,6 @@
 
     <script>
         $( document ).ready(function() {
-
             var $table = $("#table");
             var data = [
                 {% for user in users %}
@@ -29,13 +29,13 @@
                     "surname": '{{ user.surname }}',
                     "email": '{{ user.email }}',
                     "phone": '{{ user.phoneNumber }}',
+                    "taxCode": '{{ user.taxCode }}',
                     "registration_date": '{{ user.registrationDate|date('d/m/Y') }}',
                     "enabled": '{{ user.enabled ? 'yes':'no' }}',
                     "view": '<a href="user/view/{{ user.id }}">view</a>',
                     "edit": '<a href="user/edit/{{ user.id }}">edit</a>',
                 },
                 {% endfor %}
-
             ];
             $table.bootstrapTable({data: data});
         });
