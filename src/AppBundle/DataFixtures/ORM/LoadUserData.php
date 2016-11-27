@@ -73,9 +73,9 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		// Update the user
 		$userManager->updateUser($user, true);
 
-		for ($i = 1; $i <= 3000; $i++) {
-			$this->createGenericUser($userManager, 'nome', 'cognome',$i);
-		}
+		//for ($i = 1; $i <= 3000; $i++) {
+		//	$this->createGenericUser($userManager, 'nome', 'cognome',$i);
+		//}
 
 
 		//TODO

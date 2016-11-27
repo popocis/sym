@@ -12,14 +12,17 @@
         <![endif]-->
         {% include 'header.html.twig' %}
         <!-- Page -->
-        <div class="page">
+        <div class="page {{ not is_granted('ROLE_ADMIN') and not is_granted('ROLE_SUPER_ADMIN') ? 'page--menu-less' : '' }}">
             <div class="page-content container-fluid">
                 <div class="row">
                     {% block body %}{% endblock %}
                 </div>
             </div>
         </div>
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
         {% include 'sidebar.html.twig' %}
+        {% endif %}
+
         {% include 'footer-import.html.twig' %}
     </body>
 </html>

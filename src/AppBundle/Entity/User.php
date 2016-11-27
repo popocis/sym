@@ -54,7 +54,7 @@ class User extends BaseUser
 	protected $surname;
 
 	/**
-	 * @ORM\Column(type="integer", length=255, nullable=true)
+	 * @ORM\Column(type="string", length=20, nullable=true)
 	 *
 	 * @Assert\Length(
 	 *     min=6,
@@ -68,7 +68,7 @@ class User extends BaseUser
 	protected $phoneNumber;
 
 	/**
-	 * @ORM\Column(type="integer", length=6, nullable=true)
+	 * @ORM\Column(type="integer", nullable=true)
 	 *
 	 * @Assert\Length(
 	 *     min=1,

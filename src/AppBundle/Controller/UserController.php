@@ -109,6 +109,35 @@ class UserController extends Controller {
 		return $this->render('user/view.html.twig', array('user' => $user, 'userEvents' => $events, 'form' => $form->createView()));
 	}
 
+	/**
+	 * @Route("/profile", name="userProfile")
+	 */
+	public function profileAction(Request $request) {
+		$user = $this->getUser();
+
+		$form = $this->createFormBuilder($user)
+			->add('phoneNumber')
+			->add('taxCode')
+			->add('save', SubmitType::class)
+			->getForm();
+
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			$user = $form->getData();
+
+			$userManager = $this->get('fos_user.user_manager');
+			$userManager->updateUser($user, true);
+			//Redirect to user view
+			//return $this->redirectToRoute('task_success');
+		}
+
+		return $this->render('user/profile.html.twig', array(
+			'user' => $user,
+			'form' => $form->createView()
+		));
+	}
+
 	private function getUserObj($id) {
 		$userManager = $this->get('fos_user.user_manager');
 		$user = $userManager->findUserBy(array('id' => $id));
