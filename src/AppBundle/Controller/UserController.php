@@ -32,6 +32,12 @@ class UserController extends Controller {
 			->add('name')
 			->add('surname')
 			->add('phoneNumber')
+			->add('streetNumber')
+			->add('streetName')
+			->add('cityName')
+			->add('zipCode')
+			//->add('countryName', CountryType::class, array('multiple'=>false));
+			->add('countryName')
 			->add('taxCode')
 			->add('status', ChoiceType::class, array(
 			'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
@@ -45,9 +51,9 @@ class UserController extends Controller {
 		if ($form->isSubmitted() && $form->isValid()) {
 			$user = $form->getData();
 			$userManager = $this->get('fos_user.user_manager');
+			$user->setUsername($user->getEmail());
 			$userManager->updateUser($user, true);
-			//Redirect to user view
-			//return $this->redirectToRoute('task_success');
+			return $this->redirect('/user/view/'.$id);
 		}
 
 		return $this->render('user/edit.html.twig', array(
@@ -60,12 +66,8 @@ class UserController extends Controller {
 	 * @Route("/user/view/{id}", name="userView")
 	 */
 	public function viewAction(Request $request, $id) {
-
 		$user = $this->getUserObj($id);
-
-		// just setup a fresh $userEvent object
 		$userEvent = new UserEvent();
-
 		$form = $this->createFormBuilder($userEvent)
 			->add('contactMethod', ChoiceType::class, array(
 				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp'),
@@ -83,29 +85,19 @@ class UserController extends Controller {
 			))
 			->add('save', SubmitType::class, array('label' => 'Save Event'))
 			->getForm();
-
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			// $form->getData() holds the submitted values
-			// but, the original `$task` variable has also been updated
 			$userEvent = $form->getData();
-
 			$userOperator = $this->get('security.token_storage')->getToken()->getUser();
-			//echo $userOperator->getId();
-
 			$userEvent->setAdminUser($userOperator);
 			$userEvent->setCustomerUser($user);
-			
-			// ... perform some action, such as saving the task to the database
-			// for example, if Task is a Doctrine entity, save it!
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($userEvent);
 			$em->flush();
 		}
-
+		
 		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id));
-
 		return $this->render('user/view.html.twig', array('user' => $user, 'userEvents' => $events, 'form' => $form->createView()));
 	}
 
@@ -141,16 +133,13 @@ class UserController extends Controller {
 	private function getUserObj($id) {
 		$userManager = $this->get('fos_user.user_manager');
 		$user = $userManager->findUserBy(array('id' => $id));
-
 		if (!$user) {
 			throw $this->createNotFoundException('User not found');
 		}
-
 		return $user;
 	}
 
 	private function checkUserRoles($user) {
-		//resitutisci i ruoli per utente passato
 		$roles = $user->getRoles();
 		return $roles;
 	}

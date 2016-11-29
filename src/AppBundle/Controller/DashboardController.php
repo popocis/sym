@@ -8,11 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class DashboardController extends Controller {
+class DashboardController extends Controller{
 	/**
 	 * @Route("/", name="dashboard")
 	 */
-	public function indexAction() {
+	public function indexAction(){
 		//get all users
 		$userManager = $this->get('fos_user.user_manager');
 		$users = $userManager->findUsers();

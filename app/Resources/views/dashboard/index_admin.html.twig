@@ -9,9 +9,11 @@
                 <th data-field="surname">Surname</th>
                 <th data-field="email">Email</th>
                 <th data-field="phone">Phone</th>
+                <th data-field="address">Address</th>
+                <th data-field="country">Country</th>
                 <th data-field="taxCode">Tax Code</th>
                 <th data-field="registration_date" data-sortable="true">Registration date</th>
-                <th data-field="enabled">Confirmed subscription</th>
+                <th data-field="enabled">Active</th>
                 <th data-field="view"></th>
                 <th data-field="edit"></th>
             </tr>
@@ -29,6 +31,8 @@
                     "surname": '{{ user.surname }}',
                     "email": '{{ user.email }}',
                     "phone": '{{ user.phoneNumber }}',
+                    "address": '{{ user.streetName }} {{ user.streetNumber }}, {{ user.cityName }}, {{ user.zipCode }}',
+                    "country": '{{ user.countryName }}',
                     "taxCode": '{{ user.taxCode }}',
                     "registration_date": '{{ user.registrationDate|date('d/m/Y') }}',
                     "enabled": '{{ user.enabled ? 'yes':'no' }}',

@@ -23,7 +23,6 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
 	public function load(ObjectManager $manager)
 	{
-
 		// Get our userManager, you must implement 'ContainerAwareInterface'
 		$userManager = $this->container->get('fos_user.user_manager');
 
@@ -39,7 +38,6 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setSurname('pandico');
 		$user->setPhonenumber(12345678);
 		$user->setStatus('operator');
-
 		// Update the user
 		$userManager->updateUser($user, true);
 
@@ -54,7 +52,6 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setSurname('zilocchi');
 		$user->setPhonenumber(87654321);
 		$user->setStatus('operator');
-
 		// Update the user
 		$userManager->updateUser($user, true);
 
@@ -69,17 +66,12 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setSurname('cognome1');
 		$user->setPhonenumber(87654321);
 		$user->setStatus('operator');
-
 		// Update the user
 		$userManager->updateUser($user, true);
 
-		//for ($i = 1; $i <= 3000; $i++) {
-		//	$this->createGenericUser($userManager, 'nome', 'cognome',$i);
-		//}
-
-
-		//TODO
-		//$event = $this->createGenericUserEvent($manager, $adminUser, $customerUser);
+		for ($i = 1; $i <= 3000; $i++) {
+			$this->createGenericUser($userManager, 'nome', 'cognome',$i);
+		}
 	}
 
 	private function createGenericUser($um, $name, $surname, $index) {
@@ -93,7 +85,6 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setSurname($surname.$index);
 		$user->setPhonenumber(12345678);
 		$user->setStatus('commercial');
-
 		$um->updateUser($user, true);
 
 		return $user;
@@ -107,7 +98,6 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$userEvent->setContactReason(ContactReason::Estimate);
 		$userEvent->setDate(new \DateTime());
 		$userEvent->setNotes('Qualche nota priva di senso');
-
 		$em->persist($userEvent);
 		$em->flush();
 

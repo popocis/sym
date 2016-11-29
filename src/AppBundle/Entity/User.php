@@ -107,6 +107,19 @@ class User extends BaseUser
 	protected $cityName;
 
 	/**
+	 * @ORM\Column(type="integer", length=10, nullable=true)
+	 *
+	 * @Assert\Length(
+	 *     min=3,
+	 *     max=10,
+	 *     minMessage="Zip code is too short.",
+	 *     maxMessage="Zip code is too long.",
+	 *     groups={"Registration", "Profile"}
+	 * )
+	 */
+	protected $zipCode;
+
+	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
 	 *
 	 * @Assert\Country
@@ -115,11 +128,11 @@ class User extends BaseUser
 
 
 	/**
-	 * @ORM\Column(type="string", length=2, nullable=true)
+	 * @ORM\Column(type="string", length=20, nullable=true)
 	 *
 	 * @Assert\Length(
 	 *     min = 2,
-	 *     max = 2,
+	 *     max = 20,
 	 *     minMessage = "Code must be at least {{ limit }} characters long",
 	 *     maxMessage = "Code cannot be longer than {{ limit }} characters"
 	 * )
@@ -159,6 +172,10 @@ class User extends BaseUser
 
 	public function getCityName(){
 		return $this->cityName;
+	}
+
+	public function getZipCode(){
+		return $this->zipCode;
 	}
 
 	public function getCountryName(){
@@ -204,6 +221,11 @@ class User extends BaseUser
 
 	public function setCityName($cityName){
 		$this->cityName = $cityName;
+		return $this;
+	}
+
+	public function setZipCode($zipCode){
+		$this->zipCode = $zipCode;
 		return $this;
 	}
 

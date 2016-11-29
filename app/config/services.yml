@@ -26,3 +26,6 @@ services:
             - @router
         tags:
             - { name: kernel.event_subscriber }
+    app.document_uploader.directory_namer:
+        class: AppBundle\Service\DirectoryNamer
+        arguments: [%kernel.root_dir%]

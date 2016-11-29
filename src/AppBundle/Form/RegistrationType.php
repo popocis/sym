@@ -21,15 +21,8 @@ class RegistrationType extends AbstractType{
 		$builder->add('streetNumber');
 		$builder->add('streetName');
 		$builder->add('cityName');
+		$builder->add('zipCode');
 		$builder->add('countryName', CountryType::class, array('multiple'=>false));
-		/*$builder->add('countryName', 'choice', array(
-			'empty_value' => 'Choose an option',
-			'choices' => array(
-				'Italy' => 'IT',
-				'Croatia' => 'HR'
-			),
-			'choices_as_values' => true,
-		));*/
 		$builder->add('taxCode');
 		$builder->add('status', ChoiceType::class, array(
 			'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
