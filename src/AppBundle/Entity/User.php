@@ -81,11 +81,11 @@ class User extends BaseUser
 	protected $streetNumber;
 
 	/**
-	 * @ORM\Column(type="string", length=255, nullable=true)
+	 * @ORM\Column(type="string", length=6, nullable=true)
 	 *
 	 * @Assert\Length(
-	 *     min=3,
-	 *     max=255,
+	 *     min=1,
+	 *     max=6,
 	 *     minMessage="Street name is too short.",
 	 *     maxMessage="Street name is too long.",
 	 *     groups={"Registration", "Profile"}

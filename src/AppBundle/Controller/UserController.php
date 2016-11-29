@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\UserEvent;
+use AppBundle\Entity\UserDocument;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class UserController extends Controller {
 
@@ -67,8 +70,9 @@ class UserController extends Controller {
 	 */
 	public function viewAction(Request $request, $id) {
 		$user = $this->getUserObj($id);
+
 		$userEvent = new UserEvent();
-		$form = $this->createFormBuilder($userEvent)
+		$formEvent = $this->createFormBuilder($userEvent)
 			->add('contactMethod', ChoiceType::class, array(
 				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp'),
 				'choices_as_values' => true,
@@ -81,24 +85,59 @@ class UserController extends Controller {
 			->add('date', DateType::class, array(
 				'widget' => 'single_text',
 				'html5' => false,
-				'format' => 'dd/MM/yyy',
+				'format' => 'dd/MM/yyyy',
 			))
 			->add('save', SubmitType::class, array('label' => 'Save Event'))
 			->getForm();
-		$form->handleRequest($request);
+		//$formEvent->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
-			$userEvent = $form->getData();
-			$userOperator = $this->get('security.token_storage')->getToken()->getUser();
-			$userEvent->setAdminUser($userOperator);
-			$userEvent->setCustomerUser($user);
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($userEvent);
-			$em->flush();
+		$userDocument = new UserDocument();
+		$formDocument = $this->createFormBuilder($userDocument)
+			->add('documentType', ChoiceType::class, array(
+				'choices' => array('dental panoramic' => 'dentalPanoramic', 'quote' => 'quote', 'document' => 'document', 'other' => 'other'),
+				'choices_as_values' => true,
+			))
+			->add('documentFile', VichImageType::class, array())
+			->add('save', SubmitType::class, array('label' => 'Save Document'))
+			->getForm();
+		//$formDocument->handleRequest($request);
+
+		if('POST' === $request->getMethod()) {
+
+			if($request->request->has('formEvent')){
+				$formEvent->handleRequest($request);
+			}
+			elseif($request->request->has('formDocument')) {
+				$formDocument->handleRequest($request);
+			}
+
+			if ($request->request->has('formEvent')) {
+				if ($formEvent->isSubmitted() && $formEvent->isValid()) {
+					$userEvent = $formEvent->getData();
+					$userOperator = $this->get('security.token_storage')->getToken()->getUser();
+					$userEvent->setAdminUser($userOperator);
+					$userEvent->setCustomerUser($user);
+					$em = $this->getDoctrine()->getManager();
+					$em->persist($userEvent);
+					$em->flush();
+				}
+			}
+			elseif ($request->request->has('formDocument')){
+				if ($formDocument->isSubmitted() && $formDocument->isValid()) {
+					$userDocument = $formDocument->getData();
+					$userOperator = $this->get('security.token_storage')->getToken()->getUser();
+					$userDocument->setAdminUser($userOperator);
+					$userDocument->setCustomerUser($user);
+					$em = $this->getDoctrine()->getManager();
+					$em->persist($userDocument);
+					$em->flush();
+				}
+			}
 		}
 		
 		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id));
-		return $this->render('user/view.html.twig', array('user' => $user, 'userEvents' => $events, 'form' => $form->createView()));
+		$documents = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->findBy(array('customerUser' => $id));
+		return $this->render('user/view.html.twig', array('user' => $user, 'userEvents' => $events, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView() ));
 	}
 
 	/**
@@ -107,26 +146,8 @@ class UserController extends Controller {
 	public function profileAction(Request $request) {
 		$user = $this->getUser();
 
-		$form = $this->createFormBuilder($user)
-			->add('phoneNumber')
-			->add('taxCode')
-			->add('save', SubmitType::class)
-			->getForm();
-
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted() && $form->isValid()) {
-			$user = $form->getData();
-
-			$userManager = $this->get('fos_user.user_manager');
-			$userManager->updateUser($user, true);
-			//Redirect to user view
-			//return $this->redirectToRoute('task_success');
-		}
-
 		return $this->render('user/profile.html.twig', array(
-			'user' => $user,
-			'form' => $form->createView()
+			'user' => $user
 		));
 	}
 
@@ -142,5 +163,11 @@ class UserController extends Controller {
 	private function checkUserRoles($user) {
 		$roles = $user->getRoles();
 		return $roles;
+	}
+
+	public function setDefaultOptions(OptionsResolverInterface $resolver){
+		$resolver->setDefaults(array(
+			'data_class' => $this->class
+		));
 	}
 }
