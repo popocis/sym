@@ -2,7 +2,12 @@
 
 {% block body %}
 
-    <table id="table" data-toggle="table" data-search="true" data-pagination="true">
+    {# renders all fields *and* the form start and end tags #}
+    {#{ form(formDocument) }#}
+
+
+
+    <table id="table" data-toggle="table" data-search="true" data-pagination="true" xmlns="http://www.w3.org/1999/html">
         <thead>
         <tr>
             <th data-field="contactMethod">Contact Method</th>
@@ -108,7 +113,7 @@
                     <h3 class="panel-title">ADD EVENT {{ user.name }} {{ user.surname }}</h3>
                 </div>
                 <div class="panel-body">
-                    <form name="form" method="post">
+                    <form name="formEvent" method="post">
                         <div class="form-group form-material">
                             <label for="form_contactMethod" class="control-label">Contact method</label>
                             <select id="form_contactMethod" class="form-control" name="form[contactMethod]">
@@ -141,13 +146,44 @@
                             </div>
                         </div>
 
-                        <input type="hidden" id="form__token" name="form[_token]" value="{{ form._token.vars.value }}">
-                        <button type="submit" id="form_save" class="btn btn-primary waves-effect waves-light" name="form[save]">Add event</button>
+                        <input type="hidden" id="form__token" name="form[_token]" value="{{ formEvent._token.vars.value }}">
+                        <button type="submit" id="formEvent_save" class="btn btn-primary waves-effect waves-light" name="formEvent[save]">Add event</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- Panel Static Labels -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">ADD DOCUMENT {{ user.name }} {{ user.surname }}</h3>
+                </div>
+                <div class="panel-body">
+                    <form name="formDocument" method="post" enctype="multipart/form-data">
+                        <div>
+                            <label for="form_documentType" class="required">Document type</label>
+                            <select id="form_documentType" name="form[documentType]">
+                                <option value="dentalPanoramic">dental panoramic</option>
+                                <option value="quote">quote</option>
+                                <option value="document">document</option>
+                                <option value="other">other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Image file</label>
+                            <div class="vich-file">
+                                <input type="file" id="form_documentFile_file" name="form[documentFile][file]" required="required">
+                            </div>
+                        </div>
+                        <input type="hidden" id="form__token" name="form[_token]" value="{{ formDocument._token.vars.value }}">
+                        <button type="submit" id="formDocument_save" name="formDocument[save]">Save Document</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
