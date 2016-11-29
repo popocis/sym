@@ -5,17 +5,16 @@
     <table id="table" data-toggle="table" data-search="true" data-pagination="true" data-sort-name="registration_date" data-sort-order="desc">
         <thead>
             <tr>
-                <th data-field="name">Name</th>
-                <th data-field="surname">Surname</th>
-                <th data-field="email">Email</th>
-                <th data-field="phone">Phone</th>
-                <th data-field="address">Address</th>
-                <th data-field="country">Country</th>
-                <th data-field="taxCode">Tax Code</th>
-                <th data-field="registration_date" data-sortable="true">Registration date</th>
-                <th data-field="enabled">Active</th>
-                <th data-field="view"></th>
-                <th data-field="edit"></th>
+                <th data-field="name">{% trans %}Name{% endtrans %}</th>
+                <th data-field="surname">{% trans %}Surname{% endtrans %}</th>
+                <th data-field="email">{% trans %}Email{% endtrans %}</th>
+                <th data-field="phone">{% trans %}Phone{% endtrans %}</th>
+                <th data-field="address">{% trans %}Address{% endtrans %}</th>
+                <th data-field="country">{% trans %}Country{% endtrans %}</th>
+                <th data-field="taxCode">{% trans %}Tax Code{% endtrans %}</th>
+                <th data-field="registration_date" data-sortable="true">{% trans %}Registration date{% endtrans %}</th>
+                <th data-field="enabled" data-align="center">{% trans %}Status{% endtrans %}</th>
+                <th data-field="op" data-align="center"></th>
             </tr>
         </thead>
     </table>
@@ -35,9 +34,17 @@
                     "country": '{{ user.countryName }}',
                     "taxCode": '{{ user.taxCode }}',
                     "registration_date": '{{ user.registrationDate|date('d/m/Y') }}',
-                    "enabled": '{{ user.enabled ? 'yes':'no' }}',
-                    "view": '<a href="user/view/{{ user.id }}">view</a>',
-                    "edit": '<a href="user/edit/{{ user.id }}">edit</a>',
+                    "enabled": '<span class="tag tag-table tag-{{ user.enabled ? 'success' : 'dark' }}">{{ (user.enabled ? 'Active' : 'Inactive')|trans }}</span>',
+                    "op":
+                        '<a href="{{ path('userView', {'id': user.id}) }}" class="btn btn-sm btn-icon btn-raised btn-default waves-effect" data-toggle="tooltip" data-original-title="{% trans %}View user{% endtrans %}">' +
+                            '<i class="icon md-eye" aria-hidden="true"></i>' +
+                        '</a> ' + 
+                        '<a href="{{ path('userEdit', {'id': user.id}) }}" class="btn btn-sm btn-icon btn-raised btn-default waves-effect" data-toggle="tooltip" data-original-title="{% trans %}Edit user{% endtrans %}">' +
+                            '<i class="icon md-wrench" aria-hidden="true"></i>' +
+                        '</a> ' + 
+                        '<button type="button" class="btn btn-sm btn-icon btn-raised btn-danger waves-effect" data-toggle="tooltip" data-original-title="{% trans %}Delete user{% endtrans %}">' +
+                            '<i class="icon md-delete" aria-hidden="true"></i>' +
+                        '</button>'
                 },
                 {% endfor %}
             ];

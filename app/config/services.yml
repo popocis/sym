@@ -29,3 +29,9 @@ services:
     app.document_uploader.directory_namer:
         class: AppBundle\Service\DirectoryNamer
         arguments: [%kernel.root_dir%]
+
+    app.twig_extension:
+        class: AppBundle\Twig\LocaleExtension
+        public: false
+        tags:
+            - { name: twig.extension }

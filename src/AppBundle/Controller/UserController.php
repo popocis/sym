@@ -17,7 +17,7 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 class UserController extends Controller {
 
 	/**
-	 * @Route("/user/edit/{id}", name="userEdit")
+	 * @Route("/{_locale}/user/edit/{id}", name="userEdit")
 	 */
 	public function editAction(Request $request, $id) {
 		//edit single user
@@ -66,7 +66,7 @@ class UserController extends Controller {
 	}
 
 	/**
-	 * @Route("/user/view/{id}", name="userView")
+	 * @Route("/{_locale}/user/view/{id}", name="userView")
 	 */
 	public function viewAction(Request $request, $id) {
 		$user = $this->getUserObj($id);

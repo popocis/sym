@@ -132,19 +132,21 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" title="Notifications" aria-expanded="false" data-animation="scale-up" role="button">
-                        <span class="flag-icon flag-icon-us"></span>
+                        <span class="flag-icon {{ app.request.locale|localeflag }}"></span>
                     </a>
                     <div class="dropdown-menu" role="menu">
-                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
-                            <span class="flag-icon flag-icon-gb"></span> English</a>
+                        <a class="dropdown-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'en'})) }}" role="menuitem"> 
+                            <span class="flag-icon {{ 'en'|localeflag }}"></span> English</a>
+                        <a class="dropdown-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'it'})) }}" role="menuitem">
+                            <span class="flag-icon {{ 'it'|localeflag }}"></span> Italiano</a>
+                        {#
                         <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
                             <span class="flag-icon flag-icon-fr"></span> French</a>
                         <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
                             <span class="flag-icon flag-icon-cn"></span> Chinese</a>
                         <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
                             <span class="flag-icon flag-icon-de"></span> German</a>
-                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
-                            <span class="flag-icon flag-icon-nl"></span> Dutch</a>
+                        #}
                     </div>
                 </li>
             </ul>
