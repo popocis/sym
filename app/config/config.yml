@@ -101,7 +101,8 @@ vich_uploader:
     mappings:
          user_document:
             uri_prefix:         /documents
-            upload_destination: '%kernel.root_dir%/../web/documents'
+            #upload_destination: '%kernel.root_dir%/../web/documents'
+            upload_destination: '%kernel.root_dir%/user_documents'
             namer:              vich_uploader.namer_uniqid
             inject_on_load:     true
             delete_on_update:   true
