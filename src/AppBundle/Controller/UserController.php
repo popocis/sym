@@ -182,17 +182,6 @@ class UserController extends Controller {
 		return $this->render('user/view.html.twig', array('user' => $user, 'userEvents' => $events, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView()));
 	}
 
-	/**
-	 * @Route("/profile", name="userProfile")
-	 */
-	public function profileAction(Request $request) {
-		$user = $this->getUser();
-
-		return $this->render('user/profile.html.twig', array(
-			'user' => $user
-		));
-	}
-
 	private function getUserObj($id) {
 		$userManager = $this->get('fos_user.user_manager');
 		$user = $userManager->findUserBy(array('id' => $id));
