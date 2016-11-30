@@ -62,16 +62,7 @@ class UserDocument
 	 * @var \DateTime
 	 */
 	protected $updatedAt;
-
-
-	/**
-	 * @ORM\Column(type="date", nullable=true)
-	 */
-	protected $date;
-
-	public function __construct(){
-	}
-
+	
 	public function getId(){
 		return $this->id;
 	}

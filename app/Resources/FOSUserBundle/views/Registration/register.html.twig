@@ -19,9 +19,6 @@
             </div>
             <div class="panel-body">
                 {{ form_errors(form) }}
-                {{ form_errors(form.name) }}
-                {{ form_errors(form.surname) }}
-                {{ form_errors(form.phoneNumber) }}
                 <form name="fos_user_registration_form" method="post" action="/register/" class="fos_user_registration_register">
                     <div class="form-group form-material floating" data-plugin="formMaterial">
                         <input type="email" id="fos_user_registration_form_email" class="form-control" name="fos_user_registration_form[email]" required="required" data-plugin="formMaterial">

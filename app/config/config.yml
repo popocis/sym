@@ -105,8 +105,8 @@ vich_uploader:
             uri_prefix:         /documents
             #upload_destination: '%kernel.root_dir%/../web/documents'
             upload_destination: '%kernel.root_dir%/user_documents'
-            namer:              vich_uploader.namer_uniqid
             inject_on_load:     true
             delete_on_update:   true
             delete_on_remove:   true
             directory_namer:    app.document_uploader.directory_namer
+            namer:              app.document_uploader.file_namer

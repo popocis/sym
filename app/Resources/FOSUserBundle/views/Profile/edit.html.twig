@@ -13,11 +13,6 @@
                 </div>
                 <div class="panel-body">
                     {{ form_errors(form) }}
-                    {{ form_errors(form.name) }}
-                    {{ form_errors(form.surname) }}
-                    {{ form_errors(form.phoneNumber) }}
-                    {{ form_errors(form.current_password) }}
-
                     <form name="fos_user_profile_form" method="post" action="/profile/edit" class="fos_user_profile_edit">
                         <div class="form-group form-material floating" data-plugin="formMaterial">
                             <input type="email" id="fos_user_profile_form_email" class="form-control" name="fos_user_profile_form[email]" required="required" value="{{ app.user.email }}">
