@@ -3,7 +3,7 @@
 {% block body %}
 
     {# renders all fields *and* the form start and end tags #}
-    {{ form(formJourney) }}
+    {#{ form(formJourney) }#}
 
 
 
@@ -231,6 +231,18 @@
                             <label for="form_transport" class="control-label">Transport</label>
                             <textarea type="text" id="form_transport" class="form-control" name="form[transport]" rows="3"></textarea>
                         </div>
+
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="text" id="form_structure" class="form-control" name="form[structure]" maxlength="255" pattern=".{3,}">
+                            <label class="floating-label" for="form_structure">Structure</label>
+                        </div>
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            <input type="text" id="form_structureAddress" class="form-control" name="form[structureAddress]" maxlength="255" pattern=".{3,}">
+                            <label class="floating-label" for="form_structureAddress">Structure address</label>
+                        </div>
+
+
+
                         <div class="form-group form-material">
                             <label for="form_notes" class="control-label">Notes</label>
                             <textarea type="text" id="form_notes" class="form-control" name="form[notes]" rows="3"></textarea>
@@ -240,6 +252,15 @@
                     </form>
                 </div>
             </div>
+        </div>
+        <div class="col-sm-6">
+            {% for journey in userJourneys %}
+                Arrival date: {{ journey.arrivalDate|date('d/m/Y') }}</br>
+                Appointment date: {{ journey.appointmentDate|date('d/m/Y') }}</br>
+                Departure date: {{ journey.departureDate|date('d/m/Y') }}</br>
+                Transport information: {{ journey.transport }}</br>
+                Notes: {{ journey.notes }}
+            {% endfor %}
         </div>
     </div>
 

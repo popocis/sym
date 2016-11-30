@@ -60,6 +60,16 @@ class UserJourney{
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
 	 */
+	protected $structure;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
+	protected $structureAddress;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
 	protected $notes;
 
 	public function __construct() {
@@ -89,16 +99,24 @@ class UserJourney{
 		return $this->appointmentDate;
 	}
 
+	public function getDepartureDate() {
+		return $this->departureDate;
+	}
+
 	public function getTransport() {
 		return $this->transport;
 	}
 
-	public function getNotes() {
+	public function getStructure() {
 		return $this->notes;
 	}
 
-	public function getDepartureDate() {
-		return $this->departureDate;
+	public function getStructureAddress() {
+		return $this->notes;
+	}
+
+	public function getNotes() {
+		return $this->notes;
 	}
 
 	public function setAdminUser($adminUser) {
@@ -133,6 +151,16 @@ class UserJourney{
 
 	public function setTransport($transport) {
 		$this->transport = $transport;
+		return $this;
+	}
+
+	public function setStructure($structure) {
+		$this->structure = $structure;
+		return $this;
+	}
+
+	public function setStructureAddress($structureAddress) {
+		$this->structureAddress = $structureAddress;
 		return $this;
 	}
 

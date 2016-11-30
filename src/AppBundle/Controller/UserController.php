@@ -126,6 +126,8 @@ class UserController extends Controller {
 				'format' => 'dd/MM/yyyy',
 			))
 			->add('transport', TextType::class)
+			->add('structure', TextType::class)
+			->add('structureAddress', TextType::class)
 			->add('notes', TextType::class)
 			->add('save', SubmitType::class)
 			->getForm();
@@ -172,7 +174,8 @@ class UserController extends Controller {
 		}
 		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id));
 		$documents = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->findBy(array('customerUser' => $id));
-		return $this->render('user/view.html.twig', array('user' => $user, 'userEvents' => $events, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'formJourney' => $formJourney->createView()));
+		$journeys = $this->getDoctrine()->getRepository('AppBundle:UserJourney')->findBy(array('customerUser' => $id));
+		return $this->render('user/view.html.twig', array('user' => $user, 'userEvents' => $events, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView()));
 	}
 
 	/**
