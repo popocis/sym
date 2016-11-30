@@ -33,7 +33,7 @@ class UserEvent{
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp"}, message = "Choose a valid contact method.")
+	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facetime", "form", "toll free"}, message = "Choose a valid contact method.")
 	 */
 	protected $contactMethod;
 
@@ -42,6 +42,15 @@ class UserEvent{
 	 * @Assert\Choice(choices = {"general", "commercial", "estimate", "accepted estimate"}, message = "Choose a valid contact reason.")
 	 */
 	protected $contactReason;
+
+	/**
+	 * @ORM\Column(type="integer", length=1, nullable=false)
+	 * @Assert\Range(
+	 *      min = 0,
+	 *      max = 1
+	 * )
+	 */
+	protected $throughOffering;
 
 	/**
 	 * @ORM\Column(type="date")
@@ -76,6 +85,10 @@ class UserEvent{
 		return $this->contactReason;
 	}
 
+	public function getThroughOffering() {
+		return $this->throughOffering;
+	}
+
 	public function getDate() {
 		return $this->date;
 	}
@@ -101,6 +114,11 @@ class UserEvent{
 
 	public function setContactReason($contactReason) {
 		$this->contactReason = $contactReason;
+		return $this;
+	}
+
+	public function setThroughOffering($throughOffering) {
+		$this->throughOffering = $throughOffering;
 		return $this;
 	}
 

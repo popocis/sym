@@ -60,12 +60,12 @@ class UserJourney{
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
 	 */
-	protected $structure;
+	protected $accommodation;
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
 	 */
-	protected $structureAddress;
+	protected $accommodationAddress;
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
@@ -107,12 +107,12 @@ class UserJourney{
 		return $this->transport;
 	}
 
-	public function getStructure() {
-		return $this->notes;
+	public function getAccommodation() {
+		return $this->accommodation;
 	}
 
-	public function getStructureAddress() {
-		return $this->notes;
+	public function getAccommodationAddress() {
+		return $this->accommodationAddress;
 	}
 
 	public function getNotes() {
@@ -154,13 +154,13 @@ class UserJourney{
 		return $this;
 	}
 
-	public function setStructure($structure) {
-		$this->structure = $structure;
+	public function setAccommodation($accommodation) {
+		$this->accommodation = $accommodation;
 		return $this;
 	}
 
-	public function setStructureAddress($structureAddress) {
-		$this->structureAddress = $structureAddress;
+	public function setAccommodationAddress($accommodationAddress) {
+		$this->accommodationAddress = $accommodationAddress;
 		return $this;
 	}
 

@@ -78,7 +78,7 @@ class UserController extends Controller {
 		$userEvent = new UserEvent();
 		$formEvent = $this->createFormBuilder($userEvent)
 			->add('contactMethod', ChoiceType::class, array(
-				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp'),
+				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp', 'facetime' => 'facetime', 'form' => 'form', 'toll free' => 'toll free'),
 				'choices_as_values' => true,
 			))
 			->add('contactReason', ChoiceType::class, array(
@@ -86,6 +86,10 @@ class UserController extends Controller {
 				'choices_as_values' => true,
 			))
 			->add('notes', TextType::class)
+			->add('throughOffering', ChoiceType::class, array(
+				'choices' => array('false' => 0, 'true' => 1),
+				'choices_as_values' => true,
+			))
 			->add('date', DateType::class, array(
 				'widget' => 'single_text',
 				'html5' => false,
@@ -126,8 +130,8 @@ class UserController extends Controller {
 				'format' => 'dd/MM/yyyy',
 			))
 			->add('transport', TextType::class)
-			->add('structure', TextType::class)
-			->add('structureAddress', TextType::class)
+			->add('accommodation', TextType::class)
+			->add('accommodationAddress', TextType::class)
 			->add('notes', TextType::class)
 			->add('save', SubmitType::class)
 			->getForm();

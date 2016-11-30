@@ -3,7 +3,7 @@
 {% block body %}
 
     {# renders all fields *and* the form start and end tags #}
-    {#{ form(formJourney) }#}
+    {{ form(formEvent) }}
 
 
 
@@ -13,6 +13,7 @@
             <th data-field="contactMethod">Contact Method</th>
             <th data-field="contactReason">Contact Reason</th>
             <th data-field="date">Date</th>
+            <th data-field="throughOffering">Through Offering</th>
             <th data-field="notes">Notes</th>
         </tr>
         </thead>
@@ -28,6 +29,7 @@
                     "contactMethod": '{{ event.contactMethod }}',
                     "contactReason": '{{ event.contactReason }}',
                     "date": '{{ event.date|date('d/m/Y') }}',
+                    "throughOffering": '{{ event.throughOffering ? 'Yes':'No' }}',
                     "notes": '{{ event.notes }}',
                 },
                 {% endfor %}
@@ -121,6 +123,16 @@
                                 <option value="email">email</option>
                                 <option value="viber">viber</option>
                                 <option value="whatsapp">whatsapp</option>
+                                <option value="facetime">facetime</option>
+                                <option value="form">form</option>
+                                <option value="toll free">toll free</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="form_throughOffering" class="required">Through offering</label>
+                            <select id="form_throughOffering" name="form[throughOffering]">
+                                <option value="0">false</option>
+                                <option value="1">true</option>
                             </select>
                         </div>
                         <div class="form-group form-material">
@@ -233,15 +245,13 @@
                         </div>
 
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="form_structure" class="form-control" name="form[structure]" maxlength="255" pattern=".{3,}">
-                            <label class="floating-label" for="form_structure">Structure</label>
+                            <input type="text" id="form_accommodation" class="form-control" name="form[accommodation]" maxlength="255" pattern=".{3,}">
+                            <label class="floating-label" for="form_accommodation">Accommodation</label>
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="form_structureAddress" class="form-control" name="form[structureAddress]" maxlength="255" pattern=".{3,}">
-                            <label class="floating-label" for="form_structureAddress">Structure address</label>
+                            <input type="text" id="form_accommodationAddress" class="form-control" name="form[accommodationAddress]" maxlength="255" pattern=".{3,}">
+                            <label class="floating-label" for="form_accommodationAddress">Accommodation address</label>
                         </div>
-
-
 
                         <div class="form-group form-material">
                             <label for="form_notes" class="control-label">Notes</label>
@@ -255,11 +265,14 @@
         </div>
         <div class="col-sm-6">
             {% for journey in userJourneys %}
+                Clinic: {{ journey.Clinic }}</br>
                 Arrival date: {{ journey.arrivalDate|date('d/m/Y') }}</br>
                 Appointment date: {{ journey.appointmentDate|date('d/m/Y') }}</br>
                 Departure date: {{ journey.departureDate|date('d/m/Y') }}</br>
                 Transport information: {{ journey.transport }}</br>
-                Notes: {{ journey.notes }}
+                Accommodation: {{ journey.accommodation }}</br>
+                Accommodation address: {{ journey.accommodationAddress }}</br>
+                Notes: {{ journey.notes }}</br></br>
             {% endfor %}
         </div>
     </div>
