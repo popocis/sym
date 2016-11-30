@@ -13,6 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class UserController extends Controller {
 
@@ -97,7 +100,7 @@ class UserController extends Controller {
 				'choices' => array('dental panoramic' => 'dentalPanoramic', 'quote' => 'quote', 'document' => 'document', 'other' => 'other'),
 				'choices_as_values' => true,
 			))
-			->add('documentFile', VichImageType::class, array())
+			->add('documentFile', VichFileType::class, array())
 			->add('save', SubmitType::class, array('label' => 'Save Document'))
 			->getForm();
 		//$formDocument->handleRequest($request);
@@ -134,7 +137,6 @@ class UserController extends Controller {
 				}
 			}
 		}
-		
 		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id));
 		$documents = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->findBy(array('customerUser' => $id));
 		return $this->render('user/view.html.twig', array('user' => $user, 'userEvents' => $events, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView() ));
@@ -169,5 +171,27 @@ class UserController extends Controller {
 		$resolver->setDefaults(array(
 			'data_class' => $this->class
 		));
+	}
+
+	/**
+	 * @Route("/download/{userid}/{filename}", name="download_file")
+	 */
+	public function downloadFileAction($filename, $userid){
+		$basePath = $this->container->getParameter('kernel.root_dir').'/user_documents';
+		$filePath = $basePath.'/'.$userid.'/'.$filename;
+		// check if file exists
+		$fs = new FileSystem();
+		if (!$fs->exists($filePath)) {
+			throw $this->createNotFoundException();
+		}
+		// prepare BinaryFileResponse
+		$response = new BinaryFileResponse($filePath);
+		$response->trustXSendfileTypeHeader();
+		$response->setContentDisposition(
+			ResponseHeaderBag::DISPOSITION_INLINE,
+			$filename,
+			iconv('UTF-8', 'ASCII//TRANSLIT', $filename)
+		);
+		return $response;
 	}
 }

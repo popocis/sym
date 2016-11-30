@@ -38,6 +38,7 @@ twig:
         # other form themes
         - 'VichUploaderBundle:Form:fields.html.twig'
     globals:
+        app_path: '%kernel.root_dir%'
         
 
 # Doctrine Configuration
