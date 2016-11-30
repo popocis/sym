@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\UserEvent;
 use AppBundle\Entity\UserDocument;
+use AppBundle\Entity\UserJourney;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,7 +82,7 @@ class UserController extends Controller {
 				'choices_as_values' => true,
 			))
 			->add('contactReason', ChoiceType::class, array(
-				'choices' => array('general' => 'general', 'commercial' => 'commercial', 'estimate' => 'estimate', 'accepted estimate' => 'acceptedEstimate'),
+				'choices' => array('general' => 'general', 'commercial' => 'commercial', 'estimate' => 'estimate', 'accepted estimate' => 'accepted estimate'),
 				'choices_as_values' => true,
 			))
 			->add('notes', TextType::class)
@@ -90,9 +91,8 @@ class UserController extends Controller {
 				'html5' => false,
 				'format' => 'dd/MM/yyyy',
 			))
-			->add('save', SubmitType::class, array('label' => 'Save Event'))
+			->add('save', SubmitType::class)
 			->getForm();
-		//$formEvent->handleRequest($request);
 
 		$userDocument = new UserDocument();
 		$formDocument = $this->createFormBuilder($userDocument)
@@ -101,20 +101,40 @@ class UserController extends Controller {
 				'choices_as_values' => true,
 			))
 			->add('documentFile', VichFileType::class, array())
-			->add('save', SubmitType::class, array('label' => 'Save Document'))
+			->add('save', SubmitType::class)
 			->getForm();
-		//$formDocument->handleRequest($request);
+
+		$userJourney = new UserJourney();
+		$formJourney = $this->createFormBuilder($userJourney)
+			->add('clinic', ChoiceType::class, array(
+				'choices' => array('hc Zagabria' => 'hc Zagabria', 'hc Pola' => 'hc Pola'),
+				'choices_as_values' => true,
+			))
+			->add('arrivalDate', DateType::class, array(
+				'widget' => 'single_text',
+				'html5' => false,
+				'format' => 'dd/MM/yyyy',
+			))
+			->add('appointmentDate', DateType::class, array(
+				'widget' => 'single_text',
+				'html5' => false,
+				'format' => 'dd/MM/yyyy',
+			))
+			->add('departureDate', DateType::class, array(
+				'widget' => 'single_text',
+				'html5' => false,
+				'format' => 'dd/MM/yyyy',
+			))
+			->add('transport', TextType::class)
+			->add('notes', TextType::class)
+			->add('save', SubmitType::class)
+			->getForm();
+
 
 		if('POST' === $request->getMethod()) {
 
 			if($request->request->has('formEvent')){
 				$formEvent->handleRequest($request);
-			}
-			elseif($request->request->has('formDocument')) {
-				$formDocument->handleRequest($request);
-			}
-
-			if ($request->request->has('formEvent')) {
 				if ($formEvent->isSubmitted() && $formEvent->isValid()) {
 					$userEvent = $formEvent->getData();
 					$userOperator = $this->get('security.token_storage')->getToken()->getUser();
@@ -125,7 +145,8 @@ class UserController extends Controller {
 					$em->flush();
 				}
 			}
-			elseif ($request->request->has('formDocument')){
+			elseif($request->request->has('formDocument')) {
+				$formDocument->handleRequest($request);
 				if ($formDocument->isSubmitted() && $formDocument->isValid()) {
 					$userDocument = $formDocument->getData();
 					$userOperator = $this->get('security.token_storage')->getToken()->getUser();
@@ -136,10 +157,22 @@ class UserController extends Controller {
 					$em->flush();
 				}
 			}
+			elseif($request->request->has('formJourney')) {
+				$formJourney->handleRequest($request);
+				if ($formJourney->isSubmitted() && $formJourney->isValid()) {
+					$userJourney = $formJourney->getData();
+					$userOperator = $this->get('security.token_storage')->getToken()->getUser();
+					$userJourney->setAdminUser($userOperator);
+					$userJourney->setCustomerUser($user);
+					$em = $this->getDoctrine()->getManager();
+					$em->persist($userJourney);
+					$em->flush();
+				}
+			}
 		}
 		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id));
 		$documents = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->findBy(array('customerUser' => $id));
-		return $this->render('user/view.html.twig', array('user' => $user, 'userEvents' => $events, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView() ));
+		return $this->render('user/view.html.twig', array('user' => $user, 'userEvents' => $events, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'formJourney' => $formJourney->createView()));
 	}
 
 	/**

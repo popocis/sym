@@ -1,5 +1,5 @@
 <?php
-// src/AppBundle/Entity/UserEvent.php
+// src/AppBundle/Entity/UserJourney.php
 
 namespace AppBundle\Entity;
 
@@ -8,9 +8,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user_event")
+ * @ORM\Table(name="user_journey")
  */
-class UserEvent{
+class UserJourney{
+	
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
@@ -30,23 +31,31 @@ class UserEvent{
 	 */
 	protected $customerUser;
 
-
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp"}, message = "Choose a valid contact method.")
+	 * @Assert\Choice(choices = {"hc Zagabria", "hc Pola"}, message = "Choose a clinic.")
 	 */
-	protected $contactMethod;
-
-	/**
-	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"general", "commercial", "estimate", "accepted estimate"}, message = "Choose a valid contact reason.")
-	 */
-	protected $contactReason;
+	protected $clinic;
 
 	/**
 	 * @ORM\Column(type="date")
 	 */
-	protected $date;
+	protected $arrivalDate;
+
+	/**
+	 * @ORM\Column(type="date")
+	 */
+	protected $appointmentDate;
+
+	/**
+	 * @ORM\Column(type="date")
+	 */
+	protected $departureDate;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
+	protected $transport;
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
@@ -68,20 +77,28 @@ class UserEvent{
 		return $this->customerUser;
 	}
 
-	public function getContactMethod() {
-		return $this->contactMethod;
+	public function getClinic() {
+		return $this->clinic;
 	}
 
-	public function getContactReason() {
-		return $this->contactReason;
+	public function getArrivalDate() {
+		return $this->arrivalDate;
 	}
 
-	public function getDate() {
-		return $this->date;
+	public function getAppointmentDate() {
+		return $this->appointmentDate;
+	}
+
+	public function getTransport() {
+		return $this->transport;
 	}
 
 	public function getNotes() {
 		return $this->notes;
+	}
+
+	public function getDepartureDate() {
+		return $this->departureDate;
 	}
 
 	public function setAdminUser($adminUser) {
@@ -94,18 +111,28 @@ class UserEvent{
 		return $this;
 	}
 
-	public function setContactMethod($contactMethod) {
-		$this->contactMethod = $contactMethod;
+	public function setClinic($clinic) {
+		$this->clinic = $clinic;
 		return $this;
 	}
 
-	public function setContactReason($contactReason) {
-		$this->contactReason = $contactReason;
+	public function setArrivalDate($arrivalDate) {
+		$this->arrivalDate = $arrivalDate;
 		return $this;
 	}
 
-	public function setDate($date) {
-		$this->date = $date;
+	public function setAppointmentDate($appointmentDate) {
+		$this->appointmentDate = $appointmentDate;
+		return $this;
+	}
+
+	public function setDepartureDate($departureDate) {
+		$this->departureDate = $departureDate;
+		return $this;
+	}
+
+	public function setTransport($transport) {
+		$this->transport = $transport;
 		return $this;
 	}
 
