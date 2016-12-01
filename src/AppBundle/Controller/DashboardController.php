@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class DashboardController extends Controller{
+class DashboardController extends Controller {
 	/**
-	 * @Route("/{_locale}", name="dashboard")
+	 * @Route("/", name="dashboard")
 	 */
 	public function indexAction() {
 		//get all users
