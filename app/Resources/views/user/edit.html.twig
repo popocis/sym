@@ -26,33 +26,31 @@
                             <label class="floating-label" for="form_username">Username</label>
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="form_name" class="form-control" name="form[name]" value="{{ user.name }}" required="required" data-plugin="formMaterial">
+                            <input type="text" id="form_name" class="form-control" name="form[name]" value="{{ user.name }}" required="required" data-plugin="formMaterial" pattern=".{3,50}">
                             <label class="floating-label" for="form_name">Name</label>
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="form_surname" class="form-control" name="form[surname]" maxlength="255" pattern=".{3,}" value="{{ user.surname }}" required="required" data-plugin="formMaterial">
+                            <input type="text" id="form_surname" class="form-control" name="form[surname]" value="{{ user.surname }}" required="required" data-plugin="formMaterial" pattern=".{3,50}">
                             <label class="floating-label" for="form_surname">Surname</label>
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="number" id="form_phoneNumber" class="form-control" name="form[phoneNumber]" maxlength="20" pattern="[0-9]{6,20}" value="{{ user.phoneNumber }}" data-plugin="formMaterial">
+                            <input type="tel" id="form_phoneNumber" class="form-control" name="form[phoneNumber]" value="{{ user.phoneNumber }}" data-plugin="formMaterial" pattern="[0-9]{6,30}">
                             <label class="floating-label" for="form_phoneNumber">Phone number</label>
                         </div>
-
-
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="number" id="form_streetNumber" class="form-control" name="form[streetNumber]" value="{{ user.streetNumber }}" maxlength="6" pattern=".{1,}">
+                            <input type="text" id="form_streetNumber" class="form-control" name="form[streetNumber]" value="{{ user.streetNumber }}" pattern="[0-9]{1,6}">
                             <label class="floating-label" for="form_streetNumber">Street number</label>
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="form_streetName" class="form-control" name="form[streetName]" value="{{ user.streetName }}" maxlength="255" pattern=".{3,}">
+                            <input type="text" id="form_streetName" class="form-control" name="form[streetName]" value="{{ user.streetName }}" pattern=".{3,50}">
                             <label class="floating-label" for="form_streetName">Street name</label>
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="form_cityName" class="form-control" name="form[cityName]" value="{{ user.cityName }}" maxlength="255" pattern=".{3,}">
+                            <input type="text" id="form_cityName" class="form-control" name="form[cityName]" value="{{ user.cityName }}" pattern=".{3,50}">
                             <label class="floating-label" for="form_cityName">City name</label>
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="number" id="form_zipCode" class="form-control" name="form[zipCode]" value="{{ user.zipCode }}" maxlength="10" pattern=".{3,}">
+                            <input type="text" id="form_zipCode" class="form-control" name="form[zipCode]" value="{{ user.zipCode }}" pattern=".{3,10}">
                             <label class="floating-label" for="form_zipCode">Zip code</label>
                         </div>
 
@@ -64,7 +62,7 @@
 
 
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="form_taxCode" class="form-control" name="form[taxCode]" maxlength="20" pattern=".{11,}" value="{{ user.taxCode }}">
+                            <input type="text" id="form_taxCode" class="form-control" name="form[taxCode]" value="{{ user.taxCode }}" pattern=".{6,20}">
                             <label class="floating-label" for="form_taxCode">Tax code</label>
                         </div>
                         <div class="form-group form-material">

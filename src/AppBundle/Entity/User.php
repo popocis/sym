@@ -44,8 +44,8 @@ class User extends BaseUser
 	 *
 	 * @Assert\NotBlank(message="Please enter surname.", groups={"Registration", "Profile"})
 	 * @Assert\Length(
-	 *     min=3,
-	 *     max=255,
+	 *     min=2,
+	 *     max=50,
 	 *     minMessage="Surname is too short.",
 	 *     maxMessage="Surname is too long.",
 	 *     groups={"Registration", "Profile"}
@@ -54,11 +54,11 @@ class User extends BaseUser
 	protected $surname;
 
 	/**
-	 * @ORM\Column(type="string", length=20, nullable=true)
+	 * @ORM\Column(type="string", length=30, nullable=true)
 	 *
 	 * @Assert\Length(
 	 *     min=6,
-	 *     max=20,
+	 *     max=30,
 	 *     minMessage="Phone number is too short.",
 	 *     maxMessage="Phone number is too long.",
 	 *     groups={"Registration", "Profile"}
@@ -68,7 +68,7 @@ class User extends BaseUser
 	protected $phoneNumber;
 
 	/**
-	 * @ORM\Column(type="integer", nullable=true)
+	 * @ORM\Column(type="string", nullable=true)
 	 *
 	 * @Assert\Length(
 	 *     min=1,
@@ -81,11 +81,11 @@ class User extends BaseUser
 	protected $streetNumber;
 
 	/**
-	 * @ORM\Column(type="string", length=6, nullable=true)
+	 * @ORM\Column(type="string", length=255, nullable=true)
 	 *
 	 * @Assert\Length(
 	 *     min=1,
-	 *     max=6,
+	 *     max=50,
 	 *     minMessage="Street name is too short.",
 	 *     maxMessage="Street name is too long.",
 	 *     groups={"Registration", "Profile"}
@@ -98,7 +98,7 @@ class User extends BaseUser
 	 *
 	 * @Assert\Length(
 	 *     min=3,
-	 *     max=255,
+	 *     max=50,
 	 *     minMessage="City name is too short.",
 	 *     maxMessage="City name is too long.",
 	 *     groups={"Registration", "Profile"}
@@ -107,7 +107,7 @@ class User extends BaseUser
 	protected $cityName;
 
 	/**
-	 * @ORM\Column(type="integer", length=10, nullable=true)
+	 * @ORM\Column(type="string", length=10, nullable=true)
 	 *
 	 * @Assert\Length(
 	 *     min=3,
@@ -131,7 +131,7 @@ class User extends BaseUser
 	 * @ORM\Column(type="string", length=20, nullable=true)
 	 *
 	 * @Assert\Length(
-	 *     min = 2,
+	 *     min = 6,
 	 *     max = 20,
 	 *     minMessage = "Code must be at least {{ limit }} characters long",
 	 *     maxMessage = "Code cannot be longer than {{ limit }} characters"

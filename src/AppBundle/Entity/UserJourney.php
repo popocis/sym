@@ -54,16 +54,34 @@ class UserJourney{
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
+	 * @Assert\Length(
+	 *     min = 3,
+	 *     max = 255,
+	 *     minMessage = "Transport info must be at least {{ limit }} characters long",
+	 *     maxMessage = "Transport info cannot be longer than {{ limit }} characters"
+	 * )
 	 */
 	protected $transport;
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
+	 * @Assert\Length(
+	 *     min = 3,
+	 *     max = 255,
+	 *     minMessage = "Accommodation info must be at least {{ limit }} characters long",
+	 *     maxMessage = "Accommodation info cannot be longer than {{ limit }} characters"
+	 * )
 	 */
 	protected $accommodation;
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
+	 * @Assert\Length(
+	 *     min = 3,
+	 *     max = 255,
+	 *     minMessage = "Accommodation address info must be at least {{ limit }} characters long",
+	 *     maxMessage = "Accommodation address info cannot be longer than {{ limit }} characters"
+	 * )
 	 */
 	protected $accommodationAddress;
 

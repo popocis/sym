@@ -19,7 +19,6 @@
         </thead>
     </table>
 
-
     <script>
         $( document ).ready(function() {
             var $table = $("#table");
@@ -51,47 +50,5 @@
             $table.bootstrapTable({data: data});
         });
     </script>
-
-    <br><br>
-
-    <br>TODO PAGE HOME (vista: views->home->index.html.twig, controller: controller->DashboardController.php)<br>
-
-    - se sono loggato come ROLE_SUPER_ADMIN -> lista di tutti gli utenti + vari filtri<br>
-    - se sono loggato come ROLE_ADMIN -> lista di tutti gli utenti USER + vari filtri<br>
-    - se sono loggato come ROLE_USER -> le mie informazioni + "bacheca"<br>
-    - le funzionalità sopra elencate le dovremo gestire da controller<br>
-
-    <br><br>
-
-    <br>TODO USER REGISTER (vista: FOSUserBundle->views->Registration->register.html.twig, controller: ereditato ma si può fare hook ad eventi):<br>
-
-    - in fase di registrazione di un utente generare password automaticamente (capire se FOSUSERBUNDLE lo permette direttamente) e inviarla per mail (template views->email->confirmation_email.txt.twig)<br>
-
-    <br><br>
-
-    TODO FUNZIONALITÀ GENERALI:<br>
-
-    Il flusso dei dati in linea di massima è questo:<br>
-    <br>
-    SE OPERATORE contatta o e contattato da utente dovrà segnare per quell'utente (dopo averlo registrato se non presente)<br>
-    <br>
-    1) metodo di contatto (sarà un dropdown con valori definiti ma ancora da definire)<br>
-    2) motivo di contatto (sarà un dropdown con valori definiti ma ancora da definire)<br>
-    3) data<br>
-    4) note? Il problema delle note è che se le visualizziamo poi anche all'utente sulla sua "bacheca", come li traduciamo? Che lingua usiamo?<br>
-    <br>
-    SE MOTIVO è PREVENTIVO allora utente da commerciale diventa prospect e si attiverà modulo creazione preventivo (al modulo preventivo ci pensiavo una volta fatto il resto)<br>
-    <br>
-    SE MOTIVO è ACCETTAZIONE PREVENTIVO allora utente da prospect diventa cliente
-    <br>
-    <br>
-    QUINDI dovremo creare una tabella separata ma relazionata "eventi", dove questi saranno registrati. Di fatto creiamo la classe e poi la mappiamo a DB.<br>
-    <br>
-    TODO ENTITY USER (Entity -> User.php)<br>
-
-    - pensare ed implementare la gestione "media" per gli utenti iscritti. Fondamentalmente caricamento file. In seguito capire quali file supportati e MB max upload<br>
-    Potrebbe essere considerato come un evento? E quindi gestito nella tabella eventi?
-
-    <br><br>
 
 {% endblock %}

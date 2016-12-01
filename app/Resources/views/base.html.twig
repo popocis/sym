@@ -4,13 +4,19 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        {% include 'head-import.html.twig' %}
+        {% include 'header-import.html.twig' %}
     </head>
     <body class="dashboard">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        {% include 'header.html.twig' %}
+
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+            {% include 'menu/header_admin.html.twig' %}
+        {% elseif is_granted('ROLE_USER') %}
+            INCLUDERE MENU DEDICATO A ROLE_USER
+        {% endif %}
+
         <!-- Page -->
         <div class="page {{ not is_granted('ROLE_ADMIN') and not is_granted('ROLE_SUPER_ADMIN') ? 'page--menu-less' : '' }}">
             <div class="page-content container-fluid">
@@ -20,7 +26,7 @@
             </div>
         </div>
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-        {% include 'sidebar.html.twig' %}
+            {% include 'menu/sidebar_admin.html.twig' %}
         {% endif %}
 
         {% include 'footer-import.html.twig' %}

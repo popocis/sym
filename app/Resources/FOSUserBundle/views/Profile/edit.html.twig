@@ -19,15 +19,15 @@
                             <label class="floating-label" for="fos_user_profile_form_email" class="required">Email</label>
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="fos_user_profile_form_name" class="form-control" name="fos_user_profile_form[name]" required="required" maxlength="255" pattern=".{3,}" value="{{ app.user.name }}">
+                            <input type="text" id="fos_user_profile_form_name" class="form-control" name="fos_user_profile_form[name]" required="required" pattern=".{3,50}" value="{{ app.user.name }}">
                             <label class="floating-label" for="fos_user_profile_form_name" class="required">Name</label>
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="fos_user_profile_form_surname" class="form-control" name="fos_user_profile_form[surname]" required="required" maxlength="255" pattern=".{3,}" value="{{ app.user.surname }}">
+                            <input type="text" id="fos_user_profile_form_surname" class="form-control" name="fos_user_profile_form[surname]" required="required" pattern=".{3,50}" value="{{ app.user.surname }}">
                             <label class="floating-label" for="fos_user_profile_form_surname" class="required">Surname</label>
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="number" id="fos_user_profile_form_phoneNumber" class="form-control" name="fos_user_profile_form[phoneNumber]" required="required" maxlength="20" pattern="[0-9]{6,20}" value="{{ app.user.phoneNumber }}">
+                            <input type="tel" id="fos_user_profile_form_phoneNumber" class="form-control" name="fos_user_profile_form[phoneNumber]" required="required" pattern="[0-9]{6,30}" value="{{ app.user.phoneNumber }}">
                             <label class="floating-label" for="fos_user_profile_form_phoneNumber" class="required">Phone number</label>
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">

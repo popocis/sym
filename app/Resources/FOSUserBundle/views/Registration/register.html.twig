@@ -25,31 +25,31 @@
                         <label class="floating-label" for="fos_user_registration_form_email" >Email</label>
                     </div>
                     <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="text" id="fos_user_registration_form_name" class="form-control" name="fos_user_registration_form[name]" required="required" maxlength="255" pattern=".{3,}">
+                        <input type="text" id="fos_user_registration_form_name" class="form-control" name="fos_user_registration_form[name]" required="required" pattern=".{3,50}">
                         <label class="floating-label" for="fos_user_registration_form_name">Name</label>
                     </div>
                     <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="text" id="fos_user_registration_form_surname" class="form-control" name="fos_user_registration_form[surname]" required="required" maxlength="255" pattern=".{3,}">
+                        <input type="text" id="fos_user_registration_form_surname" class="form-control" name="fos_user_registration_form[surname]" required="required" pattern=".{3,50}">
                         <label class="floating-label" for="fos_user_registration_form_surname">Surname</label>
                     </div>
                     <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="text" id="fos_user_registration_form_phoneNumber" class="form-control" name="fos_user_registration_form[phoneNumber]" maxlength="20" pattern="[0-9]{6,20}">
+                        <input type="tel" id="fos_user_registration_form_phoneNumber" class="form-control" name="fos_user_registration_form[phoneNumber]" pattern="[0-9]{6,30}">
                         <label class="floating-label" for="fos_user_registration_form_phoneNumber">Phone number</label>
                     </div>
                     <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="number" id="fos_user_registration_form_streetNumber" class="form-control" name="fos_user_registration_form[streetNumber]" maxlength="6" pattern=".{1,}">
+                        <input type="text" id="fos_user_registration_form_streetNumber" class="form-control" name="fos_user_registration_form[streetNumber]" pattern="[0-9]{1,6}">
                         <label class="floating-label" for="fos_user_registration_form_streetNumber">Street number</label>
                     </div>
                     <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="text" id="fos_user_registration_form_streetName" class="form-control" name="fos_user_registration_form[streetName]" maxlength="255" pattern=".{3,}">
+                        <input type="text" id="fos_user_registration_form_streetName" class="form-control" name="fos_user_registration_form[streetName]" pattern=".{3,50}">
                         <label class="floating-label" for="fos_user_registration_form_streetName">Street name</label>
                     </div>
                     <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="text" id="fos_user_registration_form_cityName" class="form-control" name="fos_user_registration_form[cityName]" maxlength="255" pattern=".{3,}">
+                        <input type="text" id="fos_user_registration_form_cityName" class="form-control" name="fos_user_registration_form[cityName]" pattern=".{3,50}">
                         <label class="floating-label" for="fos_user_registration_form_cityName">City name</label>
                     </div>
                     <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="number" id="fos_user_registration_form_zipCode" class="form-control" name="fos_user_registration_form[zipCode]" maxlength="10" pattern=".{3,}">
+                        <input type="text" id="fos_user_registration_form_zipCode" class="form-control" name="fos_user_registration_form[zipCode]" pattern=".{3,10}">
                         <label class="floating-label" for="fos_user_registration_form_zipCode">Zip code</label>
                     </div>
 
@@ -67,7 +67,7 @@
                         </select>
                     </div-->
                     <div class="form-group form-material floating" data-plugin="formMaterial">
-                        <input type="text" id="form_taxCode" class="form-control" name="form[taxCode]" maxlength="20" pattern=".{11,}">
+                        <input type="text" id="form_taxCode" class="form-control" name="form[taxCode]" pattern=".{6,20}">
                         <label class="floating-label" for="form_taxCode">Tax code</label>
                     </div>
                     <div class="form-group form-material floating" data-plugin="formMaterial">
