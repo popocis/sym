@@ -8,8 +8,11 @@
                 <th data-field="name">{% trans %}Name{% endtrans %}</th>
                 <th data-field="surname">{% trans %}Surname{% endtrans %}</th>
                 <th data-field="email">{% trans %}Email{% endtrans %}</th>
+                <th data-field="birthDate">{% trans %}Birth date{% endtrans %}</th>
                 <th data-field="phone">{% trans %}Phone{% endtrans %}</th>
+                <th data-field="city">{% trans %}City{% endtrans %}</th>
                 <th data-field="address">{% trans %}Address{% endtrans %}</th>
+                <th data-field="zipCode">{% trans %}City{% endtrans %}</th>
                 <th data-field="country">{% trans %}Country{% endtrans %}</th>
                 <th data-field="taxCode">{% trans %}Tax Code{% endtrans %}</th>
                 <th data-field="registration_date" data-sortable="true">{% trans %}Registration date{% endtrans %}</th>
@@ -28,8 +31,11 @@
                     "name": '{{ user.name }}',
                     "surname": '{{ user.surname }}',
                     "email": '{{ user.email }}',
+                    "birthDate": '{{ user.birthDate|date('d/m/Y') }}',
                     "phone": '{{ user.phoneNumber }}',
-                    "address": '{{ user.streetName }} {{ user.streetNumber }}, {{ user.cityName }}, {{ user.zipCode }}',
+                    "city": '{{ user.cityName }}',
+                    "address": '{{ user.streetName }} {{ user.streetNumber }}',
+                    "zipCode": '{{ user.zipCode }}',
                     "country": '{{ user.countryName }}',
                     "taxCode": '{{ user.taxCode }}',
                     "registration_date": '{{ user.registrationDate|date('d/m/Y') }}',

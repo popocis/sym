@@ -10,6 +10,8 @@
 {# renders all fields *and* the form start and end tags #}
 {#{ form(form) }#}
 
+    {{ form(form) }}
+
 <div class="row">
     <div class="col-sm-6">
         <!-- Panel Static Labels -->
@@ -31,6 +33,15 @@
                     <div class="form-group form-material floating" data-plugin="formMaterial">
                         <input type="text" id="fos_user_registration_form_surname" class="form-control" name="fos_user_registration_form[surname]" required="required" pattern=".{3,50}">
                         <label class="floating-label" for="fos_user_registration_form_surname">Surname</label>
+                    </div>
+                    <div class="form-group form-material">
+                        <label class="required">Birthdate</label>
+                        <div class="input-group">
+                                <span class="input-group-addon">
+                                  <i class="icon md-calendar" aria-hidden="true"></i>
+                                </span>
+                            <input type="text" id="fos_user_registration_form_birthDate" class="form-control" class="datepicker" name="fos_user_registration_form[birthDate]" data-plugin="datepicker" required="required">
+                        </div>
                     </div>
                     <div class="form-group form-material floating" data-plugin="formMaterial">
                         <input type="tel" id="fos_user_registration_form_phoneNumber" class="form-control" name="fos_user_registration_form[phoneNumber]" pattern="[0-9]{6,30}">
@@ -74,7 +85,6 @@
                         <select id="fos_user_registration_form_status" name="fos_user_registration_form[status]" data-plugin="select2" data-placeholder="Select status" data-allow-clear="true" tabindex="-1" aria-hidden="true">
                             <option></option>
                             {% if is_granted('ROLE_ADMIN') %}
-                                <option value="commercial">Commercial</option>
                                 <option value="prospect">Prospect</option>
                                 <option value="client">Client</option>
                             {% elseif is_granted('ROLE_SUPER_ADMIN') %}

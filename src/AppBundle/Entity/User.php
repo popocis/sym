@@ -54,6 +54,11 @@ class User extends BaseUser
 	protected $surname;
 
 	/**
+	 * @ORM\Column(type="datetime")
+	 */
+	protected $birthDate;
+
+	/**
 	 * @ORM\Column(type="string", length=30, nullable=true)
 	 *
 	 * @Assert\Length(
@@ -141,7 +146,7 @@ class User extends BaseUser
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"commercial", "prospect", "client", "operator"}, message = "Choose a valid user status.")
+	 * @Assert\Choice(choices = {"prospect", "client", "operator"}, message = "Choose a valid user status.")
 	 */
 	protected $status;
 
@@ -156,6 +161,10 @@ class User extends BaseUser
 
 	public function getSurname(){
 		return $this->surname;
+	}
+
+	public function getBirthDate() {
+		return $this->birthDate;
 	}
 
 	public function getPhoneNumber(){
@@ -201,6 +210,11 @@ class User extends BaseUser
 
 	public function setSurname($surname){
 		$this->surname = $surname;
+		return $this;
+	}
+
+	public function setBirthDate($birthDate) {
+		$this->birthDate = $birthDate;
 		return $this;
 	}
 

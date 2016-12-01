@@ -61,8 +61,15 @@ class UserDocument
 	 *
 	 * @var \DateTime
 	 */
+	protected $uploadAt;
+
+	/**
+	 * @ORM\Column(type="datetime")
+	 *
+	 * @var \DateTime
+	 */
 	protected $updatedAt;
-	
+
 	public function getId(){
 		return $this->id;
 	}
@@ -87,6 +94,10 @@ class UserDocument
 		return $this->documentName;
 	}
 
+	public function getUploadAt(){
+		return $this->uploadAt;
+	}
+
 	public function setAdminUser($adminUser){
 		$this->adminUser = $adminUser;
 		return $this;
@@ -109,6 +120,11 @@ class UserDocument
 			// otherwise the event listeners won't be called and the file is lost
 			$this->updatedAt = new \DateTime('now');
 		}
+		return $this;
+	}
+
+	public function setUploadAt($uploadAt){
+		$this->uploadAt = $uploadAt;
 		return $this;
 	}
 

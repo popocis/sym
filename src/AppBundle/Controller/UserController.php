@@ -38,6 +38,11 @@ class UserController extends Controller {
 			->add('username')
 			->add('name')
 			->add('surname')
+			->add('birthDate', DateType::class, array(
+				'widget' => 'single_text',
+				'html5' => false,
+				'format' => 'dd/MM/yyyy',
+			))
 			->add('phoneNumber')
 			->add('streetNumber')
 			->add('streetName')
@@ -158,6 +163,8 @@ class UserController extends Controller {
 					$userOperator = $this->get('security.token_storage')->getToken()->getUser();
 					$userDocument->setAdminUser($userOperator);
 					$userDocument->setCustomerUser($user);
+					$date = new \DateTime();
+					$userDocument->setUploadAt($date);
 					$em = $this->getDoctrine()->getManager();
 					$em->persist($userDocument);
 					$em->flush();

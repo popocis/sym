@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
-use Symfony\Component\Intl\Intl;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class RegistrationType extends AbstractType{
 
@@ -17,6 +17,11 @@ class RegistrationType extends AbstractType{
 		$builder->remove('plainPassword');
 		$builder->add('name');
 		$builder->add('surname');
+		$builder->add('birthDate', DateType::class, array(
+			'widget' => 'single_text',
+			'html5' => false,
+			'format' => 'dd/MM/yyyy',
+		));
 		$builder->add('phoneNumber');
 		$builder->add('streetNumber');
 		$builder->add('streetName');

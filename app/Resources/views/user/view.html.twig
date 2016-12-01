@@ -190,8 +190,9 @@
                     </form>
                 </div>
             </div>
+
             {% for document in userDocuments %}
-                <a href="/download/{{ user.id }}/{{ document.documentName }}" target="_blank">{{ document.documentType }}</a>
+                <a href="/download/{{ user.id }}/{{ document.documentName }}" target="_blank">{{ document.documentType }}</a> {{ document.uploadAt|date('d/m/Y') }}<br>
             {% endfor %}
         </div>
     </div>
