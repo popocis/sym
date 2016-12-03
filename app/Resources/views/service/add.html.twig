@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {#{ form(form) }#}
+
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- Panel Static Labels -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">ADD FORM ORIGIN</h3>
+                </div>
+                <div class="panel-body">
+                    <form name="formFormOrigin" method="post">
+                        <div>
+                            <label for="form_formName" class="required">Form name</label>
+                            <input type="text" id="form_formName" name="form[formName]" required="required" maxlength="255">
+                        </div>
+                        <div>
+                            <label for="form_formDomain" class="required">Form domain</label>
+                            <select id="form_formDomain" name="form[formDomain]">
+                                <option value="IT">IT</option><option value="COM">COM</option><option value="EU">EU</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="form__token" name="form[_token]" value="{{ formFormOrigin._token.vars.value }}">
+                        <button type="submit" id="formFormOrigin_save" class="btn btn-primary waves-effect waves-light" name="formFormOrigin[save]">Add form origin</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+
+        </div>
+    </div>
+
+{% endblock %}

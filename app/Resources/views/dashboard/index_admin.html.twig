@@ -14,6 +14,7 @@
                 <th data-field="address">{% trans %}Address{% endtrans %}</th>
                 <th data-field="zipCode">{% trans %}City{% endtrans %}</th>
                 <th data-field="country">{% trans %}Country{% endtrans %}</th>
+                <th data-field="region">{% trans %}Region{% endtrans %}</th>
                 <th data-field="taxCode">{% trans %}Tax Code{% endtrans %}</th>
                 <th data-field="registration_date" data-sortable="true">{% trans %}Registration date{% endtrans %}</th>
                 <th data-field="enabled" data-align="center">{% trans %}Status{% endtrans %}</th>
@@ -37,6 +38,7 @@
                     "address": '{{ user.streetName }} {{ user.streetNumber }}',
                     "zipCode": '{{ user.zipCode }}',
                     "country": '{{ user.countryName }}',
+                    "region": '{{ user.countryRegion }}',
                     "taxCode": '{{ user.taxCode }}',
                     "registration_date": '{{ user.registrationDate|date('d/m/Y') }}',
                     "enabled": '<span class="tag tag-table tag-{{ user.enabled ? 'success' : 'dark' }}">{{ (user.enabled ? 'Active' : 'Inactive')|trans }}</span>',

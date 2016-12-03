@@ -131,6 +131,19 @@ class User extends BaseUser
 	 */
 	protected $countryName;
 
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 *
+	 * @Assert\Length(
+	 *     min=3,
+	 *     max=50,
+	 *     minMessage="City name is too short.",
+	 *     maxMessage="City name is too long.",
+	 *     groups={"Registration", "Profile"}
+	 * )
+	 */
+	protected $countryRegion;
+
 
 	/**
 	 * @ORM\Column(type="string", length=20, nullable=true)
@@ -146,7 +159,7 @@ class User extends BaseUser
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"prospect", "client", "operator"}, message = "Choose a valid user status.")
+	 * @Assert\Choice(choices = {"prospect", "client", "operator", "agent"}, message = "Choose a valid user status.")
 	 */
 	protected $status;
 
@@ -189,6 +202,10 @@ class User extends BaseUser
 
 	public function getCountryName(){
 		return $this->countryName;
+	}
+
+	public function getCountryRegion(){
+		return $this->countryRegion;
 	}
 
 	public function getTaxCode(){
@@ -245,6 +262,11 @@ class User extends BaseUser
 
 	public function setCountryName($countryName){
 		$this->countryName = $countryName;
+		return $this;
+	}
+
+	public function setCountryRegion($countryRegion){
+		$this->countryRegion = $countryRegion;
 		return $this;
 	}
 

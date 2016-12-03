@@ -28,9 +28,10 @@ class RegistrationType extends AbstractType{
 		$builder->add('cityName');
 		$builder->add('zipCode');
 		$builder->add('countryName', CountryType::class, array('multiple'=>false));
+		$builder->add('countryRegion');
 		$builder->add('taxCode');
 		$builder->add('status', ChoiceType::class, array(
-			'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
+			'choices' => array('prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator', 'agent' => 'agent'),
 			'choices_as_values' => true,
 		));
 	}

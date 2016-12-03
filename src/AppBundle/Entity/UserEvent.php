@@ -30,12 +30,23 @@ class UserEvent{
 	 */
 	protected $customerUser;
 
+	/**
+	 * @ORM\ManyToOne(targetEntity="User")
+	 * @ORM\JoinColumn(name="agent_user_id", referencedColumnName="id", nullable=true)
+	 */
+	protected $agentUser;
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facetime", "form", "toll free"}, message = "Choose a valid contact method.")
+	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facetime", "form"}, message = "Choose a valid contact method.")
 	 */
 	protected $contactMethod;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="FormOrigin")
+	 * @ORM\JoinColumn(name="form_origin_id", referencedColumnName="id", nullable=true)
+	 */
+	protected $formOrigin;
 
 	/**
 	 * @ORM\Column(type="string", length=255)
@@ -73,12 +84,20 @@ class UserEvent{
 		return $this->adminUser;
 	}
 
-	public function getCustomerUserId() {
+	public function getCustomerUser() {
 		return $this->customerUser;
+	}
+
+	public function getAgentUser() {
+		return $this->agentUser;
 	}
 
 	public function getContactMethod() {
 		return $this->contactMethod;
+	}
+
+	public function getFormOrigin() {
+		return $this->formOrigin;
 	}
 
 	public function getContactReason() {
@@ -107,8 +126,18 @@ class UserEvent{
 		return $this;
 	}
 
+	public function setAgentUser($agentUser) {
+		$this->agentUser = $agentUser;
+		return $this;
+	}
+
 	public function setContactMethod($contactMethod) {
 		$this->contactMethod = $contactMethod;
+		return $this;
+	}
+
+	public function setFormOrigin($formOrigin) {
+		$this->formOrigin = $formOrigin;
 		return $this;
 	}
 

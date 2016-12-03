@@ -12,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -50,6 +49,7 @@ class UserController extends Controller {
 			->add('zipCode')
 			//->add('countryName', CountryType::class, array('multiple'=>false));
 			->add('countryName')
+			->add('countryRegion')
 			->add('taxCode')
 			->add('status', ChoiceType::class, array(
 			'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
@@ -83,14 +83,16 @@ class UserController extends Controller {
 		$userEvent = new UserEvent();
 		$formEvent = $this->createFormBuilder($userEvent)
 			->add('contactMethod', ChoiceType::class, array(
-				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp', 'facetime' => 'facetime', 'form' => 'form', 'toll free' => 'toll free'),
+				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp', 'facetime' => 'facetime', 'form' => 'form'),
 				'choices_as_values' => true,
 			))
 			->add('contactReason', ChoiceType::class, array(
 				'choices' => array('general' => 'general', 'commercial' => 'commercial', 'estimate' => 'estimate', 'accepted estimate' => 'accepted estimate'),
 				'choices_as_values' => true,
 			))
-			->add('notes', TextType::class)
+			->add('agentUser')
+			->add('formOrigin')
+			->add('notes')
 			->add('throughOffering', ChoiceType::class, array(
 				'choices' => array('false' => 0, 'true' => 1),
 				'choices_as_values' => true,
@@ -106,7 +108,7 @@ class UserController extends Controller {
 		$userDocument = new UserDocument();
 		$formDocument = $this->createFormBuilder($userDocument)
 			->add('documentType', ChoiceType::class, array(
-				'choices' => array('dental panoramic' => 'dentalPanoramic', 'quote' => 'quote', 'document' => 'document', 'other' => 'other'),
+				'choices' => array('dental panoramic' => 'panoramic', 'quote' => 'quote', 'id document' => 'id', 'other document' => 'other'),
 				'choices_as_values' => true,
 			))
 			->add('documentFile', VichFileType::class, array())
@@ -134,10 +136,10 @@ class UserController extends Controller {
 				'html5' => false,
 				'format' => 'dd/MM/yyyy',
 			))
-			->add('transport', TextType::class)
-			->add('accommodation', TextType::class)
-			->add('accommodationAddress', TextType::class)
-			->add('notes', TextType::class)
+			->add('transport')
+			->add('accommodation')
+			->add('accommodationAddress')
+			->add('notes')
 			->add('save', SubmitType::class)
 			->getForm();
 
@@ -186,7 +188,9 @@ class UserController extends Controller {
 		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id));
 		$documents = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->findBy(array('customerUser' => $id));
 		$journeys = $this->getDoctrine()->getRepository('AppBundle:UserJourney')->findBy(array('customerUser' => $id));
-		return $this->render('user/view.html.twig', array('user' => $user, 'userEvents' => $events, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView()));
+		$agents = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('status' => "agent"));
+		$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
+		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'userEvents' => $events, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView()));
 	}
 
 	private function getUserObj($id) {

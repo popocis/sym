@@ -36,7 +36,7 @@ class UserDocument
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"dentalPanoramic", "quote", "document", "other"}, message = "Choose a valid document type.")
+	 * @Assert\Choice(choices = {"panoramic", "quote", "id", "other"}, message = "Choose a valid document type.")
 	 */
 	protected $documentType;
 

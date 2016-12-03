@@ -40,7 +40,12 @@ class RegistrationListener implements EventSubscriberInterface {
 	public function onRegistrationSuccess(FormEvent $event) {
 		$user = $event->getForm()->getData();
 		if ($this->context->isGranted('ROLE_SUPER_ADMIN')) {
-			$rolesArr = array('ROLE_ADMIN');
+			if($user->getStatus() == "agent"){
+				$rolesArr = array('ROLE_AGENT');
+			}
+			else if($user->getStatus() == "operator"){
+				$rolesArr = array('ROLE_ADMIN');
+			}
 			$user->setRoles($rolesArr);
 		} else if ($this->context->isGranted('ROLE_ADMIN')) {
 			$rolesArr = array('ROLE_USER');
