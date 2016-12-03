@@ -14,6 +14,7 @@
             <th data-field="date">Date</th>
             <th data-field="agent">Agent</th>
             <th data-field="agentCountry">Agent Country</th>
+            <th data-field="formOrigin">Form Origin</th>
             <th data-field="throughOffering">Through Offering</th>
             <th data-field="notes">Notes</th>
         </tr>
@@ -32,6 +33,7 @@
                     "date": '{{ event.date|date('d/m/Y') }}',
                     "agent": '{{ event.agentUser.name }} {{ event.agentUser.surname }}',
                     "agentCountry": '{{ event.agentUser.countryName }}',
+                    "formOrigin": '{{ event.formOrigin.formName }} - {{ event.formOrigin.formDomain }}',
                     "throughOffering": '{{ event.throughOffering ? 'Yes':'No' }}',
                     "notes": '{{ event.notes }}',
                 },
