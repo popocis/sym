@@ -3,7 +3,7 @@
 {% block body %}
 
     {# renders all fields *and* the form start and end tags #}
-    {#{ form(formEvent) }#}
+    {{ form(formJourney) }}
 
 
     <table id="table" data-toggle="table" data-search="true" data-pagination="true" xmlns="http://www.w3.org/1999/html">
@@ -242,6 +242,9 @@
                             <select id="form_clinic" name="form[clinic]">
                                 <option value="hc Zagabria">hc Zagabria</option>
                                 <option value="hc Pola">hc Pola</option>
+                                {% for clinic in clinics %}
+                                    <option value="{{ clinic.id }}">{{ clinic }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="form-group form-material">
@@ -296,8 +299,9 @@
             </div>
         </div>
         <div class="col-sm-6">
+
             {% for journey in userJourneys %}
-                Clinic: {{ journey.Clinic }}</br>
+                Clinic: {{ journey.clinic }}</br>
                 Arrival date: {{ journey.arrivalDate|date('d/m/Y') }}</br>
                 Appointment date: {{ journey.appointmentDate|date('d/m/Y') }}</br>
                 Departure date: {{ journey.departureDate|date('d/m/Y') }}</br>

@@ -32,8 +32,8 @@ class UserJourney{
 	protected $customerUser;
 
 	/**
-	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"hc Zagabria", "hc Pola"}, message = "Choose a clinic.")
+	 * @ORM\ManyToOne(targetEntity="Clinic")
+	 * @ORM\JoinColumn(name="clinic_id", referencedColumnName="id", nullable=false)
 	 */
 	protected $clinic;
 

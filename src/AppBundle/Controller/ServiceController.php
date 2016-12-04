@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\FormOrigin;
+use AppBundle\Entity\Clinic;
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,6 +28,18 @@ class ServiceController extends Controller {
 			->add('save', SubmitType::class)
 			->getForm();
 
+		$clinic = new Clinic();
+		$formClinic = $this->createFormBuilder($clinic)
+			->add('clinicName')
+			->add('phoneNumber')
+			->add('streetNumber')
+			->add('streetName')
+			->add('cityName')
+			->add('zipCode')
+			->add('countryName')
+			->add('save', SubmitType::class)
+			->getForm();
+
 		if('POST' === $request->getMethod()) {
 
 			if($request->request->has('formFormOrigin')){
@@ -38,9 +51,18 @@ class ServiceController extends Controller {
 					$em->flush();
 				}
 			}
+			elseif($request->request->has('formClinic')) {
+				$formClinic->handleRequest($request);
+				if ($formClinic->isSubmitted() && $formClinic->isValid()) {
+					$clinic = $formClinic->getData();
+					$em = $this->getDoctrine()->getManager();
+					$em->persist($clinic);
+					$em->flush();
+				}
+			}
 
 		}
 
-		return $this->render('service/add.html.twig', array('formFormOrigin' => $formFormOrigin->createView()));
+		return $this->render('service/add.html.twig', array( 'formFormOrigin' => $formFormOrigin->createView(), 'formClinic' => $formClinic->createView() ));
 	}
 }

@@ -117,10 +117,7 @@ class UserController extends Controller {
 
 		$userJourney = new UserJourney();
 		$formJourney = $this->createFormBuilder($userJourney)
-			->add('clinic', ChoiceType::class, array(
-				'choices' => array('hc Zagabria' => 'hc Zagabria', 'hc Pola' => 'hc Pola'),
-				'choices_as_values' => true,
-			))
+			->add('clinic')
 			->add('arrivalDate', DateType::class, array(
 				'widget' => 'single_text',
 				'html5' => false,
@@ -190,7 +187,8 @@ class UserController extends Controller {
 		$journeys = $this->getDoctrine()->getRepository('AppBundle:UserJourney')->findBy(array('customerUser' => $id));
 		$agents = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('status' => "agent"));
 		$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
-		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'userEvents' => $events, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView()));
+		$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
+		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'userEvents' => $events, 'clinics' => $clinics, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView()));
 	}
 
 	private function getUserObj($id) {
