@@ -54,7 +54,7 @@ class User extends BaseUser
 	protected $surname;
 
 	/**
-	 * @ORM\Column(type="datetime")
+	 * @ORM\Column(type="datetime", nullable=true)
 	 */
 	protected $birthDate;
 

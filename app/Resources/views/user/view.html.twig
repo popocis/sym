@@ -3,7 +3,7 @@
 {% block body %}
 
     {# renders all fields *and* the form start and end tags #}
-    {{ form(formJourney) }}
+    {#{ form(formJourney) }#}
 
 
     <table id="table" data-toggle="table" data-search="true" data-pagination="true" xmlns="http://www.w3.org/1999/html">
@@ -240,8 +240,6 @@
                         <div>
                             <label for="form_clinic" class="required">Clinic</label>
                             <select id="form_clinic" name="form[clinic]">
-                                <option value="hc Zagabria">hc Zagabria</option>
-                                <option value="hc Pola">hc Pola</option>
                                 {% for clinic in clinics %}
                                     <option value="{{ clinic.id }}">{{ clinic }}</option>
                                 {% endfor %}
