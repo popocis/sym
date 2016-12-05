@@ -69,7 +69,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		// Update the user
 		$userManager->updateUser($user, true);
 
-		for ($i = 1; $i <= 3000; $i++) {
+		for ($i = 1; $i <= 10; $i++) {
 			$this->createGenericUser($userManager, 'nome', 'cognome',$i);
 		}
 	}
@@ -89,18 +89,5 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
 		return $user;
 	}
-
-	private function createGenericUserEvent($em, $adminUser, $customerUser) {
-		$userEvent = new UserEvent();
-		$userEvent->setAdminUser($adminUser);
-		$userEvent->setCustomerUser($customerUser);
-		$userEvent->setContactMethod(ContactMethod::Phone);
-		$userEvent->setContactReason(ContactReason::Estimate);
-		$userEvent->setDate(new \DateTime());
-		$userEvent->setNotes('Qualche nota priva di senso');
-		$em->persist($userEvent);
-		$em->flush();
-
-		return $userEvent;
-	}
+	
 }

@@ -135,8 +135,29 @@ ul.nav .icon.md-account {
 ul.nav .icon.md-account {
   margin-top: -5px;
 }
-
-/* Come gestiamo i nostri CSS? Per adesso metto qui... */
-.page.page--menu-less {
-  margin-left: 0;
+/************ PAGE CSS *********************************************************/
+.select2-container--open {
+  z-index: 10003;
+}
+body {
+  padding-top: 0;
+}
+.page-content {
+  padding: 0 30px 30px 30px;
+}
+.page-header {
+  margin-left: -16px;
+  margin-right: -17px;
+}
+.site-menubar {
+  top: 0;
+}
+.site-menu > .site-menu-item.logo {
+  height: 93px;
+  line-height: 93px;
+  background: #268b9c;
+}
+.site-menu > .site-menu-item.logo a {
+  padding: 0;
+  cursor: default;
 }

@@ -30,7 +30,7 @@ class ServiceController extends Controller {
 
 		$clinic = new Clinic();
 		$formClinic = $this->createFormBuilder($clinic)
-			->add('clinicName')
+			->add('name')
 			->add('phoneNumber')
 			->add('streetNumber')
 			->add('streetName')

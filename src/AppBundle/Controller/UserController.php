@@ -80,6 +80,30 @@ class UserController extends Controller {
 	public function viewAction(Request $request, $id) {
 		$user = $this->getUserObj($id);
 
+		$formUser = $this->createFormBuilder($user)
+			->add('email')
+			->add('name')
+			->add('surname')
+			->add('birthDate', DateType::class, array(
+				'widget' => 'single_text',
+				'html5' => false,
+				'format' => 'dd/MM/yyyy',
+			))
+			->add('phoneNumber')
+			->add('streetNumber')
+			->add('streetName')
+			->add('cityName')
+			->add('zipCode')
+			->add('countryName')
+			->add('countryRegion')
+			->add('taxCode')
+			->add('status', ChoiceType::class, array(
+				'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
+				'choices_as_values' => true,
+			))
+			->add('save', SubmitType::class)
+			->getForm();
+
 		$userEvent = new UserEvent();
 		$formEvent = $this->createFormBuilder($userEvent)
 			->add('contactMethod', ChoiceType::class, array(
@@ -181,6 +205,15 @@ class UserController extends Controller {
 					$em->flush();
 				}
 			}
+			elseif($request->request->has('formUser')) {
+				$formUser->handleRequest($request);
+				if ($formUser->isSubmitted() && $formUser->isValid()) {
+					$user = $formUser->getData();
+					$userManager = $this->get('fos_user.user_manager');
+					$user->setUsername($user->getEmail());
+					$userManager->updateUser($user, true);
+				}
+			}
 		}
 		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id));
 		$documents = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->findBy(array('customerUser' => $id));
@@ -188,7 +221,7 @@ class UserController extends Controller {
 		$agents = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('status' => "agent"));
 		$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
 		$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
-		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'userEvents' => $events, 'clinics' => $clinics, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView()));
+		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'userEvents' => $events, 'clinics' => $clinics, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView(), 'formUser' => $formUser->createView()));
 	}
 
 	private function getUserObj($id) {

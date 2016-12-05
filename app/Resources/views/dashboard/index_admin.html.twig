@@ -2,6 +2,13 @@
 
 {% block body %}
 
+    <div class="page-header page-header-bordered">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">+HC</li>
+        </ol>
+        <h1 class="page-title">Dashboard</h1>
+    </div>
+
     <table id="table" data-toggle="table" data-search="true" data-pagination="true" data-sort-name="registration_date" data-sort-order="desc">
         <thead>
             <tr>
@@ -45,10 +52,7 @@
                     "op":
                         '<a href="{{ path('userView', {'id': user.id}) }}" class="btn btn-sm btn-icon btn-raised btn-default waves-effect" data-toggle="tooltip" data-original-title="{% trans %}View user{% endtrans %}">' +
                             '<i class="icon md-eye" aria-hidden="true"></i>' +
-                        '</a> ' + 
-                        '<a href="{{ path('userEdit', {'id': user.id}) }}" class="btn btn-sm btn-icon btn-raised btn-default waves-effect" data-toggle="tooltip" data-original-title="{% trans %}Edit user{% endtrans %}">' +
-                            '<i class="icon md-wrench" aria-hidden="true"></i>' +
-                        '</a> ' + 
+                        '</a> ' +
                         '<button type="button" class="btn btn-sm btn-icon btn-raised btn-danger waves-effect" data-toggle="tooltip" data-original-title="{% trans %}Delete user{% endtrans %}">' +
                             '<i class="icon md-delete" aria-hidden="true"></i>' +
                         '</button>'

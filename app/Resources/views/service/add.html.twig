@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    {{ form(formClinic) }}
+    {#{ form(formClinic) }#}
 
     <div class="row">
         <div class="col-sm-6">
@@ -40,8 +40,8 @@
                     {{ form_errors(formClinic) }}
                     <form name="formClinic" method="post">
                         <div class="form-group form-material floating" data-plugin="formMaterial">
-                            <input type="text" id="form_clinicName" class="form-control" name="form[clinicName]" required="required" data-plugin="formMaterial" pattern=".{3,50}">
-                            <label class="floating-label" for="form_clinicName">Clinic name</label>
+                            <input type="text" id="form_name" class="form-control" name="form[name]" required="required" data-plugin="formMaterial" pattern=".{3,50}">
+                            <label class="floating-label" for="form_name">Clinic name</label>
                         </div>
                         <div class="form-group form-material floating" data-plugin="formMaterial">
                             <input type="text" id="form_phoneNumber" class="form-control" name="form[phoneNumber]" data-plugin="formMaterial" pattern="[0-9]{6,30}">

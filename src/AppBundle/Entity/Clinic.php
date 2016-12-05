@@ -134,7 +134,7 @@ class Clinic{
 		return $this->countryName;
 	}
 
-	public function setClinicName($name){
+	public function setName($name){
 		$this->name = $name;
 		return $this;
 	}
