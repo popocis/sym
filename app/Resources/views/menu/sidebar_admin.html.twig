@@ -7,34 +7,34 @@
                         <img class="navbar-brand-logo" src="/assets/images/logo.png" title="Remark">
                     </a>
                 </li>
-                <li class="site-menu-item active">
+                <li class="site-menu-item {{ app.request.get('_route') == 'dashboard' ? 'active' : '' }}">
                     <a class="animsition-link" href="{{ path('dashboard') }}">
                         <i class="site-menu-icon md-view-dashboard" aria-hidden="true"></i>
-                        <span class="site-menu-title">Dashboard</span>
+                        <span class="site-menu-title">{% trans %}Dashboard{% endtrans %}</span>
                     </a>
                 </li>
-                <li class="site-menu-item">
+                <li class="site-menu-item {{ app.request.get('_route') == 'alert' ? 'active' : '' }}">
                     <a class="animsition-link" href="{{ path('alert') }}">
                         <i class="site-menu-icon md-notifications" aria-hidden="true"></i>
-                        <span class="site-menu-title">Alert</span>
+                        <span class="site-menu-title">{% trans %}Alert{% endtrans %}</span>
                     </a>
                 </li>
-                <li class="site-menu-item">
-                    <a class="animsition-link" href="/register">
+                <li class="site-menu-item {{ app.request.get('_route') == 'fos_user_registration_register' ? 'active' : '' }}">
+                    <a class="animsition-link" href="{{ path('fos_user_registration_register') }}">
                         <i class="site-menu-icon md-account-add" aria-hidden="true"></i>
-                        <span class="site-menu-title">Add user</span>
+                        <span class="site-menu-title">{% trans %}Add user{% endtrans %}</span>
                     </a>
                 </li>
-                <li class="site-menu-item">
-                    <a class="animsition-link" href="#">
+                <li class="site-menu-item {{ app.request.get('_route') == 'calendar' ? 'active' : '' }}">
+                    <a class="animsition-link" href="{{ path('calendar') }}">
                         <i class="site-menu-icon md-calendar-note" aria-hidden="true"></i>
-                        <span class="site-menu-title">Calendar</span>
+                        <span class="site-menu-title">{% trans %}Calendar{% endtrans %}</span>
                     </a>
                 </li>
-                <li class="site-menu-item">
+                <li class="site-menu-item {{ app.request.get('_route') == 'serviceAdd' ? 'active' : '' }}">
                     <a class="animsition-link" href="{{ path('serviceAdd') }}">
                         <i class="site-menu-icon md-account-add" aria-hidden="true"></i>
-                        <span class="site-menu-title">Add service</span>
+                        <span class="site-menu-title">{% trans %}Add service{% endtrans %}</span>
                     </a>
                 </li>
             </ul>
