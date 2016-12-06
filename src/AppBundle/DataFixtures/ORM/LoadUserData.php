@@ -38,6 +38,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setSurname('pandico');
 		$user->setPhonenumber(12345678);
 		$user->setStatus('operator');
+		$user->setCountryName('en');
 		// Update the user
 		$userManager->updateUser($user, true);
 
@@ -52,6 +53,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setSurname('zilocchi');
 		$user->setPhonenumber(87654321);
 		$user->setStatus('operator');
+		$user->setCountryName('it');
 		// Update the user
 		$userManager->updateUser($user, true);
 
