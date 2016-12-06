@@ -29,30 +29,13 @@ class BootstrapTableController extends Controller {
 		$offset = $request->get('offset', '');
 		$limit = $request->get('limit', '10');
 
-		// $userManager = $this->get('fos_user.user_manager');
-		// $users = $userManager->findUsers();
-
 		$em = $this->getDoctrine()->getManager();
-		$qb = $em->createQueryBuilder();
-
-		$qb->select('u');
-		$qb->from('AppBundle:User', 'u');
-
-		if (!empty($search)) {
-			$qb->where('u.name like :search or u.surname like :search');
-			$qb->setParameter('search', '%'.$search.'%');
-		}
-
-		$qb->setFirstResult($offset);
-		$qb->setMaxResults($limit);
-
-		$qb->orderBy('u.'.$sort, $order);
-
-		$users = $qb->getQuery()->getResult();
+		$users = $this->listUsers($em, $search, $sort, $order, $offset, $limit);
+		$usersCount = $this->countUsers($em);
 
 		$response = new Response();
 
-		$response->setContent($this->encodeUsersToJson($users));
+		$response->setContent($this->encodeUsersToJson($users, $usersCount));
 		$response->setStatusCode(Response::HTTP_OK);
 
 		$response->headers->set('Content-Type', 'application/json');
@@ -60,7 +43,7 @@ class BootstrapTableController extends Controller {
 		return $response;
 	}
 
-	private function encodeUsersToJson(array $users)
+	private function encodeUsersToJson(array $users, $usersCount)
     {
 		$result = array();
 
@@ -105,10 +88,38 @@ class BootstrapTableController extends Controller {
 		}
 
 		$result = array(
-			'total' => count($result),
+			'total' => $usersCount,
 			'rows' => $result  
 		);
         
         return $this->jsonEncoder->encode($result, $format = 'json');
     }
+
+	private function listUsers($em, $search, $sort, $order, $offset, $limit) {
+		$qb = $em->createQueryBuilder();
+
+		$qb->select('u');
+		$qb->from('AppBundle:User', 'u');
+
+		if (!empty($search)) {
+			$qb->where('u.name like :search or u.surname like :search');
+			$qb->setParameter('search', '%'.$search.'%');
+		}
+
+		$qb->setFirstResult($offset);
+		$qb->setMaxResults($limit);
+
+		$qb->orderBy('u.'.$sort, $order);
+
+		return $qb->getQuery()->getResult();
+	}
+
+	private function countUsers($em) {
+		$qb = $em->createQueryBuilder();
+
+		$qb->select('count(u)');
+		$qb->from('AppBundle:User', 'u');
+
+		return $qb->getQuery()->getSingleScalarResult();
+	}
 }
