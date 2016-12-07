@@ -27,7 +27,7 @@ class BootstrapTableController extends Controller {
 		$sort = $request->get('sort', 'registrationDate');
 		$order = $request->get('order', 'desc');
 		$offset = $request->get('offset', '');
-		$limit = $request->get('limit', '10');
+		$limit = $request->get('limit', '');
 
 		$em = $this->getDoctrine()->getManager();
 		$users = $this->listUsers($em, $search, $sort, $order, $offset, $limit);
@@ -91,7 +91,7 @@ class BootstrapTableController extends Controller {
 			'total' => $usersCount,
 			'rows' => $result  
 		);
-        
+
         return $this->jsonEncoder->encode($result, $format = 'json');
     }
 

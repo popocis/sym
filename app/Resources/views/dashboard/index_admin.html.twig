@@ -17,16 +17,23 @@
                     <h3 class="panel-title">User List</h3>
                 </div>
                 <div class="panel-body">
-
                     <table id="table"
                         data-toggle="table"
                         data-url="{{ path('ajax_bootstrap-table_users') }}"
+                        data-toolbar="#get"
+                        data-show-export="true"
+                        data-export-types="['excel', 'txt', 'csv']"
                         data-cache="false" 
                         data-side-pagination="server"
                         data-pagination="true"
                         data-sort-name="registrationDate"
                         data-sort-order="desc"
-                        data-search="true">
+                        data-search="true"
+                        data-show-columns="true"
+                        data-query-params="queryParams"
+                        data-classes="table table-no-bordered"
+                        data-page-list="[10, ALL]"
+                        >
                         <thead>
                             <tr>
                                 <th data-field="name" data-sortable="true">{% trans %}Name{% endtrans %}</th>
@@ -36,7 +43,7 @@
                                 <th data-field="phone">{% trans %}Phone{% endtrans %}</th>
                                 <th data-field="city">{% trans %}City{% endtrans %}</th>
                                 <th data-field="address">{% trans %}Address{% endtrans %}</th>
-                                <th data-field="zipCode">{% trans %}City{% endtrans %}</th>
+                                <th data-field="zipCode">{% trans %}Zip code{% endtrans %}</th>
                                 <th data-field="country">{% trans %}Country{% endtrans %}</th>
                                 <th data-field="region">{% trans %}Region{% endtrans %}</th>
                                 <th data-field="taxCode">{% trans %}Tax Code{% endtrans %}</th>
@@ -53,8 +60,29 @@
 
     <script>
         $( document ).ready(function() {
-            $("#table").bootstrapTable();
+            var $table = $('#table');
+            $table.bootstrapTable();
+            $table.bootstrapTable('hideColumn', 'birthDate');
+            $table.bootstrapTable('hideColumn', 'address');
+            $table.bootstrapTable('hideColumn', 'zipCode');
+            $table.bootstrapTable('hideColumn', 'region');
+            $table.bootstrapTable('hideColumn', 'taxCode');
+            $table.bootstrapTable('hideColumn', 'registrationDate');
+
+            $(function () {
+                $('.page-list').find('select').change(function () {
+                    console.log($table.bootstrapTable('getOptions'));
+                });
+            })
+
         });
+
+        function queryParams(params) {
+            //params.limit = 10; // add param1
+            // console.log(JSON.stringify(params));
+            // {"limit":10,"offset":0,"order":"asc","your_param1":1,"your_param2":2}
+            return params;
+        }
     </script>
 
 {% endblock %}

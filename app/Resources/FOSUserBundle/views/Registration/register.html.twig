@@ -26,7 +26,7 @@
                 </div>
                 <div class="panel-body">
                     {{ form_errors(form) }}
-                    <form name="fos_user_registration_form" method="post" action="/register/" class="fos_user_registration_register">
+                    <form name="fos_user_registration_form" method="post" action="/register/" id="fos_user_registration_form" class="fos_user_registration_register">
                         <div class="row">
                             <div class="col-xs-12 col-lg-6">
                                 <div class="form-group form-material floating" data-plugin="formMaterial">
@@ -132,6 +132,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <input type="hidden" id="fos_user_registration_form__token" name="fos_user_registration_form[_token]" value="{{ csrf_token('registration') }}">
                         <button type="submit" id="_submit" class="btn btn-primary waves-effect waves-light" name="_submit">Save user</button>
                     </form>
@@ -139,6 +140,80 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-lg-6">
+            <!-- Panel Standard Mode -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Standard Mode</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal fv-form fv-form-bootstrap4" id="exampleStandardForm" autocomplete="off" novalidate="novalidate"><button type="submit" class="fv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+                        <div class="form-group row form-material">
+                            <label class="col-xs-12 col-md-3 form-control-label">Full name</label>
+                            <div class="col-xs-12 col-md-9">
+                                <input type="text" class="form-control" name="standard_fullName" data-fv-field="standard_fullName">
+                                <small class="text-help" data-fv-validator="notEmpty" data-fv-for="standard_fullName" data-fv-result="NOT_VALIDATED" style="display: none;">The full name is required and cannot be empty</small></div>
+                        </div>
+                        <div class="form-group row form-material">
+                            <label class="col-xs-12 col-md-3 form-control-label">Email</label>
+                            <div class="col-xs-12 col-md-9">
+                                <input type="text" class="form-control" name="standard_email" >
+                                <small class="text-help" data-fv-validator="notEmpty" data-fv-for="standard_email" data-fv-result="NOT_VALIDATED" style="display: none;">The email address is required and cannot be empty</small><small class="text-help" data-fv-validator="emailAddress" data-fv-for="standard_email" data-fv-result="NOT_VALIDATED" style="display: none;">The email address is not valid</small></div>
+                        </div>
+                        <div class="form-group row form-material">
+                            <label class="col-xs-12 col-md-3 form-control-label">Content</label>
+                            <div class="col-xs-12 col-md-9">
+                                <textarea class="form-control" name="standard_content" rows="5" data-fv-field="standard_content"></textarea>
+                                <small class="text-help" data-fv-validator="notEmpty" data-fv-for="standard_content" data-fv-result="NOT_VALIDATED" style="display: none;">The content is required and cannot be empty</small><small class="text-help" data-fv-validator="stringLength" data-fv-for="standard_content" data-fv-result="NOT_VALIDATED" style="display: none;">The content must be less than 500 characters long</small></div>
+                        </div>
+                        <div class="text-xs-right">
+                            <button type="submit" class="btn btn-primary waves-effect" id="validateButton2">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- End Panel Standard Mode -->
+        </div>
+    </div>
+
+    <script>
+        $( document ).ready(function() {
+
+            // Example Validataion Standard Mode
+            // ---------------------------------
+            (function() {
+                $('#fos_user_registration_form').formValidation({
+                    framework: "bootstrap4",
+                    button: {
+                        selector: '#validateButton2',
+                        disabled: 'disabled'
+                    },
+                    icon: null,
+                    err: {
+                        clazz: 'text-help'
+                    },
+                    row: {
+                        invalid: 'has-danger'
+                    },
+                    fields: {
+                        email: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The email is required'
+                                },
+                                emailAddress: {
+                                    message: 'The email address is not valid'
+                                }
+                            }
+                        },
+                    }
+                });
+            })();
+
+        });
+    </script>
 
 {% endblock %}
 
