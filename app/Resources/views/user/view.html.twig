@@ -11,7 +11,7 @@
     </div>
 
     {# renders all fields *and* the form start and end tags #}
-    {#{ form(formUser) }#}
+    {#{ form(formJourney) }#}
 
     <div class="row">
         <div class="col-sm-12">
@@ -20,7 +20,11 @@
                     <h3 class="panel-title">Events</h3>
                 </div>
                 <div class="panel-body">
-                    <table id="table" data-toggle="table" data-search="true" data-pagination="true" xmlns="http://www.w3.org/1999/html">
+                    <table id="table"
+                           data-toggle="table"
+                           data-search="true"
+                           data-pagination="true"
+                           data-classes="table table-no-bordered">
                         <thead>
                         <tr>
                             <th data-field="contactMethod">Contact Method</th>
@@ -337,9 +341,12 @@
                         Arrival date: {{ journey.arrivalDate|date('d/m/Y') }}</br>
                         Appointment date: {{ journey.appointmentDate|date('d/m/Y') }}</br>
                         Departure date: {{ journey.departureDate|date('d/m/Y') }}</br>
-                        Transport information: {{ journey.transport }}</br>
                         Accommodation: {{ journey.accommodation }}</br>
                         Accommodation address: {{ journey.accommodationAddress }}</br>
+                        Transport load to client: {{ journey.transportLoadClient }}</br>
+                        Transport load to Hc: {{ journey.transportLoadHc }}</br>
+                        Night load to client: {{ journey.nightLoadClient }}</br>
+                        Night load to Hc: {{ journey.nightLoadHc }}</br>
                         Notes: {{ journey.notes }}</br></br>
                     {% endfor %}
                 </div>
@@ -425,17 +432,50 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="text" id="form_transport" class="form-control" name="form[transport]" pattern=".{3,255}">
-                                            <label class="floating-label" for="form_transport">Transport</label>
+                                        <div class="select2-info">
+                                            <label class="form-control-label" for="form_transportLoadClient">Transport load to client</label>
+                                            <select id="form_transportLoadClient" name="form[transportLoadClient][]" class="form-control" multiple="multiple" data-plugin="select2">
+                                                <option value="train">Train</option>
+                                                <option value="client car">Client Car</option>
+                                                <option value="airplane">Airplane</option>
+                                                <option value="goopti">GoOpti</option>
+                                                <option value="hc car">Hc car</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-lg-6">
+                                        <div class="select2-info">
+                                            <label class="form-control-label" for="form_transportLoadHc">Transport load to Hc</label>
+                                            <select id="form_transportLoadHc" name="form[transportLoadHc][]" class="form-control" multiple="multiple" data-plugin="select2">
+                                                <option value="train">Train</option>
+                                                <option value="client car">Client Car</option>
+                                                <option value="airplane">Airplane</option>
+                                                <option value="goopti">GoOpti</option>
+                                                <option value="hc car">Hc car</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group form-material">
-                                    <label for="form_notes" class="control-label">Notes</label>
-                                    <textarea type="text" id="form_notes" class="form-control" name="form[notes]" rows="3"></textarea>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-lg-6">
+                                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                                            <input type="text" id="form_nightLoadClient" class="form-control" name="form[nightLoadClient]" pattern="[0-9]{1,3}">
+                                            <label class="floating-label" for="form_nightLoadClient">Night load to client</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-lg-6">
+                                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                                            <input type="text" id="form_nightLoadHc" class="form-control" name="form[nightLoadHc]" pattern="[0-9]{1,3}">
+                                            <label class="floating-label" for="form_nightLoadHc">Night load to hc</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group form-material floating" data-plugin="formMaterial">
+                                    <input type="text" id="form_notes" class="form-control" name="form[notes]" maxlength="255">
+                                    <label for="form_notes" class="floating-label">Notes</label>
                                 </div>
                                 <input type="hidden" id="form__token" name="form[_token]" value="{{ formDocument._token.vars.value }}">
                             </div>

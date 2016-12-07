@@ -57,17 +57,6 @@ class UserJourney{
 	 * @Assert\Length(
 	 *     min = 3,
 	 *     max = 255,
-	 *     minMessage = "Transport info must be at least {{ limit }} characters long",
-	 *     maxMessage = "Transport info cannot be longer than {{ limit }} characters"
-	 * )
-	 */
-	protected $transport;
-
-	/**
-	 * @ORM\Column(type="string", length=255, nullable=true)
-	 * @Assert\Length(
-	 *     min = 3,
-	 *     max = 255,
 	 *     minMessage = "Accommodation info must be at least {{ limit }} characters long",
 	 *     maxMessage = "Accommodation info cannot be longer than {{ limit }} characters"
 	 * )
@@ -84,6 +73,34 @@ class UserJourney{
 	 * )
 	 */
 	protected $accommodationAddress;
+
+	/**
+	 * @ORM\Column(type="integer", length=3, nullable=true)
+	 * @Assert\Range(
+	 *      min = 0,
+	 *      max = 100
+	 * )
+	 */
+	protected $nightLoadClient;
+
+	/**
+	 * @ORM\Column(type="integer", length=3, nullable=true)
+	 * @Assert\Range(
+	 *      min = 0,
+	 *      max = 100
+	 * )
+	 */
+	protected $nightLoadHc;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
+	protected $transportLoadClient;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
+	protected $transportLoadHc;
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
@@ -121,16 +138,28 @@ class UserJourney{
 		return $this->departureDate;
 	}
 
-	public function getTransport() {
-		return $this->transport;
-	}
-
 	public function getAccommodation() {
 		return $this->accommodation;
 	}
 
 	public function getAccommodationAddress() {
 		return $this->accommodationAddress;
+	}
+
+	public function getNightLoadClient() {
+		return $this->nightLoadClient;
+	}
+
+	public function getNightLoadHc() {
+		return $this->nightLoadHc;
+	}
+
+	public function getTransportLoadClient() {
+		return $this->transportLoadClient;
+	}
+
+	public function getTransportLoadHc() {
+		return $this->transportLoadHc;
 	}
 
 	public function getNotes() {
@@ -167,11 +196,6 @@ class UserJourney{
 		return $this;
 	}
 
-	public function setTransport($transport) {
-		$this->transport = $transport;
-		return $this;
-	}
-
 	public function setAccommodation($accommodation) {
 		$this->accommodation = $accommodation;
 		return $this;
@@ -179,6 +203,26 @@ class UserJourney{
 
 	public function setAccommodationAddress($accommodationAddress) {
 		$this->accommodationAddress = $accommodationAddress;
+		return $this;
+	}
+
+	public function setNightLoadClient($nightLoadClient) {
+		$this->nightLoadClient = $nightLoadClient;
+		return $this;
+	}
+
+	public function setNightLoadHc($nightLoadHc) {
+		$this->nightLoadHc = $nightLoadHc;
+		return $this;
+	}
+
+	public function setTransportLoadClient($transportLoadClient) {
+		$this->transportLoadClient = $transportLoadClient;
+		return $this;
+	}
+
+	public function setTransportLoadHc($transportLoadHc) {
+		$this->transportLoadHc = $transportLoadHc;
 		return $this;
 	}
 

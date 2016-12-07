@@ -154,7 +154,10 @@ class UserController extends Controller {
 				'html5' => false,
 				'format' => 'dd/MM/yyyy',
 			))
-			->add('transport')
+			->add('nightLoadClient')
+			->add('nightLoadHc')
+			->add('transportLoadClient')
+			->add('transportLoadHc')
 			->add('accommodation')
 			->add('accommodationAddress')
 			->add('notes')
@@ -194,6 +197,8 @@ class UserController extends Controller {
 				$formJourney->handleRequest($request);
 				if ($formJourney->isSubmitted() && $formJourney->isValid()) {
 					$userJourney = $formJourney->getData();
+					$userJourney->setTransportLoadClient(implode(", ",$userJourney->getTransportLoadClient()));
+					$userJourney->setTransportLoadHc(implode(", ",$userJourney->getTransportLoadHc()));
 					$userOperator = $this->get('security.token_storage')->getToken()->getUser();
 					$userJourney->setAdminUser($userOperator);
 					$userJourney->setCustomerUser($user);
