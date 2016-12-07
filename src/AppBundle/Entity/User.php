@@ -59,7 +59,7 @@ class User extends BaseUser
 	protected $birthDate;
 
 	/**
-	 * @ORM\Column(type="string", length=30, nullable=true)
+	 * @ORM\Column(type="string", length=30)
 	 *
 	 * @Assert\Length(
 	 *     min=6,
@@ -99,7 +99,7 @@ class User extends BaseUser
 	protected $streetName;
 
 	/**
-	 * @ORM\Column(type="string", length=255, nullable=true)
+	 * @ORM\Column(type="string", length=255)
 	 *
 	 * @Assert\Length(
 	 *     min=3,

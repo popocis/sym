@@ -38,7 +38,7 @@ class UserEvent{
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facetime", "form"}, message = "Choose a valid contact method.")
+	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facetime", "form", "dem"}, message = "Choose a valid contact method.")
 	 */
 	protected $contactMethod;
 
@@ -55,13 +55,10 @@ class UserEvent{
 	protected $contactReason;
 
 	/**
-	 * @ORM\Column(type="integer", length=1, nullable=false)
-	 * @Assert\Range(
-	 *      min = 0,
-	 *      max = 1
-	 * )
+	 * @ORM\ManyToOne(targetEntity="DemOrigin")
+	 * @ORM\JoinColumn(name="dem_origin_id", referencedColumnName="id", nullable=true)
 	 */
-	protected $throughOffering;
+	protected $demOrigin;
 
 	/**
 	 * @ORM\Column(type="date")
@@ -104,8 +101,8 @@ class UserEvent{
 		return $this->contactReason;
 	}
 
-	public function getThroughOffering() {
-		return $this->throughOffering;
+	public function getDemOrigin() {
+		return $this->demOrigin;
 	}
 
 	public function getDate() {
@@ -146,8 +143,8 @@ class UserEvent{
 		return $this;
 	}
 
-	public function setThroughOffering($throughOffering) {
-		$this->throughOffering = $throughOffering;
+	public function setDemOrigin($demOrigin) {
+		$this->demOrigin = $demOrigin;
 		return $this;
 	}
 

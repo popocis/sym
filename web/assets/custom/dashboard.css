@@ -139,6 +139,17 @@ ul.nav .icon.md-account {
 .select2-container--open {
   z-index: 10003;
 }
+thead {
+  text-transform: uppercase;
+}
+.bootstrap-table .table:not(.table-condensed),
+.bootstrap-table .table:not(.table-condensed) > tbody > tr > th,
+.bootstrap-table .table:not(.table-condensed) > tfoot > tr > th,
+.bootstrap-table .table:not(.table-condensed) > thead > tr > td,
+.bootstrap-table .table:not(.table-condensed) > tbody > tr > td,
+.bootstrap-table .table:not(.table-condensed) > tfoot > tr > td {
+  padding: 20px 8px;
+}
 body {
   padding-top: 0;
 }

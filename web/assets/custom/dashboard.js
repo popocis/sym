@@ -4,10 +4,9 @@
  * Licensed under the Themeforest Standard Licenses
  */
 $(document).ready(function($) {
+    console.log("custom js loaded");
     Site.run();
     Waves.attach('.page-content .btn-floating', ['waves-light']);
-    
-    console.log("custom js loaded");
 });
 
 

@@ -10,9 +10,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="form_origin")
+ * @ORM\Table(name="dem_origin")
  */
-class FormOrigin{
+class DemOrigin{
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
@@ -21,15 +21,18 @@ class FormOrigin{
 	protected $id;
 
 	/**
-	 * @ORM\Column(type="string", length=255)
+	 * @ORM\Column(type="string", length=50)
 	 */
-	protected $formName;
+	protected $demName;
 
 	/**
-	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"IT", "COM", "EU"}, message = "Choose a valid domain.")
+	 * @ORM\Column(type="integer", length=3, nullable=false)
+	 * @Assert\Range(
+	 *      min = 0,
+	 *      max = 100
+	 * )
 	 */
-	protected $formDomain;
+	protected $discount;
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
@@ -40,32 +43,32 @@ class FormOrigin{
 	}
 
 	public function __toString() {
-		return $this->formName;
+		return $this->demName;
 	}
 
 	public function getId(){
 		return $this->id;
 	}
 
-	public function getFormName(){
-		return $this->formName;
+	public function getDemName(){
+		return $this->demName;
 	}
 
-	public function getFormDomain(){
-		return $this->formDomain;
+	public function getDiscount(){
+		return $this->discount;
 	}
 
 	public function getNotes(){
 		return $this->notes;
 	}
 
-	public function setFormName($formName){
-		$this->formName = $formName;
+	public function setDemName($demName){
+		$this->demName = $demName;
 		return $this;
 	}
 
-	public function setFormDomain($formDomain){
-		$this->formDomain = $formDomain;
+	public function setDiscount($discount){
+		$this->discount = $discount;
 		return $this;
 	}
 
@@ -73,6 +76,5 @@ class FormOrigin{
 		$this->notes = $notes;
 		return $this;
 	}
-
 
 }

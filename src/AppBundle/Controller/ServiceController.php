@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\DemOrigin;
 use AppBundle\Entity\FormOrigin;
 use AppBundle\Entity\Clinic;
 use AppBundle\Entity\User;
@@ -25,6 +26,7 @@ class ServiceController extends Controller {
 				'choices' => array('IT' => 'IT', 'COM' => 'COM', 'EU' => 'EU'),
 				'choices_as_values' => true,
 			))
+			->add('notes')
 			->add('save', SubmitType::class)
 			->getForm();
 
@@ -37,6 +39,14 @@ class ServiceController extends Controller {
 			->add('cityName')
 			->add('zipCode')
 			->add('countryName')
+			->add('save', SubmitType::class)
+			->getForm();
+
+		$demOrigin = new DemOrigin();
+		$formDemOrigin = $this->createFormBuilder($demOrigin)
+			->add('demName')
+			->add('discount')
+			->add('notes')
 			->add('save', SubmitType::class)
 			->getForm();
 
@@ -60,9 +70,18 @@ class ServiceController extends Controller {
 					$em->flush();
 				}
 			}
+			elseif($request->request->has('formDemOrigin')) {
+				$formDemOrigin->handleRequest($request);
+				if ($formDemOrigin->isSubmitted() && $formDemOrigin->isValid()) {
+					$demOrigin = $formDemOrigin->getData();
+					$em = $this->getDoctrine()->getManager();
+					$em->persist($demOrigin);
+					$em->flush();
+				}
+			}
 
 		}
 
-		return $this->render('service/add.html.twig', array( 'formFormOrigin' => $formFormOrigin->createView(), 'formClinic' => $formClinic->createView() ));
+		return $this->render('service/add.html.twig', array( 'formFormOrigin' => $formFormOrigin->createView(), 'formClinic' => $formClinic->createView(), 'formDemOrigin' => $formDemOrigin->createView() ));
 	}
 }
