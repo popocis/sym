@@ -68,7 +68,7 @@ class User extends BaseUser
 	 *     maxMessage="Phone number is too long.",
 	 *     groups={"Registration", "Profile"}
 	 * )
-	 * @Assert\Regex(pattern="/^[0-9]{6,20}$/", message="Not valid number")
+	 * @Assert\Regex(pattern="/^[0-9]{6,30}$/", message="Not valid number")
 	 */
 	protected $phoneNumber;
 

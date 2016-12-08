@@ -150,6 +150,9 @@ thead {
 .bootstrap-table .table:not(.table-condensed) > tfoot > tr > td {
   padding: 20px 8px;
 }
+label {
+  margin-bottom: 0;
+}
 body {
   padding-top: 0;
 }
