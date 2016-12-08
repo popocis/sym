@@ -38,6 +38,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setSurname('pandico');
 		$user->setPhonenumber(12345678);
 		$user->setStatus('operator');
+		$user->setCityName('Como');
 		$user->setCountryName('en');
 		// Update the user
 		$userManager->updateUser($user, true);
@@ -53,6 +54,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setSurname('zilocchi');
 		$user->setPhonenumber(87654321);
 		$user->setStatus('operator');
+		$user->setCityName('Como');
 		$user->setCountryName('it');
 		// Update the user
 		$userManager->updateUser($user, true);
@@ -68,10 +70,11 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setSurname('cognome1');
 		$user->setPhonenumber(87654321);
 		$user->setStatus('operator');
+		$user->setCityName('Como');
 		// Update the user
 		$userManager->updateUser($user, true);
 
-		for ($i = 1; $i <= 2000; $i++) {
+		for ($i = 1; $i <= 20; $i++) {
 			$this->createGenericUser($userManager, 'nome', 'cognome',$i);
 		}
 	}
@@ -87,6 +90,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setSurname($surname.$index);
 		$user->setPhonenumber(12345678);
 		$user->setStatus('commercial');
+		$user->setCityName('Canicatti');
+
 		$um->updateUser($user, true);
 
 		return $user;
