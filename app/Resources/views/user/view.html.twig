@@ -11,7 +11,7 @@
     </div>
 
     {# renders all fields *and* the form start and end tags #}
-    {#{ form(formJourney) }#}
+    {#{ form(formEvent) }#}
 
     <div class="row">
         <div class="col-sm-12">
@@ -24,7 +24,8 @@
                            data-toggle="table"
                            data-search="true"
                            data-pagination="true"
-                           data-classes="table table-no-bordered">
+                           data-classes="table table-no-bordered"
+                           data-show-columns="true">
                         <thead>
                         <tr>
                             <th data-field="contactMethod">Contact Method</th>
@@ -35,15 +36,17 @@
                             <th data-field="formOrigin">Form Origin</th>
                             <th data-field="demOrigin">Dem Origin</th>
                             <th data-field="notes">Notes</th>
+                            <th data-field="op">Edit</th>
                         </tr>
                         </thead>
                     </table>
                 </div>
                 <div class="panel-footer">
-                    <button class="btn btn-primary waves-effect waves-light" data-target="#addEvent" data-toggle="modal" type="button">Add event</button>
+                    <button class="btn btn-primary waves-effect waves-light add-event" data-target="#addEvent" data-toggle="modal" type="button">Add event</button>
                 </div>
             </div>
 
+            <!-- Modal -->
             <div class="modal fade" id="addEvent" aria-hidden="true" role="dialog">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -121,6 +124,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
+                                <input type="hidden" id="edit" name="edit" value="1111">
                                 <input type="hidden" id="form__token" name="form[_token]" value="{{ formEvent._token.vars.value }}">
                                 <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
                                 <button type="submit" id="formEvent_save" class="btn btn-primary waves-effect waves-light" name="formEvent[save]">Add event</button>
@@ -130,6 +134,7 @@
                 </div>
             </div>
             <!-- End Modal -->
+
             <script>
                 $( document ).ready(function() {
                     var $table = $("#table");
@@ -144,10 +149,16 @@
                             "formOrigin": '{{ event.formOrigin.formName | default("") }} - {{ event.formOrigin.formDomain | default("") }} - {{ event.formOrigin.notes | default("") }}',
                             "demOrigin": '{{ event.demOrigin.demName | default("") }} - {{ event.demOrigin.discount | default("") }}% - {{ event.demOrigin.notes | default("") }}',
                             "notes": '{{ event.notes }}',
+                            "op": '<button type="button" data-id="{{ event.id }}" data-contactMethod="{{ event.contactMethod }}" data-contactReason="{{ event.contactReason }}" data-formOrigin="{{ event.formOrigin.id | default("") }}"  data-demOrigin="{{ event.demOrigin.id | default("") }}" data-date="{{ event.date|date('d/m/Y') }}" data-agentUser="{{ event.agentUser.id | default("") }}" data-notes="{{ event.notes }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect waves-effect edit-event" data-target="#editEvent" data-toggle="modal" data-original-title="Edit"><i class="icon md-edit" aria-hidden="true"></i></button>'
                         },
                         {% endfor %}
                     ];
                     $table.bootstrapTable({data: data});
+
+                    $table.bootstrapTable();
+                    $table.bootstrapTable('hideColumn', 'agent');
+                    $table.bootstrapTable('hideColumn', 'agentCountry');
+                    
 
                     // Validation
                     // ---------------------------------
@@ -222,6 +233,9 @@
                     <h3 class="panel-title">User</h3>
                 </div>
                 <div class="panel-body">
+                    <button type="button" class="btn btn-sm btn-icon btn-primary btn-round waves-effect entity-edit" data-target="#editUser" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                        <i class="icon md-edit" aria-hidden="true"></i>
+                    </button>
                     Name: {{ user.name }}</br>
                     Surname: {{ user.surname }}</br>
                     Email: {{ user.email }}</br>
@@ -230,9 +244,6 @@
                     Birthdate: {{ user.birthdate|date('d/m/Y') }}</br>
                     Taxcode: {{ user.taxCode }}</br>
                     Typology: {{ user.status }}</br>
-                </div>
-                <div class="panel-footer">
-                    <button class="btn btn-primary waves-effect waves-light" data-target="#editUser" data-toggle="modal" type="button">Edit user</button>
                 </div>
             </div>
 
@@ -471,7 +482,12 @@
                 </div>
                 <div class="panel-body">
                     {% for document in userDocuments %}
-                        {{ document.name }} <a href="/download/{{ user.id }}/{{ document.documentName }}" target="_blank">{{ document.documentType }}</a> {{ document.uploadAt|date('d/m/Y') }} <a href="{{ path('documentDelete', {'userid': user.id, 'documentid': document.id}) }}">delete</a><br>
+                        <button href="{{ path('documentDelete', {'userid': user.id, 'documentid': document.id}) }}" class="btn btn-sm btn-icon btn-danger btn-round btn-raised waves-effect waves-effect pull-right warningConfirm" id="">
+                            <i class="icon md-delete" aria-hidden="true"></i>
+                        </button>
+                        {{ document.name }} <br>
+                        <a href="/download/{{ user.id }}/{{ document.documentName }}" target="_blank">{{ document.documentType }}</a><br>
+                        {{ document.uploadAt|date('d/m/Y') }}<br><br>
                     {% endfor %}
                 </div>
                 <div class="panel-footer">
@@ -525,6 +541,32 @@
             <script>
                 $( document ).ready(function() {
 
+                    $('.warningConfirm').on("click", function() {
+                        $target = $(this).attr('href');
+                        console.log($target);
+                        swal({
+                            title: "Are you sure?",
+                            text: "You will not be able to recover this file!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: 'Yes, delete it!',
+                            closeOnConfirm: false,
+                            //closeOnCancel: false
+                            },
+                        function() {
+                            swal({
+                                title: "Deleted!",
+                                text: "Your file has been deleted!",
+                                type: "success",
+                                showConfirmButton: false
+                            });
+                            setTimeout(function() {
+                                window.location = $target;
+                            }, 1000);
+                        });
+                    });
+
                     // Validation
                     // ---------------------------------
                     (function() {
@@ -575,6 +617,9 @@
                 </div>
                 <div class="panel-body">
                     {% for journey in userJourneys %}
+                        <button type="button" class="btn btn-sm btn-icon btn-primary btn-round waves-effect entity-edit" data-target="#editUser" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                            <i class="icon md-edit" aria-hidden="true"></i>
+                        </button>
                         Clinic: {{ journey.clinic }}</br>
                         Arrival date: {{ journey.arrivalDate|date('d/m/Y') }}</br>
                         Appointment date: {{ journey.appointmentDate|date('d/m/Y') }}</br>

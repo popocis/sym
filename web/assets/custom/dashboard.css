@@ -153,6 +153,14 @@ thead {
 label {
   margin-bottom: 0;
 }
+.entity-edit {
+  position: absolute;
+  right: 30px;
+}
+.fixed-table-container .table .icon,
+.fixed-table-container table .icon {
+  margin: 0;
+}
 body {
   padding-top: 0;
 }
