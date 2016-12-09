@@ -128,6 +128,7 @@ class UserController extends Controller {
 
 		$userDocument = new UserDocument();
 		$formDocument = $this->createFormBuilder($userDocument)
+			->add('name')
 			->add('documentType', ChoiceType::class, array(
 				'choices' => array('dental panoramic' => 'panoramic', 'quote' => 'quote', 'id document' => 'id', 'other document' => 'other'),
 				'choices_as_values' => true,
@@ -268,4 +269,16 @@ class UserController extends Controller {
 		);
 		return $response;
 	}
+
+	/**
+	 * @Route("/document/delete/{userid}/{documentid}", name="documentDelete")
+	 */
+	public function documentDeleteAction($userid, $documentid) {
+		$document = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->find($documentid);
+		$em = $this->getDoctrine()->getEntityManager();
+		$em->remove($document);
+		$em->flush();
+		return $this->redirect('/user/view/'.$userid);
+	}
+
 }

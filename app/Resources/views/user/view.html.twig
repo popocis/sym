@@ -226,8 +226,10 @@
                     Surname: {{ user.surname }}</br>
                     Email: {{ user.email }}</br>
                     Phone number: {{ user.phoneNumber }}</br>
-                    Address: {{ user.streetName }} {{ user.streetNumber }} {{ user.cityName }} {{ user.countryRegion }} {{ user.countryName }}</br>
-                    Typology: {{ user.status }}
+                    Address: {{ user.streetName }} {{ user.streetNumber }} {{ user.cityName }} {{ user.zipCode }} {{ user.countryRegion }} {{ user.countryName }}</br>
+                    Birthdate: {{ user.birthdate|date('d/m/Y') }}</br>
+                    Taxcode: {{ user.taxCode }}</br>
+                    Typology: {{ user.status }}</br>
                 </div>
                 <div class="panel-footer">
                     <button class="btn btn-primary waves-effect waves-light" data-target="#editUser" data-toggle="modal" type="button">Edit user</button>
@@ -445,6 +447,14 @@
                                         }
                                     }
                                 },
+                                "form[taxCode]": {
+                                    validators: {
+                                        stringLength: {
+                                            min: 6,
+                                            max: 20
+                                        }
+                                    }
+                                },
                             }
                         });
                     })();
@@ -452,6 +462,110 @@
                 });
             </script>
         </div>
+
+        <div class="col-sm-12 col-md-6">
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Documents</h3>
+                </div>
+                <div class="panel-body">
+                    {% for document in userDocuments %}
+                        {{ document.name }} <a href="/download/{{ user.id }}/{{ document.documentName }}" target="_blank">{{ document.documentType }}</a> {{ document.uploadAt|date('d/m/Y') }} <a href="{{ path('documentDelete', {'userid': user.id, 'documentid': document.id}) }}">delete</a><br>
+                    {% endfor %}
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-primary waves-effect waves-light" data-target="#addDocument" data-toggle="modal" type="button">Add document</button>
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="addDocument" aria-hidden="true" role="dialog" >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="exampleModalTitle">Add document</h4>
+                        </div>
+                        <form id="formDocument" name="formDocument" method="post" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="form-group form-material">
+                                    <label class="form-control-label">Document name <span class="required">*</span></label>
+                                    <input type="text" id="form_name" class="form-control" name="form[name]" required="required">
+                                </div>
+                                <div class="form-group form-material floating" data-plugin="formMaterial">
+                                    <label class="form-control-label">Document type <span class="required">*</span></label>
+                                    <select id="form_documentType" name="form[documentType]" data-plugin="select2" data-placeholder="Select document type" data-allow-clear="true"  aria-hidden="true" required="required">
+                                        <option></option>
+                                        <option value="panoramic">dental panoramic</option>
+                                        <option value="quote">quote</option>
+                                        <option value="id">id document</option>
+                                        <option value="other">other document</option>
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-file" data-plugin="inputGroupFile">
+                                    <div class="vich-file">
+                                        <input type="file" id="form_documentFile_file" class="form-control" name="form[documentFile][file]" required="required">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="form__token" name="form[_token]" value="{{ formDocument._token.vars.value }}">
+                                <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
+                                <button type="submit" id="formDocument_save" class="btn btn-primary waves-effect waves-light" name="formDocument[save]">Add document</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End Modal -->
+            <script>
+                $( document ).ready(function() {
+
+                    // Validation
+                    // ---------------------------------
+                    (function() {
+                        $('#formDocument').formValidation({
+                            framework: "bootstrap4",
+                            button: {
+                                selector: '#formDocument_save'
+                            },
+                            icon: null,
+                            err: {
+                                clazz: 'text-help'
+                            },
+                            row: {
+                                invalid: 'has-danger'
+                            },
+                            fields: {
+                                "form[name]": {
+                                    validators: {
+                                        notEmpty: {
+                                            message: 'required'
+                                        }
+                                    }
+                                },
+                                "form[documentType]": {
+                                    validators: {
+                                        notEmpty: {
+                                            message: 'required'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    })();
+
+                });
+            </script>
+        </div>
+
+    </div>
+
+    <div class="row">
 
         <div class="col-sm-12 col-md-6">
 
@@ -683,99 +797,6 @@
                                         }
                                     }
                                 },
-                            }
-                        });
-                    })();
-
-                });
-            </script>
-        </div>
-
-    </div>
-
-    <div class="row">
-
-        <div class="col-sm-12 col-md-6">
-
-            <div class="panel">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Documents</h3>
-                </div>
-                <div class="panel-body">
-                    {% for document in userDocuments %}
-                        <a href="/download/{{ user.id }}/{{ document.documentName }}" target="_blank">{{ document.documentType }}</a> {{ document.uploadAt|date('d/m/Y') }}<br>
-                    {% endfor %}
-                </div>
-                <div class="panel-footer">
-                    <button class="btn btn-primary waves-effect waves-light" data-target="#addDocument" data-toggle="modal" type="button">Add document</button>
-                </div>
-            </div>
-
-
-            <!-- Modal -->
-            <div class="modal fade" id="addDocument" aria-hidden="true" role="dialog" >
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                            <h4 class="modal-title" id="exampleModalTitle">Add document</h4>
-                        </div>
-                        <form id="formDocument" name="formDocument" method="post" enctype="multipart/form-data">
-                            <div class="modal-body">
-                                <div class="form-group form-material floating" data-plugin="formMaterial">
-                                    <label class="form-control-label">Document type <span class="required">*</span></label>
-                                    <select id="form_documentType" name="form[documentType]" data-plugin="select2" data-placeholder="Select document type" data-allow-clear="true"  aria-hidden="true" required="required">
-                                        <option></option>
-                                        <option value="panoramic">dental panoramic</option>
-                                        <option value="quote">quote</option>
-                                        <option value="id">id document</option>
-                                        <option value="other">other document</option>
-                                    </select>
-                                </div>
-                                <div class="input-group input-group-file" data-plugin="inputGroupFile">
-                                    <div class="vich-file">
-                                        <input type="file" id="form_documentFile_file" class="form-control" name="form[documentFile][file]" required="required">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="hidden" id="form__token" name="form[_token]" value="{{ formDocument._token.vars.value }}">
-                                <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
-                                <button type="submit" id="formDocument_save" class="btn btn-primary waves-effect waves-light" name="formDocument[save]">Add document</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- End Modal -->
-            <script>
-                $( document ).ready(function() {
-
-                    // Validation
-                    // ---------------------------------
-                    (function() {
-                        $('#formDocument').formValidation({
-                            framework: "bootstrap4",
-                            button: {
-                                selector: '#formDocument_save'
-                            },
-                            icon: null,
-                            err: {
-                                clazz: 'text-help'
-                            },
-                            row: {
-                                invalid: 'has-danger'
-                            },
-                            fields: {
-                                "form[documentType]": {
-                                    validators: {
-                                        notEmpty: {
-                                            message: 'required'
-                                        }
-                                    }
-                                }
                             }
                         });
                     })();
