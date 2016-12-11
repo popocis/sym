@@ -18,106 +18,39 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Form\UserType;
+use AppBundle\Form\UserEventType;
+use AppBundle\Form\UserDocumentType;
+use AppBundle\Form\UserJourneyType;
 
 class UserController extends Controller {
-
-
 
 	/**
 	 * @Route("/user/view/{id}", name="userView")
 	 */
 	public function viewAction(Request $request, $id) {
+
 		$user = $this->getUserObj($id);
+		$formUser = $this->createForm(UserType::class, $user);
 
-		$formUser = $this->createFormBuilder($user)
-			->add('email')
-			->add('name')
-			->add('surname')
-			->add('birthDate', DateType::class, array(
-				'widget' => 'single_text',
-				'html5' => false,
-				'format' => 'dd/MM/yyyy',
-			))
-			->add('phoneNumber')
-			->add('streetNumber')
-			->add('streetName')
-			->add('cityName')
-			->add('zipCode')
-			->add('countryName')
-			->add('countryRegion')
-			->add('taxCode')
-			->add('status', ChoiceType::class, array(
-				'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
-				'choices_as_values' => true,
-			))
-			->add('save', SubmitType::class)
-			->getForm();
+		$eventId = isset($request->request->get('user_event')['id']) ? $request->request->get('user_event')['id'] : null;
+		if (!is_null($eventId)){
+			$userEvent = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->find($eventId);
+		} else {
+			$userEvent = new UserEvent();
+		}
 
-		$userEvent = new UserEvent();
-		$formEvent = $this->createFormBuilder($userEvent)
-			->add('contactMethod', ChoiceType::class, array(
-				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp', 'facetime' => 'facetime', 'form' => 'form'),
-				'choices_as_values' => true,
-			))
-			->add('contactReason', ChoiceType::class, array(
-				'choices' => array('general' => 'general', 'commercial' => 'commercial', 'estimate' => 'estimate', 'accepted estimate' => 'accepted estimate'),
-				'choices_as_values' => true,
-			))
-			->add('agentUser')
-			->add('formOrigin')
-			->add('demOrigin')
-			->add('notes')
-			->add('date', DateType::class, array(
-				'widget' => 'single_text',
-				'html5' => false,
-				'format' => 'dd/MM/yyyy',
-			))
-			->add('save', SubmitType::class)
-			->getForm();
+		$formEvent = $this->createForm(UserEventType::class, $userEvent);
 
 		$userDocument = new UserDocument();
-		$formDocument = $this->createFormBuilder($userDocument)
-			->add('name')
-			->add('documentType', ChoiceType::class, array(
-				'choices' => array('dental panoramic' => 'panoramic', 'quote' => 'quote', 'id document' => 'id', 'other document' => 'other'),
-				'choices_as_values' => true,
-			))
-			->add('documentFile', VichFileType::class, array())
-			->add('save', SubmitType::class)
-			->getForm();
+		$formDocument = $this->createForm(UserDocumentType::class, $userDocument);
 
 		$userJourney = new UserJourney();
-		$formJourney = $this->createFormBuilder($userJourney)
-			->add('clinic')
-			->add('arrivalDate', DateType::class, array(
-				'widget' => 'single_text',
-				'html5' => false,
-				'format' => 'dd/MM/yyyy',
-			))
-			->add('appointmentDate', DateType::class, array(
-				'widget' => 'single_text',
-				'html5' => false,
-				'format' => 'dd/MM/yyyy',
-			))
-			->add('departureDate', DateType::class, array(
-				'widget' => 'single_text',
-				'html5' => false,
-				'format' => 'dd/MM/yyyy',
-			))
-			->add('nightLoadClient')
-			->add('nightLoadHc')
-			->add('transportLoadClient')
-			->add('transportLoadHc')
-			->add('accommodation')
-			->add('accommodationAddress')
-			->add('notes')
-			->add('save', SubmitType::class)
-			->getForm();
-
+		$formJourney = $this->createForm(UserJourneyType::class, $userJourney);
 
 		if('POST' === $request->getMethod()) {
 
-			if($request->request->has('formEvent')){
+			if($request->request->has('user_event')){
 				$formEvent->handleRequest($request);
 				if ($formEvent->isSubmitted() && $formEvent->isValid()) {
 					$userEvent = $formEvent->getData();
@@ -129,7 +62,7 @@ class UserController extends Controller {
 					$em->flush();
 				}
 			}
-			elseif($request->request->has('formDocument')) {
+			elseif($request->request->has('user_document')) {
 				$formDocument->handleRequest($request);
 				if ($formDocument->isSubmitted() && $formDocument->isValid()) {
 					$userDocument = $formDocument->getData();
@@ -143,7 +76,7 @@ class UserController extends Controller {
 					$em->flush();
 				}
 			}
-			elseif($request->request->has('formJourney')) {
+			elseif($request->request->has('user_journey')) {
 				$formJourney->handleRequest($request);
 				if ($formJourney->isSubmitted() && $formJourney->isValid()) {
 					$userJourney = $formJourney->getData();
@@ -157,7 +90,8 @@ class UserController extends Controller {
 					$em->flush();
 				}
 			}
-			elseif($request->request->has('formUser')) {
+
+			elseif($request->request->has('user')) {
 				$formUser->handleRequest($request);
 				if ($formUser->isSubmitted() && $formUser->isValid()) {
 					$user = $formUser->getData();
@@ -174,6 +108,7 @@ class UserController extends Controller {
 		$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
 		$demsOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->findAll();
 		$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
+
 		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'userEvents' => $events, 'clinics' => $clinics, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView(), 'formUser' => $formUser->createView()));
 	}
 
@@ -220,7 +155,7 @@ class UserController extends Controller {
 	}
 
 	/**
-	 * @Route("/document/delete/{userid}/{documentid}", name="documentDelete")
+	 * @Route("user/document/delete/{userid}/{documentid}", name="documentDelete")
 	 */
 	public function documentDeleteAction($userid, $documentid) {
 		$document = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->find($documentid);
@@ -228,5 +163,26 @@ class UserController extends Controller {
 		$em->remove($document);
 		$em->flush();
 		return $this->redirect('/user/view/'.$userid);
+	}
+
+	/**
+	 * @Route("/user/event/edit/{id}", name="ajax_formUserEventEdit")
+	 */
+	public function editUserEventAction($id){
+		if ($this->container->get('request')->isXmlHttpRequest()) {
+
+			$event = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->find($id);
+
+			if (!$event) {
+				throw $this->createNotFoundException('Unable to find Event entity.');
+			}
+
+			$formEvent = $this->createForm(UserEventType::class, $event);
+
+			$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
+			$demsOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->findAll();
+			$agents = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('status' => "agent"));
+			return $this->container->get('templating')->renderResponse('user/formUserEventEdit.html.twig', array('formEvent' => $formEvent->createView(), 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'agents' => $agents, 'event' => $event) );
+		}
 	}
 }
