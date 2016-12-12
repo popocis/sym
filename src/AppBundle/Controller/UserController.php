@@ -110,8 +110,9 @@ class UserController extends Controller {
 		$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
 		$demsOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->findAll();
 		$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
+		$presentations = $this->getDoctrine()->getRepository('AppBundle:Presentation')->findAll();
 
-		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'userEvents' => $events, 'clinics' => $clinics, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView(), 'formUser' => $formUser->createView()));
+		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'userEvents' => $events, 'clinics' => $clinics, 'presentations' => $presentations, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView(), 'formUser' => $formUser->createView()));
 	}
 
 	private function getUserObj($id) {

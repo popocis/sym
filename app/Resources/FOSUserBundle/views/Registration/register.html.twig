@@ -57,6 +57,10 @@
                                         {% endif %}
                                     </select>
                                 </div>
+                                <div class="form-group form-material">
+                                    <label class="form-control-label">Presentation</label>
+                                    {{ form_widget(form.presentation, { 'attr': {'data-plugin': 'select2', 'data-placeholder': '', 'data-allow-clear': 'true', 'aria-hidden': 'true',} }) }}
+                                </div>
                             </div>
                             <div class="col-xs-12 col-lg-6">
                                 <div class="form-group form-material">
@@ -96,6 +100,10 @@
                                 <div class="form-group form-material">
                                     <label class="form-control-label">Tax code</label>
                                     <input type="text" id="form_taxCode" class="form-control" name="form[taxCode]">
+                                </div>
+                                <div class="form-group form-material">
+                                    <label class="form-control-label">Notes</label>
+                                    {{ form_widget(form.notes, { 'attr': {'class': 'form-control'}}) }}
                                 </div>
                             </div>
                         </div>

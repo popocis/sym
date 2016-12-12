@@ -164,6 +164,17 @@ class User extends BaseUser
 	protected $status;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="Presentation")
+	 * @ORM\JoinColumn(name="presentation_id", referencedColumnName="id", nullable=true)
+	 */
+	protected $presentation;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
+	protected $notes;
+
+	/**
 	 * @ORM\Column(type="datetime")
 	 */
 	protected $registrationDate;
@@ -214,6 +225,14 @@ class User extends BaseUser
 
 	public function getStatus(){
 		return $this->status;
+	}
+
+	public function getPresentation(){
+		return $this->presentation;
+	}
+
+	public function getNotes(){
+		return $this->notes;
 	}
 
 	public function getRegistrationDate() {
@@ -272,6 +291,16 @@ class User extends BaseUser
 
 	public function setTaxCode($taxCode){
 		$this->taxCode = $taxCode;
+		return $this;
+	}
+
+	public function setPresentation($presentation){
+		$this->presentation = $presentation;
+		return $this;
+	}
+
+	public function setNotes($notes){
+		$this->notes = $notes;
 		return $this;
 	}
 

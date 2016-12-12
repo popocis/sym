@@ -9,14 +9,12 @@
         <h1 class="page-title">Add Services</h1>
     </div>
 
-    {#{ form(formFormOrigin) }#}
-
     <div class="row">
         <div class="col-sm-6">
             <!-- Panel Static Labels -->
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">ADD FORM ORIGIN</h3>
+                    <h3 class="panel-title">Add Form Origin</h3>
                 </div>
                 <div class="panel-body">
                     <form id="formFormOrigin" name="formFormOrigin" method="post">
@@ -37,6 +35,21 @@
                         <input type="hidden" id="form__token" name="form[_token]" value="{{ formFormOrigin._token.vars.value }}">
                         <button type="submit" id="formFormOrigin_save" class="btn btn-primary waves-effect waves-light" name="formFormOrigin[save]">Add form origin</button>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <!-- Panel Static Labels -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">List Form Origin</h3>
+                </div>
+                <div class="panel-body">
+                    {% for formOrigin in formsOrigin %}
+                        Name: {{ formOrigin.formName }}
+                        Domain: {{ formOrigin.formDomain }}
+                        Notes: {{ formOrigin.notes }}</br>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -96,7 +109,7 @@
             <!-- Panel Static Labels -->
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">ADD CLINIC</h3>
+                    <h3 class="panel-title">Add Clinic</h3>
                 </div>
                 <div class="panel-body">
                     {{ form_errors(formClinic) }}
@@ -134,6 +147,26 @@
                         <input type="hidden" id="form__token" name="form[_token]" value="{{ formClinic._token.vars.value }}">
                         <button type="submit" id="formClinic_save" class="btn btn-primary waves-effect waves-light" name="formClinic[save]">Add clinic</button>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <!-- Panel Static Labels -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">List Clinic</h3>
+                </div>
+                <div class="panel-body">
+                    {% for clinic in clinics %}
+                        Name: {{ clinic.name }}
+                        Phone: {{ clinic.phoneNumber }}
+                        Street number: {{ clinic.streetNumber }}
+                        Street name: {{ clinic.streetName }}
+                        City name: {{ clinic.cityName }}
+                        Zip code: {{ clinic.zipCode }}
+                        Country: {{ clinic.countryName }}
+                        </br>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -236,7 +269,7 @@
             <!-- Panel Static Labels -->
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">ADD DEM ORIGIN</h3>
+                    <h3 class="panel-title">Add Dem Origin</h3>
                 </div>
                 <div class="panel-body">
                     {{ form_errors(formDemOrigin) }}
@@ -256,6 +289,21 @@
                         <input type="hidden" id="form__token" name="form[_token]" value="{{ formDemOrigin._token.vars.value }}">
                         <button type="submit" id="form_save" class="btn btn-primary waves-effect waves-light" name="formDemOrigin[save]">Add dem origin</button>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <!-- Panel Static Labels -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">List Dem Origin</h3>
+                </div>
+                <div class="panel-body">
+                    {% for demOrigin in demsOrigin %}
+                        Name: {{ demOrigin.demName }}
+                        Discount: {{ demOrigin.discount }}
+                        Notes: {{ demOrigin.notes }}</br>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -299,6 +347,116 @@
                                 stringLength: {
                                     min: 1,
                                     max: 3
+                                }
+                            }
+                        },
+                        "form[notes]": {
+                            validators: {
+                                stringLength: {
+                                    max: 255
+                                }
+                            }
+                        }
+
+                    }
+                });
+            })();
+
+        });
+    </script>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- Panel Static Labels -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Add Presentation</h3>
+                </div>
+                <div class="panel-body">
+                    {{ form_errors(formPresentation) }}
+                    <form id="formPresentation" name="formPresentation" method="post">
+                        <div class="form-group form-material">
+                            <label class="form-control-label">Presentation name</label>
+                            <input type="text" id="form_name" class="form-control" name="form[name]" required="required" data-plugin="formMaterial">
+                        </div>
+                        <div class="form-group form-material">
+                            <label class="form-control-label">Date</label>
+                            <input type="text" id="form_date" class="form-control" class="datepicker" name="form[date]" data-plugin="datepicker">
+                        </div>
+                        <div class="form-group form-material">
+                            <label class="form-control-label">Place</label>
+                            <input type="text" id="form_place" class="form-control" name="form[place]" data-plugin="formMaterial">
+                        </div>
+                        <div class="form-group form-material">
+                            <label class="form-control-label">Notes</label>
+                            <input type="text" id="form_notes" class="form-control" name="form[notes]">
+                        </div>
+                        <input type="hidden" id="form__token" name="form[_token]" value="{{ formPresentation._token.vars.value }}">
+                        <button type="submit" id="form_save" class="btn btn-primary waves-effect waves-light" name="formPresentation[save]">Add presentation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <!-- Panel Static Labels -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">List Presentation</h3>
+                </div>
+                <div class="panel-body">
+                    {% for presentation in presentations %}
+                        Name: {{ presentation.name }}
+                        Place: {{ presentation.place }}
+                        Date: {{ presentation.date|date('d/m/Y') }}
+                        Notes: {{ presentation.notes }}</br>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $( document ).ready(function() {
+
+            // Validation
+            // ---------------------------------
+            (function() {
+                $('#formPresentation').formValidation({
+                    framework: "bootstrap4",
+                    button: {
+                        selector: '#form_save'
+                    },
+                    icon: null,
+                    err: {
+                        clazz: 'text-help'
+                    },
+                    row: {
+                        invalid: 'has-danger'
+                    },
+                    fields: {
+                        "form[name]": {
+                            validators: {
+                                notEmpty: {
+                                    message: 'required'
+                                },
+                                stringLength: {
+                                    min: 3,
+                                    max: 50
+                                }
+                            }
+                        },
+                        "form[date]": {
+                            validators: {
+                                dateITA: {
+                                    format: 'mm/dd/yyyy'
+                                }
+                            }
+                        },
+                        "form[place]": {
+                            validators: {
+                                stringLength: {
+                                    min: 3,
+                                    max: 50
                                 }
                             }
                         },

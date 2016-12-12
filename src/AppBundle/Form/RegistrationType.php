@@ -34,6 +34,8 @@ class RegistrationType extends AbstractType{
 			'choices' => array('prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator', 'agent' => 'agent'),
 			'choices_as_values' => true,
 		));
+		$builder->add('presentation');
+		$builder->add('notes');
 	}
 
 	public function getParent(){

@@ -149,6 +149,8 @@
                     Birthdate: {{ user.birthdate|date('d/m/Y') }}</br>
                     Taxcode: {{ user.taxCode }}</br>
                     Typology: {{ user.status }}</br>
+                    Presentation: {{ user.presentation.name | default('')}} - {% if user.presentation.date is not empty %}{{ user.presentation.date | date('d/m/Y')}}{% endif %} - {{ user.presentation.place | default('')}}</br>
+                    Notes: {{ user.notes }}</br>
                 </div>
             </div>
 

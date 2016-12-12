@@ -37,13 +37,15 @@ class UserType extends AbstractType{
 				'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
 				'choices_as_values' => true,
 			))
+			->add('presentation')
+			->add('notes')
 			->add('save', SubmitType::class)
 			->getForm();
 	}
 
 	public function configureOptions(OptionsResolver $resolver){
 		$resolver->setDefaults(array(
-			'data_class' => 'AppBundle\Entity\User',
+			'data_class' => 'AppBundle\Entity\User'
 		));
 	}
 }
