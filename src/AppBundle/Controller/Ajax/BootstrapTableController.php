@@ -58,6 +58,12 @@ class BootstrapTableController extends Controller {
 				$registrationDate = $registrationDate->format('d/m/Y');
 			}
 
+			$presentation = $user->getPresentation();
+			if (!is_null($presentation)) {
+				$presentation = $presentation->getName();
+			}
+
+
 			$result[] = array(
 				'name' => $user->getName(),
 				'surname' => $user->getSurname(),
@@ -70,6 +76,8 @@ class BootstrapTableController extends Controller {
                 'country' => $user->getCountryName(),
                 'region' => $user->getCountryRegion(),
                 'taxCode' => $user->getTaxCode(),
+				'notes' => $user->getNotes(),
+				'presentation' => $presentation,
                 'registrationDate' => $registrationDate,
                 'enabled' =>
 					'<span class="tag tag-table tag-'.

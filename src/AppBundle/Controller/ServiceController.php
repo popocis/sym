@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\DemOrigin;
 use AppBundle\Entity\FormOrigin;
 use AppBundle\Entity\Clinic;
-use AppBundle\Entity\User;
+use AppBundle\Entity\Presentation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,6 +50,19 @@ class ServiceController extends Controller {
 			->add('save', SubmitType::class)
 			->getForm();
 
+		$presentation = new Presentation();
+		$formPresentation = $this->createFormBuilder($presentation)
+			->add('name')
+			->add('date', DateType::class, array(
+				'widget' => 'single_text',
+				'html5' => false,
+				'format' => 'dd/MM/yyyy',
+			))
+			->add('place')
+			->add('notes')
+			->add('save', SubmitType::class)
+			->getForm();
+
 		if('POST' === $request->getMethod()) {
 
 			if($request->request->has('formFormOrigin')){
@@ -79,9 +92,23 @@ class ServiceController extends Controller {
 					$em->flush();
 				}
 			}
+			elseif($request->request->has('formPresentation')) {
+				$formPresentation->handleRequest($request);
+				if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
+					$presentation = $formPresentation->getData();
+					$em = $this->getDoctrine()->getManager();
+					$em->persist($presentation);
+					$em->flush();
+				}
+			}
 
 		}
 
-		return $this->render('service/add.html.twig', array( 'formFormOrigin' => $formFormOrigin->createView(), 'formClinic' => $formClinic->createView(), 'formDemOrigin' => $formDemOrigin->createView() ));
+		$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
+		$demsOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->findAll();
+		$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
+		$presentations = $this->getDoctrine()->getRepository('AppBundle:Presentation')->findAll();
+
+		return $this->render('service/add.html.twig', array( 'clinics' => $clinics, 'presentations' => $presentations, 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'formFormOrigin' => $formFormOrigin->createView(), 'formClinic' => $formClinic->createView(), 'formDemOrigin' => $formDemOrigin->createView(), 'formPresentation' => $formPresentation->createView() ));
 	}
 }

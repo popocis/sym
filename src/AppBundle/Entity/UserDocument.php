@@ -33,6 +33,10 @@ class UserDocument
 	 */
 	protected $customerUser;
 
+	/**
+	 * @ORM\Column(type="string", length=255)
+	 */
+	protected $name;
 
 	/**
 	 * @ORM\Column(type="string", length=255)
@@ -82,6 +86,10 @@ class UserDocument
 		return $this->customerUser;
 	}
 
+	public function getName(){
+		return $this->name;
+	}
+
 	public function getDocumentType(){
 		return $this->documentType;
 	}
@@ -105,6 +113,11 @@ class UserDocument
 
 	public function setCustomerUser($customerUser){
 		$this->customerUser = $customerUser;
+		return $this;
+	}
+
+	public function setName($name){
+		$this->name = $name;
 		return $this;
 	}
 

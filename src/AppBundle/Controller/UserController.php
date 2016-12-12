@@ -11,163 +11,49 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Form\UserType;
+use AppBundle\Form\UserEventType;
+use AppBundle\Form\UserDocumentType;
+use AppBundle\Form\UserJourneyType;
 
 class UserController extends Controller {
-
-	/**
-	 * @Route("/user/edit/{id}", name="userEdit")
-	 */
-	public function editAction(Request $request, $id) {
-		//edit single user
-		//se utente loggato è ROLE_ADMIN allora può modificare se l'oggetto è di tipo ROLE_USER
-		//se utente loggato è ROLE_SUPER_ADMIN allora può modificare tutti gli utenti?
-		//da sistemare
-
-		$user = $this->getUserObj($id);
-		$userRoles = $this->checkUserRoles($user);
-		$loggedUser = $this->getUser();
-		$loggedRoles = $loggedUser->getRoles();
-
-		$form = $this->createFormBuilder($user)
-			->add('username')
-			->add('name')
-			->add('surname')
-			->add('birthDate', DateType::class, array(
-				'widget' => 'single_text',
-				'html5' => false,
-				'format' => 'dd/MM/yyyy',
-			))
-			->add('phoneNumber')
-			->add('streetNumber')
-			->add('streetName')
-			->add('cityName')
-			->add('zipCode')
-			//->add('countryName', CountryType::class, array('multiple'=>false));
-			->add('countryName')
-			->add('countryRegion')
-			->add('taxCode')
-			->add('status', ChoiceType::class, array(
-			'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
-			'choices_as_values' => true,
-			))
-			->add('save', SubmitType::class)
-			->getForm();
-
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted() && $form->isValid()) {
-			$user = $form->getData();
-			$userManager = $this->get('fos_user.user_manager');
-			$user->setUsername($user->getEmail());
-			$userManager->updateUser($user, true);
-			return $this->redirect('/user/view/'.$id);
-		}
-
-		return $this->render('user/edit.html.twig', array(
-			'user' => $user,
-			'form' => $form->createView()
-		));
-	}
 
 	/**
 	 * @Route("/user/view/{id}", name="userView")
 	 */
 	public function viewAction(Request $request, $id) {
+
 		$user = $this->getUserObj($id);
+		$formUser = $this->createForm(UserType::class, $user);
 
-		$formUser = $this->createFormBuilder($user)
-			->add('email')
-			->add('name')
-			->add('surname')
-			->add('birthDate', DateType::class, array(
-				'widget' => 'single_text',
-				'html5' => false,
-				'format' => 'dd/MM/yyyy',
-			))
-			->add('phoneNumber')
-			->add('streetNumber')
-			->add('streetName')
-			->add('cityName')
-			->add('zipCode')
-			->add('countryName')
-			->add('countryRegion')
-			->add('taxCode')
-			->add('status', ChoiceType::class, array(
-				'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
-				'choices_as_values' => true,
-			))
-			->add('save', SubmitType::class)
-			->getForm();
-
-		$userEvent = new UserEvent();
-		$formEvent = $this->createFormBuilder($userEvent)
-			->add('contactMethod', ChoiceType::class, array(
-				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp', 'facetime' => 'facetime', 'form' => 'form'),
-				'choices_as_values' => true,
-			))
-			->add('contactReason', ChoiceType::class, array(
-				'choices' => array('general' => 'general', 'commercial' => 'commercial', 'estimate' => 'estimate', 'accepted estimate' => 'accepted estimate'),
-				'choices_as_values' => true,
-			))
-			->add('agentUser')
-			->add('formOrigin')
-			->add('demOrigin')
-			->add('notes')
-			->add('date', DateType::class, array(
-				'widget' => 'single_text',
-				'html5' => false,
-				'format' => 'dd/MM/yyyy',
-			))
-			->add('save', SubmitType::class)
-			->getForm();
+		$eventId = isset($request->request->get('user_event')['id']) ? $request->request->get('user_event')['id'] : null;
+		if (!is_null($eventId)){
+			$userEvent = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->find($eventId);
+		} else {
+			$userEvent = new UserEvent();
+		}
+		$formEvent = $this->createForm(UserEventType::class, $userEvent);
 
 		$userDocument = new UserDocument();
-		$formDocument = $this->createFormBuilder($userDocument)
-			->add('documentType', ChoiceType::class, array(
-				'choices' => array('dental panoramic' => 'panoramic', 'quote' => 'quote', 'id document' => 'id', 'other document' => 'other'),
-				'choices_as_values' => true,
-			))
-			->add('documentFile', VichFileType::class, array())
-			->add('save', SubmitType::class)
-			->getForm();
+		$formDocument = $this->createForm(UserDocumentType::class, $userDocument);
 
-		$userJourney = new UserJourney();
-		$formJourney = $this->createFormBuilder($userJourney)
-			->add('clinic')
-			->add('arrivalDate', DateType::class, array(
-				'widget' => 'single_text',
-				'html5' => false,
-				'format' => 'dd/MM/yyyy',
-			))
-			->add('appointmentDate', DateType::class, array(
-				'widget' => 'single_text',
-				'html5' => false,
-				'format' => 'dd/MM/yyyy',
-			))
-			->add('departureDate', DateType::class, array(
-				'widget' => 'single_text',
-				'html5' => false,
-				'format' => 'dd/MM/yyyy',
-			))
-			->add('nightLoadClient')
-			->add('nightLoadHc')
-			->add('transportLoadClient')
-			->add('transportLoadHc')
-			->add('accommodation')
-			->add('accommodationAddress')
-			->add('notes')
-			->add('save', SubmitType::class)
-			->getForm();
-
+		$journeyId = isset($request->request->get('user_journey')['id']) ? $request->request->get('user_journey')['id'] : null;
+		if (!is_null($journeyId)){
+			$userJourney = $this->getDoctrine()->getRepository('AppBundle:UserJourney')->find($journeyId);
+		} else {
+			$userJourney = new UserJourney();
+		}
+		$formJourney = $this->createForm(UserJourneyType::class, $userJourney);
 
 		if('POST' === $request->getMethod()) {
-
-			if($request->request->has('formEvent')){
+			if($request->request->has('user_event')){
 				$formEvent->handleRequest($request);
 				if ($formEvent->isSubmitted() && $formEvent->isValid()) {
 					$userEvent = $formEvent->getData();
@@ -179,7 +65,7 @@ class UserController extends Controller {
 					$em->flush();
 				}
 			}
-			elseif($request->request->has('formDocument')) {
+			elseif($request->request->has('user_document')) {
 				$formDocument->handleRequest($request);
 				if ($formDocument->isSubmitted() && $formDocument->isValid()) {
 					$userDocument = $formDocument->getData();
@@ -193,12 +79,12 @@ class UserController extends Controller {
 					$em->flush();
 				}
 			}
-			elseif($request->request->has('formJourney')) {
+			elseif($request->request->has('user_journey')) {
 				$formJourney->handleRequest($request);
 				if ($formJourney->isSubmitted() && $formJourney->isValid()) {
 					$userJourney = $formJourney->getData();
-					$userJourney->setTransportLoadClient(implode(", ",$userJourney->getTransportLoadClient()));
-					$userJourney->setTransportLoadHc(implode(", ",$userJourney->getTransportLoadHc()));
+					$userJourney->setTransportLoadClient(implode(",",$userJourney->getTransportLoadClient()));
+					$userJourney->setTransportLoadHc(implode(",",$userJourney->getTransportLoadHc()));
 					$userOperator = $this->get('security.token_storage')->getToken()->getUser();
 					$userJourney->setAdminUser($userOperator);
 					$userJourney->setCustomerUser($user);
@@ -207,7 +93,7 @@ class UserController extends Controller {
 					$em->flush();
 				}
 			}
-			elseif($request->request->has('formUser')) {
+			elseif($request->request->has('user')) {
 				$formUser->handleRequest($request);
 				if ($formUser->isSubmitted() && $formUser->isValid()) {
 					$user = $formUser->getData();
@@ -224,7 +110,9 @@ class UserController extends Controller {
 		$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
 		$demsOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->findAll();
 		$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
-		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'userEvents' => $events, 'clinics' => $clinics, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView(), 'formUser' => $formUser->createView()));
+		$presentations = $this->getDoctrine()->getRepository('AppBundle:Presentation')->findAll();
+
+		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'userEvents' => $events, 'clinics' => $clinics, 'presentations' => $presentations, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView(), 'formUser' => $formUser->createView()));
 	}
 
 	private function getUserObj($id) {
@@ -267,5 +155,45 @@ class UserController extends Controller {
 			iconv('UTF-8', 'ASCII//TRANSLIT', $filename)
 		);
 		return $response;
+	}
+
+	/**
+	 * @Route("user/document/delete/{userid}/{documentid}", name="documentDelete")
+	 */
+	public function documentDeleteAction($userid, $documentid) {
+		$document = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->find($documentid);
+		$em = $this->getDoctrine()->getEntityManager();
+		$em->remove($document);
+		$em->flush();
+		return $this->redirect('/user/view/'.$userid);
+	}
+
+	/**
+	 * @Route("/user/event/edit/{id}", name="ajax_formUserEventEdit")
+	 */
+	public function editUserEventAction($id){
+		if ($this->container->get('request')->isXmlHttpRequest()) {
+			$event = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->find($id);
+			$formEvent = $this->createForm(UserEventType::class, $event);
+			$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
+			$demsOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->findAll();
+			$agents = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('status' => "agent"));
+			return $this->container->get('templating')->renderResponse('user/formUserEventEdit.html.twig', array('formEvent' => $formEvent->createView(), 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'agents' => $agents, 'event' => $event) );
+		}
+	}
+
+	/**
+	 * @Route("/user/journey/edit/{id}", name="ajax_formUserJourneyEdit")
+	 */
+	public function editUserJourneyAction($id){
+		if ($this->container->get('request')->isXmlHttpRequest()) {
+			$journey = $this->getDoctrine()->getRepository('AppBundle:UserJourney')->find($id);
+			$formJourney = $this->createForm(UserJourneyType::class, $journey);
+			/*$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
+			$demsOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->findAll();
+			$agents = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('status' => "agent"));*/
+			$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
+			return $this->container->get('templating')->renderResponse('user/formUserJourneyEdit.html.twig', array('formJourney' => $formJourney->createView(), 'clinics' => $clinics, 'journey' => $journey) );
+		}
 	}
 }

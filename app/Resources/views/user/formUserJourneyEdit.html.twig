@@ -1,0 +1,201 @@
+<form id="user_journey" name="user_journey" method="post">
+    <div class="col-xs-12 col-lg-6">
+        <div class="form-group form-material">
+            <label class="form-control-label">Arrival date <span class="required">*</span></label>
+            <input type="text" id="user_journey_arrivalDate" class="form-control" class="datepicker" name="user_journey[arrivalDate]" data-plugin="datepicker" required="required" value="{{ journey.arrivalDate|date('d/m/Y') }}">
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Appointment date <span class="required">*</span></label>
+            <input type="text" id="user_journey_appointmentDate" class="form-control" class="datepicker" name="user_journey[appointmentDate]" data-plugin="datepicker" required="required" value="{{ journey.appointmentDate|date('d/m/Y') }}">
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Departure date <span class="required">*</span></label>
+            <input type="text" id="user_journey_departureDate" class="form-control" class="datepicker" name="user_journey[departureDate]" data-plugin="datepicker" required="required" value="{{ journey.departureDate|date('d/m/Y') }}">
+        </div>
+    </div>
+    <div class="col-xs-12 col-lg-6">
+        <div class="form-group form-material">
+            <label class="form-control-label">Clinic <span class="required">*</span></label>
+            <select id="user_journey_clinic" name="user_journey[clinic]" data-plugin="select2" data-placeholder="" data-allow-clear="true"  aria-hidden="true" required="required">
+                <option></option>
+                {% for clinic in clinics %}
+                    <option value="{{ clinic.id }}">{{ clinic }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label" for="form_accommodation">Accommodation</label>
+            <input type="text" id="user_journey_accommodation" class="form-control" name="user_journey[accommodation]" value="{{ journey.accommodation }}">
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label" for="form_accommodationAddress">Accommodation address</label>
+            <input type="text" id="user_journey_accommodationAddress" class="form-control" name="user_journey[accommodationAddress]" value="{{ journey.accommodationAddress }}">
+        </div>
+    </div>
+    <div class="col-xs-12 col-lg-6">
+        <div class="form-group form-material">
+            <label class="form-control-label">Night load to client</label>
+            <input type="text" id="user_journey_nightLoadClient" class="form-control" name="user_journey[nightLoadClient]" value="{{ journey.nightLoadClient }}">
+        </div>
+    </div>
+    <div class="col-xs-12 col-lg-6">
+        <div class="form-group form-material">
+            <label class="form-control-label">Night load to hc</label>
+            <input type="text" id="user_journey_nightLoadHc" class="form-control" name="user_journey[nightLoadHc]" value="{{ journey.nightLoadHc }}">
+        </div>
+    </div>
+    <div class="col-xs-12 col-lg-6">
+        <div class="form-group form-material select2-info">
+            <label class="form-control-label">Transport load to client</label>
+            <select id="user_journey_transportLoadClient" name="user_journey[transportLoadClient][]" class="form-control" multiple="multiple" data-plugin="select2">
+                <option value="train">Train</option>
+                <option value="client car">Client Car</option>
+                <option value="airplane">Airplane</option>
+                <option value="goopti">GoOpti</option>
+                <option value="hc car">Hc car</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-xs-12 col-lg-6">
+        <div class="form-group form-material select2-info">
+            <label class="form-control-label">Transport load to Hc</label>
+            <select id="user_journey_transportLoadHc" name="user_journey[transportLoadHc][]" class="form-control" multiple="multiple" data-plugin="select2">
+                <option value="train">Train</option>
+                <option value="client car">Client Car</option>
+                <option value="airplane">Airplane</option>
+                <option value="goopti">GoOpti</option>
+                <option value="hc car">Hc car</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="form-group form-material">
+            <label class="form-control-label">Notes</label>
+            <input type="text" id="user_journey_notes" class="form-control" name="user_journey[notes]" value="{{ journey.notes }}">
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <input type="hidden" id="user_journey__token" name="user_journey[_token]" value="{{ formJourney._token.vars.value }}">
+        <input type="hidden" id="user_journey_id" name="user_journey[id]" value="{{ journey.id | default('') }}">
+        <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
+        <button type="submit" id="user_journey_save" class="btn btn-primary waves-effect waves-light" name="user_journey[save]">Save journey</button>
+    </div>
+</form>
+
+<script>
+    $( document ).ready(function() {
+        $("#ajaxresponse_formUserJourneyEdit #user_journey_clinic").val("{{ journey.clinic.id }}").trigger("change");
+
+        var transportLoadClient = "{{ journey.transportLoadClient }}";
+        var selectedtransportLoadClient = transportLoadClient.split(',');
+        $("#ajaxresponse_formUserJourneyEdit #user_journey_transportLoadClient").val(selectedtransportLoadClient);
+
+        var transportLoadHc = "{{ journey.transportLoadHc }}";
+        var selectedtransportLoadHc = transportLoadHc.split(',');
+        $("#ajaxresponse_formUserJourneyEdit #user_journey_transportLoadHc").val(selectedtransportLoadHc);
+
+
+        // Validation
+        // ---------------------------------
+        (function() {
+            $('#user_journey').formValidation({
+                framework: "bootstrap4",
+                button: {
+                    selector: '#user_journey_save'
+                },
+                icon: null,
+                err: {
+                    clazz: 'text-help'
+                },
+                row: {
+                    invalid: 'has-danger'
+                },
+                fields: {
+                    "user_journey[arrivalDate]": {
+                        validators: {
+                            notEmpty: {
+                                message: 'required'
+                            },
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[appointmentDate]": {
+                        validators: {
+                            notEmpty: {
+                                message: 'required'
+                            },
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[departureDate]": {
+                        validators: {
+                            notEmpty: {
+                                message: 'required'
+                            },
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[clinic]": {
+                        validators: {
+                            notEmpty: {
+                                message: 'required'
+                            }
+                        }
+                    },
+                    "user_journey[accommodation]": {
+                        validators: {
+                            stringLength: {
+                                min: 3,
+                                max: 255
+                            }
+                        }
+                    },
+                    "user_journey[accommodationAddress]": {
+                        validators: {
+                            stringLength: {
+                                min: 3,
+                                max: 255
+                            }
+                        }
+                    },
+                    "user_journey[nightLoadClient]": {
+                        validators: {
+                            integer: {
+                                message: 'Only number without space'
+                            },
+                            stringLength: {
+                                min: 1,
+                                max: 3
+                            }
+                        }
+                    },
+                    "user_journey[nightLoadHc]": {
+                        validators: {
+                            integer: {
+                                message: 'Only number without space'
+                            },
+                            stringLength: {
+                                min: 1,
+                                max: 3
+                            }
+                        }
+                    },
+                    "user_journey[notes]": {
+                        validators: {
+                            stringLength: {
+                                max: 255
+                            }
+                        }
+                    },
+                }
+            });
+        })();
+
+    });
+</script>

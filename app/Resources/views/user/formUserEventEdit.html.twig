@@ -1,0 +1,147 @@
+{#% if formEvent is defined %}
+    {{ form(formEvent)}}
+{% endif %#}
+
+<form id="user_event" name="user_event" method="post">
+    <div class="col-xs-12 col-lg-6">
+        <div class="form-group form-material">
+            <label class="form-control-label">Contact method <span class="required">*</span></label>
+            <select id="user_event_contactMethod" name="user_event[contactMethod]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" required="required">
+                <option></option>
+                <option value="phone">phone</option>
+                <option value="email">email</option>
+                <option value="viber">viber</option>
+                <option value="whatsapp">whatsapp</option>
+                <option value="facetime">facetime</option>
+                <option value="form">form</option>
+                <option value="dem">dem</option>
+            </select>
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Contact reason <span class="required">*</span></label>
+            <select id="user_event_contactReason" class="form-control" name="user_event[contactReason]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" required="required">
+                <option></option>
+                <option value="general">general</option>
+                <option value="commercial">commercial</option>
+                <option value="estimate">estimate</option>
+                <option value="accepted estimate">accepted estimate</option>
+            </select>
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Date <span class="required">*</span></label>
+            <input type="text" id="user_event_date" class="form-control" class="datepicker" name="user_event[date]" data-plugin="datepicker" required="required" value="{{ event.date|date('d/m/Y') }}">
+        </div>
+    </div>
+    <div class="col-xs-12 col-lg-6">
+        <div class="form-group form-material">
+            <label class="form-control-label">Form origin</label>
+            <select id="user_event_formOrigin" name="user_event[formOrigin]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                <option value=""></option>
+                {% for formOrigin in formsOrigin %}
+                    <option value="{{ formOrigin.id }}">{{ formOrigin.formName }} - {{ formOrigin.formDomain }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Dem origin</label>
+            <select id="user_event_demOrigin" name="user_event[demOrigin]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                <option value=""></option>
+                {% for demOrigin in demsOrigin %}
+                    <option value="{{ demOrigin.id }}">{{ demOrigin.demName }} - {{ demOrigin.discount }}%</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Agent</label>
+            <select id="user_event_agentUser" name="user_event[agentUser]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                <option></option>
+                {% for agent in agents %}
+                    <option value="{{ agent.id }}">{{ agent.name }} {{ agent.surname }} - {{ agent.countryName }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="form-group form-material">
+            <label class="form-control-label">Notes</label>
+            <input type="text" id="user_event_notes" class="form-control" name="user_event[notes]" value="{{ event.notes }}">
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <input type="hidden" id="user_event__token" name="user_event[_token]" value="{{ formEvent._token.vars.value }}">
+        <input type="hidden" id="user_event_id" name="user_event[id]" value="{{ event.id }}">
+        <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
+        <button type="submit" id="user_event_save" class="btn btn-primary waves-effect waves-light update-event" name="user_event[save]">Update event</button>
+    </div>
+</form>
+
+<script>
+    $( document ).ready(function() {
+        $("#ajaxresponse_formUserEventEdit #user_event_contactMethod").val("{{ event.contactMethod }}").trigger("change");
+        $("#ajaxresponse_formUserEventEdit #user_event_contactReason").val("{{ event.contactReason }}").trigger("change");
+        $("#ajaxresponse_formUserEventEdit #user_event_formOrigin").val("{{ event.formOrigin.id | default("")}}").trigger("change");
+        $("#ajaxresponse_formUserEventEdit #user_event_demOrigin").val("{{ event.demOrigin.id | default("")}}").trigger("change");
+        $("#ajaxresponse_formUserEventEdit #user_event_agent").val("{{ event.agent.id | default("")}}").trigger("change");
+
+        // Validation
+        // ---------------------------------
+        (function() {
+            $('#user_event').formValidation({
+                framework: "bootstrap4",
+                button: {
+                    selector: '#user_event_save'
+                },
+                icon: null,
+                err: {
+                    clazz: 'text-help'
+                },
+                row: {
+                    invalid: 'has-danger'
+                },
+                fields: {
+                    "user_event[contactMethod]": {
+                        validators: {
+                            notEmpty: {
+                                message: 'required'
+                            }
+                        }
+                    },
+                    "user_event[contactReason]": {
+                        validators: {
+                            notEmpty: {
+                                message: 'required'
+                            }
+                        }
+                    },
+                    "user_event[formOrigin]": {
+                        validators: {
+                        }
+                    },
+                    "user_event[demOrigin]": {
+                        validators: {
+                        }
+                    },
+                    "user_event[date]": {
+                        validators: {
+                            notEmpty: {
+                                message: 'required'
+                            },
+                            dateITA: {
+                                format: 'dd/mm/yyyy'
+                            }
+                        }
+                    },
+                    "user_event[notes]": {
+                        validators: {
+                            stringLength: {
+                                max: 255
+                            }
+                        }
+                    },
+                }
+            });
+        })();
+
+    });
+</script>
+

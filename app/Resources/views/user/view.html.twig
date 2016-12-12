@@ -24,7 +24,8 @@
                            data-toggle="table"
                            data-search="true"
                            data-pagination="true"
-                           data-classes="table table-no-bordered">
+                           data-classes="table table-no-bordered"
+                           data-show-columns="true">
                         <thead>
                         <tr>
                             <th data-field="contactMethod">Contact Method</th>
@@ -35,15 +36,17 @@
                             <th data-field="formOrigin">Form Origin</th>
                             <th data-field="demOrigin">Dem Origin</th>
                             <th data-field="notes">Notes</th>
+                            <th data-field="op">Edit</th>
                         </tr>
                         </thead>
                     </table>
                 </div>
                 <div class="panel-footer">
-                    <button class="btn btn-primary waves-effect waves-light" data-target="#addEvent" data-toggle="modal" type="button">Add event</button>
+                    <button class="btn btn-primary waves-effect waves-light add-event" data-target="#addEvent" data-toggle="modal" type="button">Add event</button>
                 </div>
             </div>
 
+            <!-- Modal Add Event-->
             <div class="modal fade" id="addEvent" aria-hidden="true" role="dialog">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -53,100 +56,36 @@
                             </button>
                             <h4 class="modal-title" id="exampleModalTitle">Add Event</h4>
                         </div>
-                        <form name="formEvent" method="post">
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <label class="form-control-label" for="select">Contact method *</label>
-                                            <select id="form_contactMethod" name="form[contactMethod]" data-plugin="select2" data-placeholder="Select contact method" data-allow-clear="true" aria-hidden="true" required="required">
-                                                <option></option>
-                                                <option value="phone">phone</option>
-                                                <option value="email">email</option>
-                                                <option value="viber">viber</option>
-                                                <option value="whatsapp">whatsapp</option>
-                                                <option value="facetime">facetime</option>
-                                                <option value="form">form</option>
-                                                <option value="dem">dem</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <label class="form-control-label" for="select">Contact reason *</label>
-                                            <select id="form_contactReason" class="form-control" name="form[contactReason]" data-plugin="select2" data-placeholder="Select contact reason" data-allow-clear="true" aria-hidden="true" required="required">
-                                                <option></option>
-                                                <option value="general">general</option>
-                                                <option value="commercial">commercial</option>
-                                                <option value="estimate">estimate</option>
-                                                <option value="accepted estimate">accepted estimate</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <label class="form-control-label" for="select">Form origin</label>
-                                            <select id="form_formOrigin" name="form[formOrigin]" data-plugin="select2" data-placeholder="Select form origin" data-allow-clear="true" aria-hidden="true">
-                                                <option value=""></option>
-                                                {% for formOrigin in formsOrigin %}
-                                                    <option value="{{ formOrigin.id }}">{{ formOrigin.formName }} - {{ formOrigin.formDomain }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <label class="form-control-label" for="select">Dem origin</label>
-                                            <select id="form_demOrigin" name="form[demOrigin]" data-plugin="select2" data-placeholder="Select dem origin" data-allow-clear="true" aria-hidden="true">
-                                                <option value=""></option>
-                                                {% for demOrigin in demsOrigin %}
-                                                    <option value="{{ demOrigin.id }}">{{ demOrigin.demName }} - {{ demOrigin.discount }}%</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <label class="form-control-label" for="select">Agent</label>
-                                            <select id="form_agentUser" name="form[agentUser]" data-plugin="select2" data-placeholder="Select agent" data-allow-clear="true" aria-hidden="true">
-                                                <option></option>
-                                                {% for agent in agents %}
-                                                    <option value="{{ agent.id }}">{{ agent.name }} {{ agent.surname }} - {{ agent.countryName }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="form_date">Date *</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                  <i class="icon md-calendar" aria-hidden="true"></i>
-                                                </span>
-                                                <input type="text" id="form_date" class="form-control" class="datepicker" name="form[date]" data-plugin="datepicker" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group form-material">
-                                    <label for="form_notes" class="control-label">Notes</label>
-                                    <textarea type="text" id="form_notes" class="form-control" name="form[notes]" rows="3" ></textarea>
-                                </div>
-                                <input type="hidden" id="form__token" name="form[_token]" value="{{ formEvent._token.vars.value }}">
+                        <div class="modal-body">
+                            <div class="row">
+                                {% include 'user/formUserEvent.html.twig' %}
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
-                                <button type="submit" id="formEvent_save" class="btn btn-primary waves-effect waves-light" name="formEvent[save]">Add event</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
             <!-- End Modal -->
+
+            <!-- Modal Update Event-->
+            <div class="modal fade" id="editEvent" aria-hidden="true" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="exampleModalTitle">Update Event</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div id="ajaxresponse_formUserEventEdit"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Modal -->
+
             <script>
                 $( document ).ready(function() {
                     var $table = $("#table");
@@ -161,13 +100,32 @@
                             "formOrigin": '{{ event.formOrigin.formName | default("") }} - {{ event.formOrigin.formDomain | default("") }} - {{ event.formOrigin.notes | default("") }}',
                             "demOrigin": '{{ event.demOrigin.demName | default("") }} - {{ event.demOrigin.discount | default("") }}% - {{ event.demOrigin.notes | default("") }}',
                             "notes": '{{ event.notes }}',
+                            "op": '<button type="button" data-id="{{ event.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect waves-effect edit-event" data-target="#editEvent" data-toggle="modal" data-original-title="Edit"><i class="icon md-edit" aria-hidden="true"></i></button>'
                         },
                         {% endfor %}
                     ];
                     $table.bootstrapTable({data: data});
+
+                    $table.bootstrapTable();
+                    $table.bootstrapTable('hideColumn', 'agent');
+                    $table.bootstrapTable('hideColumn', 'agentCountry');
+
+                    $('.edit-event').click(function() {
+                        var id = $(this).data('id');
+                        var route = '{{ path('ajax_formUserEventEdit', { 'id': "PLACEHOLDER" }) }}';
+                        route = route.replace("PLACEHOLDER", id);
+                        $.ajax({
+                            type: 'POST',
+                            url:  route,
+                            success: function(response) {
+                                $('#ajaxresponse_formUserEventEdit').html(response);
+                                $('.modal-body').find('[data-plugin="select2"]').select2({ width: '100%' });
+                            },
+                            async: false
+                        })
+                    });
                 });
             </script>
-
         </div>
     </div>
 
@@ -180,15 +138,19 @@
                     <h3 class="panel-title">User</h3>
                 </div>
                 <div class="panel-body">
+                    <button type="button" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-user" data-target="#editUser" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                        <i class="icon md-edit" aria-hidden="true"></i>
+                    </button>
                     Name: {{ user.name }}</br>
                     Surname: {{ user.surname }}</br>
                     Email: {{ user.email }}</br>
                     Phone number: {{ user.phoneNumber }}</br>
-                    Address: {{ user.streetName }} {{ user.streetNumber }} {{ user.cityName }} {{ user.countryRegion }} {{ user.countryName }}</br>
-                    Typology: {{ user.status }}
-                </div>
-                <div class="panel-footer">
-                    <button class="btn btn-primary waves-effect waves-light" data-target="#editUser" data-toggle="modal" type="button">Edit user</button>
+                    Address: {{ user.streetName }} {{ user.streetNumber }} {{ user.cityName }} {{ user.zipCode }} {{ user.countryRegion }} {{ user.countryName }}</br>
+                    Birthdate: {{ user.birthdate|date('d/m/Y') }}</br>
+                    Taxcode: {{ user.taxCode }}</br>
+                    Typology: {{ user.status }}</br>
+                    Presentation: {{ user.presentation.name | default('')}} - {% if user.presentation.date is not empty %}{{ user.presentation.date | date('d/m/Y')}}{% endif %} - {{ user.presentation.place | default('')}}</br>
+                    Notes: {{ user.notes }}</br>
                 </div>
             </div>
 
@@ -202,298 +164,16 @@
                             </button>
                             <h4 class="modal-title" id="exampleModalTitle">Update User</h4>
                         </div>
-                        <form name="formUser" method="post">
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="email" id="form_email" class="form-control" name="form[email]" value="{{ user.email }}" required="required" data-plugin="formMaterial">
-                                            <label class="floating-label" for="form_email">Email *</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="form_birthDate">Birthdate</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                  <i class="icon md-calendar" aria-hidden="true"></i>
-                                                </span>
-                                                <input type="text" id="form_birthDate" class="form-control" class="datepicker" name="form[birthDate]" data-plugin="datepicker" value="{{ user.birthDate|date('d/m/Y') }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="text" id="form_name" class="form-control" name="form[name]" value="{{ user.name }}" required="required" data-plugin="formMaterial" pattern=".{3,50}">
-                                            <label class="floating-label" for="form_name">Name *</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="text" id="form_surname" class="form-control" name="form[surname]" value="{{ user.surname }}" required="required" data-plugin="formMaterial" pattern=".{3,50}">
-                                            <label class="floating-label" for="form_surname">Surname *</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="tel" id="form_phoneNumber" class="form-control" name="form[phoneNumber]" value="{{ user.phoneNumber }}" data-plugin="formMaterial" required="required" pattern="[0-9]{6,30}">
-                                            <label class="floating-label" for="form_phoneNumber">Phone number</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-3">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="text" id="form_streetNumber" class="form-control" name="form[streetNumber]" value="{{ user.streetNumber }}" pattern="[0-9]{1,6}">
-                                            <label class="floating-label" for="form_streetNumber">Street number</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-3">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="text" id="form_streetName" class="form-control" name="form[streetName]" value="{{ user.streetName }}" pattern=".{3,50}">
-                                            <label class="floating-label" for="form_streetName">Street name</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="text" id="form_cityName" class="form-control" name="form[cityName]" value="{{ user.cityName }}" required="required" pattern=".{3,50}">
-                                            <label class="floating-label" for="form_cityName">City name</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="text" id="form_zipCode" class="form-control" name="form[zipCode]" value="{{ user.zipCode }}" pattern=".{3,10}">
-                                            <label class="floating-label" for="form_zipCode">Zip code</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="">
-                                            <select id="form_countryName"  name="form[countryName]" data-plugin="select2" data-placeholder="Country" data-allow-clear="true"  aria-hidden="true">
-                                                <option></option><option value="AF">Afghanistan</option><option value="AL">Albania</option><option value="DZ">Algeria</option><option value="AS">American Samoa</option><option value="AD">Andorra</option><option value="AO">Angola</option><option value="AI">Anguilla</option><option value="AQ">Antarctica</option><option value="AG">Antigua &amp; Barbuda</option><option value="AR">Argentina</option><option value="AM">Armenia</option><option value="AW">Aruba</option><option value="AC">Ascension Island</option><option value="AU">Australia</option><option value="AT">Austria</option><option value="AZ">Azerbaijan</option><option value="BS">Bahamas</option><option value="BH">Bahrain</option><option value="BD">Bangladesh</option><option value="BB">Barbados</option><option value="BY">Belarus</option><option value="BE">Belgium</option><option value="BZ">Belize</option><option value="BJ">Benin</option><option value="BM">Bermuda</option><option value="BT">Bhutan</option><option value="BO">Bolivia</option><option value="BA">Bosnia &amp; Herzegovina</option><option value="BW">Botswana</option><option value="BR">Brazil</option><option value="IO">British Indian Ocean Territory</option><option value="VG">British Virgin Islands</option><option value="BN">Brunei</option><option value="BG">Bulgaria</option><option value="BF">Burkina Faso</option><option value="BI">Burundi</option><option value="KH">Cambodia</option><option value="CM">Cameroon</option><option value="CA">Canada</option><option value="IC">Canary Islands</option><option value="CV">Cape Verde</option><option value="BQ">Caribbean Netherlands</option><option value="KY">Cayman Islands</option><option value="CF">Central African Republic</option><option value="EA">Ceuta &amp; Melilla</option><option value="TD">Chad</option><option value="CL">Chile</option><option value="CN">China</option><option value="CX">Christmas Island</option><option value="CC">Cocos (Keeling) Islands</option><option value="CO">Colombia</option><option value="KM">Comoros</option><option value="CG">Congo - Brazzaville</option><option value="CD">Congo - Kinshasa</option><option value="CK">Cook Islands</option><option value="CR">Costa Rica</option><option value="HR">Croatia</option><option value="CU">Cuba</option><option value="CW">Curaçao</option><option value="CY">Cyprus</option><option value="CZ">Czech Republic</option><option value="CI">Côte d’Ivoire</option><option value="DK">Denmark</option><option value="DG">Diego Garcia</option><option value="DJ">Djibouti</option><option value="DM">Dominica</option><option value="DO">Dominican Republic</option><option value="EC">Ecuador</option><option value="EG">Egypt</option><option value="SV">El Salvador</option><option value="GQ">Equatorial Guinea</option><option value="ER">Eritrea</option><option value="EE">Estonia</option><option value="ET">Ethiopia</option><option value="FK">Falkland Islands</option><option value="FO">Faroe Islands</option><option value="FJ">Fiji</option><option value="FI">Finland</option><option value="FR">France</option><option value="GF">French Guiana</option><option value="PF">French Polynesia</option><option value="TF">French Southern Territories</option><option value="GA">Gabon</option><option value="GM">Gambia</option><option value="GE">Georgia</option><option value="DE">Germany</option><option value="GH">Ghana</option><option value="GI">Gibraltar</option><option value="GR">Greece</option><option value="GL">Greenland</option><option value="GD">Grenada</option><option value="GP">Guadeloupe</option><option value="GU">Guam</option><option value="GT">Guatemala</option><option value="GG">Guernsey</option><option value="GN">Guinea</option><option value="GW">Guinea-Bissau</option><option value="GY">Guyana</option><option value="HT">Haiti</option><option value="HN">Honduras</option><option value="HK">Hong Kong SAR China</option><option value="HU">Hungary</option><option value="IS">Iceland</option><option value="IN">India</option><option value="ID">Indonesia</option><option value="IR">Iran</option><option value="IQ">Iraq</option><option value="IE">Ireland</option><option value="IM">Isle of Man</option><option value="IL">Israel</option><option value="IT">Italy</option><option value="JM">Jamaica</option><option value="JP">Japan</option><option value="JE">Jersey</option><option value="JO">Jordan</option><option value="KZ">Kazakhstan</option><option value="KE">Kenya</option><option value="KI">Kiribati</option><option value="XK">Kosovo</option><option value="KW">Kuwait</option><option value="KG">Kyrgyzstan</option><option value="LA">Laos</option><option value="LV">Latvia</option><option value="LB">Lebanon</option><option value="LS">Lesotho</option><option value="LR">Liberia</option><option value="LY">Libya</option><option value="LI">Liechtenstein</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option><option value="MO">Macau SAR China</option><option value="MK">Macedonia</option><option value="MG">Madagascar</option><option value="MW">Malawi</option><option value="MY">Malaysia</option><option value="MV">Maldives</option><option value="ML">Mali</option><option value="MT">Malta</option><option value="MH">Marshall Islands</option><option value="MQ">Martinique</option><option value="MR">Mauritania</option><option value="MU">Mauritius</option><option value="YT">Mayotte</option><option value="MX">Mexico</option><option value="FM">Micronesia</option><option value="MD">Moldova</option><option value="MC">Monaco</option><option value="MN">Mongolia</option><option value="ME">Montenegro</option><option value="MS">Montserrat</option><option value="MA">Morocco</option><option value="MZ">Mozambique</option><option value="MM">Myanmar (Burma)</option><option value="NA">Namibia</option><option value="NR">Nauru</option><option value="NP">Nepal</option><option value="NL">Netherlands</option><option value="NC">New Caledonia</option><option value="NZ">New Zealand</option><option value="NI">Nicaragua</option><option value="NE">Niger</option><option value="NG">Nigeria</option><option value="NU">Niue</option><option value="NF">Norfolk Island</option><option value="KP">North Korea</option><option value="MP">Northern Mariana Islands</option><option value="NO">Norway</option><option value="OM">Oman</option><option value="PK">Pakistan</option><option value="PW">Palau</option><option value="PS">Palestinian Territories</option><option value="PA">Panama</option><option value="PG">Papua New Guinea</option><option value="PY">Paraguay</option><option value="PE">Peru</option><option value="PH">Philippines</option><option value="PN">Pitcairn Islands</option><option value="PL">Poland</option><option value="PT">Portugal</option><option value="PR">Puerto Rico</option><option value="QA">Qatar</option><option value="RO">Romania</option><option value="RU">Russia</option><option value="RW">Rwanda</option><option value="RE">Réunion</option><option value="WS">Samoa</option><option value="SM">San Marino</option><option value="SA">Saudi Arabia</option><option value="SN">Senegal</option><option value="RS">Serbia</option><option value="SC">Seychelles</option><option value="SL">Sierra Leone</option><option value="SG">Singapore</option><option value="SX">Sint Maarten</option><option value="SK">Slovakia</option><option value="SI">Slovenia</option><option value="SB">Solomon Islands</option><option value="SO">Somalia</option><option value="ZA">South Africa</option><option value="GS">South Georgia &amp; South Sandwich Islands</option><option value="KR">South Korea</option><option value="SS">South Sudan</option><option value="ES">Spain</option><option value="LK">Sri Lanka</option><option value="BL">St. Barthélemy</option><option value="SH">St. Helena</option><option value="KN">St. Kitts &amp; Nevis</option><option value="LC">St. Lucia</option><option value="MF">St. Martin</option><option value="PM">St. Pierre &amp; Miquelon</option><option value="VC">St. Vincent &amp; Grenadines</option><option value="SD">Sudan</option><option value="SR">Suriname</option><option value="SJ">Svalbard &amp; Jan Mayen</option><option value="SZ">Swaziland</option><option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="SY">Syria</option><option value="ST">São Tomé &amp; Príncipe</option><option value="TW">Taiwan</option><option value="TJ">Tajikistan</option><option value="TZ">Tanzania</option><option value="TH">Thailand</option><option value="TL">Timor-Leste</option><option value="TG">Togo</option><option value="TK">Tokelau</option><option value="TO">Tonga</option><option value="TT">Trinidad &amp; Tobago</option><option value="TA">Tristan da Cunha</option><option value="TN">Tunisia</option><option value="TR">Turkey</option><option value="TM">Turkmenistan</option><option value="TC">Turks &amp; Caicos Islands</option><option value="TV">Tuvalu</option><option value="UM">U.S. Outlying Islands</option><option value="VI">U.S. Virgin Islands</option><option value="UG">Uganda</option><option value="UA">Ukraine</option><option value="AE">United Arab Emirates</option><option value="GB">United Kingdom</option><option value="US">United States</option><option value="UY">Uruguay</option><option value="UZ">Uzbekistan</option><option value="VU">Vanuatu</option><option value="VA">Vatican City</option><option value="VE">Venezuela</option><option value="VN">Vietnam</option><option value="WF">Wallis &amp; Futuna</option><option value="EH">Western Sahara</option><option value="YE">Yemen</option><option value="ZM">Zambia</option><option value="ZW">Zimbabwe</option><option value="AX">Åland Islands</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <select id="form_countryRegion" name="form[countryRegion]" data-plugin="select2" data-placeholder="Region" data-allow-clear="true"  aria-hidden="true">
-                                                <option></option><option value="Abruzzo">Abruzzo</option><option value="Basilicata">Basilicata</option><option value="Calabria">Calabria</option><option value="Campania">Campania</option><option value="Emilia Romagna">Emilia Romagna</option><option value="Friuli Venezia Giulia">Friuli Venezia Giulia</option><option value="Lazio">Lazio</option><option value="Liguria">Liguria</option><option value="Lombardia">Lombardia</option><option value="Marche">Marche</option><option value="Molise">Molise</option><option value="Piemonte">Piemonte</option><option value="Puglia">Puglia</option><option value="Sardegna">Sardegna</option><option value="Sicilia">Sicilia</option><option value="Tosacana">Toscana</option><option value="Trentino Alto Adige">Trentino Alto Adige</option><option value="Umbria">Umbria</option><option value="Valle Aosta">Valle Aosta</option><option value="Veneto">Veneto</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="text" id="form_taxCode" class="form-control" name="form[taxCode]" value="{{ user.taxCode }}" pattern=".{6,20}">
-                                            <label class="floating-label" for="form_taxCode">Tax code</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <label class="control-label" for="form_status">Typology *</label>
-                                            <select id="form_status" name="form[status]" data-plugin="select2" data-placeholder="Select agent" data-allow-clear="true"  aria-hidden="true" required="required">
-                                                {% if is_granted('ROLE_ADMIN') %}
-                                                    <option value="prospect">Prospect</option>
-                                                    <option value="client">Client</option>
-                                                {% elseif is_granted('ROLE_SUPER_ADMIN') %}
-                                                    <option value="operator">Operator</option>
-                                                {% endif %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <input type="hidden" id="form__token" name="form[_token]" value="{{ formUser._token.vars.value }}">
+                        <div class="modal-body">
+                            <div class="row">
+                                {% include 'user/formUserEdit.html.twig' %}
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
-                                <button type="submit" id="form_save" class="btn btn-primary waves-effect waves-light" name="formUser[save]">Update user</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- End Modal -->
-            <script>
-                $( document ).ready(function() {
-                    $("#form_countryName").val("{{ user.countryName }}").trigger("change");
-                    $("#form_countryRegion").val("{{ user.countryRegion }}").trigger("change");
-                });
-            </script>
-
-        </div>
-
-        <div class="col-sm-12 col-md-6">
-
-            <div class="panel">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Journey</h3>
-                </div>
-                <div class="panel-body">
-                    {% for journey in userJourneys %}
-                        Clinic: {{ journey.clinic }}</br>
-                        Arrival date: {{ journey.arrivalDate|date('d/m/Y') }}</br>
-                        Appointment date: {{ journey.appointmentDate|date('d/m/Y') }}</br>
-                        Departure date: {{ journey.departureDate|date('d/m/Y') }}</br>
-                        Accommodation: {{ journey.accommodation }}</br>
-                        Accommodation address: {{ journey.accommodationAddress }}</br>
-                        Transport load to client: {{ journey.transportLoadClient }}</br>
-                        Transport load to Hc: {{ journey.transportLoadHc }}</br>
-                        Night load to client: {{ journey.nightLoadClient }}</br>
-                        Night load to Hc: {{ journey.nightLoadHc }}</br>
-                        Notes: {{ journey.notes }}</br></br>
-                    {% endfor %}
-                </div>
-                <div class="panel-footer">
-                    <button class="btn btn-primary waves-effect waves-light" data-target="#addJourney" data-toggle="modal" type="button">Add journey</button>
-                </div>
-            </div>
-
-            <!-- Modal -->
-            <div class="modal fade" id="addJourney" aria-hidden="true" role="dialog" >
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                            <h4 class="modal-title" id="exampleModalTitle">Add Journey</h4>
                         </div>
-                        <form name="formJourney" method="post">
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="form_arrivalDate">Arrival date *</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                  <i class="icon md-calendar" aria-hidden="true"></i>
-                                                </span>
-                                                <input type="text" id="form_arrivalDate" class="form-control" class="datepicker" name="form[arrivalDate]" data-plugin="datepicker" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="form_appointmentDate">Appointment date *</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                  <i class="icon md-calendar" aria-hidden="true"></i>
-                                                </span>
-                                                <input type="text" id="form_appointmentDate" class="form-control" class="datepicker" name="form[appointmentDate]" data-plugin="datepicker" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <label class="form-control-label" for="form_clinic">Clinic</label>
-                                            <select id="form_clinic" name="form[clinic]" data-plugin="select2" data-placeholder="Select a clinic" data-allow-clear="true"  aria-hidden="true" required="required">
-                                                <option></option>
-                                                {% for clinic in clinics %}
-                                                    <option value="{{ clinic.id }}">{{ clinic }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="form_departureDate">Departure date</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                  <i class="icon md-calendar" aria-hidden="true"></i>
-                                                </span>
-                                                <input type="text" id="form_departureDate" class="form-control" class="datepicker" name="form[departureDate]" data-plugin="datepicker" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="text" id="form_accommodation" class="form-control" name="form[accommodation]" pattern=".{3,255}">
-                                            <label class="floating-label" for="form_accommodation">Accommodation</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="text" id="form_accommodationAddress" class="form-control" name="form[accommodationAddress]" pattern=".{3,255}">
-                                            <label class="floating-label" for="form_accommodationAddress">Accommodation address</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="select2-info">
-                                            <label class="form-control-label" for="form_transportLoadClient">Transport load to client</label>
-                                            <select id="form_transportLoadClient" name="form[transportLoadClient][]" class="form-control" multiple="multiple" data-plugin="select2">
-                                                <option value="train">Train</option>
-                                                <option value="client car">Client Car</option>
-                                                <option value="airplane">Airplane</option>
-                                                <option value="goopti">GoOpti</option>
-                                                <option value="hc car">Hc car</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="select2-info">
-                                            <label class="form-control-label" for="form_transportLoadHc">Transport load to Hc</label>
-                                            <select id="form_transportLoadHc" name="form[transportLoadHc][]" class="form-control" multiple="multiple" data-plugin="select2">
-                                                <option value="train">Train</option>
-                                                <option value="client car">Client Car</option>
-                                                <option value="airplane">Airplane</option>
-                                                <option value="goopti">GoOpti</option>
-                                                <option value="hc car">Hc car</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="text" id="form_nightLoadClient" class="form-control" name="form[nightLoadClient]" pattern="[0-9]{1,3}">
-                                            <label class="floating-label" for="form_nightLoadClient">Night load to client</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <div class="form-group form-material floating" data-plugin="formMaterial">
-                                            <input type="text" id="form_nightLoadHc" class="form-control" name="form[nightLoadHc]" pattern="[0-9]{1,3}">
-                                            <label class="floating-label" for="form_nightLoadHc">Night load to hc</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group form-material floating" data-plugin="formMaterial">
-                                    <input type="text" id="form_notes" class="form-control" name="form[notes]" maxlength="255">
-                                    <label for="form_notes" class="floating-label">Notes</label>
-                                </div>
-                                <input type="hidden" id="form__token" name="form[_token]" value="{{ formDocument._token.vars.value }}">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
-                                <button type="submit" id="formJourney_save" class="btn btn-primary waves-effect waves-light" name="formJourney[save]">Save journey</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
             <!-- End Modal -->
-
         </div>
-
-    </div>
-
-    <div class="row">
 
         <div class="col-sm-12 col-md-6">
 
@@ -503,7 +183,12 @@
                 </div>
                 <div class="panel-body">
                     {% for document in userDocuments %}
-                        <a href="/download/{{ user.id }}/{{ document.documentName }}" target="_blank">{{ document.documentType }}</a> {{ document.uploadAt|date('d/m/Y') }}<br>
+                        <button href="{{ path('documentDelete', {'userid': user.id, 'documentid': document.id}) }}" class="btn btn-sm btn-icon btn-danger btn-round btn-raised waves-effect waves-effect pull-right warningConfirm" id="">
+                            <i class="icon md-delete" aria-hidden="true"></i>
+                        </button>
+                        {{ document.name }} <br>
+                        <a href="/download/{{ user.id }}/{{ document.documentName }}" target="_blank">{{ document.documentType }}</a><br>
+                        {{ document.uploadAt|date('d/m/Y') }}<br><br>
                     {% endfor %}
                 </div>
                 <div class="panel-footer">
@@ -522,36 +207,140 @@
                             </button>
                             <h4 class="modal-title" id="exampleModalTitle">Add document</h4>
                         </div>
-                        <form name="formDocument" method="post" enctype="multipart/form-data">
-                            <div class="modal-body">
-                                <div class="form-group form-material floating" data-plugin="formMaterial">
-                                    <label class="form-control-label" for="form_documentType">Document type</label>
-                                    <select id="form_documentType" name="form[documentType]" data-plugin="select2" data-placeholder="Select document type" data-allow-clear="true"  aria-hidden="true" required="required">
-                                        <option></option>
-                                        <option value="panoramic">dental panoramic</option>
-                                        <option value="quote">quote</option>
-                                        <option value="id">id document</option>
-                                        <option value="other">other document</option>
-                                    </select>
-                                </div>
-                                <div class="input-group input-group-file" data-plugin="inputGroupFile">
-                                    <div class="vich-file">
-                                        <input type="file" id="form_documentFile_file" class="form-control" name="form[documentFile][file]" required="required">
-                                    </div>
-                                </div>
-                                <input type="hidden" id="form__token" name="form[_token]" value="{{ formDocument._token.vars.value }}">
-                                <!--button type="submit" id="formDocument_save" name="formDocument[save]">Save Document</button-->
+                        <div class="modal-body">
+                            <div class="row">
+                                {% include 'user/formUserDocument.html.twig' %}
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
-                                <button type="submit" id="formDocument_save" class="btn btn-primary waves-effect waves-light" name="formDocument[save]">Add document</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Modal -->
+            <script>
+                $( document ).ready(function() {
+
+                    $('.warningConfirm').on("click", function() {
+                        $target = $(this).attr('href');
+                        console.log($target);
+                        swal({
+                            title: "Are you sure?",
+                            text: "You will not be able to recover this file!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: 'Yes, delete it!',
+                            closeOnConfirm: false,
+                            //closeOnCancel: false
+                            },
+                        function() {
+                            swal({
+                                title: "Deleted!",
+                                text: "Your file has been deleted!",
+                                type: "success",
+                                showConfirmButton: false
+                            });
+                            setTimeout(function() {
+                                window.location = $target;
+                            }, 1000);
+                        });
+                    });
+
+                });
+            </script>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-12 col-md-6">
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Journey</h3>
+                </div>
+                <div class="panel-body">
+                    {% for journey in userJourneys %}
+                        <button type="button" data-id="{{ journey.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-journey" data-target="#editJourney" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                            <i class="icon md-edit" aria-hidden="true"></i>
+                        </button>
+                        Clinic: {{ journey.clinic }}</br>
+                        Arrival date: {{ journey.arrivalDate|date('d/m/Y') }}</br>
+                        Appointment date: {{ journey.appointmentDate|date('d/m/Y') }}</br>
+                        Departure date: {{ journey.departureDate|date('d/m/Y') }}</br>
+                        Accommodation: {{ journey.accommodation }}</br>
+                        Accommodation address: {{ journey.accommodationAddress }}</br>
+                        Transport load to client: {{ journey.transportLoadClient }}</br>
+                        Transport load to Hc: {{ journey.transportLoadHc }}</br>
+                        Night load to client: {{ journey.nightLoadClient }}</br>
+                        Night load to Hc: {{ journey.nightLoadHc }}</br>
+                        Notes: {{ journey.notes }}</br></br>
+                    {% endfor %}
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-primary waves-effect waves-light" data-target="#addJourney" data-toggle="modal" type="button">Add journey</button>
+                </div>
+            </div>
+
+            <!-- Modal Add Journey-->
+            <div class="modal fade" id="addJourney" aria-hidden="true" role="dialog" >
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="exampleModalTitle">Add Journey</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                {% include 'user/formUserJourney.html.twig' %}
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
             <!-- End Modal -->
 
+            <!-- Modal Update Journey-->
+            <div class="modal fade" id="editJourney" aria-hidden="true" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="exampleModalTitle">Update Journey</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div id="ajaxresponse_formUserJourneyEdit"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Modal -->
+
+            <script>
+                $( document ).ready(function() {
+
+                    $('.edit-journey').click(function() {
+                        var id = $(this).data('id');
+                        var route = '{{ path('ajax_formUserJourneyEdit', { 'id': "PLACEHOLDER" }) }}';
+                        route = route.replace("PLACEHOLDER", id);
+                        $.ajax({
+                            type: 'POST',
+                            url:  route,
+                            success: function(response) {
+                                $('#ajaxresponse_formUserJourneyEdit').html(response);
+                                $('.modal-body').find('[data-plugin="select2"]').select2({ width: '100%' });
+                            },
+                            async: false
+                        })
+                    });
+                });
+            </script>
         </div>
 
     </div>

@@ -64,7 +64,7 @@ class Clinic{
 	protected $streetName;
 
 	/**
-	 * @ORM\Column(type="string", length=255, nullable=true)
+	 * @ORM\Column(type="string", length=255)
 	 *
 	 * @Assert\Length(
 	 *     min=3,
@@ -90,7 +90,7 @@ class Clinic{
 	protected $zipCode;
 
 	/**
-	 * @ORM\Column(type="string", length=255, nullable=true)
+	 * @ORM\Column(type="string", length=255)
 	 *
 	 * @Assert\Country
 	 */
