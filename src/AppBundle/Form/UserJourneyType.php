@@ -17,6 +17,9 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 class UserJourneyType extends AbstractType{
 	public function buildForm(FormBuilderInterface $builder, array $options){
 		$builder
+			->add('id', null, array(
+				'mapped' => false
+			))
 			->add('clinic')
 			->add('arrivalDate', DateType::class, array(
 				'widget' => 'single_text',

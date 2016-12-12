@@ -100,7 +100,7 @@
                             "formOrigin": '{{ event.formOrigin.formName | default("") }} - {{ event.formOrigin.formDomain | default("") }} - {{ event.formOrigin.notes | default("") }}',
                             "demOrigin": '{{ event.demOrigin.demName | default("") }} - {{ event.demOrigin.discount | default("") }}% - {{ event.demOrigin.notes | default("") }}',
                             "notes": '{{ event.notes }}',
-                            "op": '<button type="button" data-id="{{ event.id }}" data-contactMethod="{{ event.contactMethod }}" data-contactReason="{{ event.contactReason }}" data-formOrigin="{{ event.formOrigin.id | default("") }}"  data-demOrigin="{{ event.demOrigin.id | default("") }}" data-date="{{ event.date|date('d/m/Y') }}" data-agentUser="{{ event.agentUser.id | default("") }}" data-notes="{{ event.notes }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect waves-effect edit-event" data-target="#editEvent" data-toggle="modal" data-original-title="Edit"><i class="icon md-edit" aria-hidden="true"></i></button>'
+                            "op": '<button type="button" data-id="{{ event.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect waves-effect edit-event" data-target="#editEvent" data-toggle="modal" data-original-title="Edit"><i class="icon md-edit" aria-hidden="true"></i></button>'
                         },
                         {% endfor %}
                     ];
@@ -138,7 +138,7 @@
                     <h3 class="panel-title">User</h3>
                 </div>
                 <div class="panel-body">
-                    <button type="button" class="btn btn-sm btn-icon btn-primary btn-round waves-effect entity-edit" data-target="#editUser" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                    <button type="button" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-user" data-target="#editUser" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
                         <i class="icon md-edit" aria-hidden="true"></i>
                     </button>
                     Name: {{ user.name }}</br>
@@ -259,7 +259,7 @@
                 </div>
                 <div class="panel-body">
                     {% for journey in userJourneys %}
-                        <button type="button" class="btn btn-sm btn-icon btn-primary btn-round waves-effect entity-edit" data-target="#editUser" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                        <button type="button" data-id="{{ journey.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-journey" data-target="#editJourney" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
                             <i class="icon md-edit" aria-hidden="true"></i>
                         </button>
                         Clinic: {{ journey.clinic }}</br>
@@ -280,7 +280,7 @@
                 </div>
             </div>
 
-            <!-- Modal -->
+            <!-- Modal Add Journey-->
             <div class="modal fade" id="addJourney" aria-hidden="true" role="dialog" >
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -299,6 +299,46 @@
                 </div>
             </div>
             <!-- End Modal -->
+
+            <!-- Modal Update Journey-->
+            <div class="modal fade" id="editJourney" aria-hidden="true" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="exampleModalTitle">Update Journey</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div id="ajaxresponse_formUserJourneyEdit"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Modal -->
+
+            <script>
+                $( document ).ready(function() {
+
+                    $('.edit-journey').click(function() {
+                        var id = $(this).data('id');
+                        var route = '{{ path('ajax_formUserJourneyEdit', { 'id': "PLACEHOLDER" }) }}';
+                        route = route.replace("PLACEHOLDER", id);
+                        $.ajax({
+                            type: 'POST',
+                            url:  route,
+                            success: function(response) {
+                                $('#ajaxresponse_formUserJourneyEdit').html(response);
+                                $('.modal-body').find('[data-plugin="select2"]').select2({ width: '100%' });
+                            },
+                            async: false
+                        })
+                    });
+                });
+            </script>
         </div>
 
     </div>

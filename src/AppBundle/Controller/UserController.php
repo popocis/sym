@@ -39,17 +39,20 @@ class UserController extends Controller {
 		} else {
 			$userEvent = new UserEvent();
 		}
-
 		$formEvent = $this->createForm(UserEventType::class, $userEvent);
 
 		$userDocument = new UserDocument();
 		$formDocument = $this->createForm(UserDocumentType::class, $userDocument);
 
-		$userJourney = new UserJourney();
+		$journeyId = isset($request->request->get('user_journey')['id']) ? $request->request->get('user_journey')['id'] : null;
+		if (!is_null($journeyId)){
+			$userJourney = $this->getDoctrine()->getRepository('AppBundle:UserJourney')->find($journeyId);
+		} else {
+			$userJourney = new UserJourney();
+		}
 		$formJourney = $this->createForm(UserJourneyType::class, $userJourney);
 
 		if('POST' === $request->getMethod()) {
-
 			if($request->request->has('user_event')){
 				$formEvent->handleRequest($request);
 				if ($formEvent->isSubmitted() && $formEvent->isValid()) {
@@ -80,8 +83,8 @@ class UserController extends Controller {
 				$formJourney->handleRequest($request);
 				if ($formJourney->isSubmitted() && $formJourney->isValid()) {
 					$userJourney = $formJourney->getData();
-					$userJourney->setTransportLoadClient(implode(", ",$userJourney->getTransportLoadClient()));
-					$userJourney->setTransportLoadHc(implode(", ",$userJourney->getTransportLoadHc()));
+					$userJourney->setTransportLoadClient(implode(",",$userJourney->getTransportLoadClient()));
+					$userJourney->setTransportLoadHc(implode(",",$userJourney->getTransportLoadHc()));
 					$userOperator = $this->get('security.token_storage')->getToken()->getUser();
 					$userJourney->setAdminUser($userOperator);
 					$userJourney->setCustomerUser($user);
@@ -90,7 +93,6 @@ class UserController extends Controller {
 					$em->flush();
 				}
 			}
-
 			elseif($request->request->has('user')) {
 				$formUser->handleRequest($request);
 				if ($formUser->isSubmitted() && $formUser->isValid()) {
@@ -170,19 +172,27 @@ class UserController extends Controller {
 	 */
 	public function editUserEventAction($id){
 		if ($this->container->get('request')->isXmlHttpRequest()) {
-
 			$event = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->find($id);
-
-			if (!$event) {
-				throw $this->createNotFoundException('Unable to find Event entity.');
-			}
-
 			$formEvent = $this->createForm(UserEventType::class, $event);
-
 			$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
 			$demsOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->findAll();
 			$agents = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('status' => "agent"));
 			return $this->container->get('templating')->renderResponse('user/formUserEventEdit.html.twig', array('formEvent' => $formEvent->createView(), 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'agents' => $agents, 'event' => $event) );
+		}
+	}
+
+	/**
+	 * @Route("/user/journey/edit/{id}", name="ajax_formUserJourneyEdit")
+	 */
+	public function editUserJourneyAction($id){
+		if ($this->container->get('request')->isXmlHttpRequest()) {
+			$journey = $this->getDoctrine()->getRepository('AppBundle:UserJourney')->find($id);
+			$formJourney = $this->createForm(UserJourneyType::class, $journey);
+			/*$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
+			$demsOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->findAll();
+			$agents = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('status' => "agent"));*/
+			$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
+			return $this->container->get('templating')->renderResponse('user/formUserJourneyEdit.html.twig', array('formJourney' => $formJourney->createView(), 'clinics' => $clinics, 'journey' => $journey) );
 		}
 	}
 }
