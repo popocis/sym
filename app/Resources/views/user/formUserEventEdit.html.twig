@@ -63,6 +63,12 @@
     </div>
     <div class="col-xs-12">
         <div class="form-group form-material">
+            <label class="form-control-label">Message</label>
+            <input type="text" id="user_event_message" class="form-control" name="user_event[message]" value="{{ event.message }}">
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="form-group form-material">
             <label class="form-control-label">Notes</label>
             <input type="text" id="user_event_notes" class="form-control" name="user_event[notes]" value="{{ event.notes }}">
         </div>
@@ -128,6 +134,13 @@
                             },
                             dateITA: {
                                 format: 'dd/mm/yyyy'
+                            }
+                        }
+                    },
+                    "user_event[message]": {
+                        validators: {
+                            stringLength: {
+                                max: 255
                             }
                         }
                     },

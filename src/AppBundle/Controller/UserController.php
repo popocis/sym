@@ -104,7 +104,7 @@ class UserController extends Controller {
 				}
 			}
 		}
-		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id));
+		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id), array('date' => 'DESC'));
 		$documents = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->findBy(array('customerUser' => $id));
 		$journeys = $this->getDoctrine()->getRepository('AppBundle:UserJourney')->findBy(array('customerUser' => $id));
 		$agents = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('status' => "agent"));
@@ -123,11 +123,6 @@ class UserController extends Controller {
 			throw $this->createNotFoundException('User not found');
 		}
 		return $user;
-	}
-
-	private function checkUserRoles($user) {
-		$roles = $user->getRoles();
-		return $roles;
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver){
@@ -190,9 +185,6 @@ class UserController extends Controller {
 		if ($this->container->get('request')->isXmlHttpRequest()) {
 			$journey = $this->getDoctrine()->getRepository('AppBundle:UserJourney')->find($id);
 			$formJourney = $this->createForm(UserJourneyType::class, $journey);
-			/*$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
-			$demsOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->findAll();
-			$agents = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('status' => "agent"));*/
 			$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
 			return $this->container->get('templating')->renderResponse('user/formUserJourneyEdit.html.twig', array('formJourney' => $formJourney->createView(), 'clinics' => $clinics, 'journey' => $journey) );
 		}
@@ -204,12 +196,24 @@ class UserController extends Controller {
 	public function userDeleteAction($id) {
 		$doc = $this->getDoctrine();
 		$em = $doc->getEntityManager();
-
 		$user = $doc->getRepository('AppBundle:User')->find($id);
 		$user->setDeleted(1);
 		$em->persist($user);
 		$em->flush();
+		$response = new JsonResponse('');
+		return $response;
+	}
 
+	/**
+	 * @Route("/user/activate/{id}", name="ajaxUserActivate")
+	 */
+	public function userActivateAction($id) {
+		$doc = $this->getDoctrine();
+		$em = $doc->getEntityManager();
+		$user = $doc->getRepository('AppBundle:User')->find($id);
+		$user->setDeleted(0);
+		$em->persist($user);
+		$em->flush();
 		$response = new JsonResponse('');
 		return $response;
 	}

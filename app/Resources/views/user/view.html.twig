@@ -35,6 +35,7 @@
                             <th data-field="agentCountry">Agent Country</th>
                             <th data-field="formOrigin">Form Origin</th>
                             <th data-field="demOrigin">Dem Origin</th>
+                            <th data-field="message">Message</th>
                             <th data-field="notes">Notes</th>
                             <th data-field="op">Edit</th>
                         </tr>
@@ -99,6 +100,7 @@
                             "agentCountry": '{{ event.agentUser.countryName | default("") }}',
                             "formOrigin": '{{ event.formOrigin.formName | default("") }} - {{ event.formOrigin.formDomain | default("") }} - {{ event.formOrigin.notes | default("") }}',
                             "demOrigin": '{{ event.demOrigin.demName | default("") }} - {{ event.demOrigin.discount | default("") }}% - {{ event.demOrigin.notes | default("") }}',
+                            "message": '{{ event.message }}',
                             "notes": '{{ event.notes }}',
                             "op": '<button type="button" data-id="{{ event.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect waves-effect edit-event" data-target="#editEvent" data-toggle="modal" data-original-title="Edit"><i class="icon md-edit" aria-hidden="true"></i></button>'
                         },
@@ -183,7 +185,7 @@
                 </div>
                 <div class="panel-body">
                     {% for document in userDocuments %}
-                        <button href="{{ path('documentDelete', {'userid': user.id, 'documentid': document.id}) }}" class="btn btn-sm btn-icon btn-danger btn-round btn-raised waves-effect waves-effect pull-right warningConfirm" id="">
+                        <button href="{{ path('documentDelete', {'userid': user.id, 'documentid': document.id}) }}" class="btn btn-sm btn-icon btn-danger btn-round btn-raised waves-effect waves-effect pull-right warningConfirm" data-toggle="tooltip" data-original-title="Delete file">
                             <i class="icon md-delete" aria-hidden="true"></i>
                         </button>
                         {{ document.name }} <br>

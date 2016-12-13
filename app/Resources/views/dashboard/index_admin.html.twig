@@ -8,6 +8,8 @@
         var $table = $('#UserTable');
 
         $table.bootstrapTable();
+        $table.bootstrapTable('hideColumn', 'country');
+        $table.bootstrapTable('hideColumn', 'presentation');
         $table.bootstrapTable('hideColumn', 'birthDate');
         $table.bootstrapTable('hideColumn', 'address');
         $table.bootstrapTable('hideColumn', 'zipCode');
@@ -22,13 +24,13 @@
         // })
 
         $table.on('click', '.js-delete-user', function (ev) {
-            var $target = $(ev.currentTarget); 
+            var $target = $(ev.currentTarget);
             var href = $target.data('href');
             var userName = $target.data('userName');
-            
+
             swal({
                 title: "Are you sure?",
-                text: "You will not be able to restore user " + userName + "!",
+                text: "You will be able to restore user " + userName + " later.",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#DD6B55',
@@ -63,6 +65,48 @@
             });
         });
 
+        $table.on('click', '.js-activate-user', function (ev) {
+            var $target = $(ev.currentTarget);
+            var href = $target.data('href');
+            var userName = $target.data('userName');
+
+            swal({
+                        title: "Are you sure?",
+                        text: "You will be able to delete user " + userName + " later.",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: 'Yes, activate it!',
+                        closeOnConfirm: false,
+                        showLoaderOnConfirm: true
+                    },
+                    function() {
+                        $.ajax({
+                                    method: 'POST',
+                                    url: href
+                                })
+                                .done(function () {
+                                    $table.bootstrapTable('refresh');
+
+                                    swal({
+                                        title: "Activated!",
+                                        text: "User " + userName + " has been activated!",
+                                        type: "success",
+                                        timer: 2000,
+                                        showConfirmButton: false,
+                                        closeOnConfirm: true
+                                    });
+                                })
+                                .fail(function () {
+                                    swal({
+                                        title: "Error!",
+                                        text: "Oops... Something went wrong!",
+                                        type: "error"
+                                    });
+                                });
+                    });
+        });
+
     });
 </script>
 
@@ -94,7 +138,7 @@
                         data-cache="false" 
                         data-side-pagination="server"
                         data-pagination="true"
-                        data-sort-name="registrationDate"
+                        data-sort-name="id"
                         data-sort-order="desc"
                         data-search="true"
                         data-show-columns="true"
@@ -102,6 +146,7 @@
                         data-page-list="[10, ALL]">
                         <thead>
                             <tr>
+                                <th data-field="id" data-sortable="true">{% trans %}Id{% endtrans %}</th>
                                 <th data-field="name" data-sortable="true">{% trans %}Name{% endtrans %}</th>
                                 <th data-field="surname" data-sortable="true">{% trans %}Surname{% endtrans %}</th>
                                 <th data-field="email">{% trans %}Email{% endtrans %}</th>
@@ -116,7 +161,7 @@
                                 <th data-field="notes">{% trans %}Notes{% endtrans %}</th>
                                 <th data-field="presentation">{% trans %}Presentation{% endtrans %}</th>
                                 <th data-field="registrationDate" data-sortable="true">{% trans %}Registration date{% endtrans %}</th>
-                                <th data-field="enabled" data-align="center">{% trans %}Status{% endtrans %}</th>
+                                <th data-field="enabled" data-align="center">{% trans %}Public{% endtrans %}</th>
                                 <th data-field="op" data-align="center"></th>
                             </tr>
                         </thead>
