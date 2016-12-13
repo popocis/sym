@@ -148,7 +148,7 @@
                     Email: {{ user.email }}</br>
                     Phone number: {{ user.phoneNumber }}</br>
                     Address: {{ user.streetName }} {{ user.streetNumber }} {{ user.cityName }} {{ user.zipCode }} {{ user.countryRegion }} {{ user.countryName }}</br>
-                    Birthdate: {{ user.birthdate|date('d/m/Y') }}</br>
+                    Birthdate: {{ (user.birthDate is empty ? '<mark>not set</mark>' : user.birthDate|date('d/m/Y'))|raw }}</br>
                     Taxcode: {{ user.taxCode }}</br>
                     Typology: {{ user.status }}</br>
                     Presentation: {{ user.presentation.name | default('')}} - {% if user.presentation and user.presentation.date is not empty %}{{ user.presentation.date | date('d/m/Y')}}{% endif %} - {{ user.presentation.place | default('')}}</br>

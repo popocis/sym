@@ -7,18 +7,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 /**
  * @Route("/ajax/bootstrapTable")
  */
 class BootstrapTableController extends Controller {
-	private $jsonEncoder;
-
-	public function __construct() {
-		$this->jsonEncoder = new JsonEncoder();
-	}
-
 	/**
 	 * @Route("/users.json", name="ajax_bootstrap-table_users", methods="GET")
 	 */
@@ -33,14 +28,7 @@ class BootstrapTableController extends Controller {
 		$users = $this->listUsers($em, $search, $sort, $order, $offset, $limit);
 		$usersCount = $this->countUsers($em);
 
-		$response = new Response();
-
-		$response->setContent($this->encodeUsersToJson($users, $usersCount));
-		$response->setStatusCode(Response::HTTP_OK);
-
-		$response->headers->set('Content-Type', 'application/json');
-
-		return $response;
+		return new JsonResponse($this->encodeUsersToJson($users, $usersCount));
 	}
 
 	private function encodeUsersToJson(array $users, $usersCount)
@@ -63,13 +51,11 @@ class BootstrapTableController extends Controller {
 				$presentation = $presentation->getName();
 			}
 
-			if($user->isDeleted()){
+			if ($user->isDeleted()) {
 				$delete = '<button data-href="'.($this->generateUrl('ajaxUserActivate', array('id'=>$user->getId()))).'" data-user-name="'.($user->getName().' '.$user->getSurName()).'" class="btn btn-sm btn-icon btn-success btn-round waves-effect pull-right js-activate-user" data-toggle="tooltip" data-original-title="Activate user"><i class="icon md-account-add" aria-hidden="true"></i></button>';
-			}
-			else{
+			} else {
 				$delete = '<button data-href="'.($this->generateUrl('ajaxUserDelete', array('id'=>$user->getId()))).'" data-user-name="'.($user->getName().' '.$user->getSurName()).'" class="btn btn-sm btn-icon btn-danger btn-round waves-effect pull-right js-delete-user" data-toggle="tooltip" data-original-title="Delete user"><i class="icon md-delete" aria-hidden="true"></i></button>';
 			}
-
 
 			$result[] = array(
 				'id' => $user->getId(),
@@ -96,17 +82,15 @@ class BootstrapTableController extends Controller {
                 'op' =>
 					'<a href="'.($this->generateUrl('userView', array('id'=>$user->getId()))).'" class="btn btn-sm btn-icon btn-raised btn-default btn-round waves-effect" data-toggle="tooltip" data-original-title="View user">'.
 						'<i class="icon md-eye" aria-hidden="true"></i>'.
-					'</a> '. $delete
+					'</a> '.$delete
 
 			);
 		}
 
-		$result = array(
+		return array(
 			'total' => $usersCount,
 			'rows' => $result  
 		);
-
-        return $this->jsonEncoder->encode($result, $format = 'json');
     }
 
 	private function listUsers($em, $search, $sort, $order, $offset, $limit) {
@@ -114,7 +98,6 @@ class BootstrapTableController extends Controller {
 
 		$qb->select('u');
 		$qb->from('AppBundle:User', 'u');
-		//$qb->where('u.deleted = 0');
 
 		if (!empty($search)) {
 			$qb->where('u.name like :search or u.surname like :search');

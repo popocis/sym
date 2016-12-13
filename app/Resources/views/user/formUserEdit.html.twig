@@ -18,7 +18,7 @@
         </div>
         <div class="form-group form-material">
             <label class="form-control-label">Birthdate</label>
-            <input type="text" id="user_birthDate" class="form-control" class="datepicker" name="user[birthDate]" data-plugin="datepicker" value="{{ user.birthDate|date('d/m/Y') }}">
+            <input type="text" id="user_birthDate" class="form-control" class="datepicker" name="user[birthDate]" data-plugin="datepicker" value="{{ user.birthDate is empty ? '' : user.birthDate|date('d/m/Y') }}">
         </div>
         <div class="form-group form-material">
             <label class="form-control-label">Typology *</label>
