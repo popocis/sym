@@ -35,6 +35,8 @@ class RegistrationListener implements EventSubscriberInterface {
 		$user = $event->getUser();
 		$password = substr($this->tokenGenerator->generateToken(), 0, 8);
 		$user->setPlainPassword($password);
+		$user->setDeleted(0);
+		$user->setEnabled(0);
 	}
 
 	public function onRegistrationSuccess(FormEvent $event) {

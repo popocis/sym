@@ -40,6 +40,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setStatus('operator');
 		$user->setCityName('Como');
 		$user->setCountryName('en');
+		$user->setDeleted(0);
 		// Update the user
 		$userManager->updateUser($user, true);
 
@@ -56,6 +57,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setStatus('operator');
 		$user->setCityName('Como');
 		$user->setCountryName('it');
+		$user->setDeleted(0);
 		// Update the user
 		$userManager->updateUser($user, true);
 
@@ -71,6 +73,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setPhonenumber(87654321);
 		$user->setStatus('operator');
 		$user->setCityName('Como');
+		$user->setDeleted(0);
 		// Update the user
 		$userManager->updateUser($user, true);
 
@@ -84,14 +87,15 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setUsername($name.'.'.$surname.$index.'@email.com');
 		$user->setEmail($name.'.'.$surname.$index.'@email.com');
 		$user->setPlainPassword('password');
-		$user->setEnabled(true);
+		$user->setEnabled(false);
 		$user->setRoles(array('ROLE_USER'));
 		$user->setName($name.$index);
 		$user->setSurname($surname.$index);
 		$user->setPhonenumber(12345678);
 		$user->setStatus('commercial');
-		$user->setCityName('Canicatti');
-
+		$user->setCityName('city name');
+		$user->setDeleted(0);
+		// Update the user
 		$um->updateUser($user, true);
 
 		return $user;

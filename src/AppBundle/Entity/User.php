@@ -335,4 +335,11 @@ class User extends BaseUser
 		return $this;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isDeleted(){
+		return $this->deleted;
+	}
+
 }

@@ -31,6 +31,7 @@ class UserEventType extends AbstractType{
 			->add('agentUser')
 			->add('formOrigin')
 			->add('demOrigin')
+			->add('message')
 			->add('notes')
 			->add('date', DateType::class, array(
 				'widget' => 'single_text',

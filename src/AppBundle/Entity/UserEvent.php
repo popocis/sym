@@ -68,6 +68,11 @@ class UserEvent{
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
 	 */
+	protected $message;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
 	protected $notes;
 
 	public function __construct() {
@@ -107,6 +112,10 @@ class UserEvent{
 
 	public function getDate() {
 		return $this->date;
+	}
+
+	public function getMessage() {
+		return $this->message;
 	}
 
 	public function getNotes() {
@@ -150,6 +159,11 @@ class UserEvent{
 
 	public function setDate($date) {
 		$this->date = $date;
+		return $this;
+	}
+
+	public function setMessage($message) {
+		$this->message = $message;
 		return $this;
 	}
 

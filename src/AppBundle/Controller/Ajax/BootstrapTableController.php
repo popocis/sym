@@ -24,7 +24,7 @@ class BootstrapTableController extends Controller {
 	 */
 	public function listAction(Request $request) {
 		$search = $request->get('search', null);
-		$sort = $request->get('sort', 'registrationDate');
+		$sort = $request->get('sort', 'id');
 		$order = $request->get('order', 'desc');
 		$offset = $request->get('offset', '0');
 		$limit = $request->get('limit', '10');
@@ -63,8 +63,16 @@ class BootstrapTableController extends Controller {
 				$presentation = $presentation->getName();
 			}
 
+			if($user->isDeleted()){
+				$delete = '<button data-href="'.($this->generateUrl('ajaxUserActivate', array('id'=>$user->getId()))).'" data-user-name="'.($user->getName().' '.$user->getSurName()).'" class="btn btn-sm btn-icon btn-success btn-round waves-effect pull-right js-activate-user" data-toggle="tooltip" data-original-title="Activate user"><i class="icon md-account-add" aria-hidden="true"></i></button>';
+			}
+			else{
+				$delete = '<button data-href="'.($this->generateUrl('ajaxUserDelete', array('id'=>$user->getId()))).'" data-user-name="'.($user->getName().' '.$user->getSurName()).'" class="btn btn-sm btn-icon btn-danger btn-round waves-effect pull-right js-delete-user" data-toggle="tooltip" data-original-title="Delete user"><i class="icon md-delete" aria-hidden="true"></i></button>';
+			}
+
 
 			$result[] = array(
+				'id' => $user->getId(),
 				'name' => $user->getName(),
 				'surname' => $user->getSurname(),
                 'email' => $user->getEmail(),
@@ -87,11 +95,9 @@ class BootstrapTableController extends Controller {
 					'</span>',
                 'op' =>
 					'<a href="'.($this->generateUrl('userView', array('id'=>$user->getId()))).'" class="btn btn-sm btn-icon btn-raised btn-default btn-round waves-effect" data-toggle="tooltip" data-original-title="View user">'.
-            			'<i class="icon md-eye" aria-hidden="true"></i>'.
-					'</a> '.
-					'<button data-href="'.($this->generateUrl('ajaxUserDelete', array('id'=>$user->getId()))).'" data-user-name="'.($user->getName().' '.$user->getSurName()).'" class="btn btn-sm btn-icon btn-danger btn-round waves-effect pull-right js-delete-user" data-toggle="tooltip" data-original-title="Delete user">'.
-						'<i class="icon md-delete" aria-hidden="true"></i>'.
-					'</button>'
+						'<i class="icon md-eye" aria-hidden="true"></i>'.
+					'</a> '. $delete
+
 			);
 		}
 
@@ -108,7 +114,7 @@ class BootstrapTableController extends Controller {
 
 		$qb->select('u');
 		$qb->from('AppBundle:User', 'u');
-		$qb->where('u.deleted = 0');
+		//$qb->where('u.deleted = 0');
 
 		if (!empty($search)) {
 			$qb->where('u.name like :search or u.surname like :search');

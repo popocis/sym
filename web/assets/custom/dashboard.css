@@ -172,6 +172,10 @@ body {
   margin-left: -16px;
   margin-right: -17px;
 }
+.page-header h1,
+.page-header p {
+  display: inline;
+}
 .site-menubar {
   top: 0;
 }
