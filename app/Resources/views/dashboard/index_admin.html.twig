@@ -1,5 +1,73 @@
 {% extends 'base.html.twig' %}
 
+{% block scripts %}
+
+<script>
+    $( document ).ready(function() {
+
+        var $table = $('#UserTable');
+
+        $table.bootstrapTable();
+        $table.bootstrapTable('hideColumn', 'birthDate');
+        $table.bootstrapTable('hideColumn', 'address');
+        $table.bootstrapTable('hideColumn', 'zipCode');
+        $table.bootstrapTable('hideColumn', 'region');
+        $table.bootstrapTable('hideColumn', 'taxCode');
+        $table.bootstrapTable('hideColumn', 'registrationDate');
+
+        // $(function () {
+        //     $('.page-list').find('select').change(function () {
+        //         console.log($table.bootstrapTable('getOptions'));
+        //     });
+        // })
+
+        $table.on('click', '.js-delete-user', function (ev) {
+            var $target = $(ev.currentTarget); 
+            var href = $target.data('href');
+            var userName = $target.data('userName');
+            
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to restore user " + userName + "!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, delete it!',
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            },
+            function() {
+                $.ajax({
+                    method: 'POST',
+                    url: href
+                })
+                .done(function () {
+                    $table.bootstrapTable('refresh');
+
+                    swal({
+                        title: "Deleted!",
+                        text: "User " + userName + " has been deleted!",
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false,
+                        closeOnConfirm: true
+                    });
+                })
+                .fail(function () {
+                    swal({
+                        title: "Error!",
+                        text: "Oops... Something went wrong!",
+                        type: "error"
+                    });
+                });
+            });
+        });
+
+    });
+</script>
+
+{% endblock %}
+
 {% block body %}
 
     <div class="page-header page-header-bordered">
@@ -17,7 +85,7 @@
                     <h3 class="panel-title">User List</h3>
                 </div>
                 <div class="panel-body">
-                    <table id="table"
+                    <table id="UserTable"
                         data-toggle="table"
                         data-url="{{ path('ajax_bootstrap-table_users') }}"
                         data-toolbar="#get"
@@ -30,10 +98,8 @@
                         data-sort-order="desc"
                         data-search="true"
                         data-show-columns="true"
-                        data-query-params="queryParams"
                         data-classes="table table-no-bordered"
-                        data-page-list="[10, ALL]"
-                        >
+                        data-page-list="[10, ALL]">
                         <thead>
                             <tr>
                                 <th data-field="name" data-sortable="true">{% trans %}Name{% endtrans %}</th>
@@ -59,32 +125,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        $( document ).ready(function() {
-            var $table = $('#table');
-            $table.bootstrapTable();
-            $table.bootstrapTable('hideColumn', 'birthDate');
-            $table.bootstrapTable('hideColumn', 'address');
-            $table.bootstrapTable('hideColumn', 'zipCode');
-            $table.bootstrapTable('hideColumn', 'region');
-            $table.bootstrapTable('hideColumn', 'taxCode');
-            $table.bootstrapTable('hideColumn', 'registrationDate');
-
-            $(function () {
-                $('.page-list').find('select').change(function () {
-                    console.log($table.bootstrapTable('getOptions'));
-                });
-            })
-
-        });
-
-        function queryParams(params) {
-            //params.limit = 10; // add param1
-            // console.log(JSON.stringify(params));
-            // {"limit":10,"offset":0,"order":"asc","your_param1":1,"your_param2":2}
-            return params;
-        }
-    </script>
 
 {% endblock %}

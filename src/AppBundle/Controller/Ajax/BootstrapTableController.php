@@ -26,8 +26,8 @@ class BootstrapTableController extends Controller {
 		$search = $request->get('search', null);
 		$sort = $request->get('sort', 'registrationDate');
 		$order = $request->get('order', 'desc');
-		$offset = $request->get('offset', '');
-		$limit = $request->get('limit', '');
+		$offset = $request->get('offset', '0');
+		$limit = $request->get('limit', '10');
 
 		$em = $this->getDoctrine()->getManager();
 		$users = $this->listUsers($em, $search, $sort, $order, $offset, $limit);
@@ -86,10 +86,10 @@ class BootstrapTableController extends Controller {
 					($user->isEnabled() ? 'Active' : 'Inactive').
 					'</span>',
                 'op' =>
-					'<a href="'.($this->generateUrl('userView', array('id'=>$user->getId()))).'" class="btn btn-sm btn-icon btn-raised btn-default waves-effect" data-toggle="tooltip" data-original-title="View user">'.
+					'<a href="'.($this->generateUrl('userView', array('id'=>$user->getId()))).'" class="btn btn-sm btn-icon btn-raised btn-default btn-round waves-effect" data-toggle="tooltip" data-original-title="View user">'.
             			'<i class="icon md-eye" aria-hidden="true"></i>'.
 					'</a> '.
-					'<button type="button" class="btn btn-sm btn-icon btn-raised btn-danger waves-effect" data-toggle="tooltip" data-original-title="Delete user">'.
+					'<button data-href="'.($this->generateUrl('ajaxUserDelete', array('id'=>$user->getId()))).'" data-user-name="'.($user->getName().' '.$user->getSurName()).'" class="btn btn-sm btn-icon btn-danger btn-round waves-effect pull-right js-delete-user" data-toggle="tooltip" data-original-title="Delete user">'.
 						'<i class="icon md-delete" aria-hidden="true"></i>'.
 					'</button>'
 			);
@@ -108,6 +108,7 @@ class BootstrapTableController extends Controller {
 
 		$qb->select('u');
 		$qb->from('AppBundle:User', 'u');
+		$qb->where('u.deleted = 0');
 
 		if (!empty($search)) {
 			$qb->where('u.name like :search or u.surname like :search');
@@ -127,6 +128,7 @@ class BootstrapTableController extends Controller {
 
 		$qb->select('count(u)');
 		$qb->from('AppBundle:User', 'u');
+		$qb->where('u.deleted = 0');
 
 		return $qb->getQuery()->getSingleScalarResult();
 	}

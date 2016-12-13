@@ -179,6 +179,11 @@ class User extends BaseUser
 	 */
 	protected $registrationDate;
 
+	/**
+	 * @ORM\Column(type="boolean")
+	 */
+	protected $deleted;
+
 	public function getName(){
 		return $this->name;
 	}
@@ -237,6 +242,10 @@ class User extends BaseUser
 
 	public function getRegistrationDate() {
 		return $this->registrationDate;
+	}
+
+	public function getDeleted() {
+		return $this->deleted;
 	}
 
 	public function setName($name){
@@ -311,6 +320,11 @@ class User extends BaseUser
 
 	public function setRegistrationDate($value) {
 		$this->registrationDate = $value;
+		return $this;
+	}
+
+	public function setDeleted($value) {
+		$this->deleted = $value;
 		return $this;
 	}
 

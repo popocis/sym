@@ -18,6 +18,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Form\UserType;
 use AppBundle\Form\UserEventType;
 use AppBundle\Form\UserDocumentType;
@@ -195,5 +196,21 @@ class UserController extends Controller {
 			$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
 			return $this->container->get('templating')->renderResponse('user/formUserJourneyEdit.html.twig', array('formJourney' => $formJourney->createView(), 'clinics' => $clinics, 'journey' => $journey) );
 		}
+	}
+
+	/**
+	 * @Route("/user/delete/{id}", name="ajaxUserDelete")
+	 */
+	public function userDeleteAction($id) {
+		$doc = $this->getDoctrine();
+		$em = $doc->getEntityManager();
+
+		$user = $doc->getRepository('AppBundle:User')->find($id);
+		$user->setDeleted(1);
+		$em->persist($user);
+		$em->flush();
+
+		$response = new JsonResponse('');
+		return $response;
 	}
 }
