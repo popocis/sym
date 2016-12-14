@@ -1,118 +1,19 @@
-.dashboard .card, .dashboard .panel {
-	height: -webkit-calc(100% - 30px);
-	height:         calc(100% - 30px);
-	margin-bottom: 30px;
-}
-.dashboard .card-block {
-	height: 100%;
-	border-radius: 3px;
-}
-#widgetLineareaOne .ct-chart .ct-area {
-	fill-opacity: 1;
-}
-#widgetLineareaOne .ct-chart .ct-series.ct-series-a .ct-area {
-	fill: #7986cb;
-}
-#widgetLineareaTwo .ct-chart .ct-area {
-	fill-opacity: 1;
-}
-#widgetLineareaTwo .ct-chart .ct-series.ct-series-a .ct-area {
-	fill: #ffd54f;
-}
-#widgetLineareaThree .ct-chart .ct-area {
-	fill-opacity: 1;
-}
-#widgetLineareaThree .ct-chart .ct-series.ct-series-a .ct-area {
-	fill: #4dd0e1;
-}
-#widgetLineareaFour .ct-chart .ct-area {
-	fill-opacity: 1;
-}
-#widgetLineareaFour .ct-chart .ct-series.ct-series-a .ct-area {
-	fill: #81c784;
-}
-#widgetJvmap path {
-	fill: #c5cae9;
-}
-#widgetCurrentChart .ct-chart .ct-series.ct-series-a .ct-bar {
-	stroke: #fff;
-	stroke-width: 3%;
-}
-#widgetCurrentChart .ct-chart .ct-series.ct-series-b .ct-bar {
-	stroke: rgba(232, 234, 246, .4);
-	stroke-width: 3%;
-}
-#widgetCurrentChart .ct-chart .ct-label {
-	font-size: 14px;
-	color: #fff;
-	fill: #fff;
-}
-#widgetCurrentChart > div {
-	position: relative;
-}
-#widgetCurrentChart > div .btn-floating {
-	position: absolute;
-	top: 0;
-	right: 20px;
-	-webkit-transform: translate(0%, -50%);
-	-ms-transform: translate(0%, -50%);
-	-o-transform: translate(0%, -50%);
-	transform: translate(0%, -50%);
-}
-#widgetUserList .card-header .overlay-background {
-	background-color: rgba(103, 58, 183, .8);
-}
-@media (max-width: 479px) {
-	#widgetUserList .card-header .avatar {
-		width: 80px;
-	}
-}
-#widgetUserList .card-block {
-	position: relative;
-	height: auto;
-}
-#widgetUserList .card-block .list-group-item {
-	padding-top: 15px;
-	padding-bottom: 15px;
-}
-#widgetUserList .card-block .list-group-item .media-body {
-	vertical-align: bottom;
-}
-#widgetUserList .card-block .list-group-dividered .list-group-item:last-child {
-	border-bottom: none;
-}
-#widgetUserList .card-block .btn-floating {
-	position: absolute;
-	top: 0;
-	right: 20px;
-	-webkit-transform: translate(0%, -50%);
-	-ms-transform: translate(0%, -50%);
-	-o-transform: translate(0%, -50%);
-	transform: translate(0%, -50%);
-}
-#chat .card-header {
-	border-bottom: none;
-}
-#chat .card-header > * {
-	padding: 0 30px;
-	margin: 0;
-	line-height: 50px;
-}
-#chat .card-footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	padding: 0 20px;
-	margin-bottom: 20px;
-	border-top: none;
-}
-#projects .table > thead > tr > td,
-#projects .table > tbody > tr > td,
-#projects-status .table > thead > tr > td,
-#projects-status .table > tbody > tr > td {
-	vertical-align: middle;
-}
-/************ NAVBAR CSS *********************************************************/
+@import (inline) '../css/bootstrap.min.css';
+@import (inline) '../css/bootstrap-extend.min.css';
+@import (inline) '../css/site.min.css';
+@import (inline) '../skins/cyan.min.css';
+@import (inline) '../vendor/asscrollable/asScrollable.css';
+@import (inline) '../vendor/switchery/switchery.css';
+@import (inline) '../vendor/slidepanel/slidePanel.css';
+@import (inline) '../vendor/waves/waves.css';
+@import (inline) '../vendor/bootstrap-table/bootstrap-table.css';
+@import (inline) '../vendor/bootstrap-datepicker/bootstrap-datepicker.css';
+@import (inline) '../vendor/select2/select2.css';
+@import (inline) '../css/login-v3.css';
+@import (inline) '../vendor/formvalidation/formValidation.css';
+@import (inline) '../vendor/bootstrap-sweetalert/sweetalert.css';
+
+/************ NAVBAR *********************************************************/
 .site-navbar .navbar-header{
 	.navbar-brand {
 		width: 140px;
@@ -137,8 +38,7 @@ ul.nav {
 		margin-top: -5px;
 	}
 }
-/************ PAGE CSS *********************************************************/
-
+/************ PAGE *********************************************************/
 //SELECT2 MODAL FIX
 .select2-container--open {
 	z-index: 10003;
@@ -198,4 +98,29 @@ body {
 		padding: 0;
 		cursor: default;
 	}
+}
+
+/************ ERROR *********************************************************/
+.page-error .error-mark {
+	margin-bottom: 33px;
+}
+
+.page-error header h1 {
+	font-size: 10em;
+	font-weight: 400;
+}
+
+.page-error header p {
+	margin-bottom: 30px;
+	font-size: 30px;
+	text-transform: uppercase;
+}
+
+.page-error h2 {
+	margin-bottom: 30px;
+}
+
+.page-error .error-advise {
+	margin-bottom: 25px;
+	color: #a9afb5;
 }
