@@ -18,18 +18,24 @@ services:
         class: AppBundle\Form\ProfileType
         tags:
             - { name: form.type, alias: app_user_profile }
-    app.locale_listener:
+    app.locale.listener:
         class: AppBundle\EventListener\LocaleListener
         arguments:
             - @security.token_storage
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 11 }
             - { name: kernel.event_listener, event: security.interactive_login }
-    app.registration_listener:
+    app.registration.listener:
         class: AppBundle\EventListener\RegistrationListener
         arguments:
             - @security.context
             - @fos_user.util.token_generator
+            - @router
+        tags:
+            - { name: kernel.event_subscriber }
+    app.password_resetting.listener:
+        class: AppBundle\EventListener\PasswordResettingListener
+        arguments:
             - @router
         tags:
             - { name: kernel.event_subscriber }
