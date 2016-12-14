@@ -14,9 +14,8 @@
             <div class="panel">
                 <div class="panel-body">
                     <div class="brand">
-                        <img class="brand-img" src="../../assets//images/logo-dark.png" alt="..." width="200">
+                        <img class="brand-img" src="../../assets/images/logo-dark.png" width="200">
                     </div>
-                    {{ form_errors(form) }}
                     <form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" method="post" class="fos_user_resetting_reset">
                         <div class="form-group form-material floating" data-plugin="formMaterial">
                             <input type="password" class="form-control empty" id="fos_user_resetting_form_plainPassword_first" name="fos_user_resetting_form[plainPassword][first]" required="required" data-plugin="formMaterial">
