@@ -1,0 +1,31 @@
+<div class="site-menubar">
+    <div class="site-menubar-body">
+        <div>
+            <ul class="site-menu" data-plugin="menu">
+                <li class="site-menu-item logo">
+                    <a class="animsition-link" href="#">
+                        <img class="navbar-brand-logo" src="/assets/images/logo.png" title="Remark">
+                    </a>
+                </li>
+                <li class="site-menu-item {{ app.request.get('_route') == 'dashboard' ? 'active' : '' }}">
+                    <a class="animsition-link" href="{{ path('dashboard') }}">
+                        <i class="site-menu-icon md-view-dashboard" aria-hidden="true"></i>
+                        <span class="site-menu-title">{% trans %}Dashboard{% endtrans %}</span>
+                    </a>
+                </li>
+                <li class="site-menu-item {{ app.request.get('_route') == 'userEdit' ? 'active' : '' }}">
+                    <a class="animsition-link" href="{{ path('userEdit') }}">
+                        <i class="site-menu-icon md-edit" aria-hidden="true"></i>
+                        <span class="site-menu-title">{% trans %}Edit Profile{% endtrans %}</span>
+                    </a>
+                </li>
+                <li class="site-menu-item {{ app.request.get('_route') == 'logout' ? 'active' : '' }}">
+                    <a class="animsition-link" href="/logout">
+                        <i class="site-menu-icon icon md-power" aria-hidden="true"></i>
+                        <span class="site-menu-title">{% trans %}Logout{% endtrans %}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

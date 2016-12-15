@@ -84,8 +84,12 @@ class UserController extends Controller {
 				$formJourney->handleRequest($request);
 				if ($formJourney->isSubmitted() && $formJourney->isValid()) {
 					$userJourney = $formJourney->getData();
-					$userJourney->setTransportLoadClient(implode(",",$userJourney->getTransportLoadClient()));
-					$userJourney->setTransportLoadHc(implode(",",$userJourney->getTransportLoadHc()));
+					if(!is_null($userJourney->getTransportLoadClient())){
+						$userJourney->setTransportLoadClient(implode(",",$userJourney->getTransportLoadClient()));
+					}
+					if(!is_null($userJourney->getTransportLoadHc())){
+						$userJourney->setTransportLoadHc(implode(",",$userJourney->getTransportLoadHc()));
+					}
 					$userOperator = $this->get('security.token_storage')->getToken()->getUser();
 					$userJourney->setAdminUser($userOperator);
 					$userJourney->setCustomerUser($user);

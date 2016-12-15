@@ -17,24 +17,7 @@
                     <h3 class="panel-title">Add Form Origin</h3>
                 </div>
                 <div class="panel-body">
-                    <form id="formFormOrigin" name="formFormOrigin" method="post">
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Form name <span class="required">*</span></label>
-                            <input type="text" id="form_formName" class="form-control" name="form[formName]" required="required">
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Domain <span class="required">*</span></label>
-                            <select id="form_formDomain" name="form[formDomain]" data-plugin="select2" data-placeholder="" data-allow-clear="true"  aria-hidden="true" required="required">
-                                <option></option><option value="IT">IT</option><option value="COM">COM</option><option value="EU">EU</option>
-                            </select>
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Notes</label>
-                            <input type="text" id="form_notes" class="form-control" name="form[notes]">
-                        </div>
-                        <input type="hidden" id="form__token" name="form[_token]" value="{{ formFormOrigin._token.vars.value }}">
-                        <button type="submit" id="formFormOrigin_save" class="btn btn-primary waves-effect waves-light" name="formFormOrigin[save]">Add form origin</button>
-                    </form>
+                    {% include 'service/formFormOrigin.html.twig' %}
                 </div>
             </div>
         </div>
@@ -46,6 +29,9 @@
                 </div>
                 <div class="panel-body">
                     {% for formOrigin in formsOrigin %}
+                        <button type="button" data-id="{{ formOrigin.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-formOrigin" data-target="#editFormOrigin" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                            <i class="icon md-edit" aria-hidden="true"></i>
+                        </button>
                         Name: {{ formOrigin.formName }}
                         Domain: {{ formOrigin.formDomain }}
                         Notes: {{ formOrigin.notes }}</br>
@@ -54,53 +40,42 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Update Form Origin-->
+    <div class="modal fade" id="editFormOrigin" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">Update Form Origin</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="ajaxresponse_formFormOriginEdit"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+
     <script>
         $( document ).ready(function() {
 
-            // Validation
-            // ---------------------------------
-            (function() {
-                $('#formFormOrigin').formValidation({
-                    framework: "bootstrap4",
-                    button: {
-                        selector: '#formFormOrigin_save'
+            $('.edit-formOrigin').click(function() {
+                var id = $(this).data('id');
+                var route = '{{ path('ajax_formFormOriginEdit', { 'id': "PLACEHOLDER" }) }}';
+                route = route.replace("PLACEHOLDER", id);
+                $.ajax({
+                    type: 'POST',
+                    url:  route,
+                    success: function(response) {
+                        $('#ajaxresponse_formFormOriginEdit').html(response);
+                        $('.modal-body').find('[data-plugin="select2"]').select2({ width: '100%' });
                     },
-                    icon: null,
-                    err: {
-                        clazz: 'text-help'
-                    },
-                    row: {
-                        invalid: 'has-danger'
-                    },
-                    fields: {
-                        "form[formName]": {
-                            validators: {
-                                notEmpty: {
-                                    message: 'required'
-                                },
-                                stringLength: {
-                                    max: 255
-                                }
-                            }
-                        },
-                        "form[formDomain]":{
-                            validators: {
-                                notEmpty: {
-                                    message: 'required'
-                                }
-                            }
-                        },
-                        "form[notes]": {
-                            validators: {
-                                stringLength: {
-                                    max: 255
-                                }
-                            }
-                        }
-                    }
-                });
-            })();
-
+                    async: false
+                })
+            });
         });
     </script>
 
@@ -112,41 +87,7 @@
                     <h3 class="panel-title">Add Clinic</h3>
                 </div>
                 <div class="panel-body">
-                    {{ form_errors(formClinic) }}
-                    <form id="formClinic" name="formClinic" method="post">
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Clinic name <span class="required">*</span></label>
-                            <input type="text" id="form_name" class="form-control" name="form[name]" required="required" data-plugin="formMaterial">
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Phone number</label>
-                            <input type="text" id="form_phoneNumber" class="form-control" name="form[phoneNumber]" data-plugin="formMaterial">
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Street number</label>
-                            <input type="text" id="form_streetNumber" class="form-control" name="form[streetNumber]">
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Street name</label>
-                            <input type="text" id="form_streetName" class="form-control" name="form[streetName]">
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">City name</label>
-                            <input type="text" id="form_cityName" class="form-control" name="form[cityName]">
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Zip code</label>
-                            <input type="text" id="form_zipCode" class="form-control" name="form[zipCode]">
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Country <span class="required">*</span></label>
-                            <select id="form_countryName" name="form[countryName]" data-plugin="select2" data-placeholder="Country" data-allow-clear="true"  aria-hidden="true" required="required">
-                                <option value=""></option><option value="AF">Afghanistan</option><option value="AL">Albania</option><option value="DZ">Algeria</option><option value="AS">American Samoa</option><option value="AD">Andorra</option><option value="AO">Angola</option><option value="AI">Anguilla</option><option value="AQ">Antarctica</option><option value="AG">Antigua &amp; Barbuda</option><option value="AR">Argentina</option><option value="AM">Armenia</option><option value="AW">Aruba</option><option value="AC">Ascension Island</option><option value="AU">Australia</option><option value="AT">Austria</option><option value="AZ">Azerbaijan</option><option value="BS">Bahamas</option><option value="BH">Bahrain</option><option value="BD">Bangladesh</option><option value="BB">Barbados</option><option value="BY">Belarus</option><option value="BE">Belgium</option><option value="BZ">Belize</option><option value="BJ">Benin</option><option value="BM">Bermuda</option><option value="BT">Bhutan</option><option value="BO">Bolivia</option><option value="BA">Bosnia &amp; Herzegovina</option><option value="BW">Botswana</option><option value="BR">Brazil</option><option value="IO">British Indian Ocean Territory</option><option value="VG">British Virgin Islands</option><option value="BN">Brunei</option><option value="BG">Bulgaria</option><option value="BF">Burkina Faso</option><option value="BI">Burundi</option><option value="KH">Cambodia</option><option value="CM">Cameroon</option><option value="CA">Canada</option><option value="IC">Canary Islands</option><option value="CV">Cape Verde</option><option value="BQ">Caribbean Netherlands</option><option value="KY">Cayman Islands</option><option value="CF">Central African Republic</option><option value="EA">Ceuta &amp; Melilla</option><option value="TD">Chad</option><option value="CL">Chile</option><option value="CN">China</option><option value="CX">Christmas Island</option><option value="CC">Cocos (Keeling) Islands</option><option value="CO">Colombia</option><option value="KM">Comoros</option><option value="CG">Congo - Brazzaville</option><option value="CD">Congo - Kinshasa</option><option value="CK">Cook Islands</option><option value="CR">Costa Rica</option><option value="HR">Croatia</option><option value="CU">Cuba</option><option value="CW">Curaçao</option><option value="CY">Cyprus</option><option value="CZ">Czech Republic</option><option value="CI">Côte d’Ivoire</option><option value="DK">Denmark</option><option value="DG">Diego Garcia</option><option value="DJ">Djibouti</option><option value="DM">Dominica</option><option value="DO">Dominican Republic</option><option value="EC">Ecuador</option><option value="EG">Egypt</option><option value="SV">El Salvador</option><option value="GQ">Equatorial Guinea</option><option value="ER">Eritrea</option><option value="EE">Estonia</option><option value="ET">Ethiopia</option><option value="FK">Falkland Islands</option><option value="FO">Faroe Islands</option><option value="FJ">Fiji</option><option value="FI">Finland</option><option value="FR">France</option><option value="GF">French Guiana</option><option value="PF">French Polynesia</option><option value="TF">French Southern Territories</option><option value="GA">Gabon</option><option value="GM">Gambia</option><option value="GE">Georgia</option><option value="DE">Germany</option><option value="GH">Ghana</option><option value="GI">Gibraltar</option><option value="GR">Greece</option><option value="GL">Greenland</option><option value="GD">Grenada</option><option value="GP">Guadeloupe</option><option value="GU">Guam</option><option value="GT">Guatemala</option><option value="GG">Guernsey</option><option value="GN">Guinea</option><option value="GW">Guinea-Bissau</option><option value="GY">Guyana</option><option value="HT">Haiti</option><option value="HN">Honduras</option><option value="HK">Hong Kong SAR China</option><option value="HU">Hungary</option><option value="IS">Iceland</option><option value="IN">India</option><option value="ID">Indonesia</option><option value="IR">Iran</option><option value="IQ">Iraq</option><option value="IE">Ireland</option><option value="IM">Isle of Man</option><option value="IL">Israel</option><option value="IT">Italy</option><option value="JM">Jamaica</option><option value="JP">Japan</option><option value="JE">Jersey</option><option value="JO">Jordan</option><option value="KZ">Kazakhstan</option><option value="KE">Kenya</option><option value="KI">Kiribati</option><option value="XK">Kosovo</option><option value="KW">Kuwait</option><option value="KG">Kyrgyzstan</option><option value="LA">Laos</option><option value="LV">Latvia</option><option value="LB">Lebanon</option><option value="LS">Lesotho</option><option value="LR">Liberia</option><option value="LY">Libya</option><option value="LI">Liechtenstein</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option><option value="MO">Macau SAR China</option><option value="MK">Macedonia</option><option value="MG">Madagascar</option><option value="MW">Malawi</option><option value="MY">Malaysia</option><option value="MV">Maldives</option><option value="ML">Mali</option><option value="MT">Malta</option><option value="MH">Marshall Islands</option><option value="MQ">Martinique</option><option value="MR">Mauritania</option><option value="MU">Mauritius</option><option value="YT">Mayotte</option><option value="MX">Mexico</option><option value="FM">Micronesia</option><option value="MD">Moldova</option><option value="MC">Monaco</option><option value="MN">Mongolia</option><option value="ME">Montenegro</option><option value="MS">Montserrat</option><option value="MA">Morocco</option><option value="MZ">Mozambique</option><option value="MM">Myanmar (Burma)</option><option value="NA">Namibia</option><option value="NR">Nauru</option><option value="NP">Nepal</option><option value="NL">Netherlands</option><option value="NC">New Caledonia</option><option value="NZ">New Zealand</option><option value="NI">Nicaragua</option><option value="NE">Niger</option><option value="NG">Nigeria</option><option value="NU">Niue</option><option value="NF">Norfolk Island</option><option value="KP">North Korea</option><option value="MP">Northern Mariana Islands</option><option value="NO">Norway</option><option value="OM">Oman</option><option value="PK">Pakistan</option><option value="PW">Palau</option><option value="PS">Palestinian Territories</option><option value="PA">Panama</option><option value="PG">Papua New Guinea</option><option value="PY">Paraguay</option><option value="PE">Peru</option><option value="PH">Philippines</option><option value="PN">Pitcairn Islands</option><option value="PL">Poland</option><option value="PT">Portugal</option><option value="PR">Puerto Rico</option><option value="QA">Qatar</option><option value="RO">Romania</option><option value="RU">Russia</option><option value="RW">Rwanda</option><option value="RE">Réunion</option><option value="WS">Samoa</option><option value="SM">San Marino</option><option value="SA">Saudi Arabia</option><option value="SN">Senegal</option><option value="RS">Serbia</option><option value="SC">Seychelles</option><option value="SL">Sierra Leone</option><option value="SG">Singapore</option><option value="SX">Sint Maarten</option><option value="SK">Slovakia</option><option value="SI">Slovenia</option><option value="SB">Solomon Islands</option><option value="SO">Somalia</option><option value="ZA">South Africa</option><option value="GS">South Georgia &amp; South Sandwich Islands</option><option value="KR">South Korea</option><option value="SS">South Sudan</option><option value="ES">Spain</option><option value="LK">Sri Lanka</option><option value="BL">St. Barthélemy</option><option value="SH">St. Helena</option><option value="KN">St. Kitts &amp; Nevis</option><option value="LC">St. Lucia</option><option value="MF">St. Martin</option><option value="PM">St. Pierre &amp; Miquelon</option><option value="VC">St. Vincent &amp; Grenadines</option><option value="SD">Sudan</option><option value="SR">Suriname</option><option value="SJ">Svalbard &amp; Jan Mayen</option><option value="SZ">Swaziland</option><option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="SY">Syria</option><option value="ST">São Tomé &amp; Príncipe</option><option value="TW">Taiwan</option><option value="TJ">Tajikistan</option><option value="TZ">Tanzania</option><option value="TH">Thailand</option><option value="TL">Timor-Leste</option><option value="TG">Togo</option><option value="TK">Tokelau</option><option value="TO">Tonga</option><option value="TT">Trinidad &amp; Tobago</option><option value="TA">Tristan da Cunha</option><option value="TN">Tunisia</option><option value="TR">Turkey</option><option value="TM">Turkmenistan</option><option value="TC">Turks &amp; Caicos Islands</option><option value="TV">Tuvalu</option><option value="UM">U.S. Outlying Islands</option><option value="VI">U.S. Virgin Islands</option><option value="UG">Uganda</option><option value="UA">Ukraine</option><option value="AE">United Arab Emirates</option><option value="GB">United Kingdom</option><option value="US">United States</option><option value="UY">Uruguay</option><option value="UZ">Uzbekistan</option><option value="VU">Vanuatu</option><option value="VA">Vatican City</option><option value="VE">Venezuela</option><option value="VN">Vietnam</option><option value="WF">Wallis &amp; Futuna</option><option value="EH">Western Sahara</option><option value="YE">Yemen</option><option value="ZM">Zambia</option><option value="ZW">Zimbabwe</option><option value="AX">Åland Islands</option>
-                            </select>
-                        </div>
-                        <input type="hidden" id="form__token" name="form[_token]" value="{{ formClinic._token.vars.value }}">
-                        <button type="submit" id="formClinic_save" class="btn btn-primary waves-effect waves-light" name="formClinic[save]">Add clinic</button>
-                    </form>
+                    {% include 'service/formClinic.html.twig' %}
                 </div>
             </div>
         </div>
@@ -158,6 +99,9 @@
                 </div>
                 <div class="panel-body">
                     {% for clinic in clinics %}
+                        <button type="button" data-id="{{ clinic.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-clinic" data-target="#editClinic" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                            <i class="icon md-edit" aria-hidden="true"></i>
+                        </button>
                         Name: {{ clinic.name }}
                         Phone: {{ clinic.phoneNumber }}
                         Street number: {{ clinic.streetNumber }}
@@ -171,98 +115,45 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Update Clinic-->
+    <div class="modal fade" id="editClinic" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">Update Clinic</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="ajaxresponse_formClinicEdit"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+
     <script>
         $( document ).ready(function() {
 
-            // Validation
-            // ---------------------------------
-            (function() {
-                $('#formClinic').formValidation({
-                    framework: "bootstrap4",
-                    button: {
-                        selector: '#formClinic_save'
+            $('.edit-clinic').click(function() {
+                var id = $(this).data('id');
+                var route = '{{ path('ajax_formClinicEdit', { 'id': "PLACEHOLDER" }) }}';
+                route = route.replace("PLACEHOLDER", id);
+                $.ajax({
+                    type: 'POST',
+                    url:  route,
+                    success: function(response) {
+                        $('#ajaxresponse_formClinicEdit').html(response);
+                        $('.modal-body').find('[data-plugin="select2"]').select2({ width: '100%' });
                     },
-                    icon: null,
-                    err: {
-                        clazz: 'text-help'
-                    },
-                    row: {
-                        invalid: 'has-danger'
-                    },
-                    fields: {
-                        "form[formName]": {
-                            validators: {
-                                notEmpty: {
-                                    message: 'required'
-                                },
-                                stringLength: {
-                                    max: 50
-                                }
-                            }
-                        },
-                        "form[phoneNumber]": {
-                            validators: {
-                                integer: {
-                                    message: 'The phone number is not valid, only number without space'
-                                },
-                                stringLength: {
-                                    min: 6,
-                                    max: 30
-                                }
-                            }
-                        },
-                        "form[countryName]":{
-                            validators: {
-                                notEmpty: {
-                                    message: 'required'
-                                }
-                            }
-                        },
-                        "form[streetNumber]": {
-                            validators: {
-                                integer: {
-                                    message: 'The street number is not valid, only number without space'
-                                },
-                                stringLength: {
-                                    min: 1,
-                                    max: 6
-                                }
-                            }
-                        },
-                        "form[streetName]": {
-                            validators: {
-                                stringLength: {
-                                    min: 3,
-                                    max: 50
-                                }
-                            }
-                        },
-                        "form[cityName]": {
-                            validators: {
-                                notEmpty: {
-                                    message: 'required'
-                                },
-                                stringLength: {
-                                    min: 3,
-                                    max: 50
-                                }
-                            }
-                        },
-                        "form[zipCode]": {
-                            validators: {
-                                stringLength: {
-                                    min: 3,
-                                    max: 10
-                                }
-                            }
-                        },
-
-                    }
-                });
-            })();
-
+                    async: false
+                })
+            });
         });
     </script>
+
 
     <div class="row">
         <div class="col-sm-6">
@@ -272,23 +163,7 @@
                     <h3 class="panel-title">Add Dem Origin</h3>
                 </div>
                 <div class="panel-body">
-                    {{ form_errors(formDemOrigin) }}
-                    <form id="formDemOrigin" name="formDemOrigin" method="post">
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Dem name</label>
-                            <input type="text" id="form_demName" class="form-control" name="form[demName]" required="required" data-plugin="formMaterial">
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Discount</label>
-                            <input type="text" id="form_discount" class="form-control" name="form[discount]" required="required" data-plugin="formMaterial" min="0">
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Notes</label>
-                            <input type="text" id="form_notes" class="form-control" name="form[notes]">
-                        </div>
-                        <input type="hidden" id="form__token" name="form[_token]" value="{{ formDemOrigin._token.vars.value }}">
-                        <button type="submit" id="form_save" class="btn btn-primary waves-effect waves-light" name="formDemOrigin[save]">Add dem origin</button>
-                    </form>
+                    {% include 'service/formDemOrigin.html.twig' %}
                 </div>
             </div>
         </div>
@@ -300,6 +175,9 @@
                 </div>
                 <div class="panel-body">
                     {% for demOrigin in demsOrigin %}
+                        <button type="button" data-id="{{ demOrigin.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-demOrigin" data-target="#editDemOrigin" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                            <i class="icon md-edit" aria-hidden="true"></i>
+                        </button>
                         Name: {{ demOrigin.demName }}
                         Discount: {{ demOrigin.discount }}
                         Notes: {{ demOrigin.notes }}</br>
@@ -309,59 +187,41 @@
         </div>
     </div>
 
+    <!-- Modal Update Dem Origin-->
+    <div class="modal fade" id="editDemOrigin" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">Update Dem Origin</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="ajaxresponse_formDemOriginEdit"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+
     <script>
         $( document ).ready(function() {
 
-            // Validation
-            // ---------------------------------
-            (function() {
-                $('#formDemOrigin').formValidation({
-                    framework: "bootstrap4",
-                    button: {
-                        selector: '#form_save'
+            $('.edit-demOrigin').click(function() {
+                var id = $(this).data('id');
+                var route = '{{ path('ajax_formDemOriginEdit', { 'id': "PLACEHOLDER" }) }}';
+                route = route.replace("PLACEHOLDER", id);
+                $.ajax({
+                    type: 'POST',
+                    url:  route,
+                    success: function(response) {
+                        $('#ajaxresponse_formDemOriginEdit').html(response);
+                        $('.modal-body').find('[data-plugin="select2"]').select2({ width: '100%' });
                     },
-                    icon: null,
-                    err: {
-                        clazz: 'text-help'
-                    },
-                    row: {
-                        invalid: 'has-danger'
-                    },
-                    fields: {
-                        "form[demName]": {
-                            validators: {
-                                notEmpty: {
-                                    message: 'required'
-                                },
-                                stringLength: {
-                                    min: 3,
-                                    max: 50
-                                }
-                            }
-                        },
-                        "form[discount]": {
-                            validators: {
-                                integer: {
-                                    message: 'The discount is not valid, only number without space'
-                                },
-                                stringLength: {
-                                    min: 1,
-                                    max: 3
-                                }
-                            }
-                        },
-                        "form[notes]": {
-                            validators: {
-                                stringLength: {
-                                    max: 255
-                                }
-                            }
-                        }
-
-                    }
-                });
-            })();
-
+                    async: false
+                })
+            });
         });
     </script>
 
@@ -373,27 +233,7 @@
                     <h3 class="panel-title">Add Presentation</h3>
                 </div>
                 <div class="panel-body">
-                    {{ form_errors(formPresentation) }}
-                    <form id="formPresentation" name="formPresentation" method="post">
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Presentation name</label>
-                            <input type="text" id="form_name" class="form-control" name="form[name]" required="required" data-plugin="formMaterial">
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Date</label>
-                            <input type="text" id="form_date" class="form-control" class="datepicker" name="form[date]" data-plugin="datepicker">
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Place</label>
-                            <input type="text" id="form_place" class="form-control" name="form[place]" data-plugin="formMaterial">
-                        </div>
-                        <div class="form-group form-material">
-                            <label class="form-control-label">Notes</label>
-                            <input type="text" id="form_notes" class="form-control" name="form[notes]">
-                        </div>
-                        <input type="hidden" id="form__token" name="form[_token]" value="{{ formPresentation._token.vars.value }}">
-                        <button type="submit" id="form_save" class="btn btn-primary waves-effect waves-light" name="formPresentation[save]">Add presentation</button>
-                    </form>
+                    {% include 'service/formPresentation.html.twig' %}
                 </div>
             </div>
         </div>
@@ -405,6 +245,9 @@
                 </div>
                 <div class="panel-body">
                     {% for presentation in presentations %}
+                        <button type="button" data-id="{{ presentation.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-presentation" data-target="#editPresentation" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                            <i class="icon md-edit" aria-hidden="true"></i>
+                        </button>
                         Name: {{ presentation.name }}
                         Place: {{ presentation.place }}
                         Date: {{ presentation.date|date('d/m/Y') }}
@@ -415,63 +258,42 @@
         </div>
     </div>
 
+    <!-- Modal Update presentation-->
+    <div class="modal fade" id="editPresentation" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">Update Presentation</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="ajaxresponse_formPresentationEdit"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+
     <script>
         $( document ).ready(function() {
 
-            // Validation
-            // ---------------------------------
-            (function() {
-                $('#formPresentation').formValidation({
-                    framework: "bootstrap4",
-                    button: {
-                        selector: '#form_save'
+            $('.edit-presentation').click(function() {
+                var id = $(this).data('id');
+                var route = '{{ path('ajax_formPresentationEdit', { 'id': "PLACEHOLDER" }) }}';
+                route = route.replace("PLACEHOLDER", id);
+                $.ajax({
+                    type: 'POST',
+                    url:  route,
+                    success: function(response) {
+                        $('#ajaxresponse_formPresentationEdit').html(response);
+                        $('.modal-body').find('[data-plugin="select2"]').select2({ width: '100%' });
+                        $('.modal-body').find('[data-plugin="datepicker"]').datepicker();
                     },
-                    icon: null,
-                    err: {
-                        clazz: 'text-help'
-                    },
-                    row: {
-                        invalid: 'has-danger'
-                    },
-                    fields: {
-                        "form[name]": {
-                            validators: {
-                                notEmpty: {
-                                    message: 'required'
-                                },
-                                stringLength: {
-                                    min: 3,
-                                    max: 50
-                                }
-                            }
-                        },
-                        "form[date]": {
-                            validators: {
-                                dateITA: {
-                                    format: 'mm/dd/yyyy'
-                                }
-                            }
-                        },
-                        "form[place]": {
-                            validators: {
-                                stringLength: {
-                                    min: 3,
-                                    max: 50
-                                }
-                            }
-                        },
-                        "form[notes]": {
-                            validators: {
-                                stringLength: {
-                                    max: 255
-                                }
-                            }
-                        }
-
-                    }
-                });
-            })();
-
+                    async: false
+                })
+            });
         });
     </script>
 

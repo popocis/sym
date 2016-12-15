@@ -1,0 +1,80 @@
+<form id="presentation" name="presentation" method="post">
+    <div class="form-group form-material">
+        <label class="form-control-label">Presentation name</label>
+        <input type="text" id="presentation_name" class="form-control" name="presentation[name]" required="required" data-plugin="formMaterial">
+    </div>
+    <div class="form-group form-material">
+        <label class="form-control-label">Date</label>
+        <input type="text" id="presentation_date" class="form-control" class="datepicker" name="presentation[date]" data-plugin="datepicker">
+    </div>
+    <div class="form-group form-material">
+        <label class="form-control-label">Place</label>
+        <input type="text" id="presentation_place" class="form-control" name="presentation[place]" data-plugin="formMaterial">
+    </div>
+    <div class="form-group form-material">
+        <label class="form-control-label">Notes</label>
+        <input type="text" id="presentation_notes" class="form-control" name="presentation[notes]">
+    </div>
+    <input type="hidden" id="presentation__token" name="presentation[_token]" value="{{ formPresentation._token.vars.value }}">
+    <button type="submit" id="presentation_save" class="btn btn-primary waves-effect waves-light" name="presentation[save]">Add presentation</button>
+</form>
+
+<script>
+    $( document ).ready(function() {
+
+        // Validation
+        // ---------------------------------
+        (function() {
+            $('#presentation').formValidation({
+                framework: "bootstrap4",
+                button: {
+                    selector: '#presentation_save'
+                },
+                icon: null,
+                err: {
+                    clazz: 'text-help'
+                },
+                row: {
+                    invalid: 'has-danger'
+                },
+                fields: {
+                    "presentation[name]": {
+                        validators: {
+                            notEmpty: {
+                                message: 'required'
+                            },
+                            stringLength: {
+                                min: 3,
+                                max: 50
+                            }
+                        }
+                    },
+                    "presentation[date]": {
+                        validators: {
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "presentation[place]": {
+                        validators: {
+                            stringLength: {
+                                min: 3,
+                                max: 50
+                            }
+                        }
+                    },
+                    "presentation[notes]": {
+                        validators: {
+                            stringLength: {
+                                max: 255
+                            }
+                        }
+                    }
+
+                }
+            });
+        })();
+
+    });
+</script>

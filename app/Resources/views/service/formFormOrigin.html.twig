@@ -1,0 +1,69 @@
+<form id="form_origin" name="form_origin" method="post">
+    <div class="form-group form-material">
+        <label class="form-control-label">Form name <span class="required">*</span></label>
+        <input type="text" id="form_origin_formName" class="form-control" name="form_origin[formName]" required="required">
+    </div>
+    <div class="form-group form-material">
+        <label class="form-control-label">Domain <span class="required">*</span></label>
+        <select id="form_origin_formDomain" name="form_origin[formDomain]" data-plugin="select2" data-placeholder="" data-allow-clear="true"  aria-hidden="true" required="required">
+            <option></option><option value="IT">IT</option><option value="COM">COM</option><option value="EU">EU</option>
+        </select>
+    </div>
+    <div class="form-group form-material">
+        <label class="form-control-label">Notes</label>
+        <input type="text" id="form_origin_notes" class="form-control" name="form_origin[notes]">
+    </div>
+    <input type="hidden" id="form_origin__token" name="form_origin[_token]" value="{{ formFormOrigin._token.vars.value }}">
+    <input type="hidden" id="form_origin_id" name="form_origin[id]" value="{{ formFormOrigin.id | default('') }}">
+    <button type="submit" id="form_origin_save" class="btn btn-primary waves-effect waves-light" name="form_origin[save]">Add form origin</button>
+</form>
+
+<script>
+    $( document ).ready(function() {
+
+        // Validation
+        // ---------------------------------
+        (function() {
+            $('#form_origin').formValidation({
+                framework: "bootstrap4",
+                button: {
+                    selector: '#form_origin_save'
+                },
+                icon: null,
+                err: {
+                    clazz: 'text-help'
+                },
+                row: {
+                    invalid: 'has-danger'
+                },
+                fields: {
+                    "form_origin[formName]": {
+                        validators: {
+                            notEmpty: {
+                                message: 'required'
+                            },
+                            stringLength: {
+                                max: 255
+                            }
+                        }
+                    },
+                    "form_origin[formDomain]":{
+                        validators: {
+                            notEmpty: {
+                                message: 'required'
+                            }
+                        }
+                    },
+                    "form_origin[notes]": {
+                        validators: {
+                            stringLength: {
+                                max: 255
+                            }
+                        }
+                    }
+                }
+            });
+        })();
+
+    });
+</script>

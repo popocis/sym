@@ -9,9 +9,17 @@ use AppBundle\Entity\Presentation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\FormOriginType;
+use AppBundle\Form\ClinicType;
+use AppBundle\Form\DemOriginType;
+use AppBundle\Form\PresentationType;
 
 class ServiceController extends Controller {
 	/**
@@ -19,53 +27,41 @@ class ServiceController extends Controller {
 	 */
 	public function serviceAddAction(Request $request){
 
-		$formOrigin = new FormOrigin();
-		$formFormOrigin = $this->createFormBuilder($formOrigin)
-			->add('formName')
-			->add('formDomain', ChoiceType::class, array(
-				'choices' => array('IT' => 'IT', 'COM' => 'COM', 'EU' => 'EU'),
-				'choices_as_values' => true,
-			))
-			->add('notes')
-			->add('save', SubmitType::class)
-			->getForm();
+		$formOriginId = isset($request->request->get('form_origin')['id']) ? $request->request->get('form_origin')['id'] : null;
+		if (!is_null($formOriginId)){
+			$formOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->find($formOriginId);
+		} else {
+			$formOrigin = new FormOrigin();
+		}
+		$formFormOrigin = $this->createForm(FormOriginType::class, $formOrigin);
 
-		$clinic = new Clinic();
-		$formClinic = $this->createFormBuilder($clinic)
-			->add('name')
-			->add('phoneNumber')
-			->add('streetNumber')
-			->add('streetName')
-			->add('cityName')
-			->add('zipCode')
-			->add('countryName')
-			->add('save', SubmitType::class)
-			->getForm();
+		$clinicId = isset($request->request->get('clinic')['id']) ? $request->request->get('clinic')['id'] : null;
+		if (!is_null($clinicId)){
+			$clinic = $this->getDoctrine()->getRepository('AppBundle:Clinic')->find($clinicId);
+		} else {
+			$clinic = new Clinic();
+		}
+		$formClinic = $this->createForm(ClinicType::class, $clinic);
 
-		$demOrigin = new DemOrigin();
-		$formDemOrigin = $this->createFormBuilder($demOrigin)
-			->add('demName')
-			->add('discount')
-			->add('notes')
-			->add('save', SubmitType::class)
-			->getForm();
+		$demOriginId = isset($request->request->get('dem_origin')['id']) ? $request->request->get('dem_origin')['id'] : null;
+		if (!is_null($demOriginId)){
+			$demOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->find($demOriginId);
+		} else {
+			$demOrigin = new DemOrigin();
+		}
+		$formDemOrigin = $this->createForm(DemOriginType::class, $demOrigin);
 
-		$presentation = new Presentation();
-		$formPresentation = $this->createFormBuilder($presentation)
-			->add('name')
-			->add('date', DateType::class, array(
-				'widget' => 'single_text',
-				'html5' => false,
-				'format' => 'dd/MM/yyyy',
-			))
-			->add('place')
-			->add('notes')
-			->add('save', SubmitType::class)
-			->getForm();
+		$presentationId = isset($request->request->get('presentation')['id']) ? $request->request->get('presentation')['id'] : null;
+		if (!is_null($presentationId)){
+			$presentation = $this->getDoctrine()->getRepository('AppBundle:Presentation')->find($presentationId);
+		} else {
+			$presentation = new Presentation();
+		}
+		$formPresentation = $this->createForm(PresentationType::class, $presentation);
+
 
 		if('POST' === $request->getMethod()) {
-
-			if($request->request->has('formFormOrigin')){
+			if($request->request->has('form_origin')){
 				$formFormOrigin->handleRequest($request);
 				if ($formFormOrigin->isSubmitted() && $formFormOrigin->isValid()) {
 					$formOrigin = $formFormOrigin->getData();
@@ -74,7 +70,7 @@ class ServiceController extends Controller {
 					$em->flush();
 				}
 			}
-			elseif($request->request->has('formClinic')) {
+			elseif($request->request->has('clinic')) {
 				$formClinic->handleRequest($request);
 				if ($formClinic->isSubmitted() && $formClinic->isValid()) {
 					$clinic = $formClinic->getData();
@@ -83,7 +79,7 @@ class ServiceController extends Controller {
 					$em->flush();
 				}
 			}
-			elseif($request->request->has('formDemOrigin')) {
+			elseif($request->request->has('dem_origin')) {
 				$formDemOrigin->handleRequest($request);
 				if ($formDemOrigin->isSubmitted() && $formDemOrigin->isValid()) {
 					$demOrigin = $formDemOrigin->getData();
@@ -92,7 +88,7 @@ class ServiceController extends Controller {
 					$em->flush();
 				}
 			}
-			elseif($request->request->has('formPresentation')) {
+			elseif($request->request->has('presentation')) {
 				$formPresentation->handleRequest($request);
 				if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
 					$presentation = $formPresentation->getData();
@@ -101,7 +97,6 @@ class ServiceController extends Controller {
 					$em->flush();
 				}
 			}
-
 		}
 
 		$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
@@ -111,4 +106,50 @@ class ServiceController extends Controller {
 
 		return $this->render('service/add.html.twig', array( 'clinics' => $clinics, 'presentations' => $presentations, 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'formFormOrigin' => $formFormOrigin->createView(), 'formClinic' => $formClinic->createView(), 'formDemOrigin' => $formDemOrigin->createView(), 'formPresentation' => $formPresentation->createView() ));
 	}
+
+	/**
+	 * @Route("/service/formorigin/edit/{id}", name="ajax_formFormOriginEdit")
+	 */
+	public function editFormOriginAction($id){
+		if ($this->container->get('request')->isXmlHttpRequest()) {
+			$formOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->find($id);
+			$formFormOrigin = $this->createForm(FormOriginType::class, $formOrigin);
+			return $this->container->get('templating')->renderResponse('service/formFormOriginEdit.html.twig', array('formFormOrigin' => $formFormOrigin->createView(), 'formOrigin' => $formOrigin ));
+		}
+	}
+
+	/**
+	 * @Route("/service/clinic/edit/{id}", name="ajax_formClinicEdit")
+	 */
+	public function editClinicAction($id){
+		if ($this->container->get('request')->isXmlHttpRequest()) {
+			$clinic = $this->getDoctrine()->getRepository('AppBundle:Clinic')->find($id);
+			$formClinic = $this->createForm(ClinicType::class, $clinic);
+			return $this->container->get('templating')->renderResponse('service/formClinicEdit.html.twig', array('formClinic' => $formClinic->createView(), 'clinic' => $clinic ));
+		}
+	}
+
+	/**
+	 * @Route("/service/demorigin/edit/{id}", name="ajax_formDemOriginEdit")
+	 */
+	public function editDemOriginAction($id){
+		if ($this->container->get('request')->isXmlHttpRequest()) {
+			$demOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->find($id);
+			$formDemOrigin = $this->createForm(DemOriginType::class, $demOrigin);
+			return $this->container->get('templating')->renderResponse('service/formDemOriginEdit.html.twig', array('formDemOrigin' => $formDemOrigin->createView(), 'demOrigin' => $demOrigin ));
+		}
+	}
+
+	/**
+	 * @Route("/service/presentation/edit/{id}", name="ajax_formPresentationEdit")
+	 */
+	public function editPresentationAction($id){
+		if ($this->container->get('request')->isXmlHttpRequest()) {
+			$presentation = $this->getDoctrine()->getRepository('AppBundle:Presentation')->find($id);
+			$formPresentation = $this->createForm(PresentationType::class, $presentation);
+			return $this->container->get('templating')->renderResponse('service/formPresentationEdit.html.twig', array('formPresentation' => $formPresentation->createView(), 'presentation' => $presentation ));
+		}
+	}
+
 }
+
