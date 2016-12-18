@@ -38,7 +38,7 @@ class UserEvent{
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facetime", "form", "dem"}, message = "Choose a valid contact method.")
+	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facebook", "facetime", "form", "dem"}, message = "Choose a valid contact method.")
 	 */
 	protected $contactMethod;
 

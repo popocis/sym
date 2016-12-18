@@ -12,6 +12,7 @@
                 <option value="email">email</option>
                 <option value="viber">viber</option>
                 <option value="whatsapp">whatsapp</option>
+                <option value="facebook">facebook</option>
                 <option value="facetime">facetime</option>
                 <option value="form">form</option>
                 <option value="dem">dem</option>
@@ -29,7 +30,7 @@
         </div>
         <div class="form-group form-material">
             <label class="form-control-label">Date <span class="required">*</span></label>
-            <input type="text" id="user_event_date" class="form-control" class="datepicker" name="user_event[date]" data-plugin="datepicker" required="required" value="{{ event.date|date('d/m/Y') }}">
+            <input type="text" id="user_event_date" class="form-control" class="datepicker" name="user_event[date]" data-plugin="datepicker" required="required" value="{{ event.date is empty ? '' : event.date|date('d/m/Y') }}">
         </div>
     </div>
     <div class="col-xs-12 col-lg-6">

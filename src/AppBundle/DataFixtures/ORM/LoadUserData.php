@@ -30,7 +30,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user = $userManager->createUser();
 		$user->setUsername('vincenzo.pandico@gmail.com');
 		$user->setEmail('vincenzo.pandico@gmail.com');
-		$user->setPlainPassword('password');
+		$user->setPlainPassword('2t#3e82[$9]@.8x');
 		//$user->setPassword('$2a$10$H7SpSzqmpWzFNh9whB74eulZZzo7XT7bQ.vvxStKomLfh06AX/ulG');
 		$user->setEnabled(true);
 		$user->setRoles(array('ROLE_SUPER_ADMIN'));
@@ -38,48 +38,70 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		$user->setSurname('pandico');
 		$user->setPhonenumber(12345678);
 		$user->setStatus('operator');
-		$user->setCityName('Como');
-		$user->setCountryName('GB');
-		$user->setDeleted(0);
-		// Update the user
-		$userManager->updateUser($user, true);
-
-		$user = $userManager->createUser();
-		$user->setUsername('dario.zilocchi@gmail.com');
-		$user->setEmail('dario.zilocchi@gmail.com');
-		$user->setPlainPassword('password');
-		//$user->setPassword('$2a$10$H7SpSzqmpWzFNh9whB74eulZZzo7XT7bQ.vvxStKomLfh06AX/ulG');
-		$user->setEnabled(true);
-		$user->setRoles(array('ROLE_SUPER_ADMIN'));
-		$user->setName('dario');
-		$user->setSurname('zilocchi');
-		$user->setPhonenumber(87654321);
-		$user->setStatus('operator');
-		$user->setCityName('Como');
+		$user->setCityName('como');
 		$user->setCountryName('IT');
 		$user->setDeleted(0);
 		// Update the user
 		$userManager->updateUser($user, true);
 
+		// Create ROLE_SUPER_ADMIN
 		$user = $userManager->createUser();
-		$user->setUsername('operatore1@email.com');
-		$user->setEmail('operatore1@email.com');
-		$user->setPlainPassword('password');
+		$user->setUsername('jasmina@healthcroatia.com');
+		$user->setEmail('jasmina@healthcroatia.com');
+		$user->setPlainPassword('N4n9:#4Y/2q7V#?{HF8J');
 		//$user->setPassword('$2a$10$H7SpSzqmpWzFNh9whB74eulZZzo7XT7bQ.vvxStKomLfh06AX/ulG');
 		$user->setEnabled(true);
-		$user->setRoles(array('ROLE_ADMIN'));
-		$user->setName('nome1');
-		$user->setSurname('cognome1');
-		$user->setPhonenumber(87654321);
+		$user->setRoles(array('ROLE_SUPER_ADMIN'));
+		$user->setName('jasmina');
+		$user->setSurname('cuccurin');
+		$user->setPhonenumber(12345678);
 		$user->setStatus('operator');
-		$user->setCityName('Como');
+		$user->setCityName('milan');
+		$user->setCountryName('IT');
 		$user->setDeleted(0);
 		// Update the user
 		$userManager->updateUser($user, true);
 
-		for ($i = 1; $i <= 20; $i++) {
+
+		// Create ROLE_SUPER_ADMIN
+		$user = $userManager->createUser();
+		$user->setUsername('giulia@twig.agency');
+		$user->setEmail('giulia@twig.agency');
+		$user->setPlainPassword('9(4(3?866>AY;]r');
+		//$user->setPassword('$2a$10$H7SpSzqmpWzFNh9whB74eulZZzo7XT7bQ.vvxStKomLfh06AX/ulG');
+		$user->setEnabled(true);
+		$user->setRoles(array('ROLE_SUPER_ADMIN'));
+		$user->setName('jasmina');
+		$user->setSurname('cuccurin');
+		$user->setPhonenumber(12345678);
+		$user->setStatus('operator');
+		$user->setCityName('milan');
+		$user->setCountryName('IT');
+		$user->setDeleted(0);
+		// Update the user
+		$userManager->updateUser($user, true);
+
+		// Create ROLE_ADMIN
+		$user = $userManager->createUser();
+		$user->setUsername('info@healthcroatia.com');
+		$user->setEmail('info@healthcroatia.com');
+		$user->setPlainPassword('EN}[4+33Q;2j(63Pwx{y');
+		//$user->setPassword('$2a$10$H7SpSzqmpWzFNh9whB74eulZZzo7XT7bQ.vvxStKomLfh06AX/ulG');
+		$user->setEnabled(true);
+		$user->setRoles(array('ROLE_ADMIN'));
+		$user->setName('Hc');
+		$user->setSurname('Operator');
+		$user->setPhonenumber(12345678);
+		$user->setStatus('operator');
+		$user->setCityName('milan');
+		$user->setCountryName('IT');
+		$user->setDeleted(0);
+		// Update the user
+		$userManager->updateUser($user, true);
+
+		/*for ($i = 1; $i <= 20; $i++) {
 			$this->createGenericUser($userManager, 'nome', 'cognome',$i);
-		}
+		}*/
 	}
 
 	private function createGenericUser($um, $name, $surname, $index) {
@@ -100,5 +122,5 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
 		return $user;
 	}
-	
+
 }
