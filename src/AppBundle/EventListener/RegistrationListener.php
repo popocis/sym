@@ -48,6 +48,9 @@ class RegistrationListener implements EventSubscriberInterface {
 			else if($user->getStatus() == "operator"){
 				$rolesArr = array('ROLE_ADMIN');
 			}
+			else{
+				$rolesArr = array('ROLE_USER');
+			}
 			$user->setRoles($rolesArr);
 		} else if ($this->context->isGranted('ROLE_ADMIN')) {
 			$rolesArr = array('ROLE_USER');
