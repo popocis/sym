@@ -13,7 +13,7 @@
                 <div class="panel">
                     <div class="panel-body">
                         <div class="brand">
-                            <img class="brand-img" src="../../assets//images/logo-dark.png" alt="..." width="200">
+                            <img class="brand-img" src="{{ asset('/assets/images/logo-dark.png') }}" alt="..." width="200">
                         </div>
                         <form action="{{ path("fos_user_security_check") }}" method="post">
                             {% if csrf_token %}

@@ -4,7 +4,7 @@
             <ul class="site-menu" data-plugin="menu">
                 <li class="site-menu-item logo">
                     <a class="animsition-link" href="#">
-                        <img class="navbar-brand-logo" src="/assets/images/logo.png" title="Remark">
+                        <img class="navbar-brand-logo" src="{{ asset('/assets/images/logo.png') }}" title="Hc">
                     </a>
                 </li>
                 <li class="site-menu-item {{ app.request.get('_route') == 'dashboard' ? 'active' : '' }}">
