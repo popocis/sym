@@ -52,27 +52,29 @@ class BootstrapTableController extends Controller {
 			}
 
 			if ($user->isDeleted()) {
+				$classes = 'deleted';
 				$delete = '<button data-href="'.($this->generateUrl('ajaxUserActivate', array('id'=>$user->getId()))).'" data-user-name="'.($user->getName().' '.$user->getSurName()).'" class="btn btn-sm btn-icon btn-success btn-round waves-effect pull-right js-activate-user" data-toggle="tooltip" data-original-title="Activate user"><i class="icon md-account-add" aria-hidden="true"></i></button>';
 			} else {
+				$classes = '';
 				$delete = '<button data-href="'.($this->generateUrl('ajaxUserDelete', array('id'=>$user->getId()))).'" data-user-name="'.($user->getName().' '.$user->getSurName()).'" class="btn btn-sm btn-icon btn-danger btn-round waves-effect pull-right js-delete-user" data-toggle="tooltip" data-original-title="Delete user"><i class="icon md-delete" aria-hidden="true"></i></button>';
 			}
 
 			$result[] = array(
-				'id' => $user->getId(),
-				'name' => $user->getName(),
-				'surname' => $user->getSurname(),
-                'email' => $user->getEmail(),
-                'birthDate' => $birthDate,
-				'phone' => $user->getPhoneNumber(),
-                'city' => $user->getCityName(),
-				'address' => $user->getStreetName().' '.$user->getStreetNumber(),
-                'zipCode' => $user->getZipCode(),
-                'country' => $user->getCountryName(),
-                'region' => $user->getCountryRegion(),
-                'taxCode' => $user->getTaxCode(),
-				'notes' => $user->getNotes(),
-				'presentation' => $presentation,
-                'registrationDate' => $registrationDate,
+				'id' => '<span class="'.$classes.'">'.$user->getId().'</span>',
+				'name' => '<span class="'.$classes.'">'.$user->getName().'</span>',
+				'surname' => '<span class="'.$classes.'">'.$user->getSurname().'</span>',
+                'email' => '<span class="'.$classes.'">'.$user->getEmail().'</span>',
+                'birthDate' => '<span class="'.$classes.'">'.$birthDate.'</span>',
+				'phone' => '<span class="'.$classes.'">'.$user->getPhoneNumber().'</span>',
+                'city' => '<span class="'.$classes.'">'.$user->getCityName().'</span>',
+				'address' => '<span class="'.$classes.'">'.$user->getStreetName().' '.$user->getStreetNumber().'</span>',
+                'zipCode' => '<span class="'.$classes.'">'.$user->getZipCode().'</span>',
+                'country' => '<span class="'.$classes.'">'.$user->getCountryName().'</span>',
+                'region' => '<span class="'.$classes.'">'.$user->getCountryRegion().'</span>',
+                'taxCode' => '<span class="'.$classes.'">'.$user->getTaxCode().'</span>',
+				'notes' => '<span class="'.$classes.'">'.$user->getNotes().'</span>',
+				'presentation' => '<span class="'.$classes.'">'.$presentation.'</span>',
+                'registrationDate' => '<span class="'.$classes.'">'.$registrationDate.'</span>',
                 'enabled' =>
 					'<span class="tag tag-table tag-'.
 					($user->isEnabled() ? 'success' : 'dark').
