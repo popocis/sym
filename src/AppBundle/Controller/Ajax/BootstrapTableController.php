@@ -102,7 +102,8 @@ class BootstrapTableController extends Controller {
 		$qb->from('AppBundle:User', 'u');
 
 		if (!empty($search)) {
-			$qb->where('u.name like :search or u.surname like :search or u.email like :search');
+			$search = str_replace(' ', '', $search);
+			$qb->where('u.name like :search or u.surname like :search or u.email like :search or concat(u.name, u.surname) like :search');
 			$qb->setParameter('search', '%'.$search.'%');
 		}
 
