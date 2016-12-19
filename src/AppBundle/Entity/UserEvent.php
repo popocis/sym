@@ -71,6 +71,11 @@ class UserEvent{
 	protected $message;
 
 	/**
+	 * @ORM\Column(type="integer", nullable=true)
+	 */
+	protected $estimate;
+
+	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
 	 */
 	protected $notes;
@@ -116,6 +121,10 @@ class UserEvent{
 
 	public function getMessage() {
 		return $this->message;
+	}
+
+	public function getEstimate() {
+		return $this->estimate;
 	}
 
 	public function getNotes() {
@@ -164,6 +173,11 @@ class UserEvent{
 
 	public function setMessage($message) {
 		$this->message = $message;
+		return $this;
+	}
+
+	public function setEstimate($estimate) {
+		$this->estimate = $estimate;
 		return $this;
 	}
 

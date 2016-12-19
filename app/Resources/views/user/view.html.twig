@@ -31,6 +31,7 @@
                             <th data-field="contactMethod">Contact Method</th>
                             <th data-field="contactReason">Contact Reason</th>
                             <th data-field="date">Date</th>
+                            <th data-field="estimate">Estimate</th>
                             <th data-field="agent">Agent</th>
                             <th data-field="agentCountry">Agent Country</th>
                             <th data-field="formOrigin">Form Origin</th>
@@ -96,6 +97,7 @@
                             "contactMethod": '{{ event.contactMethod }}',
                             "contactReason": '{{ event.contactReason }}',
                             "date": '{{ event.date|date('d/m/Y') }}',
+                            "estimate": '{% if event.estimate == 2999 %}< 3000{% elseif event.estimate == 3000 %}>= 3000{% elseif event.estimate == 5000%}>= 5000{% endif %}',
                             "agent": '{{ event.agentUser.name | default("") }} {{ event.agentUser.surname | default("") }}',
                             "agentCountry": '{{ event.agentUser.countryName | default("") }}',
                             "formOrigin": '{{ event.formOrigin.formName | default("") }} - {{ event.formOrigin.formDomain | default("") }} - {{ event.formOrigin.notes | default("") }}',

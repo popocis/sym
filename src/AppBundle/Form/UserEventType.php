@@ -32,6 +32,10 @@ class UserEventType extends AbstractType{
 			->add('formOrigin')
 			->add('demOrigin')
 			->add('message')
+			->add('estimate', ChoiceType::class, array(
+				'choices' => array('2999' => '2999', '3000' => '3000', '5000' => '5000'),
+				'choices_as_values' => true,
+			))
 			->add('notes')
 			->add('date', DateType::class, array(
 				'widget' => 'single_text',

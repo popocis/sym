@@ -32,6 +32,15 @@
             <label class="form-control-label">Date <span class="required">*</span></label>
             <input type="text" id="user_event_date" class="form-control" class="datepicker" name="user_event[date]" data-plugin="datepicker" required="required" value="{{ event.date is empty ? '' : event.date|date('d/m/Y') }}">
         </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Estimate</label>
+            <select id="user_event_estimate" name="user_event[estimate]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                <option></option>
+                <option value="2999">< 3000</option>
+                <option value="3000">>= 3000</option>
+                <option value="5000">> 5000</option>
+            </select>
+        </div>
     </div>
     <div class="col-xs-12 col-lg-6">
         <div class="form-group form-material">
@@ -89,6 +98,7 @@
         $("#ajaxresponse_formUserEventEdit #user_event_formOrigin").val("{{ event.formOrigin.id | default("")}}").trigger("change");
         $("#ajaxresponse_formUserEventEdit #user_event_demOrigin").val("{{ event.demOrigin.id | default("")}}").trigger("change");
         $("#ajaxresponse_formUserEventEdit #user_event_agent").val("{{ event.agent.id | default("")}}").trigger("change");
+        $("#ajaxresponse_formUserEventEdit #user_event_estimate").val("{{ event.estimate | default("")}}").trigger("change");
 
         // Validation
         // ---------------------------------
