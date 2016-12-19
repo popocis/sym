@@ -100,6 +100,32 @@
         $("#ajaxresponse_formUserEventEdit #user_event_agent").val("{{ event.agent.id | default("")}}").trigger("change");
         $("#ajaxresponse_formUserEventEdit #user_event_estimate").val("{{ event.estimate | default("")}}").trigger("change");
 
+        if($('#ajaxresponse_formUserEventEdit #user_event_contactMethod').val() != 'form'){
+            $('#ajaxresponse_formUserEventEdit #user_event_formOrigin').prop("disabled", true);
+        }
+        if($('#ajaxresponse_formUserEventEdit #user_event_contactMethod').val() != 'dem'){
+            $('#ajaxresponse_formUserEventEdit #user_event_demOrigin').prop("disabled", true);
+        }
+
+        $('#ajaxresponse_formUserEventEdit #user_event_contactMethod').change(function() {
+            if (this.value == 'form') {
+                $('#ajaxresponse_formUserEventEdit #user_event_formOrigin').prop("disabled", false);
+                $('#ajaxresponse_formUserEventEdit #user_event_demOrigin').val("").trigger("change");
+                $('#ajaxresponse_formUserEventEdit #user_event_demOrigin').prop("disabled", true);
+            }
+            else if(this.value == 'dem'){
+                $('#ajaxresponse_formUserEventEdit #user_event_demOrigin').prop("disabled", false);
+                $('#ajaxresponse_formUserEventEdit #user_event_formOrigin').val("").trigger("change");
+                $('#ajaxresponse_formUserEventEdit #user_event_formOrigin').prop("disabled", true);
+            }
+            else{
+                $('#ajaxresponse_formUserEventEdit #user_event_formOrigin').val("").trigger("change");
+                $('#ajaxresponse_formUserEventEdit #user_event_demOrigin').val("").trigger("change");
+                $('#ajaxresponse_formUserEventEdit #user_event_formOrigin').prop("disabled", true);
+                $('#ajaxresponse_formUserEventEdit #user_event_demOrigin').prop("disabled", true);
+            }
+        });
+
         // Validation
         // ---------------------------------
         (function() {

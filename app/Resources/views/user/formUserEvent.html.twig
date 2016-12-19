@@ -41,7 +41,7 @@
     <div class="col-xs-12 col-lg-6">
         <div class="form-group form-material">
             <label class="form-control-label">Form origin</label>
-            <select id="user_event_formOrigin" name="user_event[formOrigin]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+            <select id="user_event_formOrigin" name="user_event[formOrigin]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" disabled>
                 <option value=""></option>
                 {% for formOrigin in formsOrigin %}
                     <option value="{{ formOrigin.id }}">{{ formOrigin.formName }} - {{ formOrigin.formDomain }}</option>
@@ -50,7 +50,7 @@
         </div>
         <div class="form-group form-material">
             <label class="form-control-label">Dem origin</label>
-            <select id="user_event_demOrigin" name="user_event[demOrigin]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+            <select id="user_event_demOrigin" name="user_event[demOrigin]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" disabled>
                 <option value=""></option>
                 {% for demOrigin in demsOrigin %}
                     <option value="{{ demOrigin.id }}">{{ demOrigin.demName }} - {{ demOrigin.discount }}%</option>
@@ -89,6 +89,25 @@
 
 <script>
     $( document ).ready(function() {
+
+        $('#user_event_contactMethod').change(function() {
+            if (this.value == 'form') {
+                $('#user_event_formOrigin').prop("disabled", false);
+                $('#user_event_demOrigin').val("").trigger("change");
+                $('#user_event_demOrigin').prop("disabled", true);
+            }
+            else if(this.value == 'dem'){
+                $('#user_event_demOrigin').prop("disabled", false);
+                $('#user_event_formOrigin').val("").trigger("change");
+                $('#user_event_formOrigin').prop("disabled", true);
+            }
+            else{
+                $('#user_event_formOrigin').val("").trigger("change");
+                $('#user_event_demOrigin').val("").trigger("change");
+                $('#user_event_formOrigin').prop("disabled", true);
+                $('#user_event_demOrigin').prop("disabled", true);
+            }
+        });
 
         // Validation
         // ---------------------------------

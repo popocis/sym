@@ -100,6 +100,20 @@
         $("#user_countryName").val("{{ user.countryName }}").trigger("change");
         $("#user_countryRegion").val("{{ user.countryRegion }}").trigger("change");
 
+        if($('#user_countryName').val() != 'IT'){
+            $('#user_countryRegion').prop("disabled", true);
+        }
+
+        $('#user_countryName').change(function() {
+            if (this.value == 'IT') {
+                $('#user_countryRegion').prop("disabled", false);
+            }
+            else{
+                $('#user_countryRegion').val("").trigger("change");
+                $('#user_countryRegion').prop("disabled", true);
+            }
+        });
+
         // Validation
         // ---------------------------------
         (function() {
