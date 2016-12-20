@@ -13,6 +13,78 @@
 @import (inline) '../vendor/formvalidation/formValidation.css';
 @import (inline) '../vendor/bootstrap-sweetalert/sweetalert.css';
 
+/************ GENERAL *********************************************************/
+@primary : #268b9c;
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+	text-shadow: none;
+}
+
+//TABLE
+thead {
+	text-transform: uppercase;
+}
+.fixed-table-container .table .icon, .fixed-table-container table .icon {
+	margin: 0;
+}
+.fixed-table-pagination .pagination li.active>a, .fixed-table-pagination .pagination li.active>a:focus, .fixed-table-pagination .pagination li.active>a:hover{
+	border-color: @primary;
+	background-color: @primary;
+}
+.bootstrap-table .table:not(.table-condensed), .bootstrap-table .table:not(.table-condensed) > tbody > tr > th, .bootstrap-table .table:not(.table-condensed) > tfoot > tr > th, .bootstrap-table .table:not(.table-condensed) > thead > tr > td, .bootstrap-table .table:not(.table-condensed) > tbody > tr > td, .bootstrap-table .table:not(.table-condensed) > tfoot > tr > td {
+	padding: 20px 8px;
+}
+#UserTable{
+	tbody{
+		tr{
+			td:last-child{
+				min-width: 100px;
+			}
+		}
+	}
+	.deleted{
+		text-decoration: line-through;
+	}
+}
+
+//FORM
+label {
+	margin-bottom: 0;
+}
+
+//SELECT2 MODAL FIX
+.select2-container--open {
+	z-index: 10003;
+}
+
+//LAYOUT
+body {
+	padding-top: 0;
+}
+.page-content {
+	padding: 0 30px 30px 30px;
+}
+.page-header{
+	margin-left: -16px;
+	margin-right: -17px;
+
+	h1, p{
+		display: inline;
+	}
+}
+.site-menubar {
+	top: 0;
+}
+.site-menu>.site-menu-item.logo{
+	height: 93px;
+	line-height: 93px;
+	background: @primary;
+	a{
+		padding: 0;
+		cursor: default;
+	}
+}
+
 /************ NAVBAR *********************************************************/
 .site-menubar {
 	height: 100%;
@@ -41,78 +113,26 @@ ul.nav {
 		margin-top: -5px;
 	}
 }
-/************ PAGE *********************************************************/
-//SELECT2 MODAL FIX
-.select2-container--open {
-	z-index: 10003;
-}
-
-//TABLE
-thead {
-	text-transform: uppercase;
-}
-
-.bootstrap-table .table:not(.table-condensed), .bootstrap-table .table:not(.table-condensed) > tbody > tr > th, .bootstrap-table .table:not(.table-condensed) > tfoot > tr > th, .bootstrap-table .table:not(.table-condensed) > thead > tr > td, .bootstrap-table .table:not(.table-condensed) > tbody > tr > td, .bootstrap-table .table:not(.table-condensed) > tfoot > tr > td {
-	padding: 20px 8px;
-}
-
-//FORM
-label {
-	margin-bottom: 0;
-}
+/************ USER VIEW LIST*********************************************************/
 
 //ENTITY EDIT
-.edit-journey, .edit-user, .edit-formOrigin, .edit-clinic, .edit-demOrigin, .edit-presentation{
+.edit-journey, .edit-user, .edit-formOrigin, .edit-clinic, .edit-demOrigin, .edit-presentation, .delete-file{
 	position: absolute;
 	right: 30px;
 }
 
-//TABLE
-.fixed-table-container .table .icon, .fixed-table-container table .icon {
-	margin: 0;
+//ENTITY VIEW
+span.heading{
+	font-weight: bold;
+}
+span.content{
+
 }
 
-#UserTable{
-	.deleted{
-		text-decoration: line-through;
-	}
-}
 
-//LAYOUT
-@primary : #268b9c;
 
-body {
-	padding-top: 0;
-}
 
-.page-content {
-	padding: 0 30px 30px 30px;
-}
-
-.page-header{
-	margin-left: -16px;
-	margin-right: -17px;
-
-	h1, p{
-		display: inline;
-	}
-}
-
-.site-menubar {
-	top: 0;
-}
-
-.site-menu>.site-menu-item.logo{
-	height: 93px;
-	line-height: 93px;
-	background: @primary;
-	a{
-		padding: 0;
-		cursor: default;
-	}
-}
-
-/************ ERROR *********************************************************/
+/************ ERROR *************************************************************/
 .page-error .error-mark {
 	margin-bottom: 33px;
 }

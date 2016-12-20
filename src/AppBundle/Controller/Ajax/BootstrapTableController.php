@@ -22,7 +22,7 @@ class BootstrapTableController extends Controller {
 		$sort = $request->get('sort', 'id');
 		$order = $request->get('order', 'desc');
 		$offset = $request->get('offset', '0');
-		$limit = $request->get('limit', '10');
+		$limit = $request->get('limit', '50');
 
 		$em = $this->getDoctrine()->getManager();
 		$users = $this->listUsers($em, $search, $sort, $order, $offset, $limit);

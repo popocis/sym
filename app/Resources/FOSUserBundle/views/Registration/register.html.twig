@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="form-group form-material">
                                     <label class="form-control-label">Notes</label>
-                                    {{ form_widget(form.notes, { 'attr': {'class': 'form-control'}}) }}
+                                    <input type="text" id="fos_user_registration_form_notes" name="fos_user_registration_form[notes]" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -243,6 +243,13 @@
                                 stringLength: {
                                     min: 6,
                                     max: 20
+                                }
+                            }
+                        },
+                        "fos_user_registration_form[notes]": {
+                            validators: {
+                                stringLength: {
+                                    max: 70
                                 }
                             }
                         },

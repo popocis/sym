@@ -28,8 +28,8 @@
                            data-show-columns="true">
                         <thead>
                         <tr>
-                            <th data-field="contactMethod">Contact Method</th>
-                            <th data-field="contactReason">Contact Reason</th>
+                            <th data-field="contactMethod">How</th>
+                            <th data-field="contactReason">Reason</th>
                             <th data-field="date">Date</th>
                             <th data-field="estimate">Estimate</th>
                             <th data-field="agent">Agent</th>
@@ -98,10 +98,10 @@
                             "contactReason": '{{ event.contactReason }}',
                             "date": '{{ event.date|date('d/m/Y') }}',
                             "estimate": '{% if event.estimate == 2999 %}< 3000{% elseif event.estimate == 3000 %}>= 3000{% elseif event.estimate == 5000%}>= 5000{% endif %}',
-                            "agent": '{{ event.agentUser.name | default("") }} {{ event.agentUser.surname | default("") }}',
+                            "agent": '{{ event.agentUser.name|default("") }} {{ event.agentUser.surname|default("") }}',
                             "agentCountry": '{{ event.agentUser.countryName | default("") }}',
-                            "formOrigin": '{{ event.formOrigin.formName | default("") }} - {{ event.formOrigin.formDomain | default("") }} - {{ event.formOrigin.notes | default("") }}',
-                            "demOrigin": '{{ event.demOrigin.demName | default("") }} - {{ event.demOrigin.discount | default("") }}% - {{ event.demOrigin.notes | default("") }}',
+                            "formOrigin": '{{ event.formOrigin.formName|default("") }} {{ event.formOrigin.formDomain|default("") }} {{ event.formOrigin.notes|default("") }}',
+                            "demOrigin": '{{ event.demOrigin.demName|default("") }} {{ event.demOrigin.discount|default("0") }}%',
                             "message": '{{ event.message }}',
                             "notes": '{{ event.notes }}',
                             "op": '<button type="button" data-id="{{ event.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect waves-effect edit-event" data-target="#editEvent" data-toggle="modal" data-original-title="Edit"><i class="icon md-edit" aria-hidden="true"></i></button>'
@@ -146,16 +146,16 @@
                     <button type="button" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-user" data-target="#editUser" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
                         <i class="icon md-edit" aria-hidden="true"></i>
                     </button>
-                    Name: {{ user.name }}</br>
-                    Surname: {{ user.surname }}</br>
-                    Email: {{ user.email }}</br>
-                    Phone number: {{ user.phoneNumber }}</br>
-                    Address: {{ user.streetName }} {{ user.streetNumber }} {{ user.cityName }} {{ user.zipCode }} {{ user.countryRegion }} {{ user.countryName }}</br>
-                    Birthdate: {{ (user.birthDate is empty ? '<mark>not set</mark>' : user.birthDate|date('d/m/Y'))|raw }}</br>
-                    Taxcode: {{ user.taxCode }}</br>
-                    Typology: {{ user.status }}</br>
-                    Presentation: {{ user.presentation.name | default('')}} - {% if user.presentation and user.presentation.date is not empty %}{{ user.presentation.date | date('d/m/Y')}}{% endif %} - {{ user.presentation.place | default('')}}</br>
-                    Notes: {{ user.notes }}</br>
+                    <div class="row"><span class="heading col-md-3">Name:</span> <span class="content col-md-9">{{ user.name|capitalize }}</span></div>
+                    <div class="row"><span class="heading col-md-3">Surname:</span> <span class="content col-md-9">{{ user.surname|capitalize }}</span></div>
+                    <div class="row"><span class="heading col-md-3">Email:</span> <span class="content col-md-8">{{ user.email }}</span></div>
+                    <div class="row"><span class="heading col-md-3">Phone number:</span> <span class="content col-md-9">{{ user.phoneNumber }}</span></div>
+                    <div class="row"><span class="heading col-md-3">Address:</span> <span class="content col-md-9">{{ user.streetName|capitalize }} {{ user.streetNumber }} {{ user.cityName|capitalize }} {{ user.zipCode }} </br> {{ user.countryRegion|title }} {{ user.countryName|upper }}</span></div>
+                    <div class="row"><span class="heading col-md-3">Birthdate:</span> <span class="content col-md-9">{{ (user.birthDate is empty ? '' : user.birthDate|date('d/m/Y'))|raw }}</span></div>
+                    <div class="row"><span class="heading col-md-3">Taxcode:</span> <span class="content col-md-9">{{ user.taxCode }}</span></div>
+                    <div class="row"><span class="heading col-md-3">Typology:</span> <span class="content col-md-9">{{ user.status|capitalize }}</span></div>
+                    <div class="row"><span class="heading col-md-3">Presentation:</span> <span class="content col-md-9">{{ user.presentation.name|default('') }} {% if user.presentation and user.presentation.date is not empty %}{{ user.presentation.date|date('d/m/Y') }}{% endif %} {{ user.presentation.place|default('') }}</span></div>
+                    <div class="row"><span class="heading col-md-3">Notes:</span> <span class="content col-md-9">{{ user.notes|capitalize }}</span></div>
                 </div>
             </div>
 
@@ -188,12 +188,13 @@
                 </div>
                 <div class="panel-body">
                     {% for document in userDocuments %}
-                        <button href="{{ path('documentDelete', {'userid': user.id, 'documentid': document.id}) }}" class="btn btn-sm btn-icon btn-danger btn-round btn-raised waves-effect waves-effect pull-right warningConfirm" data-toggle="tooltip" data-original-title="Delete file">
+                        <button href="{{ path('documentDelete', {'userid': user.id, 'documentid': document.id}) }}" class="btn btn-sm btn-icon btn-danger btn-round btn-raised waves-effect waves-effect pull-right warningConfirm delete-file" data-toggle="tooltip" data-original-title="Delete file">
                             <i class="icon md-delete" aria-hidden="true"></i>
                         </button>
-                        {{ document.name }} <br>
-                        <a href="/download/{{ user.id }}/{{ document.documentName }}" target="_blank">{{ document.documentType }}</a><br>
-                        {{ document.uploadAt|date('d/m/Y') }}<br><br>
+                        <div class="row"><span class="heading col-md-3">Name:</span><span class="content col-md-9"><a href="/download/{{ user.id }}/{{ document.documentName }}" target="_blank">{{ document.name|capitalize }}</a></span></div>
+                        <div class="row"><span class="heading col-md-3">Typology:</span><span class="col-md-9">{{ document.documentType|capitalize }}</span></div>
+                        <div class="row"><span class="heading col-md-3">Date:</span><span class="content col-md-9">{{ document.uploadAt|date('d/m/Y') }}</span></div>
+                        <hr>
                     {% endfor %}
                 </div>
                 <div class="panel-footer">
@@ -268,17 +269,18 @@
                         <button type="button" data-id="{{ journey.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-journey" data-target="#editJourney" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
                             <i class="icon md-edit" aria-hidden="true"></i>
                         </button>
-                        Clinic: {{ journey.clinic }}</br>
-                        Arrival date: {{ journey.arrivalDate|date('d/m/Y') }}</br>
-                        Appointment date: {{ journey.appointmentDate|date('d/m/Y') }}</br>
-                        Departure date: {{ journey.departureDate|date('d/m/Y') }}</br>
-                        Accommodation: {{ journey.accommodation }}</br>
-                        Accommodation address: {{ journey.accommodationAddress }}</br>
-                        Transport load to client: {{ journey.transportLoadClient }}</br>
-                        Transport load to Hc: {{ journey.transportLoadHc }}</br>
-                        Night load to client: {{ journey.nightLoadClient }}</br>
-                        Night load to Hc: {{ journey.nightLoadHc }}</br>
-                        Notes: {{ journey.notes }}</br></br>
+                        <div class="row"><span class="heading col-md-4">Clinic:</span><span class="content col-md-8">{{ journey.clinic|capitalize }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Arrival date:</span><span class="content col-md-8">{{ journey.arrivalDate|date('d/m/Y') }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Appointment date:</span><span class="content col-md-8">{{ journey.appointmentDate|date('d/m/Y') }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Departure date:</span><span class="content col-md-8">{{ journey.departureDate|date('d/m/Y') }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Stay place:</span><span class="content col-md-8">{{ journey.accommodation|capitalize }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Stay address:</span><span class="content col-md-8">{{ journey.accommodationAddress|capitalize }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Transport load to client:</span><span class="content col-md-8">{{ journey.transportLoadClient }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Transport load to Hc:</span><span class="content col-md-8">{{ journey.transportLoadHc }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Night load to client:</span><span class="content col-md-8">{{ journey.nightLoadClient }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Night load to Hc:</span><span class="content col-md-8"> {{ journey.nightLoadHc }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Notes:</span><span class="content col-md-8">{{ journey.notes|capitalize }}</span></div>
+                        <hr>
                     {% endfor %}
                 </div>
                 <div class="panel-footer">

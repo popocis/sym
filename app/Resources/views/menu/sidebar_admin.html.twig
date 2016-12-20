@@ -31,12 +31,14 @@
                         <span class="site-menu-title">{% trans %}Calendar{% endtrans %}</span>
                     </a>
                 </li>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li class="site-menu-item {{ app.request.get('_route') == 'serviceAdd' ? 'active' : '' }}">
                     <a class="animsition-link" href="{{ path('serviceAdd') }}">
-                        <i class="site-menu-icon md-account-add" aria-hidden="true"></i>
-                        <span class="site-menu-title">{% trans %}Add service{% endtrans %}</span>
+                        <i class="site-menu-icon md-storage" aria-hidden="true"></i>
+                        <span class="site-menu-title">{% trans %}Edit system{% endtrans %}</span>
                     </a>
                 </li>
+                {% endif %}
                 <li class="site-menu-item {{ app.request.get('_route') == 'logout' ? 'active' : '' }}">
                     <a class="animsition-link" href="/logout">
                         <i class="site-menu-icon icon md-power" aria-hidden="true"></i>
