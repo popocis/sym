@@ -43,7 +43,6 @@
 // @codekit-prepend '../js/Plugin/material.js'
 // @codekit-prepend '../js/Plugin/select2.js'
 
-
 $(document).ready(function() {
     Site.run();
     Waves.attach('.page-content .btn-floating', ['waves-light']);

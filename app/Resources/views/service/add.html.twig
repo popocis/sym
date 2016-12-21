@@ -22,20 +22,27 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <!-- Panel Static Labels -->
-            <div class="panel">
-                <div class="panel-heading">
-                    <h3 class="panel-title">List Form Origin</h3>
-                </div>
-                <div class="panel-body">
-                    {% for formOrigin in formsOrigin %}
-                        <button type="button" data-id="{{ formOrigin.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-formOrigin" data-target="#editFormOrigin" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
-                            <i class="icon md-edit" aria-hidden="true"></i>
-                        </button>
-                        Name: {{ formOrigin.formName }}
-                        Domain: {{ formOrigin.formDomain }}
-                        Notes: {{ formOrigin.notes }}</br>
-                    {% endfor %}
+            <div class="h-600" data-plugin="scrollable">
+                <div data-role="container">
+                    <div data-role="content">
+                        <!-- Panel Static Labels -->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">List Form Origin</h3>
+                            </div>
+                            <div class="panel-body">
+                                {% for formOrigin in formsOrigin %}
+                                    <button type="button" data-id="{{ formOrigin.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-formOrigin" data-target="#editFormOrigin" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                                        <i class="icon md-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="row"><span class="heading col-md-3">Name:</span> <span class="content col-md-9">{{ formOrigin.formName }}</<span></div>
+                                    <div class="row"><span class="heading col-md-3">Domain:</span> <span class="content col-md-9">{{ formOrigin.formDomain }}</<span></div>
+                                    <div class="row"><span class="heading col-md-3">Notes:</span> <span class="content col-md-9">{{ formOrigin.notes }}</<span></div>
+                                    <hr>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -92,25 +99,31 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <!-- Panel Static Labels -->
-            <div class="panel">
-                <div class="panel-heading">
-                    <h3 class="panel-title">List Clinic</h3>
-                </div>
-                <div class="panel-body">
-                    {% for clinic in clinics %}
-                        <button type="button" data-id="{{ clinic.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-clinic" data-target="#editClinic" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
-                            <i class="icon md-edit" aria-hidden="true"></i>
-                        </button>
-                        Name: {{ clinic.name }}
-                        Phone: {{ clinic.phoneNumber }}
-                        Street number: {{ clinic.streetNumber }}
-                        Street name: {{ clinic.streetName }}
-                        City name: {{ clinic.cityName }}
-                        Zip code: {{ clinic.zipCode }}
-                        Country: {{ clinic.countryName }}
-                        </br>
-                    {% endfor %}
+            <div class="h-600" data-plugin="scrollable">
+                <div data-role="container">
+                    <div data-role="content">
+                        <!-- Panel Static Labels -->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">List Clinic</h3>
+                            </div>
+                            <div class="panel-body">
+                                {% for clinic in clinics %}
+                                    <button type="button" data-id="{{ clinic.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-clinic" data-target="#editClinic" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                                        <i class="icon md-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="row"><span class="heading col-md-3">Name:</span> <span class="content col-md-9">{{ clinic.name }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Phone:</span> <span class="content col-md-9">{{ clinic.phoneNumber }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Street number:</span> <span class="content col-md-9">{{ clinic.streetNumber }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Street name:</span> <span class="content col-md-9">{{ clinic.streetName }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">City name:</span> <span class="content col-md-9">{{ clinic.cityName }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Zip code:</span> <span class="content col-md-9">{{ clinic.zipCode }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Country:</span> <span class="content col-md-9">{{ clinic.countryName }}</span></div>
+                                    <hr>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -168,20 +181,27 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <!-- Panel Static Labels -->
-            <div class="panel">
-                <div class="panel-heading">
-                    <h3 class="panel-title">List Dem Origin</h3>
-                </div>
-                <div class="panel-body">
-                    {% for demOrigin in demsOrigin %}
-                        <button type="button" data-id="{{ demOrigin.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-demOrigin" data-target="#editDemOrigin" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
-                            <i class="icon md-edit" aria-hidden="true"></i>
-                        </button>
-                        Name: {{ demOrigin.demName }}
-                        Discount: {{ demOrigin.discount }}
-                        Notes: {{ demOrigin.notes }}</br>
-                    {% endfor %}
+            <div class="h-300" data-plugin="scrollable">
+                <div data-role="container">
+                    <div data-role="content">
+                        <!-- Panel Static Labels -->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">List Dem Origin</h3>
+                            </div>
+                            <div class="panel-body">
+                                {% for demOrigin in demsOrigin %}
+                                    <button type="button" data-id="{{ demOrigin.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-demOrigin" data-target="#editDemOrigin" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                                        <i class="icon md-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="row"><span class="heading col-md-3">Name:</span> <span class="content col-md-9">{{ demOrigin.demName }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Discount:</span> <span class="content col-md-9">{{ demOrigin.discount }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Notes:</span> <span class="content col-md-9">{{ demOrigin.notes }}</span></div>
+                                    <hr>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -238,21 +258,28 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <!-- Panel Static Labels -->
-            <div class="panel">
-                <div class="panel-heading">
-                    <h3 class="panel-title">List Presentation</h3>
-                </div>
-                <div class="panel-body">
-                    {% for presentation in presentations %}
-                        <button type="button" data-id="{{ presentation.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-presentation" data-target="#editPresentation" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
-                            <i class="icon md-edit" aria-hidden="true"></i>
-                        </button>
-                        Name: {{ presentation.name }}
-                        Place: {{ presentation.place }}
-                        Date: {{ presentation.date|date('d/m/Y') }}
-                        Notes: {{ presentation.notes }}</br>
-                    {% endfor %}
+            <div class="h-300" data-plugin="scrollable">
+                <div data-role="container">
+                    <div data-role="content">
+                        <!-- Panel Static Labels -->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">List Presentation</h3>
+                            </div>
+                            <div class="panel-body">
+                                {% for presentation in presentations %}
+                                    <button type="button" data-id="{{ presentation.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-presentation" data-target="#editPresentation" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                                        <i class="icon md-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="row"><span class="heading col-md-3">Name:</span> <span class="content col-md-9">{{ presentation.name }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Place:</span> <span class="content col-md-9">{{ presentation.place }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Date:</span> <span class="content col-md-9">{{ presentation.date|date('d/m/Y') }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Notes:</span> <span class="content col-md-9">{{ presentation.notes }}</span></div>
+                                    <hr>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
