@@ -20,7 +20,7 @@ class UserEvent{
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="User")
-	 * @ORM\JoinColumn(name="admin_user_id", referencedColumnName="id", nullable=false)
+	 * @ORM\JoinColumn(name="admin_user_id", referencedColumnName="id", nullable=true)
 	 */
 	protected $adminUser;
 

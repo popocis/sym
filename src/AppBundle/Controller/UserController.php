@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\UserEvent;
 use AppBundle\Entity\UserDocument;
 use AppBundle\Entity\UserJourney;
+use AppBundle\Entity\FormOrigin;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -129,6 +130,26 @@ class UserController extends Controller {
 		return $user;
 	}
 
+	private function getFormOriginObjByName($formOriginName) {
+		//$repository = $this->getDoctrine()->getRepository('AppBundle:FormOrigin');
+		//$formOrigin = $repository->findBy(array('formName' => $formOriginName));
+
+		$formOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findBy(array('formName' => $formOriginName));
+		if (!$formOrigin) {
+			return null;
+		}
+		return $formOrigin;
+	}
+
+	private function getUserObjByEmail($email) {
+		$userManager = $this->get('fos_user.user_manager');
+		$user = $userManager->findUserByEmail($email);
+		if (!$user) {
+			return null;
+		}
+		return $user;
+	}
+
 	public function setDefaultOptions(OptionsResolverInterface $resolver){
 		$resolver->setDefaults(array(
 			'data_class' => $this->class
@@ -221,4 +242,74 @@ class UserController extends Controller {
 		$response = new JsonResponse('');
 		return $response;
 	}
+
+	/**
+	 * @Route("/user/insertFromForm", name="ajaxUserInsertFromForm")
+	 */
+	public function insertFromFormAction(){
+		$request = $this->container->get('request');
+		$name = $request->request->get('userName');
+		$surname = $request->request->get('userSurname');
+		$city = $request->request->get('userCity');
+		$email = $request->request->get('userEmail');
+		$phone = $request->request->get('userPhone');
+		$message = $request->request->get('userMessage');
+		$formOrigin = $request->request->get('userFormOrigin');
+		$formOriginDomain = $request->request->get('userFormOriginDomain');
+
+		$user = $this->getUserObjByEmail($email);
+		$formOriginExist = $this->getFormOriginObjByName($formOrigin);
+
+		if($formOriginExist == null){
+			$formOriginObj = new FormOrigin();
+			$formOriginObj->setFormName($formOrigin);
+			$formOriginObj->setFormDomain($formOriginDomain);
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($formOriginObj);
+			$em->flush();
+		}
+
+		if($user == null){
+			// Get our userManager, you must implement 'ContainerAwareInterface'
+			$userManager = $this->container->get('fos_user.user_manager');
+			// Create ROLE_SUPER_ADMIN
+			$user = $userManager->createUser();
+			$user->setUsername($email);
+			$user->setEmail($email);
+			$password = random_bytes(10);
+			$user->setPlainPassword($password);
+			$user->setDeleted(0);
+			$user->setEnabled(0);
+			$user->setRoles(array('ROLE_USER'));
+			$user->setName($name);
+			$user->setSurname($surname);
+			$user->setPhonenumber($phone);
+			$user->setStatus('prospect');
+			$user->setCityName($city);
+			// Update the user
+			$userManager->updateUser($user, true);
+
+			$formOriginEvent = $this->getFormOriginObjByName($formOrigin);
+			$userEvent = new UserEvent();
+			$userEvent->setContactMethod('form');
+			$userEvent->setContactReason('commercial');
+			$userEvent->setDate(new \DateTime(date("Y-m-d H:i:s")));
+			$userEvent->setMessage($message);
+			$userEvent->setFormOrigin($formOriginEvent[0]);
+			$userEvent->setCustomerUser($user);
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($userEvent);
+			$em->flush();
+		}
+
+		$response = new Response();
+
+		$response->setContent(json_encode([
+			'response' => $formOriginExist,
+		]));
+
+		$response->headers->set('Content-Type', 'application/json');
+		return $response;
+	}
+
 }
