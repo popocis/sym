@@ -305,7 +305,7 @@ class UserController extends Controller {
 		$response = new Response();
 
 		$response->setContent(json_encode([
-			'response' => $formOriginExist,
+			'response' => '',
 		]));
 
 		$response->headers->set('Content-Type', 'application/json');
