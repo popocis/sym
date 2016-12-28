@@ -257,6 +257,10 @@ class UserController extends Controller {
 		$formOrigin = $request->request->get('userFormOrigin');
 		$formOriginDomain = $request->request->get('userFormOriginDomain');
 
+		if($formOrigin == ""){
+        	$formOrigin = "home";
+        }
+		
 		$user = $this->getUserObjByEmail($email);
 		$formOriginExist = $this->getFormOriginObjByName($formOrigin);
 
@@ -294,7 +298,7 @@ class UserController extends Controller {
 			$userEvent->setContactMethod('form');
 			$userEvent->setContactReason('commercial');
 			$userEvent->setDate(new \DateTime(date("Y-m-d H:i:s")));
-			$userEvent->setMessage($message);
+			$userEvent->setMessage(preg_replace( "/\r|\n/", "", $message ));
 			$userEvent->setFormOrigin($formOriginEvent[0]);
 			$userEvent->setCustomerUser($user);
 			$em = $this->getDoctrine()->getManager();
