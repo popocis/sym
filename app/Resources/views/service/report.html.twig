@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block scripts %}
+
+    <script>
+        $( document ).ready(function() {
+
+            var $table = $('#ReportTable');
+
+            $table.bootstrapTable();
+            $table.bootstrapTable('hideColumn', 'country');
+            $table.bootstrapTable('hideColumn', 'presentation');
+            $table.bootstrapTable('hideColumn', 'birthDate');
+            $table.bootstrapTable('hideColumn', 'address');
+            $table.bootstrapTable('hideColumn', 'zipCode');
+            $table.bootstrapTable('hideColumn', 'region');
+            $table.bootstrapTable('hideColumn', 'taxCode');
+            $table.bootstrapTable('hideColumn', 'registrationDate');
+
+            var $ok = $('#ok');
+
+            $(function () {
+                $ok.click(function () {
+                    //console.log(queryParams());
+                    $table.bootstrapTable('refresh');
+                });
+            });
+
+        });
+
+        function queryParams(params) {
+            $('#get').find('input[name]').each(function () {
+                params[$(this).attr('name')] = $(this).val();
+            });
+            return params;
+        }
+    </script>
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="page-header page-header-bordered">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">+HC</li>
+        </ol>
+        <h1 class="page-title">Dashboard</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Panel Static Labels -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">User List</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="get">
+                        <div class="form-inline" role="form">
+                            <div class="form-group">
+                                <span>From: </span>
+                                <input type="text" id="from_date" class="form-control" class="datepicker" name="from" data-plugin="datepicker">
+                            </div>
+                            <div class="form-group">
+                                <span>To: </span>
+                                <input type="text" id="to_date" class="form-control" class="datepicker" name="to" data-plugin="datepicker">
+                            </div>
+                            <button id="ok" type="submit" class="btn btn-default">OK</button>
+                        </div>
+                    </div>
+                    <table id="ReportTable"
+                           data-toggle="table"
+                           data-url="{{ path('ajax_bootstrap-table_report') }}"
+                           data-toolbar="#get"
+                           data-show-export="true"
+                           data-export-types="['excel', 'txt', 'csv']"
+                           data-cache="false"
+                           data-side-pagination="server"
+                           data-pagination="true"
+                           data-sort-name="id"
+                           data-sort-order="desc"
+                           data-search="false"
+                           data-show-columns="true"
+                           data-classes="table table-no-bordered"
+                           data-page-size="100"
+                           data-page-list="[100, ALL]"
+                           data-query-params="queryParams">
+                        <thead>
+                        <tr>
+                            <th data-field="id" data-sortable="true">{% trans %}Id{% endtrans %}</th>
+                            <th data-field="contactMethod" data-sortable="true">{% trans %}Method{% endtrans %}</th>
+                            <th data-field="contactReason" data-sortable="true">{% trans %}Reason{% endtrans %}</th>
+                            <th data-field="date" data-sortable="true">{% trans %}Date{% endtrans %}</th>
+                            <th data-field="message" data-sortable="true">{% trans %}Message{% endtrans %}</th>
+                            <th data-field="notes">{% trans %}Notes{% endtrans %}</th>
+                            <th data-field="estimate">{% trans %}Estimate{% endtrans %}</th>
+                            <th data-field="formOrigin">{% trans %}Form origin{% endtrans %}</th>
+                            <th data-field="clientId">{% trans %}Client id{% endtrans %}</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

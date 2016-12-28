@@ -151,5 +151,12 @@ class ServiceController extends Controller {
 		}
 	}
 
+	/**
+	 * @Route("/service/report", name="serviceReport")
+	 */
+	public function servicereportAction(){
+		return $this->render('service/report.html.twig');
+	}
+
 }
 

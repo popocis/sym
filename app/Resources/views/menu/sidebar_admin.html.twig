@@ -32,6 +32,12 @@
                     </a>
                 </li>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="site-menu-item {{ app.request.get('_route') == 'serviceReport' ? 'active' : '' }}">
+                    <a class="animsition-link" href="{{ path('serviceReport') }}">
+                        <i class="site-menu-icon md-format-list-bulleted" aria-hidden="true"></i>
+                        <span class="site-menu-title">{% trans %}Report{% endtrans %}</span>
+                    </a>
+                </li>
                 <li class="site-menu-item {{ app.request.get('_route') == 'serviceAdd' ? 'active' : '' }}">
                     <a class="animsition-link" href="{{ path('serviceAdd') }}">
                         <i class="site-menu-icon md-storage" aria-hidden="true"></i>
