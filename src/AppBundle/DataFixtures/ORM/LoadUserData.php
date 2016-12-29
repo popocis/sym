@@ -77,9 +77,41 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 		// Update the user
 		$userManager->updateUser($user, true);
 
-		for ($i = 1; $i <= 20; $i++) {
-			$this->createGenericUser($userManager, 'nome', 'cognome',$i);
-		}
+		$user = $userManager->createUser();
+		$user->setUsername('client1@email.com');
+		$user->setEmail('client1@email.com');
+		$user->setPlainPassword('password');
+		//$user->setPassword('$2a$10$H7SpSzqmpWzFNh9whB74eulZZzo7XT7bQ.vvxStKomLfh06AX/ulG');
+		$user->setEnabled(true);
+		$user->setRoles(array('ROLE_USER'));
+		$user->setName('Alvaro');
+		$user->setSurname('Greco');
+		$user->setPhonenumber(87654321);
+		$user->setStatus('commercial');
+		$user->setCityName('Como');
+		$user->setDeleted(0);
+		// Update the user
+		$userManager->updateUser($user, true);
+
+		$user = $userManager->createUser();
+		$user->setUsername('client2@email.com');
+		$user->setEmail('client2@email.com');
+		$user->setPlainPassword('password');
+		//$user->setPassword('$2a$10$H7SpSzqmpWzFNh9whB74eulZZzo7XT7bQ.vvxStKomLfh06AX/ulG');
+		$user->setEnabled(true);
+		$user->setRoles(array('ROLE_USER'));
+		$user->setName('Cataldo');
+		$user->setSurname('Arcuri');
+		$user->setPhonenumber(87654321);
+		$user->setStatus('commercial');
+		$user->setCityName('Como');
+		$user->setDeleted(0);
+		// Update the user
+		$userManager->updateUser($user, true);
+
+		// for ($i = 1; $i <= 20; $i++) {
+		// 	$this->createGenericUser($userManager, 'nome', 'cognome',$i);
+		// }
 	}
 
 	private function createGenericUser($um, $name, $surname, $index) {

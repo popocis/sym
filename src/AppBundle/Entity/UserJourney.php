@@ -118,7 +118,7 @@ class UserJourney{
 		return $this->adminUser;
 	}
 
-	public function getCustomerUserId() {
+	public function getCustomerUser() {
 		return $this->customerUser;
 	}
 
