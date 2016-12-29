@@ -1,0 +1,4 @@
+calendars:
+    - { name: 'Arrivals', dateName: 'arrivalDate', color: '#e53935', textColor: 'white' }
+    - { name: 'Appointments', dateName: 'appointmentDate', color: '#43a047', textColor: 'white' }
+    - { name: 'Departures', dateName: 'departureDate', color: '#fb8c00', textColor: 'white' }
