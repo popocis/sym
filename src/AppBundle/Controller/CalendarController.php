@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use DateTime;
+use DateInterval;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Yaml\Yaml;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @Route("/calendar")
@@ -26,30 +28,11 @@ class CalendarController extends Controller {
 
 		$model = Yaml::parse($this->get('kernel')->getRootDir() . '/config/calendar.yml');
 
-		// foreach ($model['calendars'] as $c) {
-		// 	$criteria = new Criteria();
-		// 	$criteria->where(Criteria::expr()->gte('arrivalDate', new DateTime($start)));
-		// 	$criteria->andWhere(Criteria::expr()->lte('arrivalDate', new DateTime($end)));
-
-		// 	$qb = $em->createQueryBuilder();
-
-		// 	$qb->select('count(u)');
-		// 	$qb->from('AppBundle:User', 'u');
-		// 	$qb->where(QueryBuilder::expr()->andX(
-		// 		QueryBuilder::expr()->gte($c->dateName, new DateTime($start)),
-		// 		QueryBuilder::expr()->gte($c->dateName, new DateTime($start))
-		// 	));
-
-		// 	return $qb->getQuery()->getSingleScalarResult();
-			
-		// 	$userJourneys = $userJourneyRepo->matching($criteria);
-		// }
-
 		return $this->render('calendar/index.html.twig', $model);
 	}
 
 	/**
-	 * @Route("/feed.json", name="feed")
+	 * @Route("/feed.json", name="calendarFeed")
 	 */
 	public function feedAction(Request $request) {
 		$type = $request->get('type', null);
@@ -71,30 +54,94 @@ class CalendarController extends Controller {
 		return new JsonResponse($this->mapUserJourneys($userJourneys, $type));
 	}
 
+	/**
+	 * @Route("/customers.json", name="calenderCustomers")
+	 */
+	public function customersAction(Request $request) {
+		$start = $request->get('start', '2016-11-27');
+		$end = $request->get('end', '2017-01-08');
+
+		if (!$start or !$end) {
+			return new JsonResponse(array('error' => true));
+		}
+
+		$em = $this->getDoctrine()->getManager();
+		$qb = $em->createQueryBuilder();
+
+		$qb->select('uj', 'u')
+			->from('AppBundle:UserJourney', 'uj')
+			->innerJoin('uj.customerUser', 'u')
+			->where(
+				$qb->expr()->orX(
+					$qb->expr()->andX(
+						$qb->expr()->gte('uj.arrivalDate', ':start'),
+						$qb->expr()->lte('uj.arrivalDate', ':end')
+					),
+					$qb->expr()->andX(
+						$qb->expr()->gte('uj.appointmentDate', ':start'),
+						$qb->expr()->lte('uj.appointmentDate', ':end')
+					),
+					$qb->expr()->andX(
+						$qb->expr()->gte('uj.departureDate', ':start'),
+						$qb->expr()->lte('uj.departureDate', ':end')
+					)
+				)
+			)
+			->orderBy('u.name')
+			->setParameter('start', new DateTime($start), \Doctrine\DBAL\Types\Type::DATETIME)
+			->setParameter('end', new DateTime($end), \Doctrine\DBAL\Types\Type::DATETIME);
+
+		$results = $qb->getQuery()->getResult();
+
+		// mapping
+
+		$json = array();
+		foreach ($results as $q) {
+			$json[] = array(
+				'id' => $q->getCustomerUser()->getId(),
+				'name' => $q->getCustomerUser()->getName() . ' ' . $q->getCustomerUser()->getSurname()
+			);
+		}
+
+		return new JsonResponse($json);
+	}
+
 	private function mapUserJourneys($userJourneys, $type) {
 		$result = array();
 
 		foreach ($userJourneys as $uj) {
 			$customer = $uj->getCustomerUser();
+			$title = $customer->getName() . ' ' . $customer->getSurname();
 			$date = null;
+			// $end = null;
 
 			switch ($type) {
 				case 'arrivalDate':
 					$date = $uj->getArrivalDate();
+					// $end = clone $date;
+					// $end->add(new DateInterval('P1D'));
+					$title = 'Arrivo ' . $title;
 					break;
 				case 'appointmentDate':
 					$date = $uj->getAppointmentDate();
+					// $end = clone $date;
+					// $end->add(new DateInterval('PT1H'));
+					$title = 'Appuntamento ' . $title;
 					break;
 				case 'departureDate':
 					$date = $uj->getDepartureDate();
+					// $end = clone $date;
+					// $end->add(new DateInterval('PT1H'));
+					$title = 'Partenza ' . $title;
 					break;
 			}
 
 			$result[] = array(
 				'id' => $uj->getId(),
-				'title' => $customer->getName() . ' ' . $customer->getSurname(),
+				'title' => $title,
 				'allDay' => false,
-				'start' => $date->format(DateTime::ATOM)
+				'start' => $date->format(DateTime::ATOM),
+				// 'end' => $end->format(DateTime::ATOM)
 			);
 		}
 

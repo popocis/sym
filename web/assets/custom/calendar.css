@@ -124,6 +124,11 @@
   left: 3px;
 }
 
+.list-group-item.deleted {
+  text-decoration: line-through;
+  color: #aaa;
+}
+
 @media (max-width: 991px) {
   .fc-toolbar {
     margin-bottom: 60px;
