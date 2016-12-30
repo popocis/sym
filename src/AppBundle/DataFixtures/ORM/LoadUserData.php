@@ -11,18 +11,18 @@ use AppBundle\Entity\ContactMethod;
 use AppBundle\Entity\ContactReason;
 use AppBundle\Entity\UserEvent;
 
-class LoadUserData implements FixtureInterface, ContainerAwareInterface
-{
-
+class LoadUserData implements OrderedFixtureInterface, ContainerAwareInterface {
 	private $container;
 
-	public function setContainer(ContainerInterface $container = null)
-	{
+	public function setContainer(ContainerInterface $container = null) {
 		$this->container = $container;
 	}
 
-	public function load(ObjectManager $manager)
-	{
+	public function getOrder() {
+        return 1;
+    }
+
+	public function load(ObjectManager $manager) {
 		// Get our userManager, you must implement 'ContainerAwareInterface'
 		$userManager = $this->container->get('fos_user.user_manager');
 

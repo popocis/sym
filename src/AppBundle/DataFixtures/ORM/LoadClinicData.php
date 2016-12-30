@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Clinic;
 
-class LoadClinicData implements FixtureInterface, ContainerAwareInterface {
+class LoadClinicData implements OrderedFixtureInterface, ContainerAwareInterface {
 	private $container;
 	private $em;
 	private $clinicRepo;
@@ -20,6 +20,10 @@ class LoadClinicData implements FixtureInterface, ContainerAwareInterface {
 		$doctrine = $container->get('doctrine');
 		$this->em = $doctrine->getManager();
 	}
+
+	public function getOrder() {
+        return 2;
+    }
 
 	public function load(ObjectManager $manager) {
 		$this->addClinic('Clinica Dentalsan', '+385 800177556', '47A', 'Kvarnerska cesta', 'Matulji', 51211, 'Croazia');

@@ -13,7 +13,7 @@ use AppBundle\Entity\Clinic;
 use AppBundle\Entity\UserEvent;
 use AppBundle\Entity\UserJourney;
 
-class LoadUserJourneyData implements FixtureInterface, ContainerAwareInterface {
+class LoadUserJourneyData implements OrderedFixtureInterface, ContainerAwareInterface {
 	private $container;
 	private $em;
 	private $userRepo;
@@ -30,6 +30,10 @@ class LoadUserJourneyData implements FixtureInterface, ContainerAwareInterface {
 		$this->clinicRepo = $doctrine->getRepository('AppBundle:Clinic');
 		$this->userJourneyRepo = $doctrine->getRepository('AppBundle:UserJourney');
 	}
+
+	public function getOrder() {
+        return 2;
+    }
 
 	public function load(ObjectManager $manager) {
 		$adminUser = $this->userRepo->findOneBy(array('username' => 'dario.zilocchi@gmail.com'));
