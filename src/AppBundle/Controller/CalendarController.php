@@ -22,7 +22,6 @@ class CalendarController extends Controller {
 	 * @Route(name="calendar")
 	 */
 	public function indexAction() {
-		// $userJourneyRepo = $this->getDoctrine()->getRepository('AppBundle:UserJourney');
 		$em = $this->getDoctrine()->getManager();
 		$qb = $em->createQueryBuilder();
 
@@ -99,7 +98,8 @@ class CalendarController extends Controller {
 		foreach ($results as $q) {
 			$json[] = array(
 				'id' => $q->getCustomerUser()->getId(),
-				'name' => $q->getCustomerUser()->getName() . ' ' . $q->getCustomerUser()->getSurname()
+				'name' => $q->getCustomerUser()->getName() . ' ' . $q->getCustomerUser()->getSurname(),
+				'url' => $this->generateUrl('userView', array('id' => $q->getCustomerUser()->getId()))
 			);
 		}
 

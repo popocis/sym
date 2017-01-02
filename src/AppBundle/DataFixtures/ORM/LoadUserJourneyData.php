@@ -1,5 +1,5 @@
 <?php
-// src/UserBundle/DataFixtures/ORM/LoadUserData.php
+// src/UserBundle/DataFixtures/ORM/LoadUserJourneyData.php
 
 namespace AppBundle\DataFixtures\ORM;
 

@@ -15,7 +15,7 @@
                         <h5 class="page-aside-title">{% trans %}CALENDAR LIST{% endtrans %}</h5>
                         <div class="list-group has-actions">
                             {% for calendar in calendars %}
-                                <div class="list-group-item" data-plugin="editlist" data-color="{{ calendar.color }}" data-type="{{ calendar.dateName }}">
+                                <a class="list-group-item" href="#" data-plugin="editlist" data-color="{{ calendar.color }}" data-type="{{ calendar.dateName }}">
                                     <div class="list-content">
                                         <span class="item-right js-count"></span>
                                         <i class="md-circle m-r-10" style="color:{{ calendar.color }}" aria-hidden="true"></i>
@@ -30,7 +30,7 @@
                                             <button type="button" class="input-editable-close icon md-close" data-toggle="list-editable-close" aria-label="Close" aria-expanded="true"></button>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             {% endfor %}
                         </div>
                     </section>
@@ -346,7 +346,7 @@
 
     <script id="CustomerTpl" type="text/template">
         {% raw %}
-            <a class="list-group-item calendar-event" data-title="<%- name %>" data-stick="true" href="javascript:void(0)"><%- name %></a>
+            <a class="list-group-item calendar-event" data-title="<%- name %>" data-stick="true" href="<%- url %>"><%- name %></a>
         {% endraw %}
     </script>
 
