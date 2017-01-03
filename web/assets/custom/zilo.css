@@ -124,8 +124,8 @@
 }
 
 .list-group-item.deleted {
-    text-decoration: line-through;
-    color: #aaa;
+    text-decoration: line-through !important;
+    color: #aaa !important;
 }
 
 @media (max-width: 991px) {

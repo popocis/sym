@@ -114,9 +114,10 @@
         // $('#editNewEvent').modal();
         $('#calendar').fullCalendar(_options);
 
-        $('.js-calendars').on('click', '.item-actions .btn', function (ev) {
-            var $el = $(ev.currentTarget);
-            var $item = $el.parents('.list-group-item');
+        $('.js-calendars').on('click', '.list-group-item', function (ev) {
+            ev.preventDefault();
+            
+            var $item = $(ev.currentTarget);
             var $icon = $item.find('.btn .icon');
             var type = $item.data('type');
 
