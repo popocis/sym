@@ -67,9 +67,9 @@ class CalendarController extends Controller {
 		$em = $this->getDoctrine()->getManager();
 		$qb = $em->createQueryBuilder();
 
-		$qb->select('uj', 'u')
-			->from('AppBundle:UserJourney', 'uj')
-			->innerJoin('uj.customerUser', 'u')
+		$qb->select('u')
+			->from('AppBundle:User', 'u')
+			->innerJoin('u.customerJourneys', 'uj')
 			->where(
 				$qb->expr()->orX(
 					$qb->expr()->andX(
@@ -90,16 +90,16 @@ class CalendarController extends Controller {
 			->setParameter('start', new DateTime($start), \Doctrine\DBAL\Types\Type::DATETIME)
 			->setParameter('end', new DateTime($end), \Doctrine\DBAL\Types\Type::DATETIME);
 
-		$results = $qb->getQuery()->getResult();
+		$results = $qb->distinct()->getQuery()->getResult();
 
 		// mapping
 
 		$json = array();
 		foreach ($results as $q) {
 			$json[] = array(
-				'id' => $q->getCustomerUser()->getId(),
-				'name' => $q->getCustomerUser()->getName() . ' ' . $q->getCustomerUser()->getSurname(),
-				'url' => $this->generateUrl('userView', array('id' => $q->getCustomerUser()->getId()))
+				'id' => $q->getId(),
+				'name' => $q->getName() . ' ' . $q->getSurname(),
+				'url' => $this->generateUrl('userView', array('id' => $q->getId()))
 			);
 		}
 

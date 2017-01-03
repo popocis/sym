@@ -24,6 +24,7 @@ class User extends BaseUser
 		parent::__construct();
 		// your own logic
 		$this->registrationDate = new \DateTime();
+		$this->customerJourneys = new ArrayCollection();
 	}
 
 	/**
@@ -184,6 +185,11 @@ class User extends BaseUser
 	 */
 	protected $deleted;
 
+	/**
+     * @ORM\OneToMany(targetEntity="UserJourney", mappedBy="customerUser")
+     */
+    private $customerJourneys;
+
 	public function getName(){
 		return $this->name;
 	}
@@ -246,6 +252,10 @@ class User extends BaseUser
 
 	public function getDeleted() {
 		return $this->deleted;
+	}
+
+	public function getCustomerJourneys(){
+		return $this->customerJourneys;
 	}
 
 	public function setName($name){
@@ -328,6 +338,11 @@ class User extends BaseUser
 		return $this;
 	}
 
+	public function setCustomerJourneys($value) {
+		$this->customerJourneys = $value;
+		return $this;
+	}
+
 	public function setEmail($email){
 		$email = is_null($email) ? '' : $email;
 		parent::setEmail($email);
@@ -341,5 +356,4 @@ class User extends BaseUser
 	public function isDeleted(){
 		return $this->deleted;
 	}
-
 }
