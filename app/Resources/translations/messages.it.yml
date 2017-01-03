@@ -22,4 +22,18 @@ CALENDAR LIST: LISTA CALENDARI
 Arrivals: Orari di arrivo
 Appointments: Appuntamenti
 Departures: Orari di partenza
-CUSTOMER LIST: LISTA CLIENTI
+CUSTOMER LIST: LISTA PAZIENTI
+
+Event details: Dettagli evento
+Customer name: Nome paziente
+Starts: Data
+Starts time: Ora
+Clinic: Clinica
+Accommodation: Alloggio
+Accommodation address: Indirizzo alloggio
+Night load to client: Night load to client
+Night load to HC: Night load to HC
+Transport load to client: Transport load to client
+Transport load to HC: Transport load to HC
+Notes: Note
+Close: Chiudi

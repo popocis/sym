@@ -1,7 +1,9 @@
 (function () {
 
+    var CustomerTpl = _.template($('#CustomerTpl').html());
+    var EventTpl = _.template($('#EventTpl').html());
+
     function renderCustomers(view) {
-        var customerTpl = _.template($('#CustomerTpl').html());
         var $customers = $('.js-customers');
 
         $.ajax({
@@ -21,7 +23,7 @@
                 $listGroup.empty();
 
                 _.each(models, function (model) {
-                    $listGroup.append(customerTpl(model));
+                    $listGroup.append(CustomerTpl(model));
                 });
 
                 $customers.show();
@@ -30,6 +32,19 @@
                 $customers.hide();
             });
     };
+    function renderEvent(event) {
+        var $modal = $(EventTpl(event));
+        $('.calendar-container').append($modal);
+
+        $modal.find('input[name=starts]').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true
+        });
+        $modal.modal('show').one('hidden.bs.modal', function (e) {
+            console.log('@@@ close modal!');
+            $modal.remove();
+        });
+    };
 
     function getEventSources() {
         return $('.js-calendars .list-group-item:not(.deleted)').map(function (idx, el) {
@@ -37,6 +52,8 @@
             var type = $el.data('type');
             var color = $el.data('color');
             var textColor = $el.data('textColor');
+
+            console.log('@@@ type', type, type === 'appointmentDate');
 
             return {
                 id: type,
@@ -80,6 +97,7 @@
         var myOptions = {
             eventSources: getEventSources(),
             defaultDate: moment(),
+            locale: $('html').attr('lang') || 'en',
 
             selectable: false,
             editable: false,
@@ -102,7 +120,8 @@
                 if (!isLoading) {
                     renderCustomers(view);
                 }
-            }
+            },
+            eventClick: renderEvent
         };
 
         var _options = void 0;
@@ -116,7 +135,7 @@
 
         $('.js-calendars').on('click', '.list-group-item', function (ev) {
             ev.preventDefault();
-            
+
             var $item = $(ev.currentTarget);
             var $icon = $item.find('.btn .icon');
             var type = $item.data('type');

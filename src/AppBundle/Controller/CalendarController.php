@@ -111,7 +111,8 @@ class CalendarController extends Controller {
 
 		foreach ($userJourneys as $uj) {
 			$customer = $uj->getCustomerUser();
-			$title = $customer->getName() . ' ' . $customer->getSurname();
+			$userName = $customer->getName() . ' ' . $customer->getSurname();
+			$title = $userName;
 			$date = null;
 			// $end = null;
 
@@ -136,13 +137,30 @@ class CalendarController extends Controller {
 					break;
 			}
 
-			$result[] = array(
-				'id' => $uj->getId(),
+			$model = array(
+				'id' => $type . $uj->getId(),
+				'type' => $type,
 				'title' => $title,
-				'allDay' => false,
+				'allDay' => $type != 'appointmentDate',
 				'start' => $date->format(DateTime::ATOM),
-				// 'end' => $end->format(DateTime::ATOM)
+				'userName' => $userName,
+				'userUrl' => $this->generateUrl('userView', array('id' => $uj->getCustomerUser()->getId())),
+				'notes' => $uj->getNotes()
 			);
+
+			if ($type == 'appointmentDate') {
+				$model['clinicId'] = $uj->getClinic()->getId();
+				$model['clinicName'] = $uj->getClinic()->getName();
+			} else {
+				$model['accommodation'] = $uj->getAccommodation();
+				$model['accommodationAddress'] = $uj->getAccommodationAddress();
+				$model['nightLoadToClient'] = $uj->getNightLoadClient();
+				$model['nightLoadToHC'] = $uj->getNightLoadHc();
+				$model['transportLoadToClient'] = $uj->getTransportLoadClient();
+				$model['transportLoadToHC'] = $uj->getTransportLoadHc();
+			}
+
+			$result[] = $model;
 		}
 
 		return $result;

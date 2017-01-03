@@ -22,6 +22,8 @@
 // @codekit-prepend '../vendor/bootstrap-sweetalert/sweetalert.js'
 // @codekit-prepend '../vendor/moment/moment.min.js'
 // @codekit-prepend '../vendor/fullcalendar/fullcalendar.js'
+// @codekit-prepend '../vendor/fullcalendar/locale/en.js'
+// @codekit-prepend '../vendor/fullcalendar/locale/it.js'
 // @codekit-prepend '../vendor/jquery-selective/jquery-selective.min.js'
 // @codekit-prepend '../vendor/bootstrap-touchspin/bootstrap-touchspin.min.js'
 // @codekit-prepend '../vendor/bootbox/bootbox.js'
