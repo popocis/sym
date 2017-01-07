@@ -17,13 +17,11 @@ use Doctrine\ORM\EntityManager;
 class RegistrationListener implements EventSubscriberInterface{
 
 	protected $context;
-	protected $em;
 	protected $tokenGenerator;
 	protected $router;
 
-	public function __construct($context, $em, $tokenGenerator, $router) {
+	public function __construct($context, $tokenGenerator, $router) {
 		$this->context = $context;
-		$this->em = $em;
 		$this->tokenGenerator = $tokenGenerator;
 		$this->router = $router;
 	}
