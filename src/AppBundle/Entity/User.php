@@ -3,6 +3,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -189,7 +190,7 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="UserJourney", mappedBy="customerUser")
      */
     private $customerJourneys;
-
+	
 	public function getName(){
 		return $this->name;
 	}

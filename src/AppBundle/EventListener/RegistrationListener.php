@@ -2,24 +2,28 @@
 
 namespace AppBundle\EventListener;
 
+use AppBundle\Entity\Alert;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Listener responsible for adding the default user role at registration
  */
-class RegistrationListener implements EventSubscriberInterface {
+class RegistrationListener implements EventSubscriberInterface{
 
 	protected $context;
+	protected $em;
 	protected $tokenGenerator;
 	protected $router;
 
-	public function __construct($context, $tokenGenerator, $router) {
+	public function __construct($context, $em, $tokenGenerator, $router) {
 		$this->context = $context;
+		$this->em = $em;
 		$this->tokenGenerator = $tokenGenerator;
 		$this->router = $router;
 	}

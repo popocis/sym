@@ -22,12 +22,10 @@ class LocaleListener {
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event) {
         $token = $event->getAuthenticationToken();
-
         if (is_object($token)) {
             $user = $token->getUser();
             $request = $event->getRequest();
             $session = $request->getSession();
-
             $session->set('_locale', $user->getCountryName());
         }
     }

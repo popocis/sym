@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
  */
 class ReportTableController extends Controller {
 	/**
-	 * @Route("/users.json", name="ajax_bootstrap-table_report", methods="GET")
+	 * @Route("/alerts.json", name="ajax_bootstrap-table_alert", methods="GET")
 	 */
 	public function listAction(Request $request) {
 		$sort = $request->get('sort', 'id');

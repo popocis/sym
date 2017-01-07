@@ -71,40 +71,40 @@
             var userName = $target.data('userName');
 
             swal({
-                        title: "Are you sure?",
-                        text: "You will be able to delete user " + userName + " later.",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: '#DD6B55',
-                        confirmButtonText: 'Yes, activate it!',
-                        closeOnConfirm: false,
-                        showLoaderOnConfirm: true
-                    },
-                    function() {
-                        $.ajax({
-                                    method: 'POST',
-                                    url: href
-                                })
-                                .done(function () {
-                                    $table.bootstrapTable('refresh');
+                title: "Are you sure?",
+                text: "You will be able to delete user " + userName + " later.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, activate it!',
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            },
+            function() {
+                $.ajax({
+                            method: 'POST',
+                            url: href
+                        })
+                        .done(function () {
+                            $table.bootstrapTable('refresh');
 
-                                    swal({
-                                        title: "Activated!",
-                                        text: "User " + userName + " has been activated!",
-                                        type: "success",
-                                        timer: 2000,
-                                        showConfirmButton: false,
-                                        closeOnConfirm: true
-                                    });
-                                })
-                                .fail(function () {
-                                    swal({
-                                        title: "Error!",
-                                        text: "Oops... Something went wrong!",
-                                        type: "error"
-                                    });
-                                });
-                    });
+                            swal({
+                                title: "Activated!",
+                                text: "User " + userName + " has been activated!",
+                                type: "success",
+                                timer: 2000,
+                                showConfirmButton: false,
+                                closeOnConfirm: true
+                            });
+                        })
+                        .fail(function () {
+                            swal({
+                                title: "Error!",
+                                text: "Oops... Something went wrong!",
+                                type: "error"
+                            });
+                        });
+            });
         });
 
     });

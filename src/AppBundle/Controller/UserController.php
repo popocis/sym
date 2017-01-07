@@ -6,6 +6,7 @@ use AppBundle\Entity\UserEvent;
 use AppBundle\Entity\UserDocument;
 use AppBundle\Entity\UserJourney;
 use AppBundle\Entity\FormOrigin;
+use AppBundle\Entity\Alert;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -97,6 +98,38 @@ class UserController extends Controller {
 					$em = $this->getDoctrine()->getManager();
 					$em->persist($userJourney);
 					$em->flush();
+
+					$alertExist = $this->getDoctrine()->getRepository('AppBundle:Alert')->findOneBy(array('customerUser' => $user));
+					$appointmentDate = $userJourney->getAppointmentDate()->format('Y-m-d');
+					$dateBefore = new \DateTime($appointmentDate);
+					$dateBefore = $dateBefore->modify('-3 days');
+					$dateAfter =  new \DateTime($appointmentDate);
+					$dateAfter = $dateAfter->modify('+2 weeks +1 day');
+
+					if ($alertExist) {
+						$userAlert = $alertExist;
+						$userAlert->setAppointmentDate(new \DateTime($appointmentDate));
+						$userAlert->setAppointment($dateBefore);
+						$userAlert->setAppointmentAfter($dateAfter);
+						$userAlert->setAppointmentAttempts(NULL);
+						$userAlert->setAppointmentAfterAttempts(NULL);
+						$userAlert->setFirstContactAttempts(0);
+						$userAlert->setCustomerUser($user);
+						$em->persist($alertExist);
+						$em->flush();
+					}
+					else{
+						$userAlert = new Alert();
+						$userAlert->setAppointmentDate(new \DateTime($appointmentDate));
+						$userAlert->setAppointment($dateBefore);
+						$userAlert->setAppointmentAfter($dateAfter);
+						$userAlert->setFirstContactAttempts(0);
+						$userAlert->setCustomerUser($user);
+						$em->persist($userAlert);
+						$em->flush();
+					}
+
+					$em->clear();
 				}
 			}
 			elseif($request->request->has('user')) {
@@ -109,6 +142,7 @@ class UserController extends Controller {
 				}
 			}
 		}
+
 		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id), array('date' => 'DESC'));
 		$documents = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->findBy(array('customerUser' => $id));
 		$journeys = $this->getDoctrine()->getRepository('AppBundle:UserJourney')->findBy(array('customerUser' => $id));
@@ -256,10 +290,6 @@ class UserController extends Controller {
 		$message = $request->request->get('userMessage');
 		$formOrigin = $request->request->get('userFormOrigin');
 		$formOriginDomain = $request->request->get('userFormOriginDomain');
-
-		if($formOrigin == ""){
-        	$formOrigin = "home";
-        }
 		
 		$user = $this->getUserObjByEmail($email);
 		$formOriginExist = $this->getFormOriginObjByName($formOrigin);
@@ -304,10 +334,17 @@ class UserController extends Controller {
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($userEvent);
 			$em->flush();
+
+			$userAlert = new Alert();
+			$userAlert->setRegistrationDate(new \DateTime(date("Y-m-d H:i:s")));
+			$userAlert->setFirstContact(new \DateTime(date("Y-m-d H:i:s")));
+			$userAlert->setCustomerUser($user);
+
+			$em->persist($userAlert);
+			$em->flush();
 		}
 
 		$response = new Response();
-
 		$response->setContent(json_encode([
 			'response' => '',
 		]));
