@@ -31,6 +31,16 @@ class UserJourneyType extends AbstractType{
 				'html5' => false,
 				'format' => 'dd/MM/yyyy',
 			))
+			->add('appointmentTwoDate', DateType::class, array(
+				'widget' => 'single_text',
+				'html5' => false,
+				'format' => 'dd/MM/yyyy',
+			))
+			->add('appointmentThreeDate', DateType::class, array(
+				'widget' => 'single_text',
+				'html5' => false,
+				'format' => 'dd/MM/yyyy',
+			))
 			->add('departureDate', DateType::class, array(
 				'widget' => 'single_text',
 				'html5' => false,

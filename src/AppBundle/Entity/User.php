@@ -161,7 +161,7 @@ class User extends BaseUser
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"prospect", "client", "operator", "agent"}, message = "Choose a valid user status.")
+	 * @Assert\Choice(choices = {"prospect", "client", "interested", "operator", "agent"}, message = "Choose a valid user status.")
 	 */
 	protected $status;
 
@@ -190,6 +190,16 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="UserJourney", mappedBy="customerUser")
      */
     private $customerJourneys;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="UserDocument", mappedBy="customerUser")
+	 */
+	protected $customerDocuments;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="UserEvent", mappedBy="customerUser")
+	 */
+	protected $customerEvents;
 	
 	public function getName(){
 		return $this->name;
@@ -257,6 +267,14 @@ class User extends BaseUser
 
 	public function getCustomerJourneys(){
 		return $this->customerJourneys;
+	}
+
+	public function getCustomerDocuments(){
+		return $this->customerDocuments;
+	}
+
+	public function getCustomerEvents(){
+		return $this->customerEvents;
 	}
 
 	public function setName($name){
@@ -341,6 +359,16 @@ class User extends BaseUser
 
 	public function setCustomerJourneys($value) {
 		$this->customerJourneys = $value;
+		return $this;
+	}
+
+	public function setCustomerDocuments($value) {
+		$this->customerDocuments = $value;
+		return $this;
+	}
+
+	public function setCustomerEvents($value) {
+		$this->customerEvents = $value;
 		return $this;
 	}
 

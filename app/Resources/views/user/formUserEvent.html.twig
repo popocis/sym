@@ -10,8 +10,10 @@
                 <option value="whatsapp">whatsapp</option>
                 <option value="facebook">facebook</option>
                 <option value="facetime">facetime</option>
+                <option value="facetoface">face to face</option>
                 <option value="form">form</option>
                 <option value="dem">dem</option>
+                <option value="other">other</option>
             </select>
         </div>
         <div class="form-group form-material">
@@ -39,6 +41,14 @@
         </div>
     </div>
     <div class="col-xs-12 col-lg-6">
+        <div class="form-group form-material">
+            <label class="form-control-label">Contact origin <span class="required">*</span></label>
+            <select id="user_event_contactOrigin" name="user_event[contactOrigin]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" required="required">
+                <option></option>
+                <option value="customer">customer</option>
+                <option value="operator">operator</option>
+            </select>
+        </div>
         <div class="form-group form-material">
             <label class="form-control-label">Form origin</label>
             <select id="user_event_formOrigin" name="user_event[formOrigin]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" disabled>

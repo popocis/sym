@@ -21,7 +21,11 @@ class UserEventType extends AbstractType{
 				 'mapped' => false
 			 ))
 			->add('contactMethod', ChoiceType::class, array(
-				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp', 'facebook' => 'facebook', 'facetime' => 'facetime', 'form' => 'form'),
+				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp', 'facebook' => 'facebook', 'facetime' => 'facetime', 'facetoface' => 'facetoface', 'form' => 'form', 'dem' => 'dem', 'other' => 'other'),
+				'choices_as_values' => true,
+			))
+			->add('contactOrigin', ChoiceType::class, array(
+				'choices' => array('customer' => 'customer', 'operator' => 'operator'),
 				'choices_as_values' => true,
 			))
 			->add('contactReason', ChoiceType::class, array(

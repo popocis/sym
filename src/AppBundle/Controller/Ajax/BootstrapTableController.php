@@ -51,8 +51,29 @@ class BootstrapTableController extends Controller {
 				$classes = '';
 				$delete = '<button data-href="'.($this->generateUrl('ajaxUserDelete', array('id'=>$user->getId()))).'" data-user-name="'.($user->getName().' '.$user->getSurName()).'" class="btn btn-sm btn-icon btn-danger btn-round waves-effect pull-right js-delete-user" data-toggle="tooltip" data-original-title="Delete user"><i class="icon md-delete" aria-hidden="true"></i></button>';
 			}
+			$documents = $user->getCustomerDocuments();
+			$hasDocument = false;
+			foreach ($documents as $document) {
+				if($document->getDocumentType() == "panoramic"){
+					$hasDocument = "yes";
+				}
+			}
+			$events = $user->getCustomerEvents();
+			$request = null;
+			$answer = null;
+
+			foreach ($events as $event) {
+				if($event->getContactOrigin() == "customer"){
+					$request = $event->getDate()->format('d/m/Y');
+				}
+				if($event->getContactOrigin() == "operator"){
+					$answer = $event->getDate()->format('d/m/Y');
+				}
+			}
+
 			$result[] = array(
 				'id' => '<span class="'.$classes.'">'.$user->getId().'</span>',
+				'status' => '<span class="'.$classes.'">'.$user->getStatus().'</span>',
 				'name' => '<span class="'.$classes.'">'.$user->getName().'</span>',
 				'surname' => '<span class="'.$classes.'">'.$user->getSurname().'</span>',
                 'email' => '<span class="'.$classes.'">'.$user->getEmail().'</span>',
@@ -67,6 +88,9 @@ class BootstrapTableController extends Controller {
 				'notes' => '<span class="'.$classes.'">'.$user->getNotes().'</span>',
 				'presentation' => '<span class="'.$classes.'">'.$presentation.'</span>',
                 'registrationDate' => '<span class="'.$classes.'">'.$registrationDate.'</span>',
+				'hasDocument' => '<span class="'.$classes.'">'.$hasDocument.'</span>',
+				'customerContact' => '<span class="'.$classes.'">'.$request.'</span>',
+				'operatorContact' => '<span class="'.$classes.'">'.$answer.'</span>',
                 'enabled' =>
 					'<span class="tag tag-table tag-'.
 					($user->isEnabled() ? 'success' : 'dark').
@@ -95,8 +119,16 @@ class BootstrapTableController extends Controller {
 			$qb->where('u.name like :search or u.surname like :search or u.email like :search or concat(u.name, u.surname) like :search');
 			$qb->setParameter('search', '%'.$search.'%');
 		}
+		else{
+			$qb->where('u.status = :status1 or u.status = :status2 or u.status = :status3');
+			$qb->setParameter('status1', 'prospect');
+			$qb->setParameter('status2', 'client');
+			$qb->setParameter('status3', 'interested');
+		}
 		$qb->setFirstResult($offset);
-		$qb->setMaxResults($limit);
+		if($limit == 50) {
+			$qb->setMaxResults($limit);
+		}
 		$qb->orderBy('u.'.$sort, $order);
 		return $qb->getQuery()->getResult();
 	}

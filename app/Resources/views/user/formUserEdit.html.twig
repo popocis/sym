@@ -26,9 +26,11 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <option value="prospect">Prospect</option>
                     <option value="client">Client</option>
+                    <option value="interested">Interested</option>
                 {% elseif is_granted('ROLE_SUPER_ADMIN') %}
                     <option value="prospect">Prospect</option>
                     <option value="client">Client</option>
+                    <option value="interested">Interested</option>
                     <option value="agent">Agent</option>
                     <option value="operator">Operator</option>
                 {% endif %}

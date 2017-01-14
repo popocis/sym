@@ -34,7 +34,7 @@ class UserType extends AbstractType{
 			->add('countryRegion')
 			->add('taxCode')
 			->add('status', ChoiceType::class, array(
-				'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator'),
+				'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'interested' => 'interested', 'agent' => 'agent', 'operator' => 'operator'),
 				'choices_as_values' => true,
 			))
 			->add('presentation')

@@ -38,9 +38,15 @@ class UserEvent{
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facebook", "facetime", "form", "dem"}, message = "Choose a valid contact method.")
+	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facebook", "facetime", "facetoface","form", "dem", "other"}, message = "Choose a valid contact method.")
 	 */
 	protected $contactMethod;
+
+	/**
+	 * @ORM\Column(type="string", length=255)
+	 * @Assert\Choice(choices = {"customer", "operator"}, message = "Choose a valid contact origin.")
+	 */
+	protected $contactOrigin;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="FormOrigin")
@@ -103,6 +109,10 @@ class UserEvent{
 		return $this->contactMethod;
 	}
 
+	public function getContactOrigin() {
+		return $this->contactOrigin;
+	}
+
 	public function getFormOrigin() {
 		return $this->formOrigin;
 	}
@@ -148,6 +158,11 @@ class UserEvent{
 
 	public function setContactMethod($contactMethod) {
 		$this->contactMethod = $contactMethod;
+		return $this;
+	}
+
+	public function setContactOrigin($contactOrigin) {
+		$this->contactOrigin = $contactOrigin;
 		return $this;
 	}
 

@@ -29,6 +29,7 @@
                         <thead>
                         <tr>
                             <th data-field="contactMethod">How</th>
+                            <th data-field="contactOrigin">Origin</th>
                             <th data-field="contactReason">Reason</th>
                             <th data-field="date">Date</th>
                             <th data-field="estimate">Estimate</th>
@@ -95,6 +96,7 @@
                         {% for event in userEvents %}
                         {
                             "contactMethod": '{{ event.contactMethod }}',
+                            "contactOrigin": '{{ event.contactOrigin }}',
                             "contactReason": '{{ event.contactReason }}',
                             "date": '{{ event.date|date('d/m/Y') }}',
                             "estimate": '{% if event.estimate == 2999 %}< 3000{% elseif event.estimate == 3000 %}>= 3000{% elseif event.estimate == 5000%}>= 5000{% endif %}',
@@ -225,7 +227,7 @@
             <script>
                 $( document ).ready(function() {
 
-                    $('.warningConfirm').on("click", function() {
+                    $('.delete-file').on("click", function() {
                         $target = $(this).attr('href');
                         swal({
                             title: "Are you sure?",
@@ -268,6 +270,9 @@
                     {% for journey in userJourneys %}
                         <button type="button" data-id="{{ journey.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-journey" data-target="#editJourney" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
                             <i class="icon md-edit" aria-hidden="true"></i>
+                        </button>
+                        <button href="{{ path('journeyDelete', {'userid': user.id, 'journeyid': journey.id}) }}" class="btn btn-sm btn-icon btn-danger btn-round btn-raised waves-effect waves-effect pull-right warningConfirm delete-journey" data-toggle="tooltip" data-original-title="Delete journey">
+                            <i class="icon md-delete" aria-hidden="true"></i>
                         </button>
                         <div class="row"><span class="heading col-md-4">Clinic:</span><span class="content col-md-8">{{ journey.clinic|capitalize }}</span></div>
                         <div class="row"><span class="heading col-md-4">Arrival date:</span><span class="content col-md-8">{{ journey.arrivalDate|date('d/m/Y') }}</span></div>
@@ -331,6 +336,36 @@
             <script>
                 $( document ).ready(function() {
 
+                    $('.delete-journey').on("click", function() {
+                        $target = $(this).attr('href');
+                        swal({
+                            title: "Are you sure?",
+                            text: "You will not be able to recover this journey!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: 'Yes, delete it!',
+                            closeOnConfirm: false,
+                            //closeOnCancel: false
+                        },
+                        function() {
+                            swal({
+                                title: "Deleted!",
+                                text: "Journey has been deleted!",
+                                type: "success",
+                                showConfirmButton: false
+                            });
+                            setTimeout(function() {
+                                window.location = $target;
+                            }, 1000);
+                        });
+                    });
+
+                });
+            </script>
+
+            <script>
+                $( document ).ready(function() {
                     $('.edit-journey').click(function() {
                         var id = $(this).data('id');
                         var route = '{{ path('ajax_formUserJourneyEdit', { 'id': "PLACEHOLDER" }) }}';
@@ -341,6 +376,7 @@
                             success: function(response) {
                                 $('#ajaxresponse_formUserJourneyEdit').html(response);
                                 $('.modal-body').find('[data-plugin="select2"]').select2({ width: '100%' });
+                                $('.modal-body').find('[data-plugin="datepicker"]').datepicker();
                             },
                             async: false
                         })

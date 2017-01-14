@@ -6862,6 +6862,9 @@ ul.nav .icon.md-account {
   position: absolute;
   right: 30px;
 }
+.edit-journey {
+  right: 80px;
+}
 span.heading {
   font-weight: bold;
 }
@@ -6875,6 +6878,20 @@ span.heading {
 }
 .h-600 .panel .panel-body {
   padding-bottom: 0;
+}
+.h-640 {
+  height: 670px;
+  margin-bottom: 20px;
+}
+.h-640 .panel {
+  margin-bottom: 0;
+}
+.h-640 .panel .panel-body {
+  padding-bottom: 0;
+}
+/************ CALENDAR **********************************************************/
+.scrollable-container {
+  height: 100vh !important;
 }
 /************ ERROR *************************************************************/
 .page-error .error-mark {

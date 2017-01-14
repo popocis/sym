@@ -9,11 +9,17 @@
             <input type="text" id="user_journey_appointmentDate" class="form-control" class="datepicker" name="user_journey[appointmentDate]" data-plugin="datepicker" required="required" value="{{ journey.appointmentDate|date('d/m/Y') }}">
         </div>
         <div class="form-group form-material">
+            <label class="form-control-label">Appointment two date</label>
+            <input type="text" id="user_journey_appointmentTwoDate" class="form-control" class="datepicker" name="user_journey[appointmentTwoDate]" data-plugin="datepicker" value="{% if journey.appointmentTwoDate %}{{ journey.appointmentTwoDate|date('d/m/Y') }}{% endif %}">
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Appointment three date</label>
+            <input type="text" id="user_journey_appointmentThreeDate" class="form-control" class="datepicker" name="user_journey[appointmentThreeDate]" data-plugin="datepicker" value="{% if journey.appointmentThreeDate %}{{ journey.appointmentThreeDate|date('d/m/Y') }}{% endif %}">
+        </div>
+        <div class="form-group form-material">
             <label class="form-control-label">Departure date <span class="required">*</span></label>
             <input type="text" id="user_journey_departureDate" class="form-control" class="datepicker" name="user_journey[departureDate]" data-plugin="datepicker" required="required" value="{{ journey.departureDate|date('d/m/Y') }}">
         </div>
-    </div>
-    <div class="col-xs-12 col-lg-6">
         <div class="form-group form-material">
             <label class="form-control-label">Clinic <span class="required">*</span></label>
             <select id="user_journey_clinic" name="user_journey[clinic]" data-plugin="select2" data-placeholder="" data-allow-clear="true"  aria-hidden="true" required="required">
@@ -23,6 +29,8 @@
                 {% endfor %}
             </select>
         </div>
+    </div>
+    <div class="col-xs-12 col-lg-6">
         <div class="form-group form-material">
             <label class="form-control-label" for="form_accommodation">Accommodation</label>
             <input type="text" id="user_journey_accommodation" class="form-control" name="user_journey[accommodation]" value="{{ journey.accommodation }}">
@@ -46,18 +54,6 @@
     </div>
     <div class="col-xs-12 col-lg-6">
         <div class="form-group form-material select2-info">
-            <label class="form-control-label">Transport load to client</label>
-            <select id="user_journey_transportLoadClient" name="user_journey[transportLoadClient][]" class="form-control" multiple="multiple" data-plugin="select2">
-                <option value="train">Train</option>
-                <option value="client car">Client Car</option>
-                <option value="airplane">Airplane</option>
-                <option value="goopti">GoOpti</option>
-                <option value="hc car">Hc car</option>
-            </select>
-        </div>
-    </div>
-    <div class="col-xs-12 col-lg-6">
-        <div class="form-group form-material select2-info">
             <label class="form-control-label">Transport load to Hc</label>
             <select id="user_journey_transportLoadHc" name="user_journey[transportLoadHc][]" class="form-control" multiple="multiple" data-plugin="select2">
                 <option value="train">Train</option>
@@ -65,6 +61,18 @@
                 <option value="airplane">Airplane</option>
                 <option value="goopti">GoOpti</option>
                 <option value="hc car">Hc car</option>
+                <option value="pulman">Pulman</option>
+            </select>
+        </div>
+        <div class="form-group form-material select2-info">
+            <label class="form-control-label">Transport load to client</label>
+            <select id="user_journey_transportLoadClient" name="user_journey[transportLoadClient][]" class="form-control" multiple="multiple" data-plugin="select2">
+                <option value="train">Train</option>
+                <option value="client car">Client Car</option>
+                <option value="airplane">Airplane</option>
+                <option value="goopti">GoOpti</option>
+                <option value="hc car">Hc car</option>
+                <option value="pulman">Pulman</option>
             </select>
         </div>
     </div>
@@ -85,15 +93,12 @@
 <script>
     $( document ).ready(function() {
         $("#ajaxresponse_formUserJourneyEdit #user_journey_clinic").val("{{ journey.clinic.id }}").trigger("change");
-
-        var transportLoadClient = "{{ journey.transportLoadClient }}";
-        var selectedtransportLoadClient = transportLoadClient.split(',');
-        $("#ajaxresponse_formUserJourneyEdit #user_journey_transportLoadClient").val(selectedtransportLoadClient);
-
-        var transportLoadHc = "{{ journey.transportLoadHc }}";
-        var selectedtransportLoadHc = transportLoadHc.split(',');
-        $("#ajaxresponse_formUserJourneyEdit #user_journey_transportLoadHc").val(selectedtransportLoadHc);
-
+        var transport = "{{ journey.transportLoadClient }}";
+        var transportArray = transport.split(',');
+        $("#ajaxresponse_formUserJourneyEdit #user_journey_transportLoadClient").val(transportArray).trigger("change");
+        var transport = "{{ journey.transportLoadHc }}";
+        var transportArray = transport.split(',');
+        $("#ajaxresponse_formUserJourneyEdit #user_journey_transportLoadHc").val(transportArray).trigger("change");
 
         // Validation
         // ---------------------------------
@@ -199,3 +204,5 @@
 
     });
 </script>
+
+

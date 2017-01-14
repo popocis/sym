@@ -143,7 +143,7 @@ class UserController extends Controller {
 			}
 		}
 
-		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id), array('date' => 'DESC'));
+		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id), array('date' => 'DESC', 'contactOrigin' => 'DESC'));
 		$documents = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->findBy(array('customerUser' => $id));
 		$journeys = $this->getDoctrine()->getRepository('AppBundle:UserJourney')->findBy(array('customerUser' => $id));
 		$agents = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('status' => "agent"));
@@ -219,6 +219,17 @@ class UserController extends Controller {
 		$document = $this->getDoctrine()->getRepository('AppBundle:UserDocument')->find($documentid);
 		$em = $this->getDoctrine()->getEntityManager();
 		$em->remove($document);
+		$em->flush();
+		return $this->redirect('/user/view/'.$userid);
+	}
+
+	/**
+	 * @Route("user/journey/delete/{userid}/{journeyid}", name="journeyDelete")
+	 */
+	public function journeyDeleteAction($userid, $journeyid) {
+		$journey = $this->getDoctrine()->getRepository('AppBundle:UserJourney')->find($journeyid);
+		$em = $this->getDoctrine()->getEntityManager();
+		$em->remove($journey);
 		$em->flush();
 		return $this->redirect('/user/view/'.$userid);
 	}

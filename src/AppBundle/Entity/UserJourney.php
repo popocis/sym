@@ -48,6 +48,16 @@ class UserJourney{
 	protected $appointmentDate;
 
 	/**
+	 * @ORM\Column(type="date", nullable=true)
+	 */
+	protected $appointmentTwoDate;
+
+	/**
+	 * @ORM\Column(type="date", nullable=true)
+	 */
+	protected $appointmentThreeDate;
+
+	/**
 	 * @ORM\Column(type="date")
 	 */
 	protected $departureDate;
@@ -134,6 +144,14 @@ class UserJourney{
 		return $this->appointmentDate;
 	}
 
+	public function getAppointmentTwoDate() {
+		return $this->appointmentTwoDate;
+	}
+
+	public function getAppointmentThreeDate() {
+		return $this->appointmentThreeDate;
+	}
+
 	public function getDepartureDate() {
 		return $this->departureDate;
 	}
@@ -188,6 +206,16 @@ class UserJourney{
 
 	public function setAppointmentDate($appointmentDate) {
 		$this->appointmentDate = $appointmentDate;
+		return $this;
+	}
+
+	public function setAppointmentTwoDate($appointmentTwoDate) {
+		$this->appointmentTwoDate = $appointmentTwoDate;
+		return $this;
+	}
+
+	public function setAppointmentThreeDate($appointmentThreeDate) {
+		$this->appointmentThreeDate = $appointmentThreeDate;
 		return $this;
 	}
 
