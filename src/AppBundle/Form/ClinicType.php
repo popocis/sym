@@ -22,7 +22,6 @@ class ClinicType extends AbstractType{
 			))
 			->add('name')
 			->add('phoneNumber')
-			->add('streetNumber')
 			->add('streetName')
 			->add('cityName')
 			->add('zipCode')

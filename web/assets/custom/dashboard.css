@@ -6797,6 +6797,9 @@ thead {
 label {
   margin-bottom: 0;
 }
+.input-group-file {
+  margin-bottom: 20px;
+}
 .select2-container--open {
   z-index: 10003;
 }
@@ -6868,25 +6871,22 @@ ul.nav .icon.md-account {
 span.heading {
   font-weight: bold;
 }
+.panel-body.user-details .row {
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
 /************ ADD SERVICE*********************************************************/
 .h-600 {
   height: 600px;
   margin-bottom: 20px;
 }
+.h-600 .scrollable-content {
+  padding-bottom: 140px;
+}
 .h-600 .panel {
   margin-bottom: 0;
 }
 .h-600 .panel .panel-body {
-  padding-bottom: 0;
-}
-.h-640 {
-  height: 670px;
-  margin-bottom: 20px;
-}
-.h-640 .panel {
-  margin-bottom: 0;
-}
-.h-640 .panel .panel-body {
   padding-bottom: 0;
 }
 /************ CALENDAR **********************************************************/

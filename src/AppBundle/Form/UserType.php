@@ -26,7 +26,6 @@ class UserType extends AbstractType{
 				'format' => 'dd/MM/yyyy',
 			))
 			->add('phoneNumber')
-			->add('streetNumber')
 			->add('streetName')
 			->add('cityName')
 			->add('zipCode')
@@ -35,6 +34,10 @@ class UserType extends AbstractType{
 			->add('taxCode')
 			->add('status', ChoiceType::class, array(
 				'choices' => array('commercial' => 'commercial', 'prospect' => 'prospect', 'client' => 'client', 'interested' => 'interested', 'agent' => 'agent', 'operator' => 'operator'),
+				'choices_as_values' => true,
+			))
+			->add('source', ChoiceType::class, array(
+				'choices' => array('website' => 'website', 'dem' => 'dem', 'facebook' => 'facebook', 'agent' => 'agent', 'wordofmouth' => 'wordofmouth', 'presentation' => 'presentation', 'other' => 'other'),
 				'choices_as_values' => true,
 			))
 			->add('presentation')

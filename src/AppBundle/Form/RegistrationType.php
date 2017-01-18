@@ -23,7 +23,6 @@ class RegistrationType extends AbstractType{
 			'format' => 'dd/MM/yyyy',
 		));
 		$builder->add('phoneNumber');
-		$builder->add('streetNumber');
 		$builder->add('streetName');
 		$builder->add('cityName');
 		$builder->add('zipCode');
@@ -31,7 +30,11 @@ class RegistrationType extends AbstractType{
 		$builder->add('countryRegion');
 		$builder->add('taxCode');
 		$builder->add('status', ChoiceType::class, array(
-			'choices' => array('prospect' => 'prospect', 'client' => 'client', 'operator' => 'operator', 'agent' => 'agent'),
+			'choices' => array('prospect' => 'prospect', 'client' => 'client', 'interested' => 'interested', 'operator' => 'operator', 'agent' => 'agent'),
+			'choices_as_values' => true,
+		));
+		$builder->add('source', ChoiceType::class, array(
+			'choices' => array('website' => 'website', 'dem' => 'dem', 'facebook' => 'facebook', 'agent' => 'agent', 'wordofmouth' => 'wordofmouth', 'presentation' => 'presentation', 'other' => 'other'),
 			'choices_as_values' => true,
 		));
 		$builder->add('presentation');

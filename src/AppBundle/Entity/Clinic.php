@@ -38,19 +38,6 @@ class Clinic{
 	protected $phoneNumber;
 
 	/**
-	 * @ORM\Column(type="string", nullable=true)
-	 *
-	 * @Assert\Length(
-	 *     min=1,
-	 *     max=6,
-	 *     minMessage="Street number is too short.",
-	 *     maxMessage="Street number is too long.",
-	 *     groups={"Registration", "Profile"}
-	 * )
-	 */
-	protected $streetNumber;
-
-	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
 	 *
 	 * @Assert\Length(
@@ -114,10 +101,6 @@ class Clinic{
 		return $this->phoneNumber;
 	}
 
-	public function getStreetNumber(){
-		return $this->streetNumber;
-	}
-
 	public function getStreetName(){
 		return $this->streetName;
 	}
@@ -141,11 +124,6 @@ class Clinic{
 
 	public function setPhoneNumber($phoneNumber){
 		$this->phoneNumber = $phoneNumber;
-		return $this;
-	}
-
-	public function setStreetNumber($streetNumber){
-		$this->streetNumber = $streetNumber;
 		return $this;
 	}
 

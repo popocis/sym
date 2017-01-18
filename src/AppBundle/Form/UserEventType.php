@@ -29,7 +29,7 @@ class UserEventType extends AbstractType{
 				'choices_as_values' => true,
 			))
 			->add('contactReason', ChoiceType::class, array(
-				'choices' => array('general' => 'general', 'commercial' => 'commercial', 'estimate' => 'estimate', 'accepted estimate' => 'accepted estimate'),
+				'choices' => array('general' => 'general', 'commercial' => 'commercial', 'panorex' => 'panorex', 'estimate' => 'estimate', 'accepted estimate' => 'accepted estimate'),
 				'choices_as_values' => true,
 			))
 			->add('agentUser')

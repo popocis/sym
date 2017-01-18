@@ -235,6 +235,17 @@ class UserController extends Controller {
 	}
 
 	/**
+	 * @Route("user/event/delete/{userid}/{eventid}", name="eventDelete")
+	 */
+	public function eventDeleteAction($userid, $eventid) {
+		$event = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->find($eventid);
+		$em = $this->getDoctrine()->getEntityManager();
+		$em->remove($event);
+		$em->flush();
+		return $this->redirect('/user/view/'.$userid);
+	}
+
+	/**
 	 * @Route("/user/event/edit/{id}", name="ajax_formUserEventEdit")
 	 */
 	public function editUserEventAction($id){

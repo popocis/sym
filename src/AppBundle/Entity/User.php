@@ -75,19 +75,6 @@ class User extends BaseUser
 	protected $phoneNumber;
 
 	/**
-	 * @ORM\Column(type="string", nullable=true)
-	 *
-	 * @Assert\Length(
-	 *     min=1,
-	 *     max=6,
-	 *     minMessage="Street number is too short.",
-	 *     maxMessage="Street number is too long.",
-	 *     groups={"Registration", "Profile"}
-	 * )
-	 */
-	protected $streetNumber;
-
-	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
 	 *
 	 * @Assert\Length(
@@ -166,6 +153,12 @@ class User extends BaseUser
 	protected $status;
 
 	/**
+	 * @ORM\Column(type="string", length=255)
+	 * @Assert\Choice(choices = {"website", "dem", "facebook", "agent", "wordofmouth", "presentation", "other"}, message = "Choose a valid source.")
+	 */
+	protected $source;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="Presentation")
 	 * @ORM\JoinColumn(name="presentation_id", referencedColumnName="id", nullable=true)
 	 */
@@ -217,10 +210,6 @@ class User extends BaseUser
 		return $this->phoneNumber;
 	}
 
-	public function getStreetNumber(){
-		return $this->streetNumber;
-	}
-
 	public function getStreetName(){
 		return $this->streetName;
 	}
@@ -247,6 +236,10 @@ class User extends BaseUser
 
 	public function getStatus(){
 		return $this->status;
+	}
+
+	public function getSource(){
+		return $this->source;
 	}
 
 	public function getPresentation(){
@@ -296,12 +289,7 @@ class User extends BaseUser
 		$this->phoneNumber = $phoneNumber;
 		return $this;
 	}
-
-	public function setStreetNumber($streetNumber){
-		$this->streetNumber = $streetNumber;
-		return $this;
-	}
-
+	
 	public function setStreetName($streetName){
 		$this->streetName = $streetName;
 		return $this;
@@ -329,6 +317,11 @@ class User extends BaseUser
 
 	public function setTaxCode($taxCode){
 		$this->taxCode = $taxCode;
+		return $this;
+	}
+
+	public function setSource($source){
+		$this->source = $source;
 		return $this;
 	}
 

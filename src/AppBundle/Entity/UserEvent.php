@@ -38,7 +38,7 @@ class UserEvent{
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facebook", "facetime", "facetoface","form", "dem", "other"}, message = "Choose a valid contact method.")
+	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facebook", "facetime", "facetoface", "form", "dem", "other"}, message = "Choose a valid contact method.")
 	 */
 	protected $contactMethod;
 
@@ -56,7 +56,7 @@ class UserEvent{
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"general", "commercial", "estimate", "accepted estimate"}, message = "Choose a valid contact reason.")
+	 * @Assert\Choice(choices = {"general", "commercial", "panorex", "estimate", "accepted estimate"}, message = "Choose a valid contact reason.")
 	 */
 	protected $contactReason;
 
@@ -72,7 +72,7 @@ class UserEvent{
 	protected $date;
 
 	/**
-	 * @ORM\Column(type="string", length=255, nullable=true)
+	 * @ORM\Column(type="string", length=500, nullable=true)
 	 */
 	protected $message;
 

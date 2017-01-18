@@ -37,12 +37,16 @@
             </select>
         </div>
         <div class="form-group form-material">
-            <label class="form-control-label">Presentation</label>
-            <select id="user_presentation" name="user[presentation]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
-                <option value=""></option>
-                {% for presentation in presentations %}
-                    <option value="{{ presentation.id }}">{{ presentation.name }} - {{ presentation.date|date('d/m/Y') }}</option>
-                {% endfor %}
+            <label class="form-control-label">Source <span class="required">*</span></label>
+            <select id="user_source" name="user[source]" data-plugin="select2" data-placeholder="" data-allow-clear="true" tabindex="-1" aria-hidden="true" required="required">
+                <option></option>
+                <option value="website">website</option>
+                <option value="dem">dem</option>
+                <option value="facebook">facebook</option>
+                <option value="agent">agent</option>
+                <option value="wordofmouth">word of mouth</option>
+                <option value="presentation">presentation</option>
+                <option value="other">other</option>
             </select>
         </div>
     </div>
@@ -51,20 +55,10 @@
             <label class="form-control-label">City name <span class="required">*</span></label>
             <input type="text" id="user_cityName" class="form-control" name="user[cityName]" value="{{ user.cityName }}" required="required">
         </div>
-    </div>
-    <div class="col-xs-12 col-lg-3">
         <div class="form-group form-material">
-            <label class="form-control-label">Street number</label>
-            <input type="text" id="user_streetNumber" class="form-control" name="user[streetNumber]" value="{{ user.streetNumber }}">
-        </div>
-    </div>
-    <div class="col-xs-12 col-lg-3">
-        <div class="form-group form-material">
-            <label class="form-control-label">Street name</label>
+            <label class="form-control-label">Address</label>
             <input type="text" id="user_streetName" class="form-control" name="user[streetName]" value="{{ user.streetName }}">
         </div>
-    </div>
-    <div class="col-xs-12 col-lg-6">
         <div class="form-group form-material">
             <label class="form-control-label">Country</label>
             <select id="user_countryName"  name="user[countryName]" data-plugin="select2" data-placeholder="" data-allow-clear="true"  aria-hidden="true">
@@ -77,14 +71,31 @@
                 <option></option><option value="Abruzzo">Abruzzo</option><option value="Basilicata">Basilicata</option><option value="Calabria">Calabria</option><option value="Campania">Campania</option><option value="Emilia Romagna">Emilia Romagna</option><option value="Friuli Venezia Giulia">Friuli Venezia Giulia</option><option value="Lazio">Lazio</option><option value="Liguria">Liguria</option><option value="Lombardia">Lombardia</option><option value="Marche">Marche</option><option value="Molise">Molise</option><option value="Piemonte">Piemonte</option><option value="Puglia">Puglia</option><option value="Sardegna">Sardegna</option><option value="Sicilia">Sicilia</option><option value="Tosacana">Toscana</option><option value="Trentino Alto Adige">Trentino Alto Adige</option><option value="Umbria">Umbria</option><option value="Valle Aosta">Valle Aosta</option><option value="Veneto">Veneto</option>
             </select>
         </div>
+    </div>
+    <div class="col-xs-12 col-lg-3">
         <div class="form-group form-material">
             <label class="form-control-label" for="form_zipCode">Zip code</label>
             <input type="text" id="user_zipCode" class="form-control" name="user[zipCode]" value="{{ user.zipCode }}">
         </div>
+    </div>
+    <div class="col-xs-12 col-lg-3">
         <div class="form-group form-material">
             <label class="form-control-label">Tax code</label>
             <input type="text" id="user_taxCode" class="form-control" name="user[taxCode]" value="{{ user.taxCode }}">
         </div>
+    </div>
+    <div class="col-xs-12 col-lg-6">
+        <div class="form-group form-material">
+            <label class="form-control-label">Presentation</label>
+            <select id="user_presentation" name="user[presentation]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                <option value=""></option>
+                {% for presentation in presentations %}
+                    <option value="{{ presentation.id }}">{{ presentation.name }} - {{ presentation.date|date('d/m/Y') }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="col-xs-12 col-lg-6">
         <div class="form-group form-material">
             <label class="form-control-label">Notes</label>
             <input type="text" id="user_notes" class="form-control" name="user[notes]" value="{{ user.notes }}">
@@ -99,6 +110,8 @@
 
 <script>
     $( document ).ready(function() {
+        $("#user_status").val("{{ user.status }}").trigger("change");
+        $("#user_source").val("{{ user.source }}").trigger("change");
         $("#user_countryName").val("{{ user.countryName }}").trigger("change");
         $("#user_countryRegion").val("{{ user.countryRegion }}").trigger("change");
 
@@ -182,17 +195,6 @@
                             stringLength: {
                                 min: 6,
                                 max: 30
-                            }
-                        }
-                    },
-                    "user[streetNumber]": {
-                        validators: {
-                            integer: {
-                                message: 'The street number is not valid, only number without space'
-                            },
-                            stringLength: {
-                                min: 1,
-                                max: 6
                             }
                         }
                     },

@@ -88,7 +88,6 @@
                 </div>
             </div>
             <!-- End Modal -->
-
             <script>
                 $( document ).ready(function() {
                     var $table = $("#table");
@@ -106,7 +105,7 @@
                             "demOrigin": '{{ event.demOrigin.demName|default("") }} {{ event.demOrigin.discount|default("0") }}%',
                             "message": '{{ event.message }}',
                             "notes": '{{ event.notes }}',
-                            "op": '<button type="button" data-id="{{ event.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect waves-effect edit-event" data-target="#editEvent" data-toggle="modal" data-original-title="Edit"><i class="icon md-edit" aria-hidden="true"></i></button>'
+                            "op": '<button type="button" data-id="{{ event.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect waves-effect edit-event" data-target="#editEvent" data-toggle="modal" data-original-title="Edit"><i class="icon md-edit" aria-hidden="true"></i></button><button href="{{ path('eventDelete', {'userid': event.customerUser.id, 'eventid': event.id}) }}" class="btn btn-sm btn-icon btn-danger btn-round btn-raised waves-effect waves-effect pull-right warningConfirm delete-event" data-toggle="tooltip" data-original-title="Delete event"><i class="icon md-delete" aria-hidden="true"></i></button>'
                         },
                         {% endfor %}
                     ];
@@ -120,6 +119,7 @@
                         var id = $(this).data('id');
                         var route = '{{ path('ajax_formUserEventEdit', { 'id': "PLACEHOLDER" }) }}';
                         route = route.replace("PLACEHOLDER", id);
+                        $target = $(this).attr('href');
                         $.ajax({
                             type: 'POST',
                             url:  route,
@@ -133,6 +133,36 @@
                     });
                 });
             </script>
+
+            <script>
+                $( document ).ready(function() {
+                    $('.delete-event').on("click", function() {
+                        $target = $(this).attr('href');
+                        swal({
+                            title: "Are you sure?",
+                            text: "You will not be able to recover this event!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: 'Yes, delete it!',
+                            closeOnConfirm: false,
+                            //closeOnCancel: false
+                        },
+                        function() {
+                            swal({
+                                title: "Deleted!",
+                                text: "Your event has been deleted!",
+                                type: "success",
+                                showConfirmButton: false
+                            });
+                            setTimeout(function() {
+                                window.location = $target;
+                            }, 1000);
+                        });
+                    });
+                });
+            </script>
+
         </div>
     </div>
 
@@ -140,11 +170,11 @@
 
         <div class="col-sm-12 col-md-6">
 
-            <div class="panel">
+            <div class="panel h-600">
                 <div class="panel-heading">
                     <h3 class="panel-title">User</h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body user-details">
                     <button type="button" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-user" data-target="#editUser" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
                         <i class="icon md-edit" aria-hidden="true"></i>
                     </button>
@@ -152,10 +182,11 @@
                     <div class="row"><span class="heading col-md-3">Surname:</span> <span class="content col-md-9">{{ user.surname|capitalize }}</span></div>
                     <div class="row"><span class="heading col-md-3">Email:</span> <span class="content col-md-8">{{ user.email }}</span></div>
                     <div class="row"><span class="heading col-md-3">Phone number:</span> <span class="content col-md-9">{{ user.phoneNumber }}</span></div>
-                    <div class="row"><span class="heading col-md-3">Address:</span> <span class="content col-md-9">{{ user.streetName|capitalize }} {{ user.streetNumber }} {{ user.cityName|capitalize }} {{ user.zipCode }} </br> {{ user.countryRegion|title }} {{ user.countryName|upper }}</span></div>
+                    <div class="row"><span class="heading col-md-3">Address:</span> <span class="content col-md-9">{{ user.streetName|capitalize }} {{ user.cityName|capitalize }} {{ user.zipCode }} </br> {{ user.countryRegion|title }} {{ user.countryName|upper }}</span></div>
                     <div class="row"><span class="heading col-md-3">Birthdate:</span> <span class="content col-md-9">{{ (user.birthDate is empty ? '' : user.birthDate|date('d/m/Y'))|raw }}</span></div>
                     <div class="row"><span class="heading col-md-3">Taxcode:</span> <span class="content col-md-9">{{ user.taxCode }}</span></div>
                     <div class="row"><span class="heading col-md-3">Typology:</span> <span class="content col-md-9">{{ user.status|capitalize }}</span></div>
+                    <div class="row"><span class="heading col-md-3">Source:</span> <span class="content col-md-9">{{ user.source|capitalize }}</span></div>
                     <div class="row"><span class="heading col-md-3">Presentation:</span> <span class="content col-md-9">{{ user.presentation.name|default('') }} {% if user.presentation and user.presentation.date is not empty %}{{ user.presentation.date|date('d/m/Y') }}{% endif %} {{ user.presentation.place|default('') }}</span></div>
                     <div class="row"><span class="heading col-md-3">Notes:</span> <span class="content col-md-9">{{ user.notes|capitalize }}</span></div>
                 </div>
@@ -183,8 +214,7 @@
         </div>
 
         <div class="col-sm-12 col-md-6">
-
-            <div class="panel">
+            <div class="panel h-600">
                 <div class="panel-heading">
                     <h3 class="panel-title">Documents</h3>
                 </div>
@@ -274,7 +304,7 @@
                         <button href="{{ path('journeyDelete', {'userid': user.id, 'journeyid': journey.id}) }}" class="btn btn-sm btn-icon btn-danger btn-round btn-raised waves-effect waves-effect pull-right warningConfirm delete-journey" data-toggle="tooltip" data-original-title="Delete journey">
                             <i class="icon md-delete" aria-hidden="true"></i>
                         </button>
-                        <div class="row"><span class="heading col-md-4">Clinic:</span><span class="content col-md-8">{{ journey.clinic|capitalize }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Clinic:</span><span class="content col-md-4">{{ journey.clinic|capitalize }}</span></div>
                         <div class="row"><span class="heading col-md-4">Arrival date:</span><span class="content col-md-8">{{ journey.arrivalDate|date('d/m/Y') }}</span></div>
                         <div class="row"><span class="heading col-md-4">Appointment date:</span><span class="content col-md-8">{{ journey.appointmentDate|date('d/m/Y') }}</span></div>
                         <div class="row"><span class="heading col-md-4">Departure date:</span><span class="content col-md-8">{{ journey.departureDate|date('d/m/Y') }}</span></div>
@@ -332,10 +362,8 @@
                 </div>
             </div>
             <!-- End Modal -->
-
             <script>
                 $( document ).ready(function() {
-
                     $('.delete-journey').on("click", function() {
                         $target = $(this).attr('href');
                         swal({
@@ -360,7 +388,6 @@
                             }, 1000);
                         });
                     });
-
                 });
             </script>
 
