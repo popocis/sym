@@ -3,13 +3,10 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AppBundle\Entity\ContactMethod;
-use AppBundle\Entity\ContactReason;
-use AppBundle\Entity\UserEvent;
 
 class LoadUserData implements OrderedFixtureInterface, ContainerAwareInterface {
 	private $container;

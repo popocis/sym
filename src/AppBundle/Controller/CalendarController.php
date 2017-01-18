@@ -45,9 +45,9 @@ class CalendarController extends Controller {
 		$userJourneyRepo = $this->getDoctrine()->getRepository('AppBundle:UserJourney');
 
 		$criteria = new Criteria();
-		$criteria->where(Criteria::expr()->gte($type, new DateTime($start)));
-		$criteria->andWhere(Criteria::expr()->lte($type, new DateTime($end)));
-		
+        $criteria->where(Criteria::expr()->gte($type, new DateTime($start)));
+        $criteria->andWhere(Criteria::expr()->lte($type, new DateTime($end)));
+
 		$userJourneys = $userJourneyRepo->matching($criteria);
 
 		return new JsonResponse($this->mapUserJourneys($userJourneys, $type));
@@ -80,6 +80,14 @@ class CalendarController extends Controller {
 						$qb->expr()->gte('uj.appointmentDate', ':start'),
 						$qb->expr()->lte('uj.appointmentDate', ':end')
 					),
+                    $qb->expr()->andX(
+                        $qb->expr()->gte('uj.appointmentTwoDate', ':start'),
+                        $qb->expr()->lte('uj.appointmentTwoDate', ':end')
+                    ),
+                    $qb->expr()->andX(
+                        $qb->expr()->gte('uj.appointmentThreeDate', ':start'),
+                        $qb->expr()->lte('uj.appointmentThreeDate', ':end')
+                    ),
 					$qb->expr()->andX(
 						$qb->expr()->gte('uj.departureDate', ':start'),
 						$qb->expr()->lte('uj.departureDate', ':end')
@@ -119,20 +127,22 @@ class CalendarController extends Controller {
 			switch ($type) {
 				case 'arrivalDate':
 					$date = $uj->getArrivalDate();
-					// $end = clone $date;
-					// $end->add(new DateInterval('P1D'));
 					$title = 'Arrivo ' . $title;
 					break;
 				case 'appointmentDate':
 					$date = $uj->getAppointmentDate();
-					// $end = clone $date;
-					// $end->add(new DateInterval('PT1H'));
-					$title = 'Appuntamento ' . $title;
+					$title = 'Primo appuntamento ' . $title;
 					break;
+                case 'appointmentTwoDate':
+                    $date = $uj->getAppointmentTwoDate();
+                    $title = 'Secondo appuntamento ' . $title;
+                    break;
+                case 'appointmentThreeDate':
+                    $date = $uj->getAppointmentThreeDate();
+                    $title = 'Terzo appuntamento ' . $title;
+                    break;
 				case 'departureDate':
 					$date = $uj->getDepartureDate();
-					// $end = clone $date;
-					// $end->add(new DateInterval('PT1H'));
 					$title = 'Partenza ' . $title;
 					break;
 			}
@@ -141,14 +151,14 @@ class CalendarController extends Controller {
 				'id' => $type . $uj->getId(),
 				'type' => $type,
 				'title' => $title,
-				'allDay' => $type != 'appointmentDate',
+				'allDay' => $type != 'appointmentDate' && $type != 'appointmentTwoDate' && $type != 'appointmentThreeDate',
 				'start' => $date->format(DateTime::ATOM),
 				'userName' => $userName,
 				'userUrl' => $this->generateUrl('userView', array('id' => $uj->getCustomerUser()->getId())),
 				'notes' => $uj->getNotes()
 			);
 
-			if ($type == 'appointmentDate') {
+			if ($type == 'appointmentDate' || $type == 'appointmentTwoDate' || $type == 'appointmentThreeDate') {
 				$model['clinicId'] = $uj->getClinic()->getId();
 				$model['clinicName'] = $uj->getClinic()->getName();
 			} else {
