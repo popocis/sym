@@ -20,6 +20,15 @@
                 </div>
             </div>
         </div>
+
+        {% set actionsBlock = block('actions') %}
+        {% if actionsBlock is not empty %}
+            <div class="site-action" data-plugin="actionBtn">
+                {{ actionsBlock|raw }}
+            </div>
+        {% endif %}
+        {#{% block actions %}{% endblock %}#}
+
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
             {% include 'menu/sidebar_admin.html.twig' %}
         {% elseif is_granted('ROLE_USER') %}

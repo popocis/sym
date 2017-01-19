@@ -152,6 +152,10 @@
                 $('#calendar').fullCalendar('removeEventSource', type);
             }
         });
+
+        $('button.js-print').click(function () {
+            window.print();
+        });
     });
 
 }());

@@ -2,6 +2,11 @@
 
 {% block bodyClass %}animsition app-calendar page-aside-left{% endblock %}
 
+{% block head %}
+    <link rel="stylesheet" href="/assets/vendor/fullcalendar/fullcalendar.print.css" media="print">
+    <style media="print">.site-action { display: none; }</style>
+{% endblock %}
+
 {% block body %}
     <div class="page-aside">
         <div class="page-aside-switch">
@@ -53,5 +58,10 @@
 
     <script id="CustomerTpl" type="text/template">{% include 'calendar/templates/customer.html.twig' %}</script>
     <script id="EventTpl" type="text/template">{% include 'calendar/templates/event.html.twig' %}</script>
+{% endblock %}
 
+{% block actions %}
+    <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating waves-effect js-print">
+        <i class="front-icon md-print animation-scale-up" aria-hidden="true"></i>
+    </button>
 {% endblock %}

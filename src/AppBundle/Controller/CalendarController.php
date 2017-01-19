@@ -22,9 +22,6 @@ class CalendarController extends Controller {
 	 * @Route(name="calendar")
 	 */
 	public function indexAction() {
-		$em = $this->getDoctrine()->getManager();
-		$qb = $em->createQueryBuilder();
-
 		$model = Yaml::parse($this->get('kernel')->getRootDir() . '/config/calendar.yml');
 
 		return $this->render('calendar/index.html.twig', $model);
