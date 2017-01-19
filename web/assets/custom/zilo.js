@@ -132,6 +132,8 @@
 
         // $('#editNewEvent').modal();
         $('#calendar').fullCalendar(_options);
+        $('#calendar .fc-listDay-button').text(myOptions == 'it' ? 'Agenda Giorno' : 'List Day');
+        $('#calendar .fc-listWeek-button').text(myOptions == 'it' ? 'Agenda Settimana' : 'List Week');
 
         $('.js-calendars').on('click', '.list-group-item', function (ev) {
             ev.preventDefault();

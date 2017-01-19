@@ -47,7 +47,11 @@
     box-shadow: none;
 }
 
-.fc-button.fc-month-button, .fc-button.fc-agendaWeek-button, .fc-button.fc-agendaDay-button {
+.fc-button.fc-month-button,
+.fc-button.fc-agendaWeek-button,
+.fc-button.fc-agendaDay-button,
+.fc-button.fc-listDay-button,
+.fc-button.fc-listWeek-button {
     height: auto;
     padding: 8px 14px;
     font-size: 14px;
@@ -69,9 +73,10 @@
 }
 
 .fc-toolbar .fc-right {
-    position: absolute;
+    /*position: absolute;
     top: 0;
-    right: 0;
+    right: 0;*/
+    float: right;
 }
 
 .fc-agendaWeek-view .fc-event, .fc-agendaDay-view .fc-event {
