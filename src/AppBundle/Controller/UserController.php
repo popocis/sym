@@ -66,6 +66,26 @@ class UserController extends Controller {
 					$em = $this->getDoctrine()->getManager();
 					$em->persist($userEvent);
 					$em->flush();
+
+					if($userEvent->getContactOrigin() == "customer"){
+						$alertExist = $this->getDoctrine()->getRepository('AppBundle:Alert')->findOneBy(array('customerUser' => $user));
+
+						if ($alertExist) {
+							$userAlert = $alertExist;
+							$userAlert->setEventDate($userEvent->getDate());
+							$userAlert->setCustomerUser($user);
+							$em->persist($alertExist);
+							$em->flush();
+						}
+						else{
+							$userAlert = new Alert();
+							$userAlert->setEventDate($userEvent->getDate());
+							$userAlert->setCustomerUser($user);
+							$em->persist($userAlert);
+							$em->flush();
+						}
+					}
+
 				}
 			}
 			elseif($request->request->has('user_document')) {
@@ -326,9 +346,7 @@ class UserController extends Controller {
 		}
 
 		if($user == null){
-			// Get our userManager, you must implement 'ContainerAwareInterface'
 			$userManager = $this->container->get('fos_user.user_manager');
-			// Create ROLE_SUPER_ADMIN
 			$user = $userManager->createUser();
 			$user->setUsername($email);
 			$user->setEmail($email);
@@ -349,6 +367,7 @@ class UserController extends Controller {
 			$userEvent = new UserEvent();
 			$userEvent->setContactMethod('form');
 			$userEvent->setContactReason('commercial');
+			$userEvent->setContactOrigin('customer');
 			$userEvent->setDate(new \DateTime(date("Y-m-d H:i:s")));
 			$userEvent->setMessage(preg_replace( "/\r|\n/", "", $message ));
 			$userEvent->setFormOrigin($formOriginEvent[0]);
@@ -358,8 +377,7 @@ class UserController extends Controller {
 			$em->flush();
 
 			$userAlert = new Alert();
-			$userAlert->setRegistrationDate(new \DateTime(date("Y-m-d H:i:s")));
-			$userAlert->setFirstContact(new \DateTime(date("Y-m-d H:i:s")));
+			$userAlert->setEventDate(new \DateTime(date("Y-m-d H:i:s")));
 			$userAlert->setCustomerUser($user);
 
 			$em->persist($userAlert);

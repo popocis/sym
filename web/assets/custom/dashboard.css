@@ -6767,6 +6767,12 @@ h5,
 h6 {
   text-shadow: none;
 }
+@media (min-width: 992px) {
+  .modal-xl {
+    width: 1200px;
+    max-width: 1200px;
+  }
+}
 thead {
   text-transform: uppercase;
 }
@@ -6892,6 +6898,10 @@ span.heading {
 /************ CALENDAR **********************************************************/
 .scrollable-container {
   height: 100vh !important;
+}
+/************ ALERT *************************************************************/
+.alert-actions button {
+  margin-right: 10px;
 }
 /************ ERROR *************************************************************/
 .page-error .error-mark {

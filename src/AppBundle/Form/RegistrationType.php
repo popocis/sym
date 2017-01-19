@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Doctrine\ORM\EntityRepository;
 
 class RegistrationType extends AbstractType{
 
@@ -37,7 +38,18 @@ class RegistrationType extends AbstractType{
 			'choices' => array('website' => 'website', 'dem' => 'dem', 'facebook' => 'facebook', 'agent' => 'agent', 'wordofmouth' => 'wordofmouth', 'presentation' => 'presentation', 'other' => 'other'),
 			'choices_as_values' => true,
 		));
+		$builder->add('demOrigin');
 		$builder->add('presentation');
+		$builder->add('agentUser', 'entity', array(
+			'class' => 'AppBundle:User',
+			'required' => false,
+			'query_builder' => function(EntityRepository $repository) {
+				$qb = $repository->createQueryBuilder('u');
+				return $qb
+					->where($qb->expr()->eq('u.status', ':status'))
+					->setParameter('status', 'agent');
+			},
+		));
 		$builder->add('notes');
 	}
 

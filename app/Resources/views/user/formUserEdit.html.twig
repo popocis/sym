@@ -1,5 +1,5 @@
 <form id="user" name="user" method="post">
-    <div class="col-xs-12 col-lg-6">
+    <div class="col-xs-12 col-lg-4">
         <div class="form-group form-material">
             <label class="form-control-label">Email <span class="required">*</span></label>
             <input type="email" id="user_email" class="form-control" name="user[email]" value="{{ user.email }}" required="required" >
@@ -20,6 +20,8 @@
             <label class="form-control-label">Birthdate</label>
             <input type="text" id="user_birthDate" class="form-control" class="datepicker" name="user[birthDate]" data-plugin="datepicker" value="{{ user.birthDate is empty ? '' : user.birthDate|date('d/m/Y') }}">
         </div>
+    </div>
+    <div class="col-xs-12 col-lg-4">
         <div class="form-group form-material">
             <label class="form-control-label">Typology *</label>
             <select id="user_status" name="user[status]" data-plugin="select2" data-placeholder="Select agent" data-allow-clear="true"  aria-hidden="true" required="required">
@@ -49,8 +51,39 @@
                 <option value="other">other</option>
             </select>
         </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Dem origin</label>
+            <select id="user_demOrigin" name="user[demOrigin]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" disabled>
+                <option value=""></option>
+                {% for demOrigin in demsOrigin %}
+                    <option value="{{ demOrigin.id }}">{{ demOrigin.demName }} - {{ demOrigin.discount }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Agent</label>
+            <select id="user_agent" name="user[agentUser]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" disabled>
+                <option value=""></option>
+                {% for agent in agents %}
+                    <option value="{{ agent.id }}">{{ agent.name }} {{ agent.surname }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Presentation</label>
+            <select id="user_presentation" name="user[presentation]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" disabled>
+                <option value=""></option>
+                {% for presentation in presentations %}
+                    <option value="{{ presentation.id }}">{{ presentation.name }} - {{ presentation.date|date('d/m/Y') }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Notes</label>
+            <input type="text" id="user_notes" class="form-control" name="user[notes]" value="{{ user.notes }}">
+        </div>
     </div>
-    <div class="col-xs-12 col-lg-6">
+    <div class="col-xs-12 col-lg-4">
         <div class="form-group form-material">
             <label class="form-control-label">City name <span class="required">*</span></label>
             <input type="text" id="user_cityName" class="form-control" name="user[cityName]" value="{{ user.cityName }}" required="required">
@@ -71,34 +104,13 @@
                 <option></option><option value="Abruzzo">Abruzzo</option><option value="Basilicata">Basilicata</option><option value="Calabria">Calabria</option><option value="Campania">Campania</option><option value="Emilia Romagna">Emilia Romagna</option><option value="Friuli Venezia Giulia">Friuli Venezia Giulia</option><option value="Lazio">Lazio</option><option value="Liguria">Liguria</option><option value="Lombardia">Lombardia</option><option value="Marche">Marche</option><option value="Molise">Molise</option><option value="Piemonte">Piemonte</option><option value="Puglia">Puglia</option><option value="Sardegna">Sardegna</option><option value="Sicilia">Sicilia</option><option value="Tosacana">Toscana</option><option value="Trentino Alto Adige">Trentino Alto Adige</option><option value="Umbria">Umbria</option><option value="Valle Aosta">Valle Aosta</option><option value="Veneto">Veneto</option>
             </select>
         </div>
-    </div>
-    <div class="col-xs-12 col-lg-3">
         <div class="form-group form-material">
             <label class="form-control-label" for="form_zipCode">Zip code</label>
             <input type="text" id="user_zipCode" class="form-control" name="user[zipCode]" value="{{ user.zipCode }}">
         </div>
-    </div>
-    <div class="col-xs-12 col-lg-3">
         <div class="form-group form-material">
             <label class="form-control-label">Tax code</label>
             <input type="text" id="user_taxCode" class="form-control" name="user[taxCode]" value="{{ user.taxCode }}">
-        </div>
-    </div>
-    <div class="col-xs-12 col-lg-6">
-        <div class="form-group form-material">
-            <label class="form-control-label">Presentation</label>
-            <select id="user_presentation" name="user[presentation]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
-                <option value=""></option>
-                {% for presentation in presentations %}
-                    <option value="{{ presentation.id }}">{{ presentation.name }} - {{ presentation.date|date('d/m/Y') }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-    <div class="col-xs-12 col-lg-6">
-        <div class="form-group form-material">
-            <label class="form-control-label">Notes</label>
-            <input type="text" id="user_notes" class="form-control" name="user[notes]" value="{{ user.notes }}">
         </div>
     </div>
     <div class="col-xs-12">
@@ -126,6 +138,51 @@
             else{
                 $('#user_countryRegion').val("").trigger("change");
                 $('#user_countryRegion').prop("disabled", true);
+            }
+        });
+
+        if($('#user_source').val() == 'dem'){
+            $('#user_demOrigin').prop("disabled", false);
+            $('#user_demOrigin').val("{{ user.demOrigin.id|default(null) }}").trigger("change");
+        }
+        else if($('#user_source').val() == 'agent'){
+            $('#user_agent').prop("disabled", false);
+            $('#user_agent').val("{{ user.agentUser.id|default(null) }}").trigger("change");
+        }
+        else if($('#user_source').val() == 'presentation'){
+            $('#user_presentation').prop("disabled", false);
+            $('#user_presentation').val("{{ user.presentation.id|default(null) }}").trigger("change");
+        }
+
+        $('#user_source').change(function() {
+            if (this.value == 'dem') {
+                $('#user_demOrigin').prop("disabled", false);
+                $('#user_presentation').val("").trigger("change");
+                $('#user_presentation').prop("disabled", true);
+                $('#user_agent').val("").trigger("change");
+                $('#user_agent').prop("disabled", true);
+            }
+            else if(this.value == 'agent'){
+                $('#user_agent').prop("disabled", false);
+                $('#user_demOrigin').val("").trigger("change");
+                $('#user_demOrigin').prop("disabled", true);
+                $('#user_presentation').val("").trigger("change");
+                $('#user_presentation').prop("disabled", true);
+            }
+            else if(this.value == 'presentation'){
+                $('#user_presentation').prop("disabled", false);
+                $('#user_agent').val("").trigger("change");
+                $('#user_agent').prop("disabled", true);
+                $('#user_demOrigin').val("").trigger("change");
+                $('#user_demOrigin').prop("disabled", true);
+            }
+            else{
+                $('#user_presentation').val("").trigger("change");
+                $('#user_presentation').prop("disabled", true);
+                $('#user_agent').val("").trigger("change");
+                $('#user_agent').prop("disabled", true);
+                $('#user_demOrigin').val("").trigger("change");
+                $('#user_demOrigin').prop("disabled", true);
             }
         });
 

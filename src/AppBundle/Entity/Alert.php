@@ -25,6 +25,24 @@ class Alert{
 	protected $customerUser;
 
 	/**
+	 * @ORM\Column(type="date", nullable=false)
+	 */
+	protected $eventDate;
+
+	/**
+	 * @ORM\Column(type="integer", length=1, nullable=true)
+	 * @Assert\Range(
+	 *      min = 0,
+	 *      max = 3
+	 * )
+	 */
+	protected $eventAttempts;
+
+
+	/*TO DELETE*/
+
+
+	/**
 	 * @ORM\Column(type="date", nullable=true)
 	 */
 	protected $registrationDate;
@@ -87,6 +105,16 @@ class Alert{
 		return $this->customerUser;
 	}
 
+	public function getEventDate() {
+		return $this->eventDate;
+	}
+
+	public function getEventAttempts() {
+		return $this->eventAttempts;
+	}
+
+
+
 	public function getRegistrationDate() {
 		return $this->registrationDate;
 	}
@@ -119,10 +147,25 @@ class Alert{
 		return $this->appointmentAfterAttempts;
 	}
 
+
+
+
 	public function setCustomerUser($customerUser) {
 		$this->customerUser = $customerUser;
 		return $this;
 	}
+
+	public function setEventDate($eventDate) {
+		$this->eventDate = $eventDate;
+		return $this;
+	}
+
+	public function setEventAttempts($eventAttempts) {
+		$this->eventAttempts = $eventAttempts;
+		return $this;
+	}
+
+
 
 	public function setRegistrationDate($registrationDate) {
 		$this->registrationDate = $registrationDate;

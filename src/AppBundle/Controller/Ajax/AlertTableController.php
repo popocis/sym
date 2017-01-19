@@ -22,8 +22,8 @@ class AlertTableController extends Controller {
 		$em = $doc->getEntityManager();
 		$alert = $doc->getRepository('AppBundle:Alert')->findOneBy(array('id' => $id));
 		$date = new \DateTime();
-		$alert->setFirstContact($date);
-		$alert->setFirstContactAttempts(0);
+		$alert->setEventDate($date);
+		$alert->setEventAttempts(0);
 		$em->persist($alert);
 		$em->flush();
 		$response = new Response();
@@ -41,10 +41,10 @@ class AlertTableController extends Controller {
 		$doc = $this->getDoctrine();
 		$em = $doc->getEntityManager();
 		$alert = $doc->getRepository('AppBundle:Alert')->findOneBy(array('id' => $id));
-		$date = $alert->getRegistrationDate()->format('Y-m-d');
-		$date = new \DateTime($date);
+		//$date = $alert->getEventDate()->format('Y-m-d');
+		$date = new \DateTime();
 		$date = $date->modify('+6 months');
-		$alert->setFirstContact($date);
+		$alert->setEventDate($date);
 		$alert->setFirstContactAttempts(NULL);
 		$em->persist($alert);
 		$em->flush();
@@ -63,23 +63,25 @@ class AlertTableController extends Controller {
 		$doc = $this->getDoctrine();
 		$em = $doc->getEntityManager();
 		$alert = $doc->getRepository('AppBundle:Alert')->findOneBy(array('id' => $id));
-		$firstContactAttempts = $alert->getFirstContactAttempts();
-		if($firstContactAttempts == NULL) {
-			$date = $alert->getRegistrationDate()->format('Y-m-d');
-			$date = new \DateTime($date);
+		$alertAttempts = $alert->getEventAttempts();
+		if($alertAttempts == NULL) {
+			$date = $alert->getEventDate()->format('Y-m-d');
+			//$date = new \DateTime($date);
+			$date = new \DateTime();
 			$date = $date->modify('+1 week');
-			$alert->setFirstContactAttempts(1);
-			$alert->setFirstContact($date);
+			$alert->setEventAttempts(1);
+			$alert->setEventDate($date);
 		}
-		else if($firstContactAttempts == 1){
-			$date = $alert->getFirstContact()->format('Y-m-d');
-			$date = new \DateTime($date);
+		else if($alertAttempts == 1){
+			$date = $alert->getEventDate()->format('Y-m-d');
+			//$date = new \DateTime($date);
+			$date = new \DateTime();
 			$date = $date->modify('+2 week');
-			$alert->setFirstContactAttempts(2);
-			$alert->setFirstContact($date);
+			$alert->setEventAttempts(2);
+			$alert->setEventDate($date);
 		}
-		else if($firstContactAttempts == 2) {
-			$alert->setFirstContactAttempts(3);
+		else if($alertAttempts == 2) {
+			$alert->setEventAttempts(3);
 			$user = $alert->getCustomerUser();
 			$user->setDeleted(true);
 		}
@@ -122,22 +124,22 @@ class AlertTableController extends Controller {
 		$alert = $doc->getRepository('AppBundle:Alert')->findOneBy(array('id' => $id));
 		$appointmentAttempts = $alert->getAppointmentAttempts();
 		if($appointmentAttempts == NULL) {
-			$date = $alert->getAppointment()->format('Y-m-d');
-			$date = new \DateTime($date);
+			//$date = $alert->getAppointment()->format('Y-m-d');
+			$date = new \DateTime();
 			$date = $date->modify('+1 day');
 			$alert->setAppointmentAttempts(1);
 			$alert->setAppointment($date);
 		}
 		else if($appointmentAttempts == 1){
-			$date = $alert->getAppointment()->format('Y-m-d');
-			$date = new \DateTime($date);
+			//$date = $alert->getAppointment()->format('Y-m-d');
+			$date = new \DateTime();
 			$date = $date->modify('+1 day');
 			$alert->setAppointmentAttempts(2);
 			$alert->setAppointment($date);
 		}
 		else if($appointmentAttempts == 2) {
-			$date = $alert->getAppointment()->format('Y-m-d');
-			$date = new \DateTime($date);
+			//$date = $alert->getAppointment()->format('Y-m-d');
+			$date = new \DateTime();
 			$date = $date->modify('+1 day');
 			$alert->setAppointmentAttempts(0);
 			$alert->setAppointment($date);
@@ -181,22 +183,22 @@ class AlertTableController extends Controller {
 		$alert = $doc->getRepository('AppBundle:Alert')->findOneBy(array('id' => $id));
 		$appointmentAfterAttempts = $alert->getAppointmentAfterAttempts();
 		if($appointmentAfterAttempts == NULL) {
-			$date = $alert->getAppointmentAfter()->format('Y-m-d');
-			$date = new \DateTime($date);
+			//$date = $alert->getAppointmentAfter()->format('Y-m-d');
+			$date = new \DateTime();
 			$date = $date->modify('+1 day');
 			$alert->setAppointmentAfterAttempts(1);
 			$alert->setAppointmentAfter($date);
 		}
 		else if($appointmentAfterAttempts == 1){
-			$date = $alert->getAppointmentAfter()->format('Y-m-d');
-			$date = new \DateTime($date);
+			//$date = $alert->getAppointmentAfter()->format('Y-m-d');
+			$date = new \DateTime();
 			$date = $date->modify('+1 day');
 			$alert->setAppointmentAfterAttempts(2);
 			$alert->setAppointmentAfter($date);
 		}
 		else if($appointmentAfterAttempts == 2) {
-			$date = $alert->getAppointmentAfter()->format('Y-m-d');
-			$date = new \DateTime($date);
+			//$date = $alert->getAppointmentAfter()->format('Y-m-d');
+			$date = new \DateTime();
 			$date = $date->modify('+1 day');
 			$alert->setAppointmentAfterAttempts(0);
 			$alert->setAppointmentAfter($date);

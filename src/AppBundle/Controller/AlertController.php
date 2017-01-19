@@ -18,11 +18,19 @@ class AlertController extends Controller {
 
 		$qb->select('e');
 		$qb->from('AppBundle:Alert', 'e');
+		$qb->where('e.eventAttempts IS NULL OR e.eventAttempts != 0')
+			->andWhere('e.eventDate <= :today')
+			->setParameter('today', new \DateTime());
+		$qb->orderBy('e.eventDate', 'ASC');
+		$alertsEvents = $qb->getQuery()->getResult();
+
+		/*$qb->select('e');
+		$qb->from('AppBundle:Alert', 'e');
 		$qb->where('e.firstContactAttempts IS NULL OR e.firstContactAttempts != 0')
 		   ->andWhere('e.firstContact <= :today')
 		   ->setParameter('today', new \DateTime());
 		$qb->orderBy('e.firstContact', 'ASC');
-		$alertsNewUser = $qb->getQuery()->getResult();
+		$alertsNewUser = $qb->getQuery()->getResult();*/
 
 		$qb->select('a');
 		$qb->from('AppBundle:Alert', 'a');
@@ -40,6 +48,6 @@ class AlertController extends Controller {
 		$qb->orderBy('p.appointmentAfter', 'ASC');
 		$alertsAppointmentAfter = $qb->getQuery()->getResult();
 
-		return $this->render('alert/index.html.twig', array('alertsNewUser' => $alertsNewUser, 'alertsAppointment' => $alertsAppointment, 'alertsAppointmentAfter' => $alertsAppointmentAfter));
+		return $this->render('alert/index.html.twig', array('alertsEvents' => $alertsEvents, 'alertsAppointment' => $alertsAppointment, 'alertsAppointmentAfter' => $alertsAppointmentAfter));
 	}
 }

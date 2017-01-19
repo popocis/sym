@@ -17,28 +17,17 @@
             </select>
         </div>
         <div class="form-group form-material">
-            <label class="form-control-label">Contact reason <span class="required">*</span></label>
-            <select id="user_event_contactReason" class="form-control" name="user_event[contactReason]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" required="required">
-                <option></option>
-                <option value="general">general</option>
-                <option value="commercial">commercial</option>
-                <option value="panorex">panorex</option>
-                <option value="estimate">estimate</option>
-                <option value="accepted estimate">accepted estimate</option>
+            <label class="form-control-label">Form origin</label>
+            <select id="user_event_formOrigin" name="user_event[formOrigin]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" disabled>
+                <option value=""></option>
+                {% for formOrigin in formsOrigin %}
+                    <option value="{{ formOrigin.id }}">{{ formOrigin.formName }} - {{ formOrigin.formDomain }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="form-group form-material">
             <label class="form-control-label">Date <span class="required">*</span></label>
             <input type="text" id="user_event_date" class="form-control" class="datepicker" name="user_event[date]" data-plugin="datepicker" required="required">
-        </div>
-        <div class="form-group form-material">
-            <label class="form-control-label">Estimate</label>
-            <select id="user_event_estimate" name="user_event[estimate]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
-                <option></option>
-                <option value="2999">< 3000</option>
-                <option value="3000">>= 3000</option>
-                <option value="5000">> 5000</option>
-            </select>
         </div>
     </div>
     <div class="col-xs-12 col-lg-6">
@@ -51,30 +40,23 @@
             </select>
         </div>
         <div class="form-group form-material">
-            <label class="form-control-label">Form origin</label>
-            <select id="user_event_formOrigin" name="user_event[formOrigin]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" disabled>
-                <option value=""></option>
-                {% for formOrigin in formsOrigin %}
-                    <option value="{{ formOrigin.id }}">{{ formOrigin.formName }} - {{ formOrigin.formDomain }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group form-material">
-            <label class="form-control-label">Dem origin</label>
-            <select id="user_event_demOrigin" name="user_event[demOrigin]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" disabled>
-                <option value=""></option>
-                {% for demOrigin in demsOrigin %}
-                    <option value="{{ demOrigin.id }}">{{ demOrigin.demName }} - {{ demOrigin.discount }}%</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group form-material">
-            <label class="form-control-label">Agent</label>
-            <select id="user_event_agentUser" name="user_event[agentUser]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+            <label class="form-control-label">Contact reason <span class="required">*</span></label>
+            <select id="user_event_contactReason" class="form-control" name="user_event[contactReason]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" required="required">
                 <option></option>
-                {% for agent in agents %}
-                    <option value="{{ agent.id }}">{{ agent.name }} {{ agent.surname }} - {{ agent.countryName }}</option>
-                {% endfor %}
+                <option value="general">general</option>
+                <option value="commercial">commercial</option>
+                <option value="panorex">panorex</option>
+                <option value="estimate">estimate</option>
+                <option value="accepted estimate">accepted estimate</option>
+            </select>
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Estimate</label>
+            <select id="user_event_estimate" name="user_event[estimate]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                <option></option>
+                <option value="2999">< 3000</option>
+                <option value="3000">>= 3000</option>
+                <option value="5000">> 5000</option>
             </select>
         </div>
     </div>
@@ -83,8 +65,6 @@
             <label class="form-control-label">Message</label>
             <input type="text" id="user_event_message" class="form-control" name="user_event[message]">
         </div>
-    </div>
-    <div class="col-xs-12">
         <div class="form-group form-material">
             <label class="form-control-label">Notes</label>
             <input type="text" id="user_event_notes" class="form-control" name="user_event[notes]">

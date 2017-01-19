@@ -40,7 +40,9 @@ class UserType extends AbstractType{
 				'choices' => array('website' => 'website', 'dem' => 'dem', 'facebook' => 'facebook', 'agent' => 'agent', 'wordofmouth' => 'wordofmouth', 'presentation' => 'presentation', 'other' => 'other'),
 				'choices_as_values' => true,
 			))
+			->add('demOrigin')
 			->add('presentation')
+			->add('agentUser')
 			->add('notes')
 			->add('save', SubmitType::class)
 			->getForm();

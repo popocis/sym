@@ -105,9 +105,9 @@
             eventLimit: true,
 
             header: {
-                left: null,
+                left: 'month,agendaWeek,agendaDay',
                 center: 'prev,title,next',
-                right: 'month,agendaWeek,agendaDay'
+                right: 'listDay,listWeek'
             },
             aspectRatio: 1.7,
 

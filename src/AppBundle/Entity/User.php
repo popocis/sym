@@ -133,7 +133,6 @@ class User extends BaseUser
 	 */
 	protected $countryRegion;
 
-
 	/**
 	 * @ORM\Column(type="string", length=20, nullable=true)
 	 *
@@ -159,10 +158,22 @@ class User extends BaseUser
 	protected $source;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="DemOrigin")
+	 * @ORM\JoinColumn(name="dem_origin_id", referencedColumnName="id", nullable=true)
+	 */
+	protected $demOrigin;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="Presentation")
 	 * @ORM\JoinColumn(name="presentation_id", referencedColumnName="id", nullable=true)
 	 */
 	protected $presentation;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="User")
+	 * @ORM\JoinColumn(name="agent_user_id", referencedColumnName="id", nullable=true)
+	 */
+	protected $agentUser;
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
@@ -242,8 +253,16 @@ class User extends BaseUser
 		return $this->source;
 	}
 
+	public function getDemOrigin(){
+		return $this->demOrigin;
+	}
+
 	public function getPresentation(){
 		return $this->presentation;
+	}
+
+	public function getAgentUser(){
+		return $this->agentUser;
 	}
 
 	public function getNotes(){
@@ -325,8 +344,18 @@ class User extends BaseUser
 		return $this;
 	}
 
+	public function setDemOrigin($demOrigin){
+		$this->demOrigin = $demOrigin;
+		return $this;
+	}
+
 	public function setPresentation($presentation){
 		$this->presentation = $presentation;
+		return $this;
+	}
+
+	public function setAgentUser($agentUser){
+		$this->agentUser = $agentUser;
 		return $this;
 	}
 

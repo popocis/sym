@@ -61,16 +61,17 @@ class BootstrapTableController extends Controller {
 			$events = $user->getCustomerEvents();
 			$request = null;
 			$answer = null;
-
 			foreach ($events as $event) {
 				if($event->getContactOrigin() == "customer"){
 					$request = $event->getDate()->format('d/m/Y');
 				}
 				if($event->getContactOrigin() == "operator"){
 					$answer = $event->getDate()->format('d/m/Y');
+					if($answer < $request){
+						$answer = null;
+					}
 				}
 			}
-
 			$result[] = array(
 				'id' => '<span class="'.$classes.'">'.$user->getId().'</span>',
 				'status' => '<span class="'.$classes.'">'.$user->getStatus().'</span>',
@@ -102,7 +103,6 @@ class BootstrapTableController extends Controller {
 					'<a href="'.($this->generateUrl('userView', array('id'=>$user->getId()))).'" class="btn btn-sm btn-icon btn-raised btn-default btn-round waves-effect" data-toggle="tooltip" data-original-title="View user">'.
 						'<i class="icon md-eye" aria-hidden="true"></i>'.
 					'</a> '.$delete
-
 			);
 		}
 		return array(

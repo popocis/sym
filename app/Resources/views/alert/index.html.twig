@@ -318,10 +318,10 @@
         <div class="col-sm-12">
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">New users</h3>
+                    <h3 class="panel-title">Events</h3>
                 </div>
                 <div class="panel-body">
-                    <table id="tableNewUser"
+                    <table id="tableAlertsEvents"
                            data-toggle="table"
                            data-search="false"
                            data-pagination="false"
@@ -333,33 +333,31 @@
                             <th data-field="country">Country</th>
                             <th data-field="email">Email</th>
                             <th data-field="phoneNumber">Phone</th>
-                            <th data-field="registrationDate">Registration date</th>
-                            <th data-field="contactAttempts">Contact attempts</th>
-                            <th data-field="op">Client is interested?</th>
+                            <th data-field="contactAttempts">Attempts</th>
+                            <th data-field="op">CONTACT?</th>
                         </tr>
                         </thead>
                     </table>
                 </div>
             </div>
-             <script>
+            <script>
                 $( document ).ready(function() {
-                    var $tableNewUser = $("#tableNewUser");
+                    var $tableAlertsEvents = $("#tableAlertsEvents");
                     var data = [
-                        {% for alertNewUser in alertsNewUser %}
+                        {% for alertEvent in alertsEvents %}
                         {
-                            "namesurname": '<a href="{{ path('userView', {'id': alertNewUser.customerUser.id}) }}">{{ alertNewUser.customerUser.name }} {{ alertNewUser.customerUser.surname }}</a>',
-                            "country": '{{ alertNewUser.customerUser.countryName }}',
-                            "email": '{{ alertNewUser.customerUser.email }}',
-                            "phoneNumber": '{{ alertNewUser.customerUser.phoneNumber }}',
-                            "registrationDate": '{{ alertNewUser.registrationDate|date('d/m/Y') }}',
-                            "contactAttempts": '{{ alertNewUser.firstContactAttempts|default(0) }}',
-                            "op": '<div class="alert-actions"><button data-href="{{ path('ajaxUserAlertConfirm', {'id': alertNewUser.id}) }}" class="btn btn-round btn-primary btn-pill-left js-alert-confirm">now</button><button data-href="{{ path('ajaxUserAlertNotConfirm', {'id': alertNewUser.id}) }}" class="btn btn-squared btn-danger js-alert-not-confirm">no contact</button><button data-href="{{ path('ajaxUserAlertConfirmLater', {'id': alertNewUser.id}) }}" class="btn btn-round btn-primary btn-pill-right js-alert-confirm-later">later</button></div>'
+                            "namesurname": '<a href="{{ path('userView', {'id': alertEvent.customerUser.id}) }}">{{ alertEvent.customerUser.name }} {{ alertEvent.customerUser.surname }}</a>',
+                            "country": '{{ alertEvent.customerUser.countryName }}',
+                            "email": '{{ alertEvent.customerUser.email }}',
+                            "phoneNumber": '{{ alertEvent.customerUser.phoneNumber }}',
+                            "contactAttempts": '{{ alertEvent.firstContactAttempts|default(0) }}',
+                            "op": '<div class="alert-actions"><button data-href="{{ path('ajaxUserAlertConfirm', {'id': alertEvent.id}) }}" class="btn btn-icon btn-sm btn-round btn-success js-alert-confirm"><i class="icon md-phone" aria-hidden="true"></i></button><button data-href="{{ path('ajaxUserAlertNotConfirm', {'id': alertEvent.id}) }}" class="btn btn-icon btn-sm btn-round btn-danger js-alert-not-confirm"><i class="icon md-phone-missed" aria-hidden="true"></i></button><button data-href="{{ path('ajaxUserAlertConfirmLater', {'id': alertEvent.id}) }}" class="btn btn-icon btn-sm btn-round btn-primary js-alert-confirm-later"><i class="icon md-calendar-check" aria-hidden="true"></i></button></div>'
                         },
                         {% endfor %}
                     ];
-                    $tableNewUser.bootstrapTable({data: data});
+                    $tableAlertsEvents.bootstrapTable({data: data});
                 });
-             </script>
+            </script>
         </div>
     </div>
 
@@ -383,8 +381,8 @@
                             <th data-field="email">Email</th>
                             <th data-field="phoneNumber">Phone</th>
                             <th data-field="appointmentDate">Appointment date</th>
-                            <th data-field="contactAttempts">Contact attempts</th>
-                            <th data-field="op">Are you able to contact client?</th>
+                            <th data-field="contactAttempts">Attempts</th>
+                            <th data-field="op">Contact?</th>
                         </tr>
                         </thead>
                     </table>
@@ -402,7 +400,7 @@
                             "phoneNumber": '{{ alertAppointment.customerUser.phoneNumber }}',
                             "appointmentDate": '{{ alertAppointment.appointmentDate|date('d/m/Y') }}',
                             "contactAttempts": '{{ alertAppointment.appointmentAttempts|default(0) }}',
-                            "op": '<div class="alert-actions"><button data-href="{{ path('ajaxUserAlertConfirmAppointment', {'id': alertAppointment.id}) }}" class="btn btn-round btn-primary btn-pill-left js-alert-confirm-appointment">now</button><button data-href="{{ path('ajaxUserAlertNotConfirmAppointment', {'id': alertAppointment.id}) }}" class="btn btn-squared btn-danger btn-pill-right js-alert-not-confirm-appointment">no contact</button></div>'
+                            "op": '<div class="alert-actions"><button data-href="{{ path('ajaxUserAlertConfirmAppointment', {'id': alertAppointment.id}) }}" class="btn btn-icon btn-sm btn-round btn-success js-alert-confirm-appointment"><i class="icon md-phone" aria-hidden="true"></i></button><button data-href="{{ path('ajaxUserAlertNotConfirmAppointment', {'id': alertAppointment.id}) }}" class="btn btn-icon btn-sm btn-round btn-danger js-alert-not-confirm-appointment"><i class="icon md-phone-missed" aria-hidden="true"></i></button></div>'
                         },
                         {% endfor %}
                     ];
@@ -431,8 +429,8 @@
                             <th data-field="country">Country</th>
                             <th data-field="email">Email</th>
                             <th data-field="phoneNumber">Phone</th>
-                            <th data-field="contactAttempts">Contact attempts</th>
-                            <th data-field="op">Are you able to contact client?</th>
+                            <th data-field="contactAttempts">Attempts</th>
+                            <th data-field="op">Contact?</th>
                         </tr>
                         </thead>
                     </table>
@@ -449,7 +447,7 @@
                             "email": '{{ alertAppointmentAfter.customerUser.email }}',
                             "phoneNumber": '{{ alertAppointmentAfter.customerUser.phoneNumber }}',
                             "contactAttempts": '{{ alertAppointmentAfter.appointmenAftertAttempts|default(0) }}',
-                            "op": '<div class="alert-actions"><button data-href="{{ path('ajaxUserAlertConfirmAppointmentAfter', {'id': alertAppointmentAfter.id}) }}" class="btn btn-round btn-primary btn-pill-left js-alert-confirm-appointment-after">now</button><button data-href="{{ path('ajaxUserAlertNotConfirmAppointmentAfter', {'id': alertAppointmentAfter.id}) }}" class="btn btn-squared btn-danger btn-pill-right js-alert-not-confirm-appointment-after">no contact</button></div>'
+                            "op": '<div class="alert-actions"><button data-href="{{ path('ajaxUserAlertConfirmAppointmentAfter', {'id': alertAppointmentAfter.id}) }}" class="btn btn-icon btn-sm btn-round btn-success js-alert-confirm-appointment-after"><i class="icon md-phone" aria-hidden="true"></i></button><button data-href="{{ path('ajaxUserAlertNotConfirmAppointmentAfter', {'id': alertAppointmentAfter.id}) }}" class="btn btn-icon btn-sm btn-round btn-danger js-alert-not-confirm-appointment-after"><i class="icon md-phone-missed" aria-hidden="true"></i></button></div>'
                         },
                         {% endfor %}
                     ];
@@ -458,5 +456,6 @@
             </script>
         </div>
     </div>
+
 
 {% endblock %}
