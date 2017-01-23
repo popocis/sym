@@ -21,7 +21,7 @@ class UserEventType extends AbstractType{
 				 'mapped' => false
 			 ))
 			->add('contactMethod', ChoiceType::class, array(
-				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp', 'facebook' => 'facebook', 'facetime' => 'facetime', 'facetoface' => 'facetoface', 'form' => 'form', 'dem' => 'dem', 'other' => 'other'),
+				'choices' => array('phone' => 'phone', 'email' => 'email', 'viber' => 'viber', 'whatsapp' => 'whatsapp', 'facebook' => 'facebook', 'facetime' => 'facetime', 'facetoface' => 'facetoface', 'form' => 'form', 'other' => 'other'),
 				'choices_as_values' => true,
 			))
 			->add('contactOrigin', ChoiceType::class, array(
@@ -29,12 +29,10 @@ class UserEventType extends AbstractType{
 				'choices_as_values' => true,
 			))
 			->add('contactReason', ChoiceType::class, array(
-				'choices' => array('general' => 'general', 'commercial' => 'commercial', 'panorex' => 'panorex', 'estimate' => 'estimate', 'accepted estimate' => 'accepted estimate'),
+				'choices' => array('general' => 'general', 'commercial' => 'commercial', 'panorex' => 'panorex', 'estimate' => 'estimate', 'acceptedestimate' => 'acceptedestimate'),
 				'choices_as_values' => true,
 			))
-			->add('agentUser')
 			->add('formOrigin')
-			->add('demOrigin')
 			->add('message')
 			->add('estimate', ChoiceType::class, array(
 				'choices' => array('2999' => '2999', '3000' => '3000', '5000' => '5000'),

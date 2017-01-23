@@ -31,14 +31,8 @@ class UserEvent{
 	protected $customerUser;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="User")
-	 * @ORM\JoinColumn(name="agent_user_id", referencedColumnName="id", nullable=true)
-	 */
-	protected $agentUser;
-
-	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facebook", "facetime", "facetoface", "form", "dem", "other"}, message = "Choose a valid contact method.")
+	 * @Assert\Choice(choices = {"phone", "email", "viber", "whatsapp", "facebook", "facetime", "facetoface", "form", "other"}, message = "Choose a valid contact method.")
 	 */
 	protected $contactMethod;
 
@@ -56,15 +50,9 @@ class UserEvent{
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"general", "commercial", "panorex", "estimate", "accepted estimate"}, message = "Choose a valid contact reason.")
+	 * @Assert\Choice(choices = {"general", "commercial", "panorex", "estimate", "acceptedestimate"}, message = "Choose a valid contact reason.")
 	 */
 	protected $contactReason;
-
-	/**
-	 * @ORM\ManyToOne(targetEntity="DemOrigin")
-	 * @ORM\JoinColumn(name="dem_origin_id", referencedColumnName="id", nullable=true)
-	 */
-	protected $demOrigin;
 
 	/**
 	 * @ORM\Column(type="date")
@@ -101,10 +89,6 @@ class UserEvent{
 		return $this->customerUser;
 	}
 
-	public function getAgentUser() {
-		return $this->agentUser;
-	}
-
 	public function getContactMethod() {
 		return $this->contactMethod;
 	}
@@ -119,10 +103,6 @@ class UserEvent{
 
 	public function getContactReason() {
 		return $this->contactReason;
-	}
-
-	public function getDemOrigin() {
-		return $this->demOrigin;
 	}
 
 	public function getDate() {
@@ -151,11 +131,6 @@ class UserEvent{
 		return $this;
 	}
 
-	public function setAgentUser($agentUser) {
-		$this->agentUser = $agentUser;
-		return $this;
-	}
-
 	public function setContactMethod($contactMethod) {
 		$this->contactMethod = $contactMethod;
 		return $this;
@@ -173,11 +148,6 @@ class UserEvent{
 
 	public function setContactReason($contactReason) {
 		$this->contactReason = $contactReason;
-		return $this;
-	}
-
-	public function setDemOrigin($demOrigin) {
-		$this->demOrigin = $demOrigin;
 		return $this;
 	}
 

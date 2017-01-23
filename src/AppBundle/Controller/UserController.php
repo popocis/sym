@@ -329,6 +329,11 @@ class UserController extends Controller {
 		$city = $request->request->get('userCity');
 		$email = $request->request->get('userEmail');
 		$phone = $request->request->get('userPhone');
+		$phone = str_replace('-', '', $phone);
+		$phone = str_replace('/', '', $phone);
+		$phone = str_replace(')', '', $phone);
+		$phone = str_replace('(', '', $phone);
+		$phone = str_replace(' ', '', $phone);
 		$message = $request->request->get('userMessage');
 		$formOrigin = $request->request->get('userFormOrigin');
 		$formOriginDomain = $request->request->get('userFormOriginDomain');
@@ -359,6 +364,7 @@ class UserController extends Controller {
 			$user->setSurname($surname);
 			$user->setPhonenumber($phone);
 			$user->setStatus('prospect');
+			$user->setSource('website');
 			$user->setCityName($city);
 			// Update the user
 			$userManager->updateUser($user, true);
@@ -372,6 +378,7 @@ class UserController extends Controller {
 			$userEvent->setMessage(preg_replace( "/\r|\n/", "", $message ));
 			$userEvent->setFormOrigin($formOriginEvent[0]);
 			$userEvent->setCustomerUser($user);
+			$userEvent->setContactOrigin("customer");
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($userEvent);
 			$em->flush();

@@ -71,6 +71,9 @@ class BootstrapTableController extends Controller {
 						$answer = null;
 					}
 				}
+				if($event->getContactReason() == "panorex"){
+					$hasDocument = "yes";
+				}
 			}
 			$result[] = array(
 				'id' => '<span class="'.$classes.'">'.$user->getId().'</span>',
