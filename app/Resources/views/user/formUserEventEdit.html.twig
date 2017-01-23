@@ -16,7 +16,6 @@
                 <option value="facetime">facetime</option>
                 <option value="facetoface">face to face</option>
                 <option value="form">form</option>
-                <option value="dem">dem</option>
                 <option value="other">other</option>
             </select>
         </div>
@@ -51,7 +50,7 @@
                 <option value="commercial">commercial</option>
                 <option value="panorex">panorex</option>
                 <option value="estimate">estimate</option>
-                <option value="accepted estimate">accepted estimate</option>
+                <option value="acceptedestimate">accepted estimate</option>
             </select>
         </div>
         <div class="form-group form-material">
@@ -88,33 +87,19 @@
         $("#ajaxresponse_formUserEventEdit #user_event_contactReason").val("{{ event.contactReason }}").trigger("change");
         $("#ajaxresponse_formUserEventEdit #user_event_contactOrigin").val("{{ event.contactOrigin }}").trigger("change");
         $("#ajaxresponse_formUserEventEdit #user_event_formOrigin").val("{{ event.formOrigin.id | default("")}}").trigger("change");
-        $("#ajaxresponse_formUserEventEdit #user_event_demOrigin").val("{{ event.demOrigin.id | default("")}}").trigger("change");
-        $("#ajaxresponse_formUserEventEdit #user_event_agent").val("{{ event.agent.id | default("")}}").trigger("change");
         $("#ajaxresponse_formUserEventEdit #user_event_estimate").val("{{ event.estimate | default("")}}").trigger("change");
 
         if($('#ajaxresponse_formUserEventEdit #user_event_contactMethod').val() != 'form'){
             $('#ajaxresponse_formUserEventEdit #user_event_formOrigin').prop("disabled", true);
         }
-        if($('#ajaxresponse_formUserEventEdit #user_event_contactMethod').val() != 'dem'){
-            $('#ajaxresponse_formUserEventEdit #user_event_demOrigin').prop("disabled", true);
-        }
 
         $('#ajaxresponse_formUserEventEdit #user_event_contactMethod').change(function() {
             if (this.value == 'form') {
                 $('#ajaxresponse_formUserEventEdit #user_event_formOrigin').prop("disabled", false);
-                $('#ajaxresponse_formUserEventEdit #user_event_demOrigin').val("").trigger("change");
-                $('#ajaxresponse_formUserEventEdit #user_event_demOrigin').prop("disabled", true);
-            }
-            else if(this.value == 'dem'){
-                $('#ajaxresponse_formUserEventEdit #user_event_demOrigin').prop("disabled", false);
-                $('#ajaxresponse_formUserEventEdit #user_event_formOrigin').val("").trigger("change");
-                $('#ajaxresponse_formUserEventEdit #user_event_formOrigin').prop("disabled", true);
             }
             else{
                 $('#ajaxresponse_formUserEventEdit #user_event_formOrigin').val("").trigger("change");
-                $('#ajaxresponse_formUserEventEdit #user_event_demOrigin').val("").trigger("change");
                 $('#ajaxresponse_formUserEventEdit #user_event_formOrigin').prop("disabled", true);
-                $('#ajaxresponse_formUserEventEdit #user_event_demOrigin').prop("disabled", true);
             }
         });
 
@@ -149,10 +134,6 @@
                         }
                     },
                     "user_event[formOrigin]": {
-                        validators: {
-                        }
-                    },
-                    "user_event[demOrigin]": {
                         validators: {
                         }
                     },

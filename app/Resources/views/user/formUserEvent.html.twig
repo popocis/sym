@@ -12,7 +12,6 @@
                 <option value="facetime">facetime</option>
                 <option value="facetoface">face to face</option>
                 <option value="form">form</option>
-                <option value="dem">dem</option>
                 <option value="other">other</option>
             </select>
         </div>
@@ -47,7 +46,7 @@
                 <option value="commercial">commercial</option>
                 <option value="panorex">panorex</option>
                 <option value="estimate">estimate</option>
-                <option value="accepted estimate">accepted estimate</option>
+                <option value="acceptedestimate">accepted estimate</option>
             </select>
         </div>
         <div class="form-group form-material">
@@ -84,19 +83,10 @@
         $('#user_event_contactMethod').change(function() {
             if (this.value == 'form') {
                 $('#user_event_formOrigin').prop("disabled", false);
-                $('#user_event_demOrigin').val("").trigger("change");
-                $('#user_event_demOrigin').prop("disabled", true);
-            }
-            else if(this.value == 'dem'){
-                $('#user_event_demOrigin').prop("disabled", false);
-                $('#user_event_formOrigin').val("").trigger("change");
-                $('#user_event_formOrigin').prop("disabled", true);
             }
             else{
                 $('#user_event_formOrigin').val("").trigger("change");
-                $('#user_event_demOrigin').val("").trigger("change");
                 $('#user_event_formOrigin').prop("disabled", true);
-                $('#user_event_demOrigin').prop("disabled", true);
             }
         });
 
@@ -131,10 +121,6 @@
                         }
                     },
                     "user_event[formOrigin]": {
-                        validators: {
-                        }
-                    },
-                    "user_event[demOrigin]": {
                         validators: {
                         }
                     },
