@@ -6,6 +6,7 @@ use AppBundle\Entity\DemOrigin;
 use AppBundle\Entity\FormOrigin;
 use AppBundle\Entity\Clinic;
 use AppBundle\Entity\Presentation;
+use AppBundle\Entity\Treatment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,7 @@ use AppBundle\Form\FormOriginType;
 use AppBundle\Form\ClinicType;
 use AppBundle\Form\DemOriginType;
 use AppBundle\Form\PresentationType;
+use AppBundle\Form\TreatmentType;
 
 class ServiceController extends Controller {
 	/**
@@ -59,6 +61,14 @@ class ServiceController extends Controller {
 		}
 		$formPresentation = $this->createForm(PresentationType::class, $presentation);
 
+		$treatmentId = isset($request->request->get('treatment')['id']) ? $request->request->get('treatment')['id'] : null;
+		if (!is_null($treatmentId)){
+			$treatment = $this->getDoctrine()->getRepository('AppBundle:Treatment')->find($treatmentId);
+		} else {
+			$treatment = new Treatment();
+		}
+		$formTreatment = $this->createForm(TreatmentType::class, $treatment);
+
 
 		if('POST' === $request->getMethod()) {
 			if($request->request->has('form_origin')){
@@ -97,14 +107,24 @@ class ServiceController extends Controller {
 					$em->flush();
 				}
 			}
+			elseif($request->request->has('treatment')) {
+				$formTreatment->handleRequest($request);
+				if ($formTreatment->isSubmitted() && $formTreatment->isValid()) {
+					$treatment = $formTreatment->getData();
+					$em = $this->getDoctrine()->getManager();
+					$em->persist($treatment);
+					$em->flush();
+				}
+			}
 		}
 
 		$formsOrigin = $this->getDoctrine()->getRepository('AppBundle:FormOrigin')->findAll();
 		$demsOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->findAll();
 		$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
 		$presentations = $this->getDoctrine()->getRepository('AppBundle:Presentation')->findAll();
+		$treatments = $this->getDoctrine()->getRepository('AppBundle:Treatment')->findAll();
 
-		return $this->render('service/add.html.twig', array( 'clinics' => $clinics, 'presentations' => $presentations, 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'formFormOrigin' => $formFormOrigin->createView(), 'formClinic' => $formClinic->createView(), 'formDemOrigin' => $formDemOrigin->createView(), 'formPresentation' => $formPresentation->createView() ));
+		return $this->render('service/add.html.twig', array( 'clinics' => $clinics, 'presentations' => $presentations, 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'treatments' => $treatments,'formFormOrigin' => $formFormOrigin->createView(), 'formClinic' => $formClinic->createView(), 'formDemOrigin' => $formDemOrigin->createView(), 'formPresentation' => $formPresentation->createView(), 'formTreatment' => $formTreatment->createView() ));
 	}
 
 	/**
@@ -148,6 +168,17 @@ class ServiceController extends Controller {
 			$presentation = $this->getDoctrine()->getRepository('AppBundle:Presentation')->find($id);
 			$formPresentation = $this->createForm(PresentationType::class, $presentation);
 			return $this->container->get('templating')->renderResponse('service/formPresentationEdit.html.twig', array('formPresentation' => $formPresentation->createView(), 'presentation' => $presentation ));
+		}
+	}
+
+	/**
+	 * @Route("/service/treatment/edit/{id}", name="ajax_formTreatmentEdit")
+	 */
+	public function editTreatmentAction($id){
+		if ($this->container->get('request')->isXmlHttpRequest()) {
+			$treatment = $this->getDoctrine()->getRepository('AppBundle:Treatment')->find($id);
+			$formTreatment = $this->createForm(TreatmentType::class, $treatment);
+			return $this->container->get('templating')->renderResponse('service/formTreatmentEdit.html.twig', array('formTreatment' => $formTreatment->createView(), 'treatment' => $treatment ));
 		}
 	}
 

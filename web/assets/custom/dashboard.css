@@ -6803,6 +6803,9 @@ thead {
 tbody tr td:last-child {
   min-width: 100px;
 }
+.datepicker-days tbody tr td:last-child {
+  min-width: initial;
+}
 label {
   margin-bottom: 0;
 }
@@ -6870,6 +6873,7 @@ ul.nav .icon.md-account {
 .edit-clinic,
 .edit-demOrigin,
 .edit-presentation,
+.edit-treatment,
 .delete-file {
   position: absolute;
   right: 30px;

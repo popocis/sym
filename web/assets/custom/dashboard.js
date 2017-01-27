@@ -55,6 +55,9 @@ $(document).ready(function() {
     Site.run();
     Waves.attach('.page-content .btn-floating', ['waves-light']);
     console.log("custom js loaded");
+
+    $('[data-plugin="datepicker"]').datepicker({weekStart:1});
+    
 });
 
 

@@ -304,7 +304,7 @@
 
     <script>
         $( document ).ready(function() {
-
+            $('[data-plugin="datepicker"]').datepicker({weekStart:1});
             $('.edit-presentation').click(function() {
                 var id = $(this).data('id');
                 var route = '{{ path('ajax_formPresentationEdit', { 'id': "PLACEHOLDER" }) }}';
@@ -316,6 +316,83 @@
                         $('#ajaxresponse_formPresentationEdit').html(response);
                         $('.modal-body').find('[data-plugin="select2"]').select2({ width: '100%' });
                         $('.modal-body').find('[data-plugin="datepicker"]').datepicker();
+                    },
+                    async: false
+                })
+            });
+        });
+    </script>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- Panel Static Labels -->
+            <div class="panel h-600">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Add Treatment</h3>
+                </div>
+                <div class="panel-body">
+                    {% include 'service/formTreatment.html.twig' %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="h-600" data-plugin="scrollable">
+                <div data-role="container">
+                    <div data-role="content">
+                        <!-- Panel Static Labels -->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">List Treatment</h3>
+                            </div>
+                            <div class="panel-body">
+                                {% for treatment in treatments %}
+                                    <button type="button" data-id="{{ treatment.id }}" class="btn btn-sm btn-icon btn-primary btn-round waves-effect edit-treatment" data-target="#editTreatment" data-toggle="modal" data-toggle="tooltip" data-original-title="Edit">
+                                        <i class="icon md-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="row"><span class="heading col-md-3">Name:</span> <span class="content col-md-9">{{ treatment.name }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Description:</span> <span class="content col-md-9">{{ treatment.description }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Fare:</span> <span class="content col-md-9">{{ treatment.fare }}</span></div>
+                                    <div class="row"><span class="heading col-md-3">Notes:</span> <span class="content col-md-9">{{ treatment.notes }}</span></div>
+                                    <hr>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Update Treatment-->
+    <div class="modal fade" id="editTreatment" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">Update Treatment</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="ajaxresponse_formTreatmentEdit"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+
+    <script>
+        $( document ).ready(function() {
+
+            $('.edit-treatment').click(function() {
+                var id = $(this).data('id');
+                var route = '{{ path('ajax_formTreatmentEdit', { 'id': "PLACEHOLDER" }) }}';
+                route = route.replace("PLACEHOLDER", id);
+                $.ajax({
+                    type: 'POST',
+                    url:  route,
+                    success: function(response) {
+                        $('#ajaxresponse_formTreatmentEdit').html(response);
                     },
                     async: false
                 })

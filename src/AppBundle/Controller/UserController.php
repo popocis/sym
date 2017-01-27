@@ -7,6 +7,8 @@ use AppBundle\Entity\UserDocument;
 use AppBundle\Entity\UserJourney;
 use AppBundle\Entity\FormOrigin;
 use AppBundle\Entity\Alert;
+use AppBundle\Entity\Treatment;
+use AppBundle\Entity\Quote;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +27,7 @@ use AppBundle\Form\UserType;
 use AppBundle\Form\UserEventType;
 use AppBundle\Form\UserDocumentType;
 use AppBundle\Form\UserJourneyType;
+use AppBundle\Form\QuoteType;
 
 class UserController extends Controller {
 
@@ -54,6 +57,14 @@ class UserController extends Controller {
 			$userJourney = new UserJourney();
 		}
 		$formJourney = $this->createForm(UserJourneyType::class, $userJourney);
+
+		$quoteId = isset($request->request->get('quote')['id']) ? $request->request->get('quote')['id'] : null;
+		if (!is_null($quoteId)){
+			$quote = $this->getDoctrine()->getRepository('AppBundle:Quote')->find($quoteId);
+		} else {
+			$quote = new Quote();
+		}
+		$formQuote = $this->createForm(QuoteType::class, $quote);
 
 		if('POST' === $request->getMethod()) {
 			if($request->request->has('user_event')){
@@ -161,6 +172,18 @@ class UserController extends Controller {
 					$userManager->updateUser($user, true);
 				}
 			}
+			elseif($request->request->has('quote')) {
+				$formQuote->handleRequest($request);
+				if ($formQuote->isSubmitted()) {
+					$quote = $formQuote->getData();
+					$userOperator = $this->get('security.token_storage')->getToken()->getUser();
+					$quote->setAdminUser($userOperator);
+					$quote->setCustomerUser($user);
+					$em = $this->getDoctrine()->getManager();
+					$em->persist($quote);
+					$em->flush();
+				}
+			}
 		}
 
 		$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $id), array('date' => 'DESC', 'contactOrigin' => 'DESC'));
@@ -171,8 +194,10 @@ class UserController extends Controller {
 		$demsOrigin = $this->getDoctrine()->getRepository('AppBundle:DemOrigin')->findAll();
 		$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
 		$presentations = $this->getDoctrine()->getRepository('AppBundle:Presentation')->findAll();
+		$treatments = $this->getDoctrine()->getRepository('AppBundle:Treatment')->findAll();
+		$quotes = $this->getDoctrine()->getRepository('AppBundle:Quote')->findAll();
 
-		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'userEvents' => $events, 'clinics' => $clinics, 'presentations' => $presentations, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView(), 'formUser' => $formUser->createView()));
+		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'userEvents' => $events, 'clinics' => $clinics, 'presentations' => $presentations, 'treatments' => $treatments, 'quotes' => $quotes, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView(), 'formUser' => $formUser->createView(), 'formQuote' => $formQuote->createView() ));
 	}
 
 	private function getUserObj($id) {

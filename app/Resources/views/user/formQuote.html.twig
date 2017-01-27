@@ -1,0 +1,135 @@
+{#{ form(formQuote) }#}
+
+<form id="quote" name="quote" method="post">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                Upper arch
+            </div>
+            <div class="col-xs-12 col-md-6">
+                Lower arch
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-3">
+        <div class="form-group form-material">
+            <label class="form-control-label">Treatment</label>
+            <select id="quote_treatmentSup1" name="quote[treatmentSup1]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                <option value=""></option>
+                {% for treatment in treatments %}
+                    <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="1">{{ treatment.name }} - {{ treatment.fare }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-1">
+        <div class="form-group form-material">
+            <label class="form-control-label">Qt.</label>
+            <input type="number" id="quote_treatmentSupQt1" class="form-control qt-1" name="quote[treatmentSupQt1]" data-plugin="formMaterial">
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-2">
+        <div class="form-group form-material">
+            <label class="form-control-label">Fare</label>
+            <input type="number" id="quote_treatmentSupFare1" class="form-control fare-1" name="quote[treatmentSupFare1]" data-plugin="formMaterial">
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-3">
+        <div class="form-group form-material">
+            <label class="form-control-label">Treatment</label>
+            <select id="quote_treatmentInf1" name="quote[treatmentInf1]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                <option value=""></option>
+                {% for treatment in treatments %}
+                    <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="11">{{ treatment.name }} - {{ treatment.fare }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-1">
+        <div class="form-group form-material">
+            <label class="form-control-label">Qt.</label>
+            <input type="number" id="quote_treatmentInfQt1" class="form-control qt-11" name="quote[treatmentInfQt1]" data-plugin="formMaterial">
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-2">
+        <div class="form-group form-material">
+            <label class="form-control-label">Fare</label>
+            <input type="number" id="quote_treatmentInfFare1" class="form-control fare-11" name="quote[treatmentInfFare1]" data-plugin="formMaterial">
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-3">
+        <div class="form-group form-material">
+            <label class="form-control-label">Total fare</label>
+            <input type="number" id="quote_treatmentTotalFare" class="form-control" name="quote[treatmentTotalFare]" data-plugin="formMaterial">
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-3">
+        <div class="form-group form-material">
+            <label class="form-control-label">Date</label>
+            <input type="text" id="quote_date" class="form-control" class="datepicker" name="quote[date]" data-plugin="datepicker">
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-6">
+        <div class="form-group form-material">
+            <label class="form-control-label">Notes</label>
+            <input type="text" id="quote_notes" class="form-control" name="quote[notes]">
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <input type="hidden" id="quote__token" name="quote[_token]" value="{{ formQuote._token.vars.value }}">
+        <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
+        <button type="submit" id="quote_save" class="btn btn-primary waves-effect waves-light" name="quote[save]">Add quote</button>
+    </div>
+</form>
+
+<script>
+    $( document ).ready(function() {
+
+        /*$('[data-plugin="select2"]').change(function() {
+
+            var fare = $(this).find(":selected").data("fare");
+            if (fare !== undefined){
+                var current = $(this).find(":selected").data("nr");
+                $(".fare-"+current).val(fare);
+            }
+
+        });*/
+
+        $('[data-plugin="datepicker"]').on('changeDate', function(e) {
+            // Revalidate the date field
+            $('#quote').formValidation('revalidateField', 'quote[date]');
+        });
+
+        // Validation
+        // ---------------------------------
+        (function() {
+            $('#quote').formValidation({
+                framework: "bootstrap4",
+                button: {
+                    selector: '#quote_save'
+                },
+                icon: null,
+                err: {
+                    clazz: 'text-help'
+                },
+                row: {
+                    invalid: 'has-danger'
+                },
+                fields: {
+                    "quote[date]": {
+                        validators: {
+                            notEmpty: {
+                                message: 'required'
+                            },
+                            dateITA: {
+                                format: 'dd/mm/yyyy'
+                            }
+                        }
+                    },
+                }
+            });
+        })();
+
+    });
+</script>

@@ -92,6 +92,14 @@
 
 <script>
     $( document ).ready(function() {
+
+        $('[data-plugin="datepicker"]').on('changeDate', function(e) {
+            // Revalidate the date field
+            $('#user_journey').formValidation('revalidateField', 'user_journey[arrivalDate]');
+            $('#user_journey').formValidation('revalidateField', 'user_journey[appointmentDate]');
+            $('#user_journey').formValidation('revalidateField', 'user_journey[departureDate]');
+        });
+
         // Validation
         // ---------------------------------
         (function() {

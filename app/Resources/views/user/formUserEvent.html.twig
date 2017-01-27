@@ -90,6 +90,11 @@
             }
         });
 
+        $('[data-plugin="datepicker"]').on('changeDate', function(e) {
+            // Revalidate the date field
+            $('#user_event').formValidation('revalidateField', 'user_event[date]');
+        });
+
         // Validation
         // ---------------------------------
         (function() {

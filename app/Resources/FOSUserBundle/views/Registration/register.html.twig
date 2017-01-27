@@ -135,6 +135,8 @@
     <script>
         $( document ).ready(function() {
 
+            $('[data-plugin="datepicker"]').datepicker({weekStart:1});
+
             $('#fos_user_registration_form_countryName').change(function() {
                 if (this.value == 'IT') {
                     $('#fos_user_registration_form_countryRegion').prop("disabled", false);
