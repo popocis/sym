@@ -86,6 +86,18 @@ class CalendarController extends Controller {
                         $qb->expr()->lte('uj.appointmentThreeDate', ':end')
                     ),
 					$qb->expr()->andX(
+						$qb->expr()->gte('uj.appointmentFourDate', ':start'),
+						$qb->expr()->lte('uj.appointmentFourDate', ':end')
+					),
+					$qb->expr()->andX(
+						$qb->expr()->gte('uj.appointmentFiveDate', ':start'),
+						$qb->expr()->lte('uj.appointmentFiveDate', ':end')
+					),
+					$qb->expr()->andX(
+						$qb->expr()->gte('uj.appointmentSixDate', ':start'),
+						$qb->expr()->lte('uj.appointmentSixDate', ':end')
+					),
+					$qb->expr()->andX(
 						$qb->expr()->gte('uj.departureDate', ':start'),
 						$qb->expr()->lte('uj.departureDate', ':end')
 					)
@@ -138,6 +150,18 @@ class CalendarController extends Controller {
                     $date = $uj->getAppointmentThreeDate();
                     $title = 'Terzo appuntamento ' . $title;
                     break;
+				case 'appointmentFourDate':
+					$date = $uj->getAppointmentFourDate();
+					$title = 'Quarto appuntamento ' . $title;
+					break;
+				case 'appointmentFiveDate':
+					$date = $uj->getAppointmentFiveDate();
+					$title = 'Quinto appuntamento ' . $title;
+					break;
+				case 'appointmentSixDate':
+					$date = $uj->getAppointmentSixDate();
+					$title = 'Sesto appuntamento ' . $title;
+					break;
 				case 'departureDate':
 					$date = $uj->getDepartureDate();
 					$title = 'Partenza ' . $title;
@@ -148,14 +172,14 @@ class CalendarController extends Controller {
 				'id' => $type . $uj->getId(),
 				'type' => $type,
 				'title' => $title,
-				'allDay' => $type != 'appointmentDate' && $type != 'appointmentTwoDate' && $type != 'appointmentThreeDate',
+				'allDay' => $type != 'appointmentDate' && $type != 'appointmentTwoDate' && $type != 'appointmentThreeDate' && $type != 'appointmentFourDate' && $type != 'appointmentFiveDate' && $type != 'appointmentSixDate',
 				'start' => $date->format(DateTime::ATOM),
 				'userName' => $userName,
 				'userUrl' => $this->generateUrl('userView', array('id' => $uj->getCustomerUser()->getId())),
 				'notes' => $uj->getNotes()
 			);
 
-			if ($type == 'appointmentDate' || $type == 'appointmentTwoDate' || $type == 'appointmentThreeDate') {
+			if ($type == 'appointmentDate' || $type == 'appointmentTwoDate' || $type == 'appointmentThreeDate' || $type == 'appointmentFourDate' || $type == 'appointmentFiveDate' || $type == 'appointmentSixDate') {
 				$model['clinicId'] = $uj->getClinic()->getId();
 				$model['clinicName'] = $uj->getClinic()->getName();
 			} else {

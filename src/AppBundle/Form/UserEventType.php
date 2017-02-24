@@ -29,7 +29,7 @@ class UserEventType extends AbstractType{
 				'choices_as_values' => true,
 			))
 			->add('contactReason', ChoiceType::class, array(
-				'choices' => array('general' => 'general', 'commercial' => 'commercial', 'panorex' => 'panorex', 'estimate' => 'estimate', 'acceptedestimate' => 'acceptedestimate'),
+				'choices' => array('general' => 'general', 'commercial' => 'commercial', 'panorex' => 'panorex', 'estimate' => 'estimate', 'recallestimate' => 'recallestimate', 'acceptedestimate' => 'acceptedestimate', 'interestedlater' => 'interestedlater', 'recallinterestedlater'=>'recallinterestedlater', 'recallposttherapy'=>'recallposttherapy'),
 				'choices_as_values' => true,
 			))
 			->add('formOrigin')

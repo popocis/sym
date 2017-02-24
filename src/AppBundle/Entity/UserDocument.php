@@ -46,7 +46,7 @@ class UserDocument
 
 	/**
 	 * NOTE: This is not a mapped field of entity metadata, just a simple property.
-	 *
+	 * @Assert\File(maxSize="5M")
 	 * @Vich\UploadableField(mapping="user_document", fileNameProperty="documentName")
 	 *
 	 * @var File

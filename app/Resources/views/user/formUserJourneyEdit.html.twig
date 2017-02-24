@@ -17,6 +17,18 @@
             <input type="text" id="user_journey_appointmentThreeDate" class="form-control" class="datepicker" name="user_journey[appointmentThreeDate]" data-plugin="datepicker" value="{% if journey.appointmentThreeDate %}{{ journey.appointmentThreeDate|date('d/m/Y') }}{% endif %}">
         </div>
         <div class="form-group form-material">
+            <label class="form-control-label">Appointment four date</label>
+            <input type="text" id="user_journey_appointmentFourDate" class="form-control" class="datepicker" name="user_journey[appointmentFourDate]" data-plugin="datepicker" value="{% if journey.appointmentFourDate %}{{ journey.appointmentFourDate|date('d/m/Y') }}{% endif %}">
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Appointment five date</label>
+            <input type="text" id="user_journey_appointmentFiveDate" class="form-control" class="datepicker" name="user_journey[appointmentFiveDate]" data-plugin="datepicker" value="{% if journey.appointmentFiveDate %}{{ journey.appointmentFiveDate|date('d/m/Y') }}{% endif %}">
+        </div>
+        <div class="form-group form-material">
+            <label class="form-control-label">Appointment six date</label>
+            <input type="text" id="user_journey_appointmentSixDate" class="form-control" class="datepicker" name="user_journey[appointmentSixDate]" data-plugin="datepicker" value="{% if journey.appointmentSixDate %}{{ journey.appointmentSixDate|date('d/m/Y') }}{% endif %}">
+        </div>
+        <div class="form-group form-material">
             <label class="form-control-label">Departure date <span class="required">*</span></label>
             <input type="text" id="user_journey_departureDate" class="form-control" class="datepicker" name="user_journey[departureDate]" data-plugin="datepicker" required="required" value="{{ journey.departureDate|date('d/m/Y') }}">
         </div>
@@ -131,6 +143,41 @@
                             notEmpty: {
                                 message: 'required'
                             },
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[appointmentTwoDate]": {
+                        validators: {
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[appointmentThreeDate]": {
+                        validators: {
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[appointmentFourDate]": {
+                        validators: {
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[appointmentFiveDate]": {
+                        validators: {
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[appointmentSixDate]": {
+                        validators: {
                             dateITA: {
                                 format: 'mm/dd/yyyy'
                             }

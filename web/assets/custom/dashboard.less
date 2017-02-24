@@ -195,6 +195,65 @@ span.content{
 	}
 }
 
+/************ JOURNEY ***********************************************************/
+#user_journey{
+	.add-appointment{
+		margin-bottom: 44px;
+	}
+	.col-2, .col-3, .col-4, .col-5, .col-6{
+		display: none;
+	}
+}
+
+/************ INVOICE ***********************************************************/
+@media print {
+	.no-print, .no-print * {
+		display: none !important;
+	}
+}
+
+.invoice{
+	.panel-body {
+		padding-top: 30px;
+		padding-bottom: 30px;
+		.header-info {
+			display: inline-block;
+			float: left;
+			img.logo {
+				max-width: 100px;
+				margin-bottom: 30px;
+			}
+		}
+		.header-schema{
+			float: right;
+			img.schema{
+				max-width: 250px;
+			}
+		}
+		.page-invoice-table{
+			margin-top: 40px;
+		}
+		.total{
+			margin-top: 40px;
+			p{
+				font-size: 20px;
+				font-weight: bold;
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+#quote {
+	.col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10 {
+		display: none;
+	}
+	.col-12, .col-13, .col-14, .col-15, .col-16, .col-17, .col-18, .col-19, .col-20 {
+		display: none;
+	}
+}
+
+
 /************ ERROR *************************************************************/
 .page-error .error-mark {
 	margin-bottom: 33px;

@@ -86,7 +86,12 @@
                                 </div>
                                 <div class="form-group form-material">
                                     <label class="form-control-label">Agent</label>
-                                    {{ form_widget(form.agentUser, { 'attr': {'data-plugin': 'select2', 'data-placeholder': '', 'data-allow-clear': 'true', 'aria-hidden': 'true', 'disabled':'disabled'} }) }}
+                                    <select id="fos_user_registration_form_agentUser" name="fos_user_registration_form[agentUser]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" tabindex="-1" class="select2-hidden-accessible" disabled>
+                                        <option value=""></option>
+                                        {% for key,val in form.agentUser.vars.choices %}
+                                            <option value="{{ val.value }}">{{ val.data.name }} {{ val.data.surname }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                                 <div class="form-group form-material">
                                     <label class="form-control-label">Notes</label>

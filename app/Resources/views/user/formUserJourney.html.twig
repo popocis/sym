@@ -8,14 +8,27 @@
             <label class="form-control-label">Appointment date <span class="required">*</span></label>
             <input type="text" id="user_journey_appointmentDate" class="form-control" class="datepicker" name="user_journey[appointmentDate]" data-plugin="datepicker" required="required">
         </div>
-        <div class="form-group form-material">
+        <div class="form-group form-material col-2">
             <label class="form-control-label">Appointment two date</label>
             <input type="text" id="user_journey_appointmentTwoDate" class="form-control" class="datepicker" name="user_journey[appointmentTwoDate]" data-plugin="datepicker">
         </div>
-        <div class="form-group form-material">
+        <div class="form-group form-material col-3">
             <label class="form-control-label">Appointment three date</label>
             <input type="text" id="user_journey_appointmentThreeDate" class="form-control" class="datepicker" name="user_journey[appointmentThreeDate]" data-plugin="datepicker">
         </div>
+        <div class="form-group form-material col-4">
+            <label class="form-control-label">Appointment four date</label>
+            <input type="text" id="user_journey_appointmentFourDate" class="form-control" class="datepicker" name="user_journey[appointmentFourDate]" data-plugin="datepicker">
+        </div>
+        <div class="form-group form-material col-5">
+            <label class="form-control-label">Appointment five date</label>
+            <input type="text" id="user_journey_appointmentFiveDate" class="form-control" class="datepicker" name="user_journey[appointmentFiveDate]" data-plugin="datepicker">
+        </div>
+        <div class="form-group form-material col-6">
+            <label class="form-control-label">Appointment six date</label>
+            <input type="text" id="user_journey_appointmentSixDate" class="form-control" class="datepicker" name="user_journey[appointmentSixDate]" data-plugin="datepicker">
+        </div>
+        <button type="button" class="btn btn-sm btn-icon btn-primary btn-round waves-effect waves-effect waves-effect add-appointment" data-original-title="Add appointment"><i class="icon md-plus" aria-hidden="true"></i></button>
         <div class="form-group form-material">
             <label class="form-control-label">Departure date <span class="required">*</span></label>
             <input type="text" id="user_journey_departureDate" class="form-control" class="datepicker" name="user_journey[departureDate]" data-plugin="datepicker" required="required">
@@ -97,7 +110,24 @@
             // Revalidate the date field
             $('#user_journey').formValidation('revalidateField', 'user_journey[arrivalDate]');
             $('#user_journey').formValidation('revalidateField', 'user_journey[appointmentDate]');
+            $('#user_journey').formValidation('revalidateField', 'user_journey[appointmentTwoDate]');
+            $('#user_journey').formValidation('revalidateField', 'user_journey[appointmentThreeDate]');
+            $('#user_journey').formValidation('revalidateField', 'user_journey[appointmentFourDate]');
+            $('#user_journey').formValidation('revalidateField', 'user_journey[appointmentFiveDate]');
+            $('#user_journey').formValidation('revalidateField', 'user_journey[appointmentSixDate]');
             $('#user_journey').formValidation('revalidateField', 'user_journey[departureDate]');
+        });
+
+        var $appointment = 1;
+
+        $( ".add-appointment" ).on( "click", function() {
+            if($appointment<6) {
+                $appointment = $appointment + 1;
+                $('.col-' + $appointment).css("display", "block");
+                if($appointment == 6){
+                    $( ".add-appointment" ).css("display","none");
+                }
+            }
         });
 
         // Validation
@@ -131,6 +161,41 @@
                             notEmpty: {
                                 message: 'required'
                             },
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[appointmentTwoDate]": {
+                        validators: {
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[appointmentThreeDate]": {
+                        validators: {
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[appointmentFourDate]": {
+                        validators: {
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[appointmentFiveDate]": {
+                        validators: {
+                            dateITA: {
+                                format: 'mm/dd/yyyy'
+                            }
+                        }
+                    },
+                    "user_journey[appointmentSixDate]": {
+                        validators: {
                             dateITA: {
                                 format: 'mm/dd/yyyy'
                             }

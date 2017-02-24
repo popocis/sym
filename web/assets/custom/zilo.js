@@ -41,7 +41,7 @@
             todayHighlight: true
         });
         $modal.modal('show').one('hidden.bs.modal', function (e) {
-            console.log('@@@ close modal!');
+            //console.log('@@@ close modal!');
             $modal.remove();
         });
     };
@@ -53,7 +53,7 @@
             var color = $el.data('color');
             var textColor = $el.data('textColor');
 
-            console.log('@@@ type', type, type === 'appointmentDate');
+            //console.log('@@@ type', type, type === 'appointmentDate');
 
             return {
                 id: type,
@@ -98,7 +98,7 @@
             eventSources: getEventSources(),
             defaultDate: moment(),
             locale: $('html').attr('lang') || 'en',
-
+            displayEventTime: false,
             selectable: false,
             editable: false,
             droppable: false,

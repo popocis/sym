@@ -78,25 +78,155 @@ class UserController extends Controller {
 					$em->persist($userEvent);
 					$em->flush();
 
-					if($userEvent->getContactOrigin() == "customer"){
+					if($userEvent->getContactReason() == "panorex"){
 						$alertExist = $this->getDoctrine()->getRepository('AppBundle:Alert')->findOneBy(array('customerUser' => $user));
-
 						if ($alertExist) {
 							$userAlert = $alertExist;
-							$userAlert->setEventDate($userEvent->getDate());
+							$userAlert->setEstimateSendDate($userEvent->getDate());
+							$userAlert->setEstimateRecallDate(null);
+							$userAlert->setEstimateRecallAttempts(null);
+							$userAlert->setInterestedLaterDate(null);
+							$userAlert->setInterestedLaterAttempts(null);
 							$userAlert->setCustomerUser($user);
 							$em->persist($alertExist);
 							$em->flush();
 						}
 						else{
 							$userAlert = new Alert();
-							$userAlert->setEventDate($userEvent->getDate());
+							$userAlert->setEstimateSendDate($userEvent->getDate());
 							$userAlert->setCustomerUser($user);
 							$em->persist($userAlert);
 							$em->flush();
 						}
 					}
+					else if($userEvent->getContactReason() == "estimate"){
+						$alertExist = $this->getDoctrine()->getRepository('AppBundle:Alert')->findOneBy(array('customerUser' => $user));
+						if ($alertExist) {
+							$userAlert = $alertExist;
+							$userAlert->setEstimateSendDate(null);
 
+							$date = $userEvent->getDate()->format('Y-m-d');
+							$estimateRecallDate = new \DateTime($date);
+							$estimateRecallDate = $estimateRecallDate->modify('+1 week');
+							$userAlert->setEstimateRecallDate($estimateRecallDate);
+							$userAlert->setEstimateRecallAttempts(null);
+
+							$userAlert->setCustomerUser($user);
+							$em->persist($alertExist);
+							$em->flush();
+						}
+					}
+					else if($userEvent->getContactReason() == "recallestimate"){
+						$alertExist = $this->getDoctrine()->getRepository('AppBundle:Alert')->findOneBy(array('customerUser' => $user));
+						if ($alertExist) {
+							$userAlert = $alertExist;
+
+							$attempts = $userAlert->getEstimateRecallAttempts();
+
+							if($attempts == null){
+								$date = $userEvent->getDate()->format('Y-m-d');
+								$estimateRecallDate = new \DateTime($date);
+								$estimateRecallDate = $estimateRecallDate->modify('+2 weeks');
+								$userAlert->setEstimateRecallDate($estimateRecallDate);
+								$userAlert->setEstimateRecallAttempts(1);
+								$userAlert->setCustomerUser($user);
+								$em->persist($alertExist);
+								$em->flush();
+							}
+							else if($attempts == 1){
+								$userAlert->setEstimateRecallDate(null);
+								$userAlert->setEstimateRecallAttempts(null);
+								$userAlert->setCustomerUser($user);
+								$em->persist($alertExist);
+								$em->flush();
+							}
+
+						}
+					}
+					else if($userEvent->getContactReason() == 'acceptedestimate'){
+						$alertExist = $this->getDoctrine()->getRepository('AppBundle:Alert')->findOneBy(array('customerUser' => $user));
+						if ($alertExist) {
+							$userAlert = $alertExist;
+							$userAlert->setEstimateRecallDate(null);
+							$userAlert->setEstimateRecallAttempts(null);
+							$userAlert->setCustomerUser($user);
+							$em->persist($alertExist);
+							$em->flush();
+						}
+					}
+					else if($userEvent->getContactReason() == "interestedlater"){
+						$alertExist = $this->getDoctrine()->getRepository('AppBundle:Alert')->findOneBy(array('customerUser' => $user));
+						if ($alertExist) {
+							$userAlert = $alertExist;
+							$date = $userEvent->getDate()->format('Y-m-d');
+							$interestedLaterDate = new \DateTime($date);
+							$interestedLaterDate = $interestedLaterDate->modify('+6 months');
+							$userAlert->setInterestedLaterDate($interestedLaterDate);
+							$userAlert->setInterestedLaterAttempts(null);
+							$userAlert->setCustomerUser($user);
+							$em->persist($alertExist);
+							$em->flush();
+						}
+						else{
+							$userAlert = new Alert();
+							$date = $userEvent->getDate()->format('Y-m-d');
+							$interestedLaterDate = new \DateTime($date);
+							$interestedLaterDate = $interestedLaterDate->modify('+6 months');
+							$userAlert->setInterestedLaterDate($interestedLaterDate);
+							$userAlert->setInterestedLaterAttempts(null);
+							$userAlert->setCustomerUser($user);
+							$em->persist($userAlert);
+							$em->flush();
+						}
+					}
+					else if($userEvent->getContactReason() == "recallinterestedlater"){
+						$alertExist = $this->getDoctrine()->getRepository('AppBundle:Alert')->findOneBy(array('customerUser' => $user));
+						if ($alertExist) {
+							$userAlert = $alertExist;
+							$attempts = $userAlert->getInterestedLaterAttempts();
+							if($attempts == null) {
+								$date = $userEvent->getDate()->format('Y-m-d');
+								$interestedLaterDate = new \DateTime($date);
+								$interestedLaterDate = $interestedLaterDate->modify('+1 week');
+								$userAlert->setInterestedLaterDate($interestedLaterDate);
+								$userAlert->setInterestedLaterAttempts(1);
+								$userAlert->setCustomerUser($user);
+								$em->persist($alertExist);
+								$em->flush();
+							}
+							else if($attempts == 1){
+								$userAlert->setInterestedLaterDate(null);
+								$userAlert->setInterestedLaterAttempts(null);
+								$userAlert->setCustomerUser($user);
+								$em->persist($alertExist);
+								$em->flush();
+							}
+						}
+					}
+					else if($userEvent->getContactReason() == "recallposttherapy"){
+						$alertExist = $this->getDoctrine()->getRepository('AppBundle:Alert')->findOneBy(array('customerUser' => $user));
+						if ($alertExist) {
+							$userAlert = $alertExist;
+							$attempts = $userAlert->getPostTherapyRecallAttempts();
+							if($attempts == null) {
+								$date = $userEvent->getDate()->format('Y-m-d');
+								$postTherapyRecallDate = new \DateTime($date);
+								$postTherapyRecallDate = $postTherapyRecallDate->modify('+1 week');
+								$userAlert->setPostTherapyRecallDate($postTherapyRecallDate);
+								$userAlert->setPostTherapyRecallAttempts(1);
+								$userAlert->setCustomerUser($user);
+								$em->persist($alertExist);
+								$em->flush();
+							}
+							else if($attempts == 1){
+								$userAlert->setPostTherapyRecallDate(null);
+								$userAlert->setPostTherapyRecallAttempts(null);
+								$userAlert->setCustomerUser($user);
+								$em->persist($alertExist);
+								$em->flush();
+							}
+						}
+					}
 				}
 			}
 			elseif($request->request->has('user_document')) {
@@ -131,32 +261,16 @@ class UserController extends Controller {
 					$em->flush();
 
 					$alertExist = $this->getDoctrine()->getRepository('AppBundle:Alert')->findOneBy(array('customerUser' => $user));
-					$appointmentDate = $userJourney->getAppointmentDate()->format('Y-m-d');
-					$dateBefore = new \DateTime($appointmentDate);
-					$dateBefore = $dateBefore->modify('-3 days');
-					$dateAfter =  new \DateTime($appointmentDate);
-					$dateAfter = $dateAfter->modify('+2 weeks +1 day');
+					$arrivalDate = $userJourney->getArrivalDate()->format('Y-m-d');
+					$postTherapyRecallDate = new \DateTime($arrivalDate);
+					$postTherapyRecallDate = $postTherapyRecallDate->modify('+3 weeks');
 
 					if ($alertExist) {
 						$userAlert = $alertExist;
-						$userAlert->setAppointmentDate(new \DateTime($appointmentDate));
-						$userAlert->setAppointment($dateBefore);
-						$userAlert->setAppointmentAfter($dateAfter);
-						$userAlert->setAppointmentAttempts(NULL);
-						$userAlert->setAppointmentAfterAttempts(NULL);
-						$userAlert->setFirstContactAttempts(0);
+						$userAlert->setPostTherapyRecallDate($postTherapyRecallDate);
+						$userAlert->setPostTherapyRecallAttempts(NULL);
 						$userAlert->setCustomerUser($user);
 						$em->persist($alertExist);
-						$em->flush();
-					}
-					else{
-						$userAlert = new Alert();
-						$userAlert->setAppointmentDate(new \DateTime($appointmentDate));
-						$userAlert->setAppointment($dateBefore);
-						$userAlert->setAppointmentAfter($dateAfter);
-						$userAlert->setFirstContactAttempts(0);
-						$userAlert->setCustomerUser($user);
-						$em->persist($userAlert);
 						$em->flush();
 					}
 
@@ -173,6 +287,7 @@ class UserController extends Controller {
 				}
 			}
 			elseif($request->request->has('quote')) {
+
 				$formQuote->handleRequest($request);
 				if ($formQuote->isSubmitted()) {
 					$quote = $formQuote->getData();
@@ -195,7 +310,7 @@ class UserController extends Controller {
 		$clinics = $this->getDoctrine()->getRepository('AppBundle:Clinic')->findAll();
 		$presentations = $this->getDoctrine()->getRepository('AppBundle:Presentation')->findAll();
 		$treatments = $this->getDoctrine()->getRepository('AppBundle:Treatment')->findAll();
-		$quotes = $this->getDoctrine()->getRepository('AppBundle:Quote')->findAll();
+		$quotes = $this->getDoctrine()->getRepository('AppBundle:Quote')->findBy(array('customerUser' => $id));
 
 		return $this->render('user/view.html.twig', array('user' => $user, 'agents' => $agents, 'formsOrigin' => $formsOrigin, 'demsOrigin' => $demsOrigin, 'userEvents' => $events, 'clinics' => $clinics, 'presentations' => $presentations, 'treatments' => $treatments, 'quotes' => $quotes, 'formEvent' => $formEvent->createView(), 'userDocuments' => $documents, 'formDocument' => $formDocument->createView(), 'userJourneys' => $journeys, 'formJourney' => $formJourney->createView(), 'formUser' => $formUser->createView(), 'formQuote' => $formQuote->createView() ));
 	}
@@ -317,6 +432,18 @@ class UserController extends Controller {
 	}
 
 	/**
+	 * @Route("user/quote/{userid}/{quoteid}", name="userQuote")
+	 */
+	public function quoteAction($userid, $quoteid) {
+		$user = $this->getUserObj($userid);
+
+		$quote = $this->getDoctrine()->getRepository('AppBundle:Quote')->find($quoteid);
+		$em = $this->getDoctrine()->getEntityManager();
+
+		return $this->render('user/quote.html.twig', array('user' => $user, 'quote' => $quote) );
+	}
+
+	/**
 	 * @Route("/user/delete/{id}", name="ajaxUserDelete")
 	 */
 	public function userDeleteAction($id) {
@@ -408,12 +535,12 @@ class UserController extends Controller {
 			$em->persist($userEvent);
 			$em->flush();
 
-			$userAlert = new Alert();
+			/*$userAlert = new Alert();
 			$userAlert->setEventDate(new \DateTime(date("Y-m-d H:i:s")));
 			$userAlert->setCustomerUser($user);
 
 			$em->persist($userAlert);
-			$em->flush();
+			$em->flush();*/
 		}
 
 		$response = new Response();

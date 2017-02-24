@@ -93,7 +93,7 @@
                         {
                             "contactMethod": '{{ event.contactMethod }}',
                             "contactOrigin": '{{ event.contactOrigin }}',
-                            "contactReason": '{{ event.contactReason }}',
+                            "contactReason": '{% if event.contactReason == "estimate" %}sentestimate{% else %}{{ event.contactReason }}{% endif %}',
                             "date": '{{ event.date|date('d/m/Y') }}',
                             "estimate": '{% if event.estimate == 2999 %}< 3000{% elseif event.estimate == 3000 %}>= 3000{% elseif event.estimate == 5000%}>= 5000{% endif %}',
                             "formOrigin": '{{ event.formOrigin.formName|default("") }} {{ event.formOrigin.formDomain|default("") }} {{ event.formOrigin.notes|default("") }}',
@@ -300,6 +300,13 @@
                         <div class="row"><span class="heading col-md-4">Clinic:</span><span class="content col-md-4">{{ journey.clinic|capitalize }}</span></div>
                         <div class="row"><span class="heading col-md-4">Arrival date:</span><span class="content col-md-8">{{ journey.arrivalDate|date('d/m/Y') }}</span></div>
                         <div class="row"><span class="heading col-md-4">Appointment date:</span><span class="content col-md-8">{{ journey.appointmentDate|date('d/m/Y') }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Appointment two date:</span><span class="content col-md-8">{{ journey.appointmentTwoDate is empty ? "" : journey.appointmentTwoDate|date('d/m/Y') }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Appointment three date:</span><span class="content col-md-8">{{ journey.appointmentThreeDate is empty ? "" : journey.appointmentThreeDate|date('d/m/Y') }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Appointment four date:</span><span class="content col-md-8">{{ journey.appointmentFourDate is empty ? "" : journey.appointmentFourDate|date('d/m/Y') }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Appointment five date:</span><span class="content col-md-8">{{ journey.appointmentFiveDate is empty ? "" : journey.appointmentFiveDate|date('d/m/Y') }}</span></div>
+                        <div class="row"><span class="heading col-md-4">Appointment six date:</span><span class="content col-md-8">{{ journey.appointmentSixDate is empty ? "" : journey.appointmentSixDate|date('d/m/Y') }}</span></div>
+
+
                         <div class="row"><span class="heading col-md-4">Departure date:</span><span class="content col-md-8">{{ journey.departureDate|date('d/m/Y') }}</span></div>
                         <div class="row"><span class="heading col-md-4">Stay place:</span><span class="content col-md-8">{{ journey.accommodation|capitalize }}</span></div>
                         <div class="row"><span class="heading col-md-4">Stay address:</span><span class="content col-md-8">{{ journey.accommodationAddress|capitalize }}</span></div>
@@ -412,14 +419,17 @@
                     <h3 class="panel-title">Quote</h3>
                 </div>
                 <div class="panel-body">
-
+                    {% for quote in quotes %}
+                        <div class="row"><span class="heading col-md-4">Quote:</span><a href="{{ path('userQuote', {'userid': user.id, 'quoteid': quote.id}) }}"><span class="content col-md-4">{{ quote.date|date('d/m/Y') }}</span></a><span class="content col-md-4">{{ quote.treatmentTotalFare }} €</span></div>
+                        <hr>
+                    {% endfor %}
                 </div>
                 <div class="panel-footer">
                     <button class="btn btn-primary waves-effect waves-light" data-target="#addQuote" data-toggle="modal" type="button">Add quote</button>
                 </div>
             </div>
 
-            <!-- Modal Add Journey-->
+            <!-- Modal Add Quote-->
             <div class="modal fade" id="addQuote" aria-hidden="true" role="dialog" >
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">

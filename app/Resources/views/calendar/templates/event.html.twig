@@ -13,19 +13,19 @@
 					</div>
 				</div>
 				
-				<% if (type === 'appointmentDate' || type === 'appointmentTwoDate' || type === 'appointmentThreeDate') { %>
-				<div class="col-xs-12 col-lg-6">
+				<% if (type === 'appointmentDate' || type === 'appointmentTwoDate' || type === 'appointmentThreeDate' || type === 'appointmentFourDate' || type === 'appointmentFiveDate' || type === 'appointmentSixDate' ) { %>
+				<div class="col-xs-12 col-lg-12">
 					<div class="form-group form-material">
 						<label class="form-control-label">{% trans %}Starts{% endtrans %}:</label>
 						<div class="form-control"><%- start.format('L') %></div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-lg-6">
+				<!--div class="col-xs-12 col-lg-6">
 					<div class="form-group form-material">
 						<label class="form-control-label">{% trans %}Starts time{% endtrans %}:</label>
 						<div class="form-control"><%- start.format('LT') %></div>
 					</div>
-				</div>
+				</div-->
 				<div class="col-xs-12 col-lg-12">
 					<div class="form-group form-material">
 						<label class="form-control-label">{% trans %}Clinic{% endtrans %}:</label>

@@ -67,7 +67,7 @@ class BootstrapTableController extends Controller {
 				}
 				if($event->getContactOrigin() == "operator"){
 					$answer = $event->getDate()->format('d/m/Y');
-					if($answer < $request){
+					if(strtotime($answer) < strtotime($request)){
 						$answer = null;
 					}
 				}
@@ -75,6 +75,7 @@ class BootstrapTableController extends Controller {
 					$hasDocument = "yes";
 				}
 			}
+
 			$result[] = array(
 				'id' => '<span class="'.$classes.'">'.$user->getId().'</span>',
 				'status' => '<span class="'.$classes.'">'.$user->getStatus().'</span>',

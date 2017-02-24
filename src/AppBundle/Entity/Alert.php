@@ -25,74 +25,52 @@ class Alert{
 	protected $customerUser;
 
 	/**
-	 * @ORM\Column(type="date", nullable=false)
+	 * @ORM\Column(type="date", nullable=true)
 	 */
-	protected $eventDate;
+	protected $estimateSendDate;
+
+	/**
+	 * @ORM\Column(type="date", nullable=true)
+	 */
+	protected $estimateRecallDate;
 
 	/**
 	 * @ORM\Column(type="integer", length=1, nullable=true)
 	 * @Assert\Range(
 	 *      min = 0,
-	 *      max = 3
+	 *      max = 2
 	 * )
 	 */
-	protected $eventAttempts;
-
-
-	/*TO DELETE*/
-
+	protected $estimateRecallAttempts;
 
 	/**
 	 * @ORM\Column(type="date", nullable=true)
 	 */
-	protected $registrationDate;
-
-	/**
-	 * @ORM\Column(type="date", nullable=true)
-	 */
-	protected $firstContact;
+	protected $interestedLaterDate;
 
 	/**
 	 * @ORM\Column(type="integer", length=1, nullable=true)
 	 * @Assert\Range(
 	 *      min = 0,
-	 *      max = 3
+	 *      max = 2
 	 * )
 	 */
-	protected $firstContactAttempts;
+	protected $interestedLaterAttempts;
 
 	/**
 	 * @ORM\Column(type="date", nullable=true)
 	 */
-	protected $appointmentDate;
-
-	/**
-	 * @ORM\Column(type="date", nullable=true)
-	 */
-	protected $appointment;
+	protected $postTherapyRecallDate;
 
 	/**
 	 * @ORM\Column(type="integer", length=1, nullable=true)
 	 * @Assert\Range(
 	 *      min = 0,
-	 *      max = 3
+	 *      max = 2
 	 * )
 	 */
-	protected $appointmentAttempts;
+	protected $postTherapyRecallAttempts;
 
-	/**
-	 * @ORM\Column(type="date", nullable=true)
-	 */
-	protected $appointmentAfter;
-
-	/**
-	 * @ORM\Column(type="integer", length=1, nullable=true)
-	 * @Assert\Range(
-	 *      min = 0,
-	 *      max = 3
-	 * )
-	 */
-	protected $appointmentAfterAttempts;
 
 	public function __construct() {
 	}
@@ -105,49 +83,33 @@ class Alert{
 		return $this->customerUser;
 	}
 
-	public function getEventDate() {
-		return $this->eventDate;
+	public function getEstimateSendDate() {
+		return $this->estimateSendDate;
 	}
 
-	public function getEventAttempts() {
-		return $this->eventAttempts;
+	public function getEstimateRecallDate() {
+		return $this->estimateRecallDate;
 	}
 
-
-
-	public function getRegistrationDate() {
-		return $this->registrationDate;
+	public function getEstimateRecallAttempts() {
+		return $this->estimateRecallAttempts;
 	}
 
-	public function getFirstContact() {
-		return $this->firstContact;
+	public function getInterestedLaterDate() {
+		return $this->interestedLaterDate;
 	}
 
-	public function getFirstContactAttempts() {
-		return $this->firstContactAttempts;
+	public function getInterestedLaterAttempts() {
+		return $this->interestedLaterAttempts;
 	}
 
-	public function getAppointmentDate() {
-		return $this->appointmentDate;
+	public function getPostTherapyRecallDate() {
+		return $this->postTherapyRecallDate;
 	}
 
-	public function getAppointment() {
-		return $this->appointment;
+	public function getPostTherapyRecallAttempts() {
+		return $this->postTherapyRecallAttempts;
 	}
-
-	public function getAppointmentAttempts() {
-		return $this->appointmentAttempts;
-	}
-
-	public function getAppointmentAfter() {
-		return $this->appointmentAfter;
-	}
-
-	public function getAppointmentAfterAttempts() {
-		return $this->appointmentAfterAttempts;
-	}
-
-
 
 
 	public function setCustomerUser($customerUser) {
@@ -155,56 +117,38 @@ class Alert{
 		return $this;
 	}
 
-	public function setEventDate($eventDate) {
-		$this->eventDate = $eventDate;
+	public function setEstimateSendDate($estimateSendDate) {
+		$this->estimateSendDate = $estimateSendDate;
 		return $this;
 	}
 
-	public function setEventAttempts($eventAttempts) {
-		$this->eventAttempts = $eventAttempts;
+	public function setEstimateRecallDate($estimateRecallDate) {
+		$this->estimateRecallDate = $estimateRecallDate;
 		return $this;
 	}
 
-
-
-	public function setRegistrationDate($registrationDate) {
-		$this->registrationDate = $registrationDate;
+	public function setEstimateRecallAttempts($estimateRecallAttempts) {
+		$this->estimateRecallAttempts = $estimateRecallAttempts;
 		return $this;
 	}
 
-	public function setFirstContact($firstContact) {
-		$this->firstContact = $firstContact;
+	public function setInterestedLaterDate($interestedLaterDate) {
+		$this->interestedLaterDate = $interestedLaterDate;
 		return $this;
 	}
 
-	public function setFirstContactAttempts($firstContactAttempts) {
-		$this->firstContactAttempts = $firstContactAttempts;
+	public function setInterestedLaterAttempts($interestedLaterAttempts) {
+		$this->interestedLaterAttempts = $interestedLaterAttempts;
 		return $this;
 	}
 
-	public function setAppointmentDate($appointmentDate) {
-		$this->appointmentDate = $appointmentDate;
+	public function setPostTherapyRecallDate($postTherapyRecallDate) {
+		$this->postTherapyRecallDate = $postTherapyRecallDate;
 		return $this;
 	}
 
-	public function setAppointment($appointment) {
-		$this->appointment = $appointment;
+	public function setPostTherapyRecallAttempts($postTherapyRecallAttempts) {
+		$this->postTherapyRecallAttempts = $postTherapyRecallAttempts;
 		return $this;
 	}
-
-	public function setAppointmentAttempts($appointmentAttempts) {
-		$this->appointmentAttempts = $appointmentAttempts;
-		return $this;
-	}
-
-	public function setAppointmentAfter($appointmentAfter) {
-		$this->appointmentAfter = $appointmentAfter;
-		return $this;
-	}
-
-	public function setAppointmentAfterAttempts($appointmentAfterAttempts) {
-		$this->appointmentAfterAttempts = $appointmentAfterAttempts;
-		return $this;
-	}
-
 }

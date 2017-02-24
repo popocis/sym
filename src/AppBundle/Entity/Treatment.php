@@ -27,7 +27,17 @@ class Treatment{
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=false)
 	 */
+	protected $nameEng;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=false)
+	 */
 	protected $description;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=false)
+	 */
+	protected $descriptionEng;
 
 	/**
 	 * @ORM\Column(type="integer", nullable=false)
@@ -54,8 +64,16 @@ class Treatment{
 		return $this->name;
 	}
 
+	public function getNameEng() {
+		return $this->nameEng;
+	}
+
 	public function getDescription() {
 		return $this->description;
+	}
+
+	public function getDescriptionEng() {
+		return $this->descriptionEng;
 	}
 
 	public function getFare() {
@@ -71,8 +89,18 @@ class Treatment{
 		return $this;
 	}
 
+	public function setNameEng($nameEng) {
+		$this->nameEng = $nameEng;
+		return $this;
+	}
+
 	public function setDescription($description) {
 		$this->description = $description;
+		return $this;
+	}
+
+	public function setDescriptionEng($descriptionEng) {
+		$this->descriptionEng = $descriptionEng;
 		return $this;
 	}
 

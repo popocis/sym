@@ -1,310 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block scripts %}
-
-    <script>
-        $( document ).ready(function() {
-            var $alertAction = $('.alert-actions');
-            $alertAction.on('click', '.js-alert-confirm', function (ev) {
-                var $target = $(ev.currentTarget);
-                var href = $target.data('href');
-                var user = $target.data('user');
-                swal({
-                    title: "Is interested now?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: 'Yes',
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                },
-                function() {
-                    $.ajax({
-                        method: 'POST',
-                        url: href,
-                        data : {
-                            user : user,
-                        }
-                    })
-                    .done(function () {
-                        swal({
-                            title: "Good job!",
-                            text: "",
-                            type: "success",
-                            timer: 2000,
-                            showConfirmButton: false,
-                            closeOnConfirm: true
-                        });
-                        location.reload();
-                    })
-                    .fail(function () {
-                        swal({
-                            title: "Error!",
-                            text: "Oops... Something went wrong!",
-                            type: "error"
-                        });
-                    });
-                });
-            });
-            $alertAction.on('click', '.js-alert-confirm-later', function (ev) {
-                var $target = $(ev.currentTarget);
-                var href = $target.data('href');
-                var user = $target.data('user');
-                swal({
-                    title: "Is interested later?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: 'Yes',
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                },
-                function() {
-                    $.ajax({
-                        method: 'POST',
-                        url: href,
-                        data : {
-                            user : user,
-                        }
-                    })
-                    .done(function () {
-                        swal({
-                            title: "Try later!",
-                            text: "",
-                            type: "success",
-                            timer: 2000,
-                            showConfirmButton: false,
-                            closeOnConfirm: true
-                        });
-                        location.reload();
-                    })
-                    .fail(function () {
-                        swal({
-                            title: "Error!",
-                            text: "Oops... Something went wrong!",
-                            type: "error"
-                        });
-                    });
-                });
-            });
-            $alertAction.on('click', '.js-alert-not-confirm', function (ev) {
-                var $target = $(ev.currentTarget);
-                var href = $target.data('href');
-                var user = $target.data('user');
-                swal({
-                    title: "No answer?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: 'Yes',
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                },
-                function() {
-                    $.ajax({
-                        method: 'POST',
-                        url: href,
-                        data : {
-                            user : user,
-                        }
-                    })
-                    .done(function () {
-                        swal({
-                            title: "Try later!",
-                            text: "",
-                            type: "success",
-                            timer: 2000,
-                            showConfirmButton: false,
-                            closeOnConfirm: true
-                        });
-                        location.reload();
-                    })
-                    .fail(function () {
-                        swal({
-                            title: "Error!",
-                            text: "Oops... Something went wrong!",
-                            type: "error"
-                        });
-                    });
-                });
-            });
-            $alertAction.on('click', '.js-alert-confirm-appointment', function (ev) {
-                var $target = $(ev.currentTarget);
-                var href = $target.data('href');
-                var user = $target.data('user');
-                swal({
-                    title: "Appointment confirmed?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: 'Yes',
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                },
-                function() {
-                    $.ajax({
-                        method: 'POST',
-                        url: href,
-                        data : {
-                            user : user,
-                        }
-                    })
-                    .done(function () {
-                        swal({
-                            title: "Good job!",
-                            text: "",
-                            type: "success",
-                            timer: 2000,
-                            showConfirmButton: false,
-                            closeOnConfirm: true
-                        });
-                        location.reload();
-                    })
-                    .fail(function () {
-                        swal({
-                            title: "Error!",
-                            text: "Oops... Something went wrong!",
-                            type: "error"
-                        });
-                    });
-                });
-            });
-            $alertAction.on('click', '.js-alert-not-confirm-appointment', function (ev) {
-                var $target = $(ev.currentTarget);
-                var href = $target.data('href');
-                var user = $target.data('user');
-                swal({
-                    title: "No contact?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: 'Yes',
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                },
-                function() {
-                    $.ajax({
-                        method: 'POST',
-                        url: href,
-                        data : {
-                            user : user,
-                        }
-                    })
-                    .done(function () {
-                        swal({
-                            title: "Try later!",
-                            text: "",
-                            type: "success",
-                            timer: 2000,
-                            showConfirmButton: false,
-                            closeOnConfirm: true
-                        });
-                        location.reload();
-                    })
-                    .fail(function () {
-                        swal({
-                            title: "Error!",
-                            text: "Oops... Something went wrong!",
-                            type: "error"
-                        });
-                    });
-                });
-            });
-            $alertAction.on('click', '.js-alert-confirm-appointment-after', function (ev) {
-                var $target = $(ev.currentTarget);
-                var href = $target.data('href');
-                var user = $target.data('user');
-                swal({
-                    title: "Post therapy contact?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: 'Yes',
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                },
-                function() {
-                    $.ajax({
-                        method: 'POST',
-                        url: href,
-                        data : {
-                            user : user,
-                        }
-                    })
-                    .done(function () {
-                        swal({
-                            title: "Good job!",
-                            text: "",
-                            type: "success",
-                            timer: 2000,
-                            showConfirmButton: false,
-                            closeOnConfirm: true
-                        });
-                        location.reload();
-                    })
-                    .fail(function () {
-                        swal({
-                            title: "Error!",
-                            text: "Oops... Something went wrong!",
-                            type: "error"
-                        });
-                    });
-                });
-            });
-            $alertAction.on('click', '.js-alert-not-confirm-appointment-after', function (ev) {
-                var $target = $(ev.currentTarget);
-                var href = $target.data('href');
-                var user = $target.data('user');
-                swal({
-                    title: "No contact?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: 'no contact',
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                },
-                function() {
-                    $.ajax({
-                        method: 'POST',
-                        url: href,
-                        data : {
-                            user : user,
-                        }
-                    })
-                    .done(function () {
-                        swal({
-                            title: "Try later!",
-                            text: "",
-                            type: "success",
-                            timer: 2000,
-                            showConfirmButton: false,
-                            closeOnConfirm: true
-                        });
-                        location.reload();
-                    })
-                    .fail(function () {
-                        swal({
-                            title: "Error!",
-                            text: "Oops... Something went wrong!",
-                            type: "error"
-                        });
-                    });
-                });
-            });
-
-        });
-    </script>
-
-{% endblock %}
-
 {% block body %}
 
     <div class="page-header page-header-bordered">
@@ -314,14 +9,16 @@
         <h1 class="page-title">Alerts</h1>
     </div>
 
+    {#{ dump(sendQuoteList[0].customerUser.name) }#}
+
     <div class="row">
         <div class="col-sm-12">
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Events</h3>
+                    <h3 class="panel-title">Send estimate to:</h3>
                 </div>
                 <div class="panel-body">
-                    <table id="tableAlertsEvents"
+                    <table id="tableSendEstimate"
                            data-toggle="table"
                            data-search="false"
                            data-pagination="false"
@@ -330,11 +27,10 @@
                         <thead>
                         <tr>
                             <th data-field="namesurname">Name & surname</th>
+                            <th data-field="panorexreceived">Panorex received</th>
                             <th data-field="country">Country</th>
                             <th data-field="email">Email</th>
                             <th data-field="phoneNumber">Phone</th>
-                            <th data-field="contactAttempts">Attempts</th>
-                            <th data-field="op">CONTACT?</th>
                         </tr>
                         </thead>
                     </table>
@@ -342,20 +38,19 @@
             </div>
             <script>
                 $( document ).ready(function() {
-                    var $tableAlertsEvents = $("#tableAlertsEvents");
+                    var tableSendEstimate = $("#tableSendEstimate");
                     var data = [
-                        {% for alertEvent in alertsEvents %}
+                        {% for sendEstimate in sendEstimateList %}
                         {
-                            "namesurname": '<a href="{{ path('userView', {'id': alertEvent.customerUser.id}) }}">{{ alertEvent.customerUser.name }} {{ alertEvent.customerUser.surname }}</a>',
-                            "country": '{{ alertEvent.customerUser.countryName }}',
-                            "email": '{{ alertEvent.customerUser.email }}',
-                            "phoneNumber": '{{ alertEvent.customerUser.phoneNumber }}',
-                            "contactAttempts": '{{ alertEvent.firstContactAttempts|default(0) }}',
-                            "op": '<div class="alert-actions"><button data-href="{{ path('ajaxUserAlertConfirm', {'id': alertEvent.id}) }}" class="btn btn-icon btn-sm btn-round btn-success js-alert-confirm"><i class="icon md-phone" aria-hidden="true"></i></button><button data-href="{{ path('ajaxUserAlertNotConfirm', {'id': alertEvent.id}) }}" class="btn btn-icon btn-sm btn-round btn-danger js-alert-not-confirm"><i class="icon md-phone-missed" aria-hidden="true"></i></button><button data-href="{{ path('ajaxUserAlertConfirmLater', {'id': alertEvent.id}) }}" class="btn btn-icon btn-sm btn-round btn-primary js-alert-confirm-later"><i class="icon md-calendar-check" aria-hidden="true"></i></button></div>'
+                            "namesurname": '<a href="{{ path('userView', {'id': sendEstimate.customerUser.id}) }}">{{ sendEstimate.customerUser.name }} {{ sendEstimate.customerUser.surname }}</a>',
+                            "panorexreceived": '{{ sendEstimate.estimateSendDate|date('d/m/Y') }}',
+                            "country": '{{ sendEstimate.customerUser.countryName }}',
+                            "email": '{{ sendEstimate.customerUser.email }}',
+                            "phoneNumber": '{{ sendEstimate.customerUser.phoneNumber }}'
                         },
                         {% endfor %}
                     ];
-                    $tableAlertsEvents.bootstrapTable({data: data});
+                    tableSendEstimate.bootstrapTable({data: data});
                 });
             </script>
         </div>
@@ -365,10 +60,10 @@
         <div class="col-sm-12">
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Users appointments</h3>
+                    <h3 class="panel-title">Recall for estimate:</h3>
                 </div>
                 <div class="panel-body">
-                    <table id="tableAppointment"
+                    <table id="tableRecallEstimate"
                            data-toggle="table"
                            data-search="false"
                            data-pagination="false"
@@ -377,12 +72,11 @@
                         <thead>
                         <tr>
                             <th data-field="namesurname">Name & surname</th>
+                            <th data-field="lastrecall">Recall</th>
+                            <th data-field="attempts">Attemps</th>
                             <th data-field="country">Country</th>
                             <th data-field="email">Email</th>
                             <th data-field="phoneNumber">Phone</th>
-                            <th data-field="appointmentDate">Appointment date</th>
-                            <th data-field="contactAttempts">Attempts</th>
-                            <th data-field="op">Contact?</th>
                         </tr>
                         </thead>
                     </table>
@@ -390,21 +84,20 @@
             </div>
             <script>
                 $( document ).ready(function() {
-                    var tableAppointment = $("#tableAppointment");
+                    var tableRecallEstimate = $("#tableRecallEstimate");
                     var data = [
-                        {% for alertAppointment in alertsAppointment %}
+                        {% for recallEstimate in recallEstimateList %}
                         {
-                            "namesurname": '<a href="{{ path('userView', {'id': alertAppointment.customerUser.id}) }}">{{ alertAppointment.customerUser.name }} {{ alertAppointment.customerUser.surname }}</a>',
-                            "country": '{{ alertAppointment.customerUser.countryName }}',
-                            "email": '{{ alertAppointment.customerUser.email }}',
-                            "phoneNumber": '{{ alertAppointment.customerUser.phoneNumber }}',
-                            "appointmentDate": '{{ alertAppointment.appointmentDate|date('d/m/Y') }}',
-                            "contactAttempts": '{{ alertAppointment.appointmentAttempts|default(0) }}',
-                            "op": '<div class="alert-actions"><button data-href="{{ path('ajaxUserAlertConfirmAppointment', {'id': alertAppointment.id}) }}" class="btn btn-icon btn-sm btn-round btn-success js-alert-confirm-appointment"><i class="icon md-phone" aria-hidden="true"></i></button><button data-href="{{ path('ajaxUserAlertNotConfirmAppointment', {'id': alertAppointment.id}) }}" class="btn btn-icon btn-sm btn-round btn-danger js-alert-not-confirm-appointment"><i class="icon md-phone-missed" aria-hidden="true"></i></button></div>'
+                            "namesurname": '<a href="{{ path('userView', {'id': recallEstimate.customerUser.id}) }}">{{ recallEstimate.customerUser.name }} {{ recallEstimate.customerUser.surname }}</a>',
+                            "lastrecall": '{{ recallEstimate.estimateRecallDate|date('d/m/Y') }}',
+                            "attempts": '{{ recallEstimate.estimateRecallAttempts|default(0) }}',
+                            "country": '{{ recallEstimate.customerUser.countryName }}',
+                            "email": '{{ recallEstimate.customerUser.email }}',
+                            "phoneNumber": '{{ recallEstimate.customerUser.phoneNumber }}'
                         },
                         {% endfor %}
                     ];
-                    tableAppointment.bootstrapTable({data: data});
+                    tableRecallEstimate.bootstrapTable({data: data});
                 });
             </script>
         </div>
@@ -414,10 +107,10 @@
         <div class="col-sm-12">
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Post therapy</h3>
+                    <h3 class="panel-title">Recall interested later:</h3>
                 </div>
                 <div class="panel-body">
-                    <table id="tableAppointmentAfter"
+                    <table id="tableRecallLater"
                            data-toggle="table"
                            data-search="false"
                            data-pagination="false"
@@ -426,11 +119,11 @@
                         <thead>
                         <tr>
                             <th data-field="namesurname">Name & surname</th>
+                            <th data-field="lastrecall">Recall</th>
+                            <th data-field="attempts">Attemps</th>
                             <th data-field="country">Country</th>
                             <th data-field="email">Email</th>
                             <th data-field="phoneNumber">Phone</th>
-                            <th data-field="contactAttempts">Attempts</th>
-                            <th data-field="op">Contact?</th>
                         </tr>
                         </thead>
                     </table>
@@ -438,24 +131,70 @@
             </div>
             <script>
                 $( document ).ready(function() {
-                    var tableAppointmentAfter = $("#tableAppointmentAfter");
+                    var tableRecallLater = $("#tableRecallLater");
                     var data = [
-                        {% for alertAppointmentAfter in alertsAppointmentAfter %}
+                        {% for recallLater in recallLaterList %}
                         {
-                            "namesurname": '<a href="{{ path('userView', {'id': alertAppointmentAfter.customerUser.id}) }}">{{ alertAppointmentAfter.customerUser.name }} {{ alertAppointmentAfter.customerUser.surname }}</a>',
-                            "country": '{{ alertAppointmentAfter.customerUser.countryName }}',
-                            "email": '{{ alertAppointmentAfter.customerUser.email }}',
-                            "phoneNumber": '{{ alertAppointmentAfter.customerUser.phoneNumber }}',
-                            "contactAttempts": '{{ alertAppointmentAfter.appointmenAftertAttempts|default(0) }}',
-                            "op": '<div class="alert-actions"><button data-href="{{ path('ajaxUserAlertConfirmAppointmentAfter', {'id': alertAppointmentAfter.id}) }}" class="btn btn-icon btn-sm btn-round btn-success js-alert-confirm-appointment-after"><i class="icon md-phone" aria-hidden="true"></i></button><button data-href="{{ path('ajaxUserAlertNotConfirmAppointmentAfter', {'id': alertAppointmentAfter.id}) }}" class="btn btn-icon btn-sm btn-round btn-danger js-alert-not-confirm-appointment-after"><i class="icon md-phone-missed" aria-hidden="true"></i></button></div>'
+                            "namesurname": '<a href="{{ path('userView', {'id': recallLater.customerUser.id}) }}">{{ recallLater.customerUser.name }} {{ recallLater.customerUser.surname }}</a>',
+                            "lastrecall": '{{ recallLater.interestedLaterDate|date('d/m/Y') }}',
+                            "attempts": '{{ recallLater.interestedLaterAttempts|default(0) }}',
+                            "country": '{{ recallLater.customerUser.countryName }}',
+                            "email": '{{ recallLater.customerUser.email }}',
+                            "phoneNumber": '{{ recallLater.customerUser.phoneNumber }}'
                         },
                         {% endfor %}
                     ];
-                    tableAppointmentAfter.bootstrapTable({data: data});
+                    tableRecallLater.bootstrapTable({data: data});
                 });
             </script>
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Recall post therapy:</h3>
+                </div>
+                <div class="panel-body">
+                    <table id="tableRecallPostTherapy"
+                           data-toggle="table"
+                           data-search="false"
+                           data-pagination="false"
+                           data-classes="table table-no-bordered"
+                           data-show-columns="false">
+                        <thead>
+                        <tr>
+                            <th data-field="namesurname">Name & surname</th>
+                            <th data-field="lastrecall">Recall</th>
+                            <th data-field="attempts">Attemps</th>
+                            <th data-field="country">Country</th>
+                            <th data-field="email">Email</th>
+                            <th data-field="phoneNumber">Phone</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <script>
+                $( document ).ready(function() {
+                    var tableRecallPostTherapy = $("#tableRecallPostTherapy");
+                    var data = [
+                        {% for recallPostTherapy in recallPostTherapyList %}
+                        {
+                            "namesurname": '<a href="{{ path('userView', {'id': recallPostTherapy.customerUser.id}) }}">{{ recallPostTherapy.customerUser.name }} {{ recallPostTherapy.customerUser.surname }}</a>',
+                            "lastrecall": '{{ recallPostTherapy.postTherapyRecallDate|date('d/m/Y') }}',
+                            "attempts": '{{ recallPostTherapy.postTherapyRecallAttempts|default(0) }}',
+                            "country": '{{ recallPostTherapy.customerUser.countryName }}',
+                            "email": '{{ recallPostTherapy.customerUser.email }}',
+                            "phoneNumber": '{{ recallPostTherapy.customerUser.phoneNumber }}'
+                        },
+                        {% endfor %}
+                    ];
+                    tableRecallPostTherapy.bootstrapTable({data: data});
+                });
+            </script>
+        </div>
+    </div>
 
 {% endblock %}

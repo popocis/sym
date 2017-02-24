@@ -1,0 +1,461 @@
+{% extends 'base.html.twig' %}
+
+{% block scripts %}
+
+    <script>
+        $( document ).ready(function() {
+            var $alertAction = $('.alert-actions');
+            $alertAction.on('click', '.js-alert-confirm', function (ev) {
+                var $target = $(ev.currentTarget);
+                var href = $target.data('href');
+                var user = $target.data('user');
+                swal({
+                    title: "Is interested now?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Yes',
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                },
+                function() {
+                    $.ajax({
+                        method: 'POST',
+                        url: href,
+                        data : {
+                            user : user,
+                        }
+                    })
+                    .done(function () {
+                        swal({
+                            title: "Good job!",
+                            text: "",
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false,
+                            closeOnConfirm: true
+                        });
+                        location.reload();
+                    })
+                    .fail(function () {
+                        swal({
+                            title: "Error!",
+                            text: "Oops... Something went wrong!",
+                            type: "error"
+                        });
+                    });
+                });
+            });
+            $alertAction.on('click', '.js-alert-confirm-later', function (ev) {
+                var $target = $(ev.currentTarget);
+                var href = $target.data('href');
+                var user = $target.data('user');
+                swal({
+                    title: "Is interested later?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Yes',
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                },
+                function() {
+                    $.ajax({
+                        method: 'POST',
+                        url: href,
+                        data : {
+                            user : user,
+                        }
+                    })
+                    .done(function () {
+                        swal({
+                            title: "Try later!",
+                            text: "",
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false,
+                            closeOnConfirm: true
+                        });
+                        location.reload();
+                    })
+                    .fail(function () {
+                        swal({
+                            title: "Error!",
+                            text: "Oops... Something went wrong!",
+                            type: "error"
+                        });
+                    });
+                });
+            });
+            $alertAction.on('click', '.js-alert-not-confirm', function (ev) {
+                var $target = $(ev.currentTarget);
+                var href = $target.data('href');
+                var user = $target.data('user');
+                swal({
+                    title: "No answer?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Yes',
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                },
+                function() {
+                    $.ajax({
+                        method: 'POST',
+                        url: href,
+                        data : {
+                            user : user,
+                        }
+                    })
+                    .done(function () {
+                        swal({
+                            title: "Try later!",
+                            text: "",
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false,
+                            closeOnConfirm: true
+                        });
+                        location.reload();
+                    })
+                    .fail(function () {
+                        swal({
+                            title: "Error!",
+                            text: "Oops... Something went wrong!",
+                            type: "error"
+                        });
+                    });
+                });
+            });
+            $alertAction.on('click', '.js-alert-confirm-appointment', function (ev) {
+                var $target = $(ev.currentTarget);
+                var href = $target.data('href');
+                var user = $target.data('user');
+                swal({
+                    title: "Appointment confirmed?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Yes',
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                },
+                function() {
+                    $.ajax({
+                        method: 'POST',
+                        url: href,
+                        data : {
+                            user : user,
+                        }
+                    })
+                    .done(function () {
+                        swal({
+                            title: "Good job!",
+                            text: "",
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false,
+                            closeOnConfirm: true
+                        });
+                        location.reload();
+                    })
+                    .fail(function () {
+                        swal({
+                            title: "Error!",
+                            text: "Oops... Something went wrong!",
+                            type: "error"
+                        });
+                    });
+                });
+            });
+            $alertAction.on('click', '.js-alert-not-confirm-appointment', function (ev) {
+                var $target = $(ev.currentTarget);
+                var href = $target.data('href');
+                var user = $target.data('user');
+                swal({
+                    title: "No contact?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Yes',
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                },
+                function() {
+                    $.ajax({
+                        method: 'POST',
+                        url: href,
+                        data : {
+                            user : user,
+                        }
+                    })
+                    .done(function () {
+                        swal({
+                            title: "Try later!",
+                            text: "",
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false,
+                            closeOnConfirm: true
+                        });
+                        location.reload();
+                    })
+                    .fail(function () {
+                        swal({
+                            title: "Error!",
+                            text: "Oops... Something went wrong!",
+                            type: "error"
+                        });
+                    });
+                });
+            });
+            $alertAction.on('click', '.js-alert-confirm-appointment-after', function (ev) {
+                var $target = $(ev.currentTarget);
+                var href = $target.data('href');
+                var user = $target.data('user');
+                swal({
+                    title: "Post therapy contact?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Yes',
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                },
+                function() {
+                    $.ajax({
+                        method: 'POST',
+                        url: href,
+                        data : {
+                            user : user,
+                        }
+                    })
+                    .done(function () {
+                        swal({
+                            title: "Good job!",
+                            text: "",
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false,
+                            closeOnConfirm: true
+                        });
+                        location.reload();
+                    })
+                    .fail(function () {
+                        swal({
+                            title: "Error!",
+                            text: "Oops... Something went wrong!",
+                            type: "error"
+                        });
+                    });
+                });
+            });
+            $alertAction.on('click', '.js-alert-not-confirm-appointment-after', function (ev) {
+                var $target = $(ev.currentTarget);
+                var href = $target.data('href');
+                var user = $target.data('user');
+                swal({
+                    title: "No contact?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'no contact',
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                },
+                function() {
+                    $.ajax({
+                        method: 'POST',
+                        url: href,
+                        data : {
+                            user : user,
+                        }
+                    })
+                    .done(function () {
+                        swal({
+                            title: "Try later!",
+                            text: "",
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false,
+                            closeOnConfirm: true
+                        });
+                        location.reload();
+                    })
+                    .fail(function () {
+                        swal({
+                            title: "Error!",
+                            text: "Oops... Something went wrong!",
+                            type: "error"
+                        });
+                    });
+                });
+            });
+
+        });
+    </script>
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="page-header page-header-bordered">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">+HC</li>
+        </ol>
+        <h1 class="page-title">Alerts</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Events</h3>
+                </div>
+                <div class="panel-body">
+                    <table id="tableAlertsEvents"
+                           data-toggle="table"
+                           data-search="false"
+                           data-pagination="false"
+                           data-classes="table table-no-bordered"
+                           data-show-columns="false">
+                        <thead>
+                        <tr>
+                            <th data-field="namesurname">Name & surname</th>
+                            <th data-field="country">Country</th>
+                            <th data-field="email">Email</th>
+                            <th data-field="phoneNumber">Phone</th>
+                            <th data-field="contactAttempts">Attempts</th>
+                            <th data-field="op">CONTACT?</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <script>
+                $( document ).ready(function() {
+                    var $tableAlertsEvents = $("#tableAlertsEvents");
+                    var data = [
+                        {% for alertEvent in alertsEvents %}
+                        {
+                            "namesurname": '<a href="{{ path('userView', {'id': alertEvent.customerUser.id}) }}">{{ alertEvent.customerUser.name }} {{ alertEvent.customerUser.surname }}</a>',
+                            "country": '{{ alertEvent.customerUser.countryName }}',
+                            "email": '{{ alertEvent.customerUser.email }}',
+                            "phoneNumber": '{{ alertEvent.customerUser.phoneNumber }}',
+                            "contactAttempts": '{{ alertEvent.firstContactAttempts|default(0) }}',
+                            "op": '<div class="alert-actions"><button data-href="{{ path('ajaxUserAlertConfirm', {'id': alertEvent.id}) }}" class="btn btn-icon btn-sm btn-round btn-success js-alert-confirm"><i class="icon md-phone" aria-hidden="true"></i></button><button data-href="{{ path('ajaxUserAlertNotConfirm', {'id': alertEvent.id}) }}" class="btn btn-icon btn-sm btn-round btn-danger js-alert-not-confirm"><i class="icon md-phone-missed" aria-hidden="true"></i></button><button data-href="{{ path('ajaxUserAlertConfirmLater', {'id': alertEvent.id}) }}" class="btn btn-icon btn-sm btn-round btn-primary js-alert-confirm-later"><i class="icon md-calendar-check" aria-hidden="true"></i></button></div>'
+                        },
+                        {% endfor %}
+                    ];
+                    $tableAlertsEvents.bootstrapTable({data: data});
+                });
+            </script>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Users appointments</h3>
+                </div>
+                <div class="panel-body">
+                    <table id="tableAppointment"
+                           data-toggle="table"
+                           data-search="false"
+                           data-pagination="false"
+                           data-classes="table table-no-bordered"
+                           data-show-columns="false">
+                        <thead>
+                        <tr>
+                            <th data-field="namesurname">Name & surname</th>
+                            <th data-field="country">Country</th>
+                            <th data-field="email">Email</th>
+                            <th data-field="phoneNumber">Phone</th>
+                            <th data-field="appointmentDate">Appointment date</th>
+                            <th data-field="contactAttempts">Attempts</th>
+                            <th data-field="op">Contact?</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <script>
+                $( document ).ready(function() {
+                    var tableAppointment = $("#tableAppointment");
+                    var data = [
+                        {% for alertAppointment in alertsAppointment %}
+                        {
+                            "namesurname": '<a href="{{ path('userView', {'id': alertAppointment.customerUser.id}) }}">{{ alertAppointment.customerUser.name }} {{ alertAppointment.customerUser.surname }}</a>',
+                            "country": '{{ alertAppointment.customerUser.countryName }}',
+                            "email": '{{ alertAppointment.customerUser.email }}',
+                            "phoneNumber": '{{ alertAppointment.customerUser.phoneNumber }}',
+                            "appointmentDate": '{{ alertAppointment.appointmentDate|date('d/m/Y') }}',
+                            "contactAttempts": '{{ alertAppointment.appointmentAttempts|default(0) }}',
+                            "op": '<div class="alert-actions"><button data-href="{{ path('ajaxUserAlertConfirmAppointment', {'id': alertAppointment.id}) }}" class="btn btn-icon btn-sm btn-round btn-success js-alert-confirm-appointment"><i class="icon md-phone" aria-hidden="true"></i></button><button data-href="{{ path('ajaxUserAlertNotConfirmAppointment', {'id': alertAppointment.id}) }}" class="btn btn-icon btn-sm btn-round btn-danger js-alert-not-confirm-appointment"><i class="icon md-phone-missed" aria-hidden="true"></i></button></div>'
+                        },
+                        {% endfor %}
+                    ];
+                    tableAppointment.bootstrapTable({data: data});
+                });
+            </script>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Post therapy</h3>
+                </div>
+                <div class="panel-body">
+                    <table id="tableAppointmentAfter"
+                           data-toggle="table"
+                           data-search="false"
+                           data-pagination="false"
+                           data-classes="table table-no-bordered"
+                           data-show-columns="false">
+                        <thead>
+                        <tr>
+                            <th data-field="namesurname">Name & surname</th>
+                            <th data-field="country">Country</th>
+                            <th data-field="email">Email</th>
+                            <th data-field="phoneNumber">Phone</th>
+                            <th data-field="contactAttempts">Attempts</th>
+                            <th data-field="op">Contact?</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <script>
+                $( document ).ready(function() {
+                    var tableAppointmentAfter = $("#tableAppointmentAfter");
+                    var data = [
+                        {% for alertAppointmentAfter in alertsAppointmentAfter %}
+                        {
+                            "namesurname": '<a href="{{ path('userView', {'id': alertAppointmentAfter.customerUser.id}) }}">{{ alertAppointmentAfter.customerUser.name }} {{ alertAppointmentAfter.customerUser.surname }}</a>',
+                            "country": '{{ alertAppointmentAfter.customerUser.countryName }}',
+                            "email": '{{ alertAppointmentAfter.customerUser.email }}',
+                            "phoneNumber": '{{ alertAppointmentAfter.customerUser.phoneNumber }}',
+                            "contactAttempts": '{{ alertAppointmentAfter.appointmenAftertAttempts|default(0) }}',
+                            "op": '<div class="alert-actions"><button data-href="{{ path('ajaxUserAlertConfirmAppointmentAfter', {'id': alertAppointmentAfter.id}) }}" class="btn btn-icon btn-sm btn-round btn-success js-alert-confirm-appointment-after"><i class="icon md-phone" aria-hidden="true"></i></button><button data-href="{{ path('ajaxUserAlertNotConfirmAppointmentAfter', {'id': alertAppointmentAfter.id}) }}" class="btn btn-icon btn-sm btn-round btn-danger js-alert-not-confirm-appointment-after"><i class="icon md-phone-missed" aria-hidden="true"></i></button></div>'
+                        },
+                        {% endfor %}
+                    ];
+                    tableAppointmentAfter.bootstrapTable({data: data});
+                });
+            </script>
+        </div>
+    </div>
+
+
+{% endblock %}

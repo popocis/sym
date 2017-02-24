@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AlertController extends Controller {
+
 	/**
 	 * @Route("/alert", name="alert")
 	 */
@@ -18,19 +19,35 @@ class AlertController extends Controller {
 
 		$qb->select('e');
 		$qb->from('AppBundle:Alert', 'e');
+		$qb->where('e.estimateSendDate IS NOT NULL');
+		$qb->orderBy('e.estimateSendDate', 'ASC');
+		$sendEstimateList = $qb->getQuery()->getResult();
+
+		$qb->select('a');
+		$qb->from('AppBundle:Alert', 'a');
+		$qb->where('a.estimateRecallDate IS NOT NULL OR a.estimateRecallAttempts !=0');
+		$qb->orderBy('a.estimateRecallDate', 'ASC');
+		$recallEstimateList = $qb->getQuery()->getResult();
+
+		$qb->select('b');
+		$qb->from('AppBundle:Alert', 'b');
+		$qb->where('b.interestedLaterDate IS NOT NULL OR b.interestedLaterAttempts !=0');
+		$qb->orderBy('b.interestedLaterDate', 'ASC');
+		$recallLaterList = $qb->getQuery()->getResult();
+
+		$qb->select('c');
+		$qb->from('AppBundle:Alert', 'c');
+		$qb->where('c.postTherapyRecallDate IS NOT NULL OR c.postTherapyRecallAttempts !=0');
+		$qb->orderBy('c.postTherapyRecallDate', 'ASC');
+		$recallPostTherapyList = $qb->getQuery()->getResult();
+
+		/*$qb->select('e');
+		$qb->from('AppBundle:Alert', 'e');
 		$qb->where('e.eventAttempts IS NULL OR e.eventAttempts != 0')
 			->andWhere('e.eventDate <= :today')
 			->setParameter('today', new \DateTime());
 		$qb->orderBy('e.eventDate', 'ASC');
 		$alertsEvents = $qb->getQuery()->getResult();
-
-		/*$qb->select('e');
-		$qb->from('AppBundle:Alert', 'e');
-		$qb->where('e.firstContactAttempts IS NULL OR e.firstContactAttempts != 0')
-		   ->andWhere('e.firstContact <= :today')
-		   ->setParameter('today', new \DateTime());
-		$qb->orderBy('e.firstContact', 'ASC');
-		$alertsNewUser = $qb->getQuery()->getResult();*/
 
 		$qb->select('a');
 		$qb->from('AppBundle:Alert', 'a');
@@ -46,8 +63,8 @@ class AlertController extends Controller {
 			->andWhere('p.appointmentAfter <= :today')
 			->setParameter('today', new \DateTime());
 		$qb->orderBy('p.appointmentAfter', 'ASC');
-		$alertsAppointmentAfter = $qb->getQuery()->getResult();
+		$alertsAppointmentAfter = $qb->getQuery()->getResult();*/
 
-		return $this->render('alert/index.html.twig', array('alertsEvents' => $alertsEvents, 'alertsAppointment' => $alertsAppointment, 'alertsAppointmentAfter' => $alertsAppointmentAfter));
+		return $this->render('alert/index.html.twig', array('sendEstimateList'=>$sendEstimateList, 'recallEstimateList'=>$recallEstimateList, 'recallLaterList'=>$recallLaterList, 'recallPostTherapyList'=>$recallPostTherapyList));
 	}
 }

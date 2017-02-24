@@ -1,0 +1,770 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header page-header-bordered no-print">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/user/view/{{user.id}}">User</a></li>
+            <li class="breadcrumb-item">Quote</li>
+        </ol>
+        <h1 class="page-title">{{ user.name }} {{ user.surname }}</h1>
+    </div>
+
+    <!-- Panel -->
+    <div class="panel invoice">
+        <div class="panel-body container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="header-info">
+                        <img class="logo" src="{{ asset('/assets/images/logo-dark.png') }}">
+                        <address>
+                            Kandlerova 44, Pula
+                            <br>
+                            Croatia
+                            <br>
+                            Strojarska 22, Zagreb
+                            <br>
+                            Croatia
+                            <br>
+                            <abbr title="Mail">E-mail:</abbr>&nbsp;&nbsp;info@healthcroatia.com
+                            <br>
+                            <abbr title="Phone">Phone:</abbr>&nbsp;&nbsp;800 17 16 74
+                            <br>
+                            <abbr title="WhatsApp">WhatsApp/Viber:</abbr><br>&nbsp;&nbsp;00 385 99 46 96 355 / 00 385 98 44 00 16
+                            <br>
+                            <abbr title="Web">Web:</abbr>&nbsp;&nbsp;healthcroatia.com
+                        </address>
+                        <abbr><strong>{{ user.name }} {{ user.surname }}</strong></abbr>
+                        <br>
+                        <span>Date: {{ quote.date|date('d/m/Y') }}</span>
+                        <br>
+                        <span>N. {{ "now"|date("Y") }}/{{ quote.id }}</span>
+                    </div>
+                    <div class="header-schema">
+                        <img class="schema" src="{{ asset('/assets/images/schema.jpg') }}">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-3">
+
+                </div>
+            </div>
+
+            <div class="page-invoice-table table-responsive">
+                <table class="table table-bordered table-hover text-xs-right">
+                    {% if quote.language == "it" %}
+                        <p>Arcata superiore</p>
+                    {% else %}
+                        <p>Upper dental arch</p>
+                    {% endif %}
+                    <thead>
+                        <tr>
+                            {% if quote.language == "it" %}
+                                <th class="text-xs-center">#</th>
+                                <th>Dente</th>
+                                <th>Servizio</th>
+                                <th class="text-xs-right">Quantità</th>
+                                <th class="text-xs-right">Prezzo</th>
+                                <th class="text-xs-right">Total</th>
+                            {% else %}
+                                <th class="text-xs-center">#</th>
+                                <th>Teeth</th>
+                                <th>Service</th>
+                                <th class="text-xs-right">Amount</th>
+                                <th class="text-xs-right">Price</th>
+                                <th class="text-xs-right">Total</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if quote.treatmentSup1 %}
+                            <tr>
+                                <td class="text-xs-center">
+                                    1
+                                </td>
+                                <td class="text-xs-left">
+                                    {{ quote.treatmentSupTeeth1 }}
+                                </td>
+                                <td class="text-xs-left">
+                                    {% if quote.language == "it" %}
+                                        {{ quote.treatmentSup1.name }}
+                                    {% else %}
+                                        {{ quote.treatmentSup1.nameEng }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSupQt1 }}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSup1.fare }} €
+                                </td>
+                                <td>
+                                    {% if quote.treatmentSupFare1 == 0 %}
+                                        GRATIS
+                                    {% else %}
+                                        {{ quote.treatmentSupFare1 }} €
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if quote.treatmentSup2 %}
+                            <tr>
+                                <td class="text-xs-center">
+                                    1
+                                </td>
+                                <td class="text-xs-left">
+                                    {{ quote.treatmentSupTeeth2 }}
+                                </td>
+                                <td class="text-xs-left">
+                                    {% if quote.language == "it" %}
+                                        {{ quote.treatmentSup2.name }}
+                                    {% else %}
+                                        {{ quote.treatmentSup2.nameEng }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSupQt2 }}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSup2.fare }} €
+                                </td>
+                                <td>
+                                    {% if quote.treatmentSupFare2 == 0 %}
+                                        GRATIS
+                                    {% else %}
+                                        {{ quote.treatmentSupFare2 }} €
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if quote.treatmentSup3 %}
+                            <tr>
+                                <td class="text-xs-center">
+                                    1
+                                </td>
+                                <td class="text-xs-left">
+                                    {{ quote.treatmentSupTeeth3 }}
+                                </td>
+                                <td class="text-xs-left">
+                                    {% if quote.language == "it" %}
+                                        {{ quote.treatmentSup3.name }}
+                                    {% else %}
+                                        {{ quote.treatmentSup3.nameEng }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSupQt3 }}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSup3.fare }} €
+                                </td>
+                                <td>
+                                    {% if quote.treatmentSupFare3 == 0 %}
+                                        GRATIS
+                                    {% else %}
+                                        {{ quote.treatmentSupFare3 }} €
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if quote.treatmentSup4 %}
+                            <tr>
+                                <td class="text-xs-center">
+                                    1
+                                </td>
+                                <td class="text-xs-left">
+                                    {{ quote.treatmentSupTeeth4 }}
+                                </td>
+                                <td class="text-xs-left">
+                                    {% if quote.language == "it" %}
+                                        {{ quote.treatmentSup4.name }}
+                                    {% else %}
+                                        {{ quote.treatmentSup4.nameEng }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSupQt4 }}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSup4.fare }} €
+                                </td>
+                                <td>
+                                    {% if quote.treatmentSupFare4 == 0 %}
+                                        GRATIS
+                                    {% else %}
+                                        {{ quote.treatmentSupFare4 }} €
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if quote.treatmentSup5 %}
+                            <tr>
+                                <td class="text-xs-center">
+                                    1
+                                </td>
+                                <td class="text-xs-left">
+                                    {{ quote.treatmentSupTeeth5 }}
+                                </td>
+                                <td class="text-xs-left">
+                                    {% if quote.language == "it" %}
+                                        {{ quote.treatmentSup5.name }}
+                                    {% else %}
+                                        {{ quote.treatmentSup5.nameEng }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSupQt5 }}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSup5.fare }} €
+                                </td>
+                                <td>
+                                    {% if quote.treatmentSupFare5 == 0 %}
+                                        GRATIS
+                                    {% else %}
+                                        {{ quote.treatmentSupFare5 }} €
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if quote.treatmentSup6 %}
+                            <tr>
+                                <td class="text-xs-center">
+                                    1
+                                </td>
+                                <td class="text-xs-left">
+                                    {{ quote.treatmentSupTeeth6 }}
+                                </td>
+                                <td class="text-xs-left">
+                                    {% if quote.language == "it" %}
+                                        {{ quote.treatmentSup6.name }}
+                                    {% else %}
+                                        {{ quote.treatmentSup6.nameEng }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSupQt6 }}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSup6.fare }} €
+                                </td>
+                                <td>
+                                    {% if quote.treatmentSupFare6 == 0 %}
+                                        GRATIS
+                                    {% else %}
+                                        {{ quote.treatmentSupFare6 }} €
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if quote.treatmentSup7 %}
+                            <tr>
+                                <td class="text-xs-center">
+                                    1
+                                </td>
+                                <td class="text-xs-left">
+                                    {{ quote.treatmentSupTeeth7 }}
+                                </td>
+                                <td class="text-xs-left">
+                                    {% if quote.language == "it" %}
+                                        {{ quote.treatmentSup7.name }}
+                                    {% else %}
+                                        {{ quote.treatmentSup7.nameEng }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSupQt7 }}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSup7.fare }} €
+                                </td>
+                                <td>
+                                    {% if quote.treatmentSupFare7 == 0 %}
+                                        GRATIS
+                                    {% else %}
+                                        {{ quote.treatmentSupFare7 }} €
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if quote.treatmentSup8 %}
+                            <tr>
+                                <td class="text-xs-center">
+                                    1
+                                </td>
+                                <td class="text-xs-left">
+                                    {{ quote.treatmentSupTeeth8 }}
+                                </td>
+                                <td class="text-xs-left">
+                                    {% if quote.language == "it" %}
+                                        {{ quote.treatmentSup8.name }}
+                                    {% else %}
+                                        {{ quote.treatmentSup8.nameEng }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSupQt8 }}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSup8.fare }} €
+                                </td>
+                                <td>
+                                    {% if quote.treatmentSupFare8 == 0 %}
+                                        GRATIS
+                                    {% else %}
+                                        {{ quote.treatmentSupFare8 }} €
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if quote.treatmentSup9 %}
+                            <tr>
+                                <td class="text-xs-center">
+                                    1
+                                </td>
+                                <td class="text-xs-left">
+                                    {{ quote.treatmentSupTeeth9 }}
+                                </td>
+                                <td class="text-xs-left">
+                                    {% if quote.language == "it" %}
+                                        {{ quote.treatmentSup9.name }}
+                                    {% else %}
+                                        {{ quote.treatmentSup9.nameEng }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSupQt9 }}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSup9.fare }} €
+                                </td>
+                                <td>
+                                    {% if quote.treatmentSupFare9 == 0 %}
+                                        GRATIS
+                                    {% else %}
+                                        {{ quote.treatmentSupFare9 }} €
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if quote.treatmentSup10 %}
+                            <tr>
+                                <td class="text-xs-center">
+                                    1
+                                </td>
+                                <td class="text-xs-left">
+                                    {{ quote.treatmentSupTeeth10 }}
+                                </td>
+                                <td class="text-xs-left">
+                                    {% if quote.language == "it" %}
+                                        {{ quote.treatmentSup10.name }}
+                                    {% else %}
+                                        {{ quote.treatmentSup10.nameEng }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSupQt10 }}
+                                </td>
+                                <td>
+                                    {{ quote.treatmentSup10.fare }} €
+                                </td>
+                                <td>
+                                    {% if quote.treatmentSupFare10 == 0 %}
+                                        GRATIS
+                                    {% else %}
+                                        {{ quote.treatmentSupFare10 }} €
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-invoice-table table-responsive">
+                <table class="table table-bordered table-hover text-xs-right">
+                    {% if quote.language == "it" %}
+                        <p>Arcata inferiore</p>
+                    {% else %}
+                        <p>Lower dental arch</p>
+                    {% endif %}
+                    <thead>
+                    <tr>
+                        {% if quote.language == "it" %}
+                            <th class="text-xs-center">#</th>
+                            <th>Dente</th>
+                            <th>Servizio</th>
+                            <th class="text-xs-right">Quantità</th>
+                            <th class="text-xs-right">Prezzo</th>
+                            <th class="text-xs-right">Total</th>
+                        {% else %}
+                            <th class="text-xs-center">#</th>
+                            <th>Teeth</th>
+                            <th>Service</th>
+                            <th class="text-xs-right">Amount</th>
+                            <th class="text-xs-right">Price</th>
+                            <th class="text-xs-right">Total</th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if quote.treatmentInf1 %}
+                        <tr>
+                            <td class="text-xs-center">
+                                1
+                            </td>
+                            <td class="text-xs-left">
+                                {{ quote.treatmentInfTeeth1 }}
+                            </td>
+                            <td class="text-xs-left">
+                                {% if quote.language == "it" %}
+                                    {{ quote.treatmentInf1.name }}
+                                {% else %}
+                                    {{ quote.treatmentInf1.nameEng }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInfQt1 }}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInf1.fare }} €
+                            </td>
+                            <td>
+                                {% if quote.treatmentInfFare1 == 0 %}
+                                    GRATIS
+                                {% else %}
+                                    {{ quote.treatmentInfFare1 }} €
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if quote.treatmentInf2 %}
+                        <tr>
+                            <td class="text-xs-center">
+                                1
+                            </td>
+                            <td class="text-xs-left">
+                                {{ quote.treatmentInfTeeth2 }}
+                            </td>
+                            <td class="text-xs-left">
+                                {% if quote.language == "it" %}
+                                    {{ quote.treatmentInf2.name }}
+                                {% else %}
+                                    {{ quote.treatmentInf2.nameEng }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInfQt2 }}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInf2.fare }} €
+                            </td>
+                            <td>
+                                {% if quote.treatmentInfFare2 == 0 %}
+                                    GRATIS
+                                {% else %}
+                                    {{ quote.treatmentInfFare2 }} €
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if quote.treatmentInf3 %}
+                        <tr>
+                            <td class="text-xs-center">
+                                1
+                            </td>
+                            <td class="text-xs-left">
+                                {{ quote.treatmentInfTeeth3 }}
+                            </td>
+                            <td class="text-xs-left">
+                                {% if quote.language == "it" %}
+                                    {{ quote.treatmentInf3.name }}
+                                {% else %}
+                                    {{ quote.treatmentInf3.nameEng }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInfQt3 }}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInf3.fare }} €
+                            </td>
+                            <td>
+                                {% if quote.treatmentInfFare3 == 0 %}
+                                    GRATIS
+                                {% else %}
+                                    {{ quote.treatmentInfFare3 }} €
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if quote.treatmentInf4 %}
+                        <tr>
+                            <td class="text-xs-center">
+                                1
+                            </td>
+                            <td class="text-xs-left">
+                                {{ quote.treatmentInfTeeth4 }}
+                            </td>
+                            <td class="text-xs-left">
+                                {% if quote.language == "it" %}
+                                    {{ quote.treatmentInf4.name }}
+                                {% else %}
+                                    {{ quote.treatmentInf4.nameEng }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInfQt4 }}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInf4.fare }} €
+                            </td>
+                            <td>
+                                {% if quote.treatmentInfFare4 == 0 %}
+                                    GRATIS
+                                {% else %}
+                                    {{ quote.treatmentInfFare4 }} €
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if quote.treatmentInf5 %}
+                        <tr>
+                            <td class="text-xs-center">
+                                1
+                            </td>
+                            <td class="text-xs-left">
+                                {{ quote.treatmentInfTeeth5 }}
+                            </td>
+                            <td class="text-xs-left">
+                                {% if quote.language == "it" %}
+                                    {{ quote.treatmentInf5.name }}
+                                {% else %}
+                                    {{ quote.treatmentInf5.nameEng }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInfQt5 }}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInf5.fare }} €
+                            </td>
+                            <td>
+                                {% if quote.treatmentInfFare5 == 0 %}
+                                    GRATIS
+                                {% else %}
+                                    {{ quote.treatmentInfFare5 }} €
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if quote.treatmentInf6 %}
+                        <tr>
+                            <td class="text-xs-center">
+                                1
+                            </td>
+                            <td class="text-xs-left">
+                                {{ quote.treatmentInfTeeth6 }}
+                            </td>
+                            <td class="text-xs-left">
+                                {% if quote.language == "it" %}
+                                    {{ quote.treatmentInf6.name }}
+                                {% else %}
+                                    {{ quote.treatmentInf6.nameEng }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInfQt6 }}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInf6.fare }} €
+                            </td>
+                            <td>
+                                {% if quote.treatmentInfFare6 == 0 %}
+                                    GRATIS
+                                {% else %}
+                                    {{ quote.treatmentInfFare6 }} €
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if quote.treatmentInf7 %}
+                        <tr>
+                            <td class="text-xs-center">
+                                1
+                            </td>
+                            <td class="text-xs-left">
+                                {{ quote.treatmentInfTeeth7 }}
+                            </td>
+                            <td class="text-xs-left">
+                                {% if quote.language == "it" %}
+                                    {{ quote.treatmentInf7.name }}
+                                {% else %}
+                                    {{ quote.treatmentInf7.nameEng }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInfQt7 }}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInf7.fare }} €
+                            </td>
+                            <td>
+                                {% if quote.treatmentInfFare7 == 0 %}
+                                    GRATIS
+                                {% else %}
+                                    {{ quote.treatmentInfFare7 }} €
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if quote.treatmentInf8 %}
+                        <tr>
+                            <td class="text-xs-center">
+                                1
+                            </td>
+                            <td class="text-xs-left">
+                                {{ quote.treatmentInfTeeth8 }}
+                            </td>
+                            <td class="text-xs-left">
+                                {% if quote.language == "it" %}
+                                    {{ quote.treatmentInf8.name }}
+                                {% else %}
+                                    {{ quote.treatmentInf8.nameEng }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInfQt8 }}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInf8.fare }} €
+                            </td>
+                            <td>
+                                {% if quote.treatmentInfFare8 == 0 %}
+                                    GRATIS
+                                {% else %}
+                                    {{ quote.treatmentInfFare8 }} €
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if quote.treatmentInf9 %}
+                        <tr>
+                            <td class="text-xs-center">
+                                1
+                            </td>
+                            <td class="text-xs-left">
+                                {{ quote.treatmentInfTeeth9 }}
+                            </td>
+                            <td class="text-xs-left">
+                                {% if quote.language == "it" %}
+                                    {{ quote.treatmentInf9.name }}
+                                {% else %}
+                                    {{ quote.treatmentInf9.nameEng }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInfQt9 }}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInf9.fare }} €
+                            </td>
+                            <td>
+                                {% if quote.treatmentInfFare9 == 0 %}
+                                    GRATIS
+                                {% else %}
+                                    {{ quote.treatmentInfFare9 }} €
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if quote.treatmentInf10 %}
+                        <tr>
+                            <td class="text-xs-center">
+                                1
+                            </td>
+                            <td class="text-xs-left">
+                                {{ quote.treatmentInfTeeth10 }}
+                            </td>
+                            <td class="text-xs-left">
+                                {% if quote.language == "it" %}
+                                    {{ quote.treatmentInf10.name }}
+                                {% else %}
+                                    {{ quote.treatmentInf10.nameEng }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInfQt10 }}
+                            </td>
+                            <td>
+                                {{ quote.treatmentInf10.fare }} €
+                            </td>
+                            <td>
+                                {% if quote.treatmentInfFare10 == 0 %}
+                                    GRATIS
+                                {% else %}
+                                    {{ quote.treatmentInfFare10 }} €
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="clearfix">
+                <p>
+                    {% if quote.language == "it" %}
+                        Il totale del preventivo può cambiare in caso di imprevisti o compliacazioni durante la cura. Le prestazioni inizialmente non comprese verranno conteggiate a parte.
+                    {% else %}
+                        The total budget may change in the event of unexpected or complications during treatment. Performance initially not included will be charged extra.
+                    {% endif %}
+                </p>
+            </div>
+
+
+            <div class="total text-xs-right clearfix">
+                <div class="pull-xs-right">
+                    <p>Total:
+                        <span>{{ quote.treatmentTotalFare }} EURO</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Panel -->
+
+    <div class="site-action" data-plugin="actionBtn">
+        <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating waves-effect js-print waves-effect no-print" >
+            <i class="front-icon md-print animation-scale-up" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.js-print').click(function() {
+                $('body.dashboard').removeClass('site-menubar-unfold');
+                $('body.dashboard').addClass('site-menubar-changing');
+                $('body.dashboard').addClass('site-menubar-hide');
+            });
+        });
+    </script>
+
+    <style type="text/css" media="print">
+        @page {
+            size:  auto;   /* auto is the initial value */
+            margin: 0mm;  /* this affects the margin in the printer settings */
+        }
+
+        html {
+            background-color: #FFFFFF;
+            margin: 0px;  /* this affects the margin on the html before sending to printer */
+        }
+
+        body {
+            margin: 15mm 0mm 15mm 0mm; /* margin you want for the content */
+        }
+    </style>
+
+{% endblock %}
+

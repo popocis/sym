@@ -6910,6 +6910,75 @@ span.heading {
 .alert-actions button {
   margin-right: 10px;
 }
+/************ JOURNEY ***********************************************************/
+#user_journey .add-appointment {
+  margin-bottom: 44px;
+}
+#user_journey .col-2,
+#user_journey .col-3,
+#user_journey .col-4,
+#user_journey .col-5,
+#user_journey .col-6 {
+  display: none;
+}
+/************ INVOICE ***********************************************************/
+@media print {
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
+}
+.invoice .panel-body {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+.invoice .panel-body .header-info {
+  display: inline-block;
+  float: left;
+}
+.invoice .panel-body .header-info img.logo {
+  max-width: 100px;
+  margin-bottom: 30px;
+}
+.invoice .panel-body .header-schema {
+  float: right;
+}
+.invoice .panel-body .header-schema img.schema {
+  max-width: 250px;
+}
+.invoice .panel-body .page-invoice-table {
+  margin-top: 40px;
+}
+.invoice .panel-body .total {
+  margin-top: 40px;
+}
+.invoice .panel-body .total p {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+#quote .col-2,
+#quote .col-3,
+#quote .col-4,
+#quote .col-5,
+#quote .col-6,
+#quote .col-7,
+#quote .col-8,
+#quote .col-9,
+#quote .col-10 {
+  display: none;
+}
+#quote .col-12,
+#quote .col-13,
+#quote .col-14,
+#quote .col-15,
+#quote .col-16,
+#quote .col-17,
+#quote .col-18,
+#quote .col-19,
+#quote .col-20 {
+  display: none;
+}
 /************ ERROR *************************************************************/
 .page-error .error-mark {
   margin-bottom: 33px;

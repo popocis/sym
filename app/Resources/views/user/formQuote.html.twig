@@ -1,85 +1,647 @@
 {#{ form(formQuote) }#}
 
 <form id="quote" name="quote" method="post">
+
     <div class="col-xs-12">
-        <div class="row">
-            <div class="col-xs-12 col-md-6">
-                Upper arch
+        <div class="col-xs-12 col-md-3">
+            <div class="form-group form-material">
+                <label class="form-control-label">Quote language <span class="required">*</span></label>
+                <select id="quote_language" class="form-control" name="quote[language]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true" required="required">
+                    <option></option>
+                    <option value="it">ita</option>
+                    <option value="gb">eng</option>
+                </select>
             </div>
-            <div class="col-xs-12 col-md-6">
-                Lower arch
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-3">
-        <div class="form-group form-material">
-            <label class="form-control-label">Treatment</label>
-            <select id="quote_treatmentSup1" name="quote[treatmentSup1]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
-                <option value=""></option>
-                {% for treatment in treatments %}
-                    <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="1">{{ treatment.name }} - {{ treatment.fare }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-1">
-        <div class="form-group form-material">
-            <label class="form-control-label">Qt.</label>
-            <input type="number" id="quote_treatmentSupQt1" class="form-control qt-1" name="quote[treatmentSupQt1]" data-plugin="formMaterial">
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-2">
-        <div class="form-group form-material">
-            <label class="form-control-label">Fare</label>
-            <input type="number" id="quote_treatmentSupFare1" class="form-control fare-1" name="quote[treatmentSupFare1]" data-plugin="formMaterial">
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-3">
-        <div class="form-group form-material">
-            <label class="form-control-label">Treatment</label>
-            <select id="quote_treatmentInf1" name="quote[treatmentInf1]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
-                <option value=""></option>
-                {% for treatment in treatments %}
-                    <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="11">{{ treatment.name }} - {{ treatment.fare }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-1">
-        <div class="form-group form-material">
-            <label class="form-control-label">Qt.</label>
-            <input type="number" id="quote_treatmentInfQt1" class="form-control qt-11" name="quote[treatmentInfQt1]" data-plugin="formMaterial">
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-2">
-        <div class="form-group form-material">
-            <label class="form-control-label">Fare</label>
-            <input type="number" id="quote_treatmentInfFare1" class="form-control fare-11" name="quote[treatmentInfFare1]" data-plugin="formMaterial">
         </div>
     </div>
 
-    <div class="col-xs-12 col-md-3">
-        <div class="form-group form-material">
-            <label class="form-control-label">Total fare</label>
-            <input type="number" id="quote_treatmentTotalFare" class="form-control" name="quote[treatmentTotalFare]" data-plugin="formMaterial">
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-3">
-        <div class="form-group form-material">
-            <label class="form-control-label">Date</label>
-            <input type="text" id="quote_date" class="form-control" class="datepicker" name="quote[date]" data-plugin="datepicker">
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-6">
-        <div class="form-group form-material">
-            <label class="form-control-label">Notes</label>
-            <input type="text" id="quote_notes" class="form-control" name="quote[notes]">
-        </div>
-    </div>
     <div class="col-xs-12">
-        <input type="hidden" id="quote__token" name="quote[_token]" value="{{ formQuote._token.vars.value }}">
-        <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
-        <button type="submit" id="quote_save" class="btn btn-primary waves-effect waves-light" name="quote[save]">Add quote</button>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <p>Upper arch</p>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <p>Lower arch</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-6">
+        <div class="col-xs-12 col-md-6">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentSup1" name="quote[treatmentSup1]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="1">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentSupTeeth1" class="form-control" name="quote[treatmentSupTeeth1]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentSupQt1" class="form-control qt-1" name="quote[treatmentSupQt1]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentSupFare1" class="form-control fare-1" name="quote[treatmentSupFare1]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-2">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentSup2" name="quote[treatmentSup2]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="2">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-2">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentSupTeeth2" class="form-control" name="quote[treatmentSupTeeth2]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-2">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentSupQt2" class="form-control qt-2" name="quote[treatmentSupQt2]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-2">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentSupFare2" class="form-control fare-2" name="quote[treatmentSupFare2]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-3">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentSup3" name="quote[treatmentSup3]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="3">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-3">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentSupTeeth3" class="form-control" name="quote[treatmentSupTeeth3]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-3">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentSupQt3" class="form-control qt-3" name="quote[treatmentSupQt3]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-3">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentSupFare3" class="form-control fare-3" name="quote[treatmentSupFare3]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-4">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentSup4" name="quote[treatmentSup4]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="4">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-4">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentSupTeeth4" class="form-control" name="quote[treatmentSupTeeth4]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-4">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentSupQt4" class="form-control qt-4" name="quote[treatmentSupQt4]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-4">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentSupFare4" class="form-control fare-4" name="quote[treatmentSupFare4]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-5">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentSup5" name="quote[treatmentSup5]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="5">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-5">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentSupTeeth5" class="form-control" name="quote[treatmentSupTeeth5]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-5">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentSupQt5" class="form-control qt-5" name="quote[treatmentSupQt5]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-5">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentSupFare5" class="form-control fare-5" name="quote[treatmentSupFare5]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-6">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentSup6" name="quote[treatmentSup6]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="6">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-6">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentSupTeeth6" class="form-control" name="quote[treatmentSupTeeth6]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-6">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentSupQt6" class="form-control qt-6" name="quote[treatmentSupQt6]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-6">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentSupFare6" class="form-control fare-6" name="quote[treatmentSupFare6]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-7">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentSup7" name="quote[treatmentSup7]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="7">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-7">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentSupTeeth7" class="form-control" name="quote[treatmentSupTeeth7]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-7">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentSupQt7" class="form-control qt-7" name="quote[treatmentSupQt7]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-7">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentSupFare7" class="form-control fare-7" name="quote[treatmentSupFare7]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-8">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentSup8" name="quote[treatmentSup8]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="8">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-8">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentSupTeeth8" class="form-control" name="quote[treatmentSupTeeth8]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-8">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentSupQt8" class="form-control qt-8" name="quote[treatmentSupQt8]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-8">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentSupFare8" class="form-control fare-8" name="quote[treatmentSupFare8]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-9">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentSup9" name="quote[treatmentSup9]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="9">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-9">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentSupTeeth9" class="form-control" name="quote[treatmentSupTeeth9]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-9">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentSupQt9" class="form-control qt-9" name="quote[treatmentSupQt9]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-9">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentSupFare9" class="form-control fare-9" name="quote[treatmentSupFare9]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-10">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentSup10" name="quote[treatmentSup10]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="10">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-10">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentSupTeeth10" class="form-control" name="quote[treatmentSupTeeth10]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-10">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentSupQt10" class="form-control qt-10" name="quote[treatmentSupQt10]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-10">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentSupFare10" class="form-control fare-10" name="quote[treatmentSupFare10]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <button type="button" class="btn btn-sm btn-icon btn-primary btn-round waves-effect waves-effect waves-effect add-upper-arch"  data-original-title="Add treatment"><i class="icon md-plus" aria-hidden="true"></i></button>
+        </div>
+    </div>
+
+    <div class="col-xs-6">
+        <div class="col-xs-12 col-md-6">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentInf1" name="quote[treatmentInf1]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="11">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentInfTeeth1" class="form-control" name="quote[treatmentInfTeeth1]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentInfQt1" class="form-control qt-11" name="quote[treatmentInfQt1]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentInfFare1" class="form-control fare-11" name="quote[treatmentInfFare1]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-12">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentInf2" name="quote[treatmentInf2]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="12">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-12">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentInfTeeth2" class="form-control" name="quote[treatmentInfTeeth2]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-12">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentInfQt2" class="form-control qt-12" name="quote[treatmentInfQt2]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-12">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentInfFare2" class="form-control fare-12" name="quote[treatmentInfFare2]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-13">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentInf3" name="quote[treatmentInf3]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="13">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-13">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentInfTeeth3" class="form-control" name="quote[treatmentInfTeeth3]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-13">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentInfQt3" class="form-control qt-13" name="quote[treatmentInfQt3]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-13">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentInfFare3" class="form-control fare-13" name="quote[treatmentInfFare3]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-14">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentInf4" name="quote[treatmentInf4]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="14">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-14">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentInfTeeth4" class="form-control" name="quote[treatmentInfTeeth4]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-14">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentInfQt4" class="form-control qt-14" name="quote[treatmentInfQt4]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-14">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentInfFare4" class="form-control fare-14" name="quote[treatmentInfFare4]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-15">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentInf5" name="quote[treatmentInf5]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="15">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-15">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentInfTeeth5" class="form-control" name="quote[treatmentInfTeeth5]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-15">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentInfQt5" class="form-control qt-15" name="quote[treatmentInfQt5]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-15">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentInfFare5" class="form-control fare-15" name="quote[treatmentInfFare5]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-16">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentInf6" name="quote[treatmentInf6]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="16">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-16">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentInfTeeth6" class="form-control" name="quote[treatmentInfTeeth6]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-16">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentInfQt6" class="form-control qt-16" name="quote[treatmentInfQt6]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-16">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentInfFare6" class="form-control fare-16" name="quote[treatmentInfFare6]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-17">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentInf7" name="quote[treatmentInf7]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="17">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-17">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentInfTeeth7" class="form-control" name="quote[treatmentInfTeeth7]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-17">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentInfQt7" class="form-control qt-17" name="quote[treatmentInfQt7]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-17">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentInfFare7" class="form-control fare-17" name="quote[treatmentInfFare7]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-18">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentInf8" name="quote[treatmentInf8]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="18">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-18">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentInfTeeth8" class="form-control" name="quote[treatmentInfTeeth8]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-18">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentInfQt8" class="form-control qt-18" name="quote[treatmentInfQt8]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-18">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentInfFare8" class="form-control fare-18" name="quote[treatmentInfFare8]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-19">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentInf9" name="quote[treatmentInf9]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="19">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-19">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentInfTeeth9" class="form-control" name="quote[treatmentInfTeeth9]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-19">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentInfQt9" class="form-control qt-19" name="quote[treatmentInfQt9]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-19">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentInfFare9" class="form-control fare-19" name="quote[treatmentInfFare9]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 col-20">
+            <div class="form-group form-material">
+                <label class="form-control-label">Treatment</label>
+                <select id="quote_treatmentInf10" name="quote[treatmentInf10]" data-plugin="select2" data-placeholder="" data-allow-clear="true" aria-hidden="true">
+                    <option value=""></option>
+                    {% for treatment in treatments %}
+                        <option value="{{ treatment.id }}" data-fare="{{ treatment.fare }}" data-nr="20">{{ treatment.name }} - {{ treatment.fare }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-20">
+            <div class="form-group form-material">
+                <label class="form-control-label">Teeth</label>
+                <input type="text" id="quote_treatmentInfTeeth10" class="form-control" name="quote[treatmentInfTeeth10]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-20">
+            <div class="form-group form-material">
+                <label class="form-control-label">Qt.</label>
+                <input type="number" min="0" id="quote_treatmentInfQt10" class="form-control qt-20" name="quote[treatmentInfQt10]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2 col-20">
+            <div class="form-group form-material">
+                <label class="form-control-label">Fare</label>
+                <input type="number" min="0" id="quote_treatmentInfFare10" class="form-control fare-20" name="quote[treatmentInfFare10]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <button type="button" class="btn btn-sm btn-icon btn-primary btn-round waves-effect waves-effect waves-effect add-lower-arch"  data-original-title="Add treatment"><i class="icon md-plus" aria-hidden="true"></i></button>
+        </div>
+    </div>
+
+    <div class="col-xs-12" style="margin-top:30px;">
+        <div class="col-xs-12 col-md-3">
+            <div class="form-group form-material">
+                <label class="form-control-label">Total fare</label>
+                <input type="number" id="quote_treatmentTotalFare" class="form-control" name="quote[treatmentTotalFare]" data-plugin="formMaterial">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-3">
+            <div class="form-group form-material">
+                <label class="form-control-label">Date</label>
+                <input type="text" id="quote_date" class="form-control" class="datepicker" name="quote[date]" data-plugin="datepicker">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <div class="form-group form-material">
+                <label class="form-control-label">Notes</label>
+                <input type="text" id="quote_notes" class="form-control" name="quote[notes]">
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <input type="hidden" id="quote__token" name="quote[_token]" value="{{ formQuote._token.vars.value }}">
+            <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Close</button>
+            <button type="submit" id="quote_save" class="btn btn-primary waves-effect waves-light" name="quote[save]">Add quote</button>
+        </div>
     </div>
 </form>
 
@@ -96,8 +658,32 @@
 
         });*/
 
+        $(':input[type=number]').on('mousewheel',function(e){ $(this).blur(); });
+
+        var $upperArch = 1;
+        var $lowerArch = 11;
+
+        $( ".add-upper-arch" ).on( "click", function() {
+            if($upperArch<10) {
+                $upperArch = $upperArch + 1;
+                $('.col-' + $upperArch).css("display", "block");
+                if($upperArch == 10){
+                    $( ".add-upper-arch" ).css("display","none");
+                }
+            }
+        });
+
+        $( ".add-lower-arch" ).on( "click", function() {
+            if($lowerArch<20) {
+                $lowerArch = $lowerArch + 1;
+                $('.col-' + $lowerArch).css("display", "block");
+                if($lowerArch == 20){
+                    $( ".add-lower-arch" ).css("display","none");
+                }
+            }
+        });
+
         $('[data-plugin="datepicker"]').on('changeDate', function(e) {
-            // Revalidate the date field
             $('#quote').formValidation('revalidateField', 'quote[date]');
         });
 
@@ -127,6 +713,16 @@
                             }
                         }
                     },
+                    "quote[treatmentTotalFare]": {
+                        validators: {
+                            notEmpty: {
+                                message: 'required'
+                            },
+                            integer: {
+                                message: 'number is not valid, only number without space'
+                            }
+                        }
+                    }
                 }
             });
         })();

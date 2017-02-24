@@ -3,4 +3,7 @@ calendars:
     - { name: 'First Appointment', dateName: 'appointmentDate', color: '#43a047', textColor: 'white' }
     - { name: 'Second Appointment', dateName: 'appointmentTwoDate', color: '#43a0aa', textColor: 'white' }
     - { name: 'Third Appointment', dateName: 'appointmentThreeDate', color: '#43a0ff', textColor: 'white' }
+    - { name: 'Fourth Appointment', dateName: 'appointmentFourDate', color: '#43a0ff', textColor: 'white' }
+    - { name: 'Fifth Appointment', dateName: 'appointmentFiveDate', color: '#43a0ff', textColor: 'white' }
+    - { name: 'Sixth Appointment', dateName: 'appointmentSixDate', color: '#43a0ff', textColor: 'white' }
     - { name: 'Departures', dateName: 'departureDate', color: '#fb8c00', textColor: 'white' }

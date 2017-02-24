@@ -50,7 +50,7 @@ class UserEvent{
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\Choice(choices = {"general", "commercial", "panorex", "estimate", "acceptedestimate"}, message = "Choose a valid contact reason.")
+	 * @Assert\Choice(choices = {"general", "commercial", "panorex", "estimate", "recallestimate", "acceptedestimate", "interestedlater", "recallinterestedlater", "recallposttherapy"}, message = "Choose a valid contact reason.")
 	 */
 	protected $contactReason;
 

@@ -21,7 +21,9 @@ class TreatmentType extends AbstractType{
 				'mapped' => false
 			))
 			->add('name')
+			->add('nameEng')
 			->add('description')
+			->add('descriptionEng')
 			->add('fare')
 			->add('notes')
 			->add('save', SubmitType::class)
