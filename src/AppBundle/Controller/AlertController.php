@@ -40,31 +40,7 @@ class AlertController extends Controller {
 		$qb->where('c.postTherapyRecallDate IS NOT NULL OR c.postTherapyRecallAttempts !=0');
 		$qb->orderBy('c.postTherapyRecallDate', 'ASC');
 		$recallPostTherapyList = $qb->getQuery()->getResult();
-
-		/*$qb->select('e');
-		$qb->from('AppBundle:Alert', 'e');
-		$qb->where('e.eventAttempts IS NULL OR e.eventAttempts != 0')
-			->andWhere('e.eventDate <= :today')
-			->setParameter('today', new \DateTime());
-		$qb->orderBy('e.eventDate', 'ASC');
-		$alertsEvents = $qb->getQuery()->getResult();
-
-		$qb->select('a');
-		$qb->from('AppBundle:Alert', 'a');
-		$qb->where('a.appointmentAttempts IS NULL OR a.appointmentAttempts != 0')
-			->andWhere('a.appointment <= :today')
-			->setParameter('today', new \DateTime());
-		$qb->orderBy('a.appointment', 'ASC');
-		$alertsAppointment = $qb->getQuery()->getResult();
-
-		$qb->select('p');
-		$qb->from('AppBundle:Alert', 'p');
-		$qb->where('p.appointmentAfterAttempts IS NULL OR p.appointmentAfterAttempts != 0')
-			->andWhere('p.appointmentAfter <= :today')
-			->setParameter('today', new \DateTime());
-		$qb->orderBy('p.appointmentAfter', 'ASC');
-		$alertsAppointmentAfter = $qb->getQuery()->getResult();*/
-
+		
 		return $this->render('alert/index.html.twig', array('sendEstimateList'=>$sendEstimateList, 'recallEstimateList'=>$recallEstimateList, 'recallLaterList'=>$recallLaterList, 'recallPostTherapyList'=>$recallPostTherapyList));
 	}
 }

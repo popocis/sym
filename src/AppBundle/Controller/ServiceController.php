@@ -186,7 +186,319 @@ class ServiceController extends Controller {
 	 * @Route("/service/report", name="serviceReport")
 	 */
 	public function servicereportAction(){
-		return $this->render('service/report.html.twig');
+
+		$em = $this->getDoctrine()->getManager();
+
+		$qb = $em->createQueryBuilder('a');
+		$qb->select('count(a.id)');
+		$qb->from('AppBundle:User', 'a');
+		$qb->andWhere('a.roles NOT LIKE :roles_super_admin')
+			->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+		$qb->andWhere('a.roles NOT LIKE :roles_admin')
+			->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+		$qb->andWhere('a.roles NOT LIKE :roles_agent')
+			->setParameter('roles_agent', '%"ROLE_AGENT"%');
+		try {
+			$usersAllSource = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$usersAllSource = 0;
+		}
+
+		$qb = $em->createQueryBuilder('b');
+		$qb->select('count(b.id)');
+		$qb->from('AppBundle:Quote', 'b');
+		try {
+			$quotesSent = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$quotesSent = 0;
+		}
+
+		$qb = $em->createQueryBuilder('c');
+		$qb->select('count(c.id)');
+		$qb->from('AppBundle:User', 'c');
+		$qb->where('c.status LIKE :status')
+			->setParameter('status', 'interested%');
+		$qb->andWhere('c.roles NOT LIKE :roles_super_admin')
+			->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+		$qb->andWhere('c.roles NOT LIKE :roles_admin')
+			->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+		$qb->andWhere('c.roles NOT LIKE :roles_agent')
+			->setParameter('roles_agent', '%"ROLE_AGENT"%');
+		try {
+			$usersInterested = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$usersInterested = 0;
+		}
+
+		$qb = $em->createQueryBuilder('d');
+		$qb->select('count(d.id)');
+		$qb->from('AppBundle:UserJourney', 'd');
+		$qb->groupBy('d.customerUser');
+		try {
+			$usersAppointment = $qb->getQuery()->getScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$usersAppointment = 0;
+		}
+
+		$qb = $em->createQueryBuilder('e');
+		$qb->select('count(e.id)');
+		$qb->from('AppBundle:UserEvent', 'e');
+		$qb->where('e.contactReason LIKE :contactReason')
+			->setParameter('contactReason', 'interestedLater%');
+		try {
+			$usersInterestedLater = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$usersInterestedLater = 0;
+		}
+
+		/*$qb->select('e');
+		$qb->from('AppBundle:Alert', 'e');
+		$qb->where('e.eventAttempts IS NULL OR e.eventAttempts != 0')
+			->andWhere('e.eventDate <= :today')
+			->setParameter('today', new \DateTime());
+		$qb->orderBy('e.eventDate', 'ASC');
+		$alertsEvents = $qb->getQuery()->getResult();
+
+		$qb->select('a');
+		$qb->from('AppBundle:Alert', 'a');
+		$qb->where('a.appointmentAttempts IS NULL OR a.appointmentAttempts != 0')
+			->andWhere('a.appointment <= :today')
+			->setParameter('today', new \DateTime());
+		$qb->orderBy('a.appointment', 'ASC');
+		$alertsAppointment = $qb->getQuery()->getResult();
+
+		$qb->select('p');
+		$qb->from('AppBundle:Alert', 'p');
+		$qb->where('p.appointmentAfterAttempts IS NULL OR p.appointmentAfterAttempts != 0')
+			->andWhere('p.appointmentAfter <= :today')
+			->setParameter('today', new \DateTime());
+		$qb->orderBy('p.appointmentAfter', 'ASC');
+		$alertsAppointmentAfter = $qb->getQuery()->getResult();*/
+		
+		return $this->render('service/report.html.twig', array('usersAllSource'=>$usersAllSource, 'quotesSent'=>$quotesSent, 'usersInterested'=>$usersInterested, 'usersAppointment'=>$usersAppointment, 'usersInterestedLater'=>$usersInterestedLater));
+	}
+
+	/**
+	 * @Route("/service/report/overview/{startDate}/{endDate}", name="ajax_report_overview")
+	 */
+	public function overviewAction($startDate,$endDate){
+		if ($this->container->get('request')->isXmlHttpRequest()) {
+
+			$data = array();
+
+			if($startDate == "null" || $endDate == "null"){
+				$data['validDates'] = false;
+			}
+			else{
+				$startDate = date('Y-m-d', strtotime($startDate));
+				$endDate = date('Y-m-d', strtotime($endDate));
+				if(self::validateDate($startDate) && self::validateDate($endDate)) {
+					$data['validDates'] = true;
+				}
+			}
+
+			if($data['validDates'] == true){
+				$data['query'] = true;
+
+				$startDate = new \DateTime($startDate);
+				$startDate = $startDate->modify('-1 day');
+				$endDate = new \DateTime($endDate);
+				$endDate = $endDate->modify('+1 day');
+
+				$em = $this->getDoctrine()->getManager();
+
+				$qb = $em->createQueryBuilder('a');
+				$qb->select('count(a.id)');
+				$qb->from('AppBundle:User', 'a');
+				$qb->where('a.registrationDate BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				$qb->andWhere('a.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('a.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('a.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				try {
+					$usersAllSource = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersAllSource = 0;
+				}
+
+				$data['usersAllSource'] = $usersAllSource;
+
+				$qb = $em->createQueryBuilder('b');
+				$qb->select('count(b.id)');
+				$qb->from('AppBundle:Quote', 'b');
+				$qb->andWhere('b.date BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				try {
+					$quotesSent = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$quotesSent = 0;
+				}
+
+				$data['quotesSent'] = $quotesSent;
+
+				$qb = $em->createQueryBuilder('c');
+				$qb->select('count(c.id)');
+				$qb->from('AppBundle:User', 'c');
+				$qb->where('c.status LIKE :status')
+					->setParameter('status', 'interested%');
+				$qb->andWhere('c.registrationDate BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				$qb->andWhere('c.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('c.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('c.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				try {
+					$usersInterested = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersInterested = 0;
+				}
+
+				$data['usersInterested'] = $usersInterested;
+
+				$qb = $em->createQueryBuilder('d');
+				$qb->select('count(d.id)');
+				$qb->from('AppBundle:UserJourney', 'd');
+				$qb->andWhere('d.appointmentDate BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				$qb->groupBy('d.customerUser');
+				try {
+					$usersAppointment = $qb->getQuery()->getScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersAppointment = 0;
+				}
+
+				$data['usersAppointment'] = $usersAppointment;
+
+				$qb = $em->createQueryBuilder('e');
+				$qb->select('count(e.id)');
+				$qb->from('AppBundle:UserEvent', 'e');
+				$qb->where('e.contactReason LIKE :contactReason')
+					->setParameter('contactReason', 'interestedLater%');
+				$qb->andWhere('e.date BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				try {
+					$usersInterestedLater = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersInterestedLater = 0;
+				}
+
+				$data['usersInterestedLater'] = $usersInterestedLater;
+
+			}
+			else{
+				$data['query'] = true;
+
+				$em = $this->getDoctrine()->getManager();
+
+				$qb = $em->createQueryBuilder('a');
+				$qb->select('count(a.id)');
+				$qb->from('AppBundle:User', 'a');
+				$qb->where('a.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('a.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('a.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				try {
+					$usersAllSource = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersAllSource = 0;
+				}
+
+				$data['usersAllSource'] = $usersAllSource;
+
+				$qb = $em->createQueryBuilder('b');
+				$qb->select('count(b.id)');
+				$qb->from('AppBundle:Quote', 'b');
+				try {
+					$quotesSent = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$quotesSent = 0;
+				}
+
+				$data['quotesSent'] = $quotesSent;
+
+				$qb = $em->createQueryBuilder('c');
+				$qb->select('count(c.id)');
+				$qb->from('AppBundle:User', 'c');
+				$qb->where('c.status LIKE :status')
+					->setParameter('status', 'interested%');
+				$qb->andWhere('c.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('c.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('c.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				try {
+					$usersInterested = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersInterested = 0;
+				}
+
+				$data['usersInterested'] = $usersInterested;
+
+				$qb = $em->createQueryBuilder('d');
+				$qb->select('count(d.id)');
+				$qb->from('AppBundle:UserJourney', 'd');
+				$qb->groupBy('d.customerUser');
+				try {
+					$usersAppointment = $qb->getQuery()->getScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersAppointment = 0;
+				}
+
+				$data['usersAppointment'] = $usersAppointment;
+
+				$qb = $em->createQueryBuilder('e');
+				$qb->select('count(e.id)');
+				$qb->from('AppBundle:UserEvent', 'e');
+				$qb->where('e.contactReason LIKE :contactReason')
+					->setParameter('contactReason', 'interestedLater%');
+				try {
+					$usersInterestedLater = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersInterestedLater = 0;
+				}
+
+				$data['usersInterestedLater'] = $usersInterestedLater;
+			}
+
+			$data['startDate'] = $startDate;
+			$data['endDate'] = $endDate;
+
+			$response = new JsonResponse(json_encode($data));
+			return $response;
+		}
+	}
+
+	public function validateDate($date, $format = 'Y-m-d'){
+		$d = \DateTime::createFromFormat($format, $date);
+		return $d && $d->format($format) == $date;
 	}
 
 }
