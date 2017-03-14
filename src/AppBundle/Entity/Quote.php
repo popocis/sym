@@ -38,6 +38,16 @@ class Quote{
 	protected $language;
 
 	/**
+	 * @ORM\Column(type="integer", nullable=false)
+	 */
+	protected $quoteNr;
+
+	/**
+	 * @ORM\Column(type="integer", nullable=true)
+	 */
+	protected $settled;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="Treatment")
 	 * @ORM\JoinColumn(name="treatment_sup_1_id", referencedColumnName="id", nullable=true)
 	 */
@@ -493,6 +503,14 @@ class Quote{
 		return $this->language;
 	}
 
+	public function getQuoteNr() {
+		return $this->quoteNr;
+	}
+
+	public function getSettled() {
+		return $this->settled;
+	}
+
 	public function getTreatmentSup1() {
 		return $this->treatmentSup1;
 	}
@@ -837,6 +855,16 @@ class Quote{
 
 	public function setLanguage($language) {
 		$this->language = $language;
+		return $this;
+	}
+
+	public function setQuoteNr($quoteNr) {
+		$this->quoteNr = $quoteNr;
+		return $this;
+	}
+
+	public function setSettled($settled) {
+		$this->settled = $settled;
 		return $this;
 	}
 

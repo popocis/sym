@@ -39,7 +39,7 @@
                         <br>
                         <span>Date: {{ quote.date|date('d/m/Y') }}</span>
                         <br>
-                        <span>N. {{ "now"|date("Y") }}/{{ quote.id }}</span>
+                        <span>N. {{ quote.date|date("Y") }}/{{ quote.quoteNr }}</span>
                     </div>
                     <div class="header-schema">
                         <img class="schema" src="{{ asset('/assets/images/schema.jpg') }}">

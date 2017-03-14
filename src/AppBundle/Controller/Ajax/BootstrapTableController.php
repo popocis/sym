@@ -66,9 +66,8 @@ class BootstrapTableController extends Controller {
 					$request = $event->getDate()->format('d/m/Y');
 				}
 				if($event->getContactOrigin() == "operator"){
-					$answer = $event->getDate()->format('d/m/Y');
-					if(strtotime($answer) < strtotime($request)){
-						$answer = null;
+					if(strtotime($answer) >= strtotime($request)){
+						$answer = $event->getDate()->format('d/m/Y');
 					}
 				}
 				if($event->getContactReason() == "panorex"){

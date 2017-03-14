@@ -294,6 +294,26 @@ class UserController extends Controller {
 					$userOperator = $this->get('security.token_storage')->getToken()->getUser();
 					$quote->setAdminUser($userOperator);
 					$quote->setCustomerUser($user);
+
+					$endDate = $quote->getDate();
+					$startDate = new \DateTime('first day of January'.$endDate->format("Y"));
+
+					$em = $this->getDoctrine()->getManager();
+					$qb = $em->createQueryBuilder('q');
+					$qb->select('count(q.id)');
+					$qb->from('AppBundle:Quote', 'q');
+					$qb->where('q.date BETWEEN :startDate AND :endDate')
+						->setParameter('startDate', $startDate)
+						->setParameter('endDate', $endDate);
+					try {
+						$quoteNr = $qb->getQuery()->getSingleScalarResult();
+					}
+					catch (\Doctrine\ORM\NoResultException $e) {
+						$quoteNr = 1;
+					}
+
+					$quote->setQuoteNr($quoteNr+1);
+
 					$em = $this->getDoctrine()->getManager();
 					$em->persist($quote);
 					$em->flush();
@@ -432,14 +452,22 @@ class UserController extends Controller {
 	}
 
 	/**
+	 * @Route("user/quote/settled/{userid}/{quoteid}/{settle}", name="quoteSettleUpdate")
+	 */
+	public function quoteSettleUpdateAction($userid, $quoteid, $settle) {
+		$quote = $this->getDoctrine()->getRepository('AppBundle:Quote')->find($quoteid);
+		$quote->setSettled($settle);
+		$em = $this->getDoctrine()->getEntityManager();
+		$em->flush();
+		return $this->redirect('/user/view/'.$userid);
+	}
+
+	/**
 	 * @Route("user/quote/{userid}/{quoteid}", name="userQuote")
 	 */
 	public function quoteAction($userid, $quoteid) {
 		$user = $this->getUserObj($userid);
-
 		$quote = $this->getDoctrine()->getRepository('AppBundle:Quote')->find($quoteid);
-		$em = $this->getDoctrine()->getEntityManager();
-
 		return $this->render('user/quote.html.twig', array('user' => $user, 'quote' => $quote) );
 	}
 

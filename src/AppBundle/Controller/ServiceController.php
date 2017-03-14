@@ -192,7 +192,7 @@ class ServiceController extends Controller {
 		$qb = $em->createQueryBuilder('a');
 		$qb->select('count(a.id)');
 		$qb->from('AppBundle:User', 'a');
-		$qb->andWhere('a.roles NOT LIKE :roles_super_admin')
+		$qb->where('a.roles NOT LIKE :roles_super_admin')
 			->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
 		$qb->andWhere('a.roles NOT LIKE :roles_admin')
 			->setParameter('roles_admin', '%"ROLE_ADMIN"%');
@@ -256,37 +256,235 @@ class ServiceController extends Controller {
 			$usersInterestedLater = 0;
 		}
 
-		/*$qb->select('e');
-		$qb->from('AppBundle:Alert', 'e');
-		$qb->where('e.eventAttempts IS NULL OR e.eventAttempts != 0')
-			->andWhere('e.eventDate <= :today')
-			->setParameter('today', new \DateTime());
-		$qb->orderBy('e.eventDate', 'ASC');
-		$alertsEvents = $qb->getQuery()->getResult();
+		$qb = $em->createQueryBuilder('f');
+		$qb->select('count(f.id)');
+		$qb->from('AppBundle:User', 'f');
+		$qb->where('f.source LIKE :source')
+			->setParameter('source', 'website%');
+		$qb->andWhere('f.roles NOT LIKE :roles_super_admin')
+			->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+		$qb->andWhere('f.roles NOT LIKE :roles_admin')
+			->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+		$qb->andWhere('f.roles NOT LIKE :roles_agent')
+			->setParameter('roles_agent', '%"ROLE_AGENT"%');
+		try {
+			$usersFromWebsite = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$usersFromWebsite = 0;
+		}
 
-		$qb->select('a');
-		$qb->from('AppBundle:Alert', 'a');
-		$qb->where('a.appointmentAttempts IS NULL OR a.appointmentAttempts != 0')
-			->andWhere('a.appointment <= :today')
-			->setParameter('today', new \DateTime());
-		$qb->orderBy('a.appointment', 'ASC');
-		$alertsAppointment = $qb->getQuery()->getResult();
+		$qb = $em->createQueryBuilder('g');
+		$qb->select('count(g.id)');
+		$qb->from('AppBundle:User', 'g');
+		$qb->where('g.source LIKE :source')
+			->setParameter('source', 'dem%');
+		$qb->andWhere('g.roles NOT LIKE :roles_super_admin')
+			->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+		$qb->andWhere('g.roles NOT LIKE :roles_admin')
+			->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+		$qb->andWhere('g.roles NOT LIKE :roles_agent')
+			->setParameter('roles_agent', '%"ROLE_AGENT"%');
+		try {
+			$usersFromDem = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$usersFromDem = 0;
+		}
 
-		$qb->select('p');
-		$qb->from('AppBundle:Alert', 'p');
-		$qb->where('p.appointmentAfterAttempts IS NULL OR p.appointmentAfterAttempts != 0')
-			->andWhere('p.appointmentAfter <= :today')
-			->setParameter('today', new \DateTime());
-		$qb->orderBy('p.appointmentAfter', 'ASC');
-		$alertsAppointmentAfter = $qb->getQuery()->getResult();*/
-		
-		return $this->render('service/report.html.twig', array('usersAllSource'=>$usersAllSource, 'quotesSent'=>$quotesSent, 'usersInterested'=>$usersInterested, 'usersAppointment'=>$usersAppointment, 'usersInterestedLater'=>$usersInterestedLater));
+		$qb = $em->createQueryBuilder('h');
+		$qb->select('count(h.id)');
+		$qb->from('AppBundle:User', 'h');
+		$qb->where('h.source LIKE :source')
+			->setParameter('source', 'facebook%');
+		$qb->andWhere('h.roles NOT LIKE :roles_super_admin')
+			->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+		$qb->andWhere('h.roles NOT LIKE :roles_admin')
+			->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+		$qb->andWhere('h.roles NOT LIKE :roles_agent')
+			->setParameter('roles_agent', '%"ROLE_AGENT"%');
+		try {
+			$usersFromFacebook = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$usersFromFacebook = 0;
+		}
+
+		$qb = $em->createQueryBuilder('i');
+		$qb->select('count(i.id)');
+		$qb->from('AppBundle:User', 'i');
+		$qb->where('i.source LIKE :source')
+			->setParameter('source', 'agent%');
+		try {
+			$usersFromAgent = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$usersFromAgent = 0;
+		}
+
+		$qb = $em->createQueryBuilder('l');
+		$qb->select('count(l.id)');
+		$qb->from('AppBundle:User', 'l');
+		$qb->where('l.source LIKE :source OR l.source LIKE :source2')
+			->setParameter('source', 'wordofmouth%')
+			->setParameter('source2', 'transit%');
+		$qb->andWhere('l.roles NOT LIKE :roles_super_admin')
+			->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+		$qb->andWhere('l.roles NOT LIKE :roles_admin')
+			->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+		$qb->andWhere('l.roles NOT LIKE :roles_agent')
+			->setParameter('roles_agent', '%"ROLE_AGENT"%');
+		try {
+			$usersFromWordofmouth = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$usersFromWordofmouth = 0;
+		}
+
+		$qb = $em->createQueryBuilder('m');
+		$qb->select('count(m.id)');
+		$qb->from('AppBundle:User', 'm');
+		$qb->where('m.source LIKE :source OR m.source LIKE :source2')
+			->setParameter('source', 'presentation%')
+			->setParameter('source2', 'events%');
+		$qb->andWhere('m.roles NOT LIKE :roles_super_admin')
+			->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+		$qb->andWhere('m.roles NOT LIKE :roles_admin')
+			->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+		$qb->andWhere('m.roles NOT LIKE :roles_agent')
+			->setParameter('roles_agent', '%"ROLE_AGENT"%');
+		try {
+			$usersFromPresentation = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$usersFromPresentation = 0;
+		}
+
+		$qb = $em->createQueryBuilder('n');
+		$qb->select('count(n.id)');
+		$qb->from('AppBundle:User', 'n');
+		$qb->where('n.source LIKE :source OR n.source LIKE :source2')
+			->setParameter('source', 'other%')
+			->setParameter('source2', 'phone%');
+		$qb->andWhere('n.roles NOT LIKE :roles_super_admin')
+			->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+		$qb->andWhere('n.roles NOT LIKE :roles_admin')
+			->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+		$qb->andWhere('n.roles NOT LIKE :roles_agent')
+			->setParameter('roles_agent', '%"ROLE_AGENT"%');
+		try {
+			$usersFromOther = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$usersFromOther = 0;
+		}
+
+		$users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
+
+		$firstContactPhone = 0;
+		$firstContactEmail = 0;
+		$firstContactViber = 0;
+		$firstContactWhatsapp = 0;
+		$firstContactFacebook = 0;
+		$firstContactFacetime = 0;
+		$firstContactFacetoface = 0;
+		$firstContactForm = 0;
+		$firstContactOther = 0;
+
+		foreach($users as $user) {
+
+			$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $user), array('date' => 'ASC'));
+
+			if(count($events)>0){
+				if($events[0]->getContactMethod() == "phone"){
+					$firstContactPhone++;
+				}
+				else if($events[0]->getContactMethod() == "email"){
+					$firstContactEmail++;
+				}
+				else if($events[0]->getContactMethod() == "viber"){
+					$firstContactViber++;
+				}
+				else if($events[0]->getContactMethod() == "whatsapp"){
+					$firstContactWhatsapp++;
+				}
+				else if($events[0]->getContactMethod() == "facebook"){
+					$firstContactFacebook++;
+				}
+				else if($events[0]->getContactMethod() == "facetime"){
+					$firstContactFacetime++;
+				}
+				else if($events[0]->getContactMethod() == "facetoface"){
+					$firstContactFacetoface++;
+				}
+				else if($events[0]->getContactMethod() == "form"){
+					$firstContactForm++;
+				}
+				else if($events[0]->getContactMethod() == "other"){
+					$firstContactOther++;
+				}
+			}
+		}
+
+		$qb = $em->createQueryBuilder('p');
+		$qb->select('count(p.id)');
+		$qb->from('AppBundle:User', 'p');
+		$qb->where('p.status LIKE :status')
+			->setParameter('status', 'client%');
+		$qb->andWhere('p.roles NOT LIKE :roles_super_admin')
+			->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+		$qb->andWhere('p.roles NOT LIKE :roles_admin')
+			->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+		$qb->andWhere('p.roles NOT LIKE :roles_agent')
+			->setParameter('roles_agent', '%"ROLE_AGENT"%');
+		try {
+			$usersClient = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$usersClient = 0;
+		}
+
+		$qb = $em->createQueryBuilder('q');
+		$qb->select('count(q.id)');
+		$qb->from('AppBundle:UserEvent', 'q');
+		try {
+			$messages = $qb->getQuery()->getSingleScalarResult();
+		}
+		catch (\Doctrine\ORM\NoResultException $e) {
+			$messages = 0;
+		}
+
+		return $this->render('service/report.html.twig', array(
+			'usersAllSource'=>$usersAllSource,
+			'quotesSent'=>$quotesSent,
+			'usersInterested'=>$usersInterested,
+			'usersAppointment'=>$usersAppointment,
+			'usersInterestedLater'=>$usersInterestedLater,
+			'usersFromWebsite'=>$usersFromWebsite,
+			'usersFromDem'=>$usersFromDem,
+			'usersFromFacebook'=>$usersFromFacebook,
+			'usersFromAgent'=>$usersFromAgent,
+			'usersFromWordofmouth'=>$usersFromWordofmouth,
+			'usersFromPresentation'=>$usersFromPresentation,
+			'usersFromOther'=>$usersFromOther,
+			'firstContactPhone'=>$firstContactPhone,
+			'firstContactEmail'=>$firstContactEmail,
+			'firstContactViber'=>$firstContactViber,
+			'firstContactWhatsapp'=>$firstContactWhatsapp,
+			'firstContactFacebook'=>$firstContactFacebook,
+			'firstContactFacetime'=>$firstContactFacetime,
+			'firstContactFacetoface'=>$firstContactFacetoface,
+			'firstContactForm'=>$firstContactForm,
+			'firstContactOther'=>$firstContactOther,
+			'usersClient'=>$usersClient,
+			'messages'=>$messages
+			));
 	}
 
 	/**
-	 * @Route("/service/report/overview/{startDate}/{endDate}", name="ajax_report_overview")
+	 * @Route("/service/report/overview/{startDate}/{endDate}/{websiteViews}", name="ajax_report_overview")
 	 */
-	public function overviewAction($startDate,$endDate){
+	public function overviewAction($startDate,$endDate,$websiteViews){
 		if ($this->container->get('request')->isXmlHttpRequest()) {
 
 			$data = array();
@@ -302,11 +500,17 @@ class ServiceController extends Controller {
 				}
 			}
 
+			if($websiteViews == "null"){
+				$websiteViews = 0;
+			}
+
+			$data['websiteViews'] = $websiteViews;
+
 			if($data['validDates'] == true){
 				$data['query'] = true;
 
 				$startDate = new \DateTime($startDate);
-				$startDate = $startDate->modify('-1 day');
+				//$startDate = $startDate->modify('-1 day');
 				$endDate = new \DateTime($endDate);
 				$endDate = $endDate->modify('+1 day');
 
@@ -336,7 +540,7 @@ class ServiceController extends Controller {
 				$qb = $em->createQueryBuilder('b');
 				$qb->select('count(b.id)');
 				$qb->from('AppBundle:Quote', 'b');
-				$qb->andWhere('b.date BETWEEN :startDate AND :endDate')
+				$qb->where('b.date BETWEEN :startDate AND :endDate')
 					->setParameter('startDate', $startDate)
 					->setParameter('endDate', $endDate);
 				try {
@@ -374,7 +578,7 @@ class ServiceController extends Controller {
 				$qb = $em->createQueryBuilder('d');
 				$qb->select('count(d.id)');
 				$qb->from('AppBundle:UserJourney', 'd');
-				$qb->andWhere('d.appointmentDate BETWEEN :startDate AND :endDate')
+				$qb->where('d.appointmentDate BETWEEN :startDate AND :endDate')
 					->setParameter('startDate', $startDate)
 					->setParameter('endDate', $endDate);
 				$qb->groupBy('d.customerUser');
@@ -403,6 +607,279 @@ class ServiceController extends Controller {
 				}
 
 				$data['usersInterestedLater'] = $usersInterestedLater;
+
+				$qb = $em->createQueryBuilder('f');
+				$qb->select('count(f.id)');
+				$qb->from('AppBundle:User', 'f');
+				$qb->where('f.source LIKE :source')
+					->setParameter('source', 'website%');
+				$qb->andWhere('f.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('f.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('f.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				$qb->andWhere('f.registrationDate BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				try {
+					$usersFromWebsite = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromWebsite = 0;
+				}
+
+				$data['usersFromWebsite'] = $usersFromWebsite;
+
+				$qb = $em->createQueryBuilder('g');
+				$qb->select('count(g.id)');
+				$qb->from('AppBundle:User', 'g');
+				$qb->where('g.source LIKE :source')
+					->setParameter('source', 'dem%');
+				$qb->andWhere('g.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('g.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('g.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				$qb->andWhere('g.registrationDate BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				try {
+					$usersFromDem = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromDem = 0;
+				}
+
+				$data['usersFromDem'] = $usersFromDem;
+
+				$qb = $em->createQueryBuilder('h');
+				$qb->select('count(h.id)');
+				$qb->from('AppBundle:User', 'h');
+				$qb->where('h.source LIKE :source')
+					->setParameter('source', 'facebook%');
+				$qb->andWhere('h.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('h.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('h.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				$qb->andWhere('h.registrationDate BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				try {
+					$usersFromFacebook = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromFacebook = 0;
+				}
+
+				$data['usersFromFacebook'] = $usersFromFacebook;
+
+				$qb = $em->createQueryBuilder('i');
+				$qb->select('count(i.id)');
+				$qb->from('AppBundle:User', 'i');
+				$qb->where('i.source LIKE :source')
+					->setParameter('source', 'agent%');
+				$qb->andWhere('i.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('i.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('i.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				$qb->andWhere('i.registrationDate BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				try {
+					$usersFromAgent = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromAgent = 0;
+				}
+
+				$data['usersFromAgent'] = $usersFromAgent;
+
+				$qb = $em->createQueryBuilder('l');
+				$qb->select('count(l.id)');
+				$qb->from('AppBundle:User', 'l');
+				$qb->where('l.source LIKE :source OR l.source LIKE :source2')
+					->setParameter('source', 'wordofmouth%')
+					->setParameter('source2', 'transit%');
+				$qb->andWhere('l.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('l.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('l.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				$qb->andWhere('l.registrationDate BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				try {
+					$usersFromWordofmouth = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromWordofmouth = 0;
+				}
+
+				$data['usersFromWordofmouth'] = $usersFromWordofmouth;
+
+				$qb = $em->createQueryBuilder('m');
+				$qb->select('count(m.id)');
+				$qb->from('AppBundle:User', 'm');
+				$qb->where('m.source LIKE :source OR m.source LIKE :source2')
+					->setParameter('source', 'presentation%')
+					->setParameter('source2', 'events%');
+				$qb->andWhere('m.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('m.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('m.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				$qb->andWhere('m.registrationDate BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				try {
+					$usersFromPresentation = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromPresentation = 0;
+				}
+
+				$data['usersFromPresentation'] = $usersFromPresentation;
+
+				$qb = $em->createQueryBuilder('n');
+				$qb->select('count(n.id)');
+				$qb->from('AppBundle:User', 'n');
+				$qb->where('n.source LIKE :source OR n.source LIKE :source2')
+					->setParameter('source', 'other%')
+					->setParameter('source2', 'phone%');
+				$qb->andWhere('n.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('n.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('n.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				$qb->andWhere('n.registrationDate BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				try {
+					$usersFromOther = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromOther = 0;
+				}
+
+				$data['usersFromOther'] = $usersFromOther;
+
+
+				$qb = $em->createQueryBuilder('o');
+				$qb->select('o.id');
+				$qb->from('AppBundle:User', 'o');
+				$qb->where('o.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('o.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('o.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				$qb->andWhere('o.registrationDate BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+
+				$users = $qb->getQuery()->getResult();
+
+				$firstContactPhone = 0;
+				$firstContactEmail = 0;
+				$firstContactViber = 0;
+				$firstContactWhatsapp = 0;
+				$firstContactFacebook = 0;
+				$firstContactFacetime = 0;
+				$firstContactFacetoface = 0;
+				$firstContactForm = 0;
+				$firstContactOther = 0;
+
+				foreach($users as $user) {
+
+					$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $user["id"]), array('date' => 'ASC'));
+
+					if(count($events)>0){
+						if($events[0]->getContactMethod() == "phone"){
+							$firstContactPhone++;
+						}
+						else if($events[0]->getContactMethod() == "email"){
+							$firstContactEmail++;
+						}
+						else if($events[0]->getContactMethod() == "viber"){
+							$firstContactViber++;
+						}
+						else if($events[0]->getContactMethod() == "whatsapp"){
+							$firstContactWhatsapp++;
+						}
+						else if($events[0]->getContactMethod() == "facebook"){
+							$firstContactFacebook++;
+						}
+						else if($events[0]->getContactMethod() == "facetime"){
+							$firstContactFacetime++;
+						}
+						else if($events[0]->getContactMethod() == "facetoface"){
+							$firstContactFacetoface++;
+						}
+						else if($events[0]->getContactMethod() == "form"){
+							$firstContactForm++;
+						}
+						else if($events[0]->getContactMethod() == "other"){
+							$firstContactOther++;
+						}
+					}
+				}
+
+				$data['firstContactPhone']=$firstContactPhone;
+				$data['firstContactEmail']=$firstContactEmail;
+				$data['firstContactViber']=$firstContactViber;
+				$data['firstContactWhatsapp']=$firstContactWhatsapp;
+				$data['firstContactFacebook']=$firstContactFacebook;
+				$data['firstContactFacetime']=$firstContactFacetime;
+				$data['firstContactFacetoface']=$firstContactFacetoface;
+				$data['firstContactForm']=$firstContactForm;
+				$data['firstContactOther']=$firstContactOther;
+
+				$qb = $em->createQueryBuilder('p');
+				$qb->select('count(p.id)');
+				$qb->from('AppBundle:User', 'p');
+				$qb->where('p.status LIKE :status')
+					->setParameter('status', 'client%');
+				$qb->andWhere('p.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('p.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('p.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				$qb->andWhere('p.registrationDate BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				try {
+					$usersClient = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersClient = 0;
+				}
+
+				$data['usersClient']=$usersClient;
+
+				$qb = $em->createQueryBuilder('q');
+				$qb->select('count(q.id)');
+				$qb->from('AppBundle:UserEvent', 'q');
+				$qb->where('q.date BETWEEN :startDate AND :endDate')
+					->setParameter('startDate', $startDate)
+					->setParameter('endDate', $endDate);
+				try {
+					$messages = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$messages = 0;
+				}
+
+				$data['messages']=$messages;
 
 			}
 			else{
@@ -486,6 +963,239 @@ class ServiceController extends Controller {
 				}
 
 				$data['usersInterestedLater'] = $usersInterestedLater;
+
+				$qb = $em->createQueryBuilder('f');
+				$qb->select('count(f.id)');
+				$qb->from('AppBundle:User', 'f');
+				$qb->where('f.source LIKE :source')
+					->setParameter('source', 'website%');
+				$qb->andWhere('f.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('f.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('f.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				try {
+					$usersFromWebsite = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromWebsite = 0;
+				}
+
+				$data['usersFromWebsite'] = $usersFromWebsite;
+
+				$qb = $em->createQueryBuilder('g');
+				$qb->select('count(g.id)');
+				$qb->from('AppBundle:User', 'g');
+				$qb->where('g.source LIKE :source')
+					->setParameter('source', 'dem%');
+				$qb->andWhere('g.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('g.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('g.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				try {
+					$usersFromDem = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromDem = 0;
+				}
+
+				$data['usersFromDem'] = $usersFromDem;
+
+				$qb = $em->createQueryBuilder('h');
+				$qb->select('count(h.id)');
+				$qb->from('AppBundle:User', 'h');
+				$qb->where('h.source LIKE :source')
+					->setParameter('source', 'facebook%');
+				$qb->andWhere('h.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('h.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('h.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				try {
+					$usersFromFacebook = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromFacebook = 0;
+				}
+
+				$data['usersFromFacebook'] = $usersFromFacebook;
+
+				$qb = $em->createQueryBuilder('i');
+				$qb->select('count(i.id)');
+				$qb->from('AppBundle:User', 'i');
+				$qb->where('i.source LIKE :source')
+					->setParameter('source', 'agent%');
+				$qb->andWhere('i.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('i.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('i.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				try {
+					$usersFromAgent = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromAgent = 0;
+				}
+
+				$data['usersFromAgent'] = $usersFromAgent;
+
+				$qb = $em->createQueryBuilder('l');
+				$qb->select('count(l.id)');
+				$qb->from('AppBundle:User', 'l');
+				$qb->where('l.source LIKE :source OR l.source LIKE :source2')
+					->setParameter('source', 'wordofmouth%')
+					->setParameter('source2', 'transit%');
+				$qb->andWhere('l.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('l.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('l.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				try {
+					$usersFromWordofmouth = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromWordofmouth = 0;
+				}
+
+				$data['usersFromWordofmouth'] = $usersFromWordofmouth;
+
+				$qb = $em->createQueryBuilder('m');
+				$qb->select('count(m.id)');
+				$qb->from('AppBundle:User', 'm');
+				$qb->where('m.source LIKE :source OR m.source LIKE :source2')
+					->setParameter('source', 'presentation%')
+					->setParameter('source2', 'events%');
+				$qb->andWhere('m.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('m.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('m.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				try {
+					$usersFromPresentation = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromPresentation = 0;
+				}
+
+				$data['usersFromPresentation'] = $usersFromPresentation;
+
+				$qb = $em->createQueryBuilder('n');
+				$qb->select('count(n.id)');
+				$qb->from('AppBundle:User', 'n');
+				$qb->where('n.source LIKE :source OR n.source LIKE :source2')
+					->setParameter('source', 'other%')
+					->setParameter('source2', 'phone%');
+				$qb->andWhere('n.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('n.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('n.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				try {
+					$usersFromOther = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersFromOther = 0;
+				}
+
+				$data['usersFromOther'] = $usersFromOther;
+
+				$users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
+
+				$firstContactPhone = 0;
+				$firstContactEmail = 0;
+				$firstContactViber = 0;
+				$firstContactWhatsapp = 0;
+				$firstContactFacebook = 0;
+				$firstContactFacetime = 0;
+				$firstContactFacetoface = 0;
+				$firstContactForm = 0;
+				$firstContactOther = 0;
+
+				foreach($users as $user) {
+
+					$events = $this->getDoctrine()->getRepository('AppBundle:UserEvent')->findBy(array('customerUser' => $user), array('date' => 'ASC'));
+
+					if(count($events)>0){
+						if($events[0]->getContactMethod() == "phone"){
+							$firstContactPhone++;
+						}
+						else if($events[0]->getContactMethod() == "email"){
+							$firstContactEmail++;
+						}
+						else if($events[0]->getContactMethod() == "viber"){
+							$firstContactViber++;
+						}
+						else if($events[0]->getContactMethod() == "whatsapp"){
+							$firstContactWhatsapp++;
+						}
+						else if($events[0]->getContactMethod() == "facebook"){
+							$firstContactFacebook++;
+						}
+						else if($events[0]->getContactMethod() == "facetime"){
+							$firstContactFacetime++;
+						}
+						else if($events[0]->getContactMethod() == "facetoface"){
+							$firstContactFacetoface++;
+						}
+						else if($events[0]->getContactMethod() == "form"){
+							$firstContactForm++;
+						}
+						else if($events[0]->getContactMethod() == "other"){
+							$firstContactOther++;
+						}
+					}
+				}
+
+				$data['firstContactPhone']=$firstContactPhone;
+				$data['firstContactEmail']=$firstContactEmail;
+				$data['firstContactViber']=$firstContactViber;
+				$data['firstContactWhatsapp']=$firstContactWhatsapp;
+				$data['firstContactFacebook']=$firstContactFacebook;
+				$data['firstContactFacetime']=$firstContactFacetime;
+				$data['firstContactFacetoface']=$firstContactFacetoface;
+				$data['firstContactForm']=$firstContactForm;
+				$data['firstContactOther']=$firstContactOther;
+
+				$qb = $em->createQueryBuilder('p');
+				$qb->select('count(p.id)');
+				$qb->from('AppBundle:User', 'p');
+				$qb->where('p.status LIKE :status')
+					->setParameter('status', 'client%');
+				$qb->andWhere('p.roles NOT LIKE :roles_super_admin')
+					->setParameter('roles_super_admin', '%"ROLE_SUPER_ADMIN"%');
+				$qb->andWhere('p.roles NOT LIKE :roles_admin')
+					->setParameter('roles_admin', '%"ROLE_ADMIN"%');
+				$qb->andWhere('p.roles NOT LIKE :roles_agent')
+					->setParameter('roles_agent', '%"ROLE_AGENT"%');
+				try {
+					$usersClient = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$usersClient = 0;
+				}
+
+				$data['usersClient']=$usersClient;
+
+				$qb = $em->createQueryBuilder('q');
+				$qb->select('count(q.id)');
+				$qb->from('AppBundle:UserEvent', 'q');
+				try {
+					$messages = $qb->getQuery()->getSingleScalarResult();
+				}
+				catch (\Doctrine\ORM\NoResultException $e) {
+					$messages = 0;
+				}
+
+				$data['messages']=$messages;
+
 			}
 
 			$data['startDate'] = $startDate;

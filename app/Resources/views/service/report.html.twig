@@ -32,15 +32,21 @@
                 startDate=startDate.replace(/\//g, '-');
                 var endDate = $('#overview-to-date').val();
                 endDate=endDate.replace(/\//g, '-');
+                var websiteViews = $('#overview-website-views').val();
 
                 if(startDate == "" || endDate == ""){
                     startDate = "null";
                     endDate = "null";
                 }
 
-                var route = '{{ path('ajax_report_overview', { 'startDate': "STARTDATE", 'endDate': "ENDDATE" }) }}';
+                if(websiteViews == ""){
+                    websiteViews = "null";
+                }
+
+                var route = '{{ path('ajax_report_overview', { 'startDate': "STARTDATE", 'endDate': "ENDDATE", 'websiteViews': "WEBSITEVIEWS" }) }}';
                 route = route.replace("STARTDATE", startDate);
                 route = route.replace("ENDDATE", endDate);
+                route = route.replace("WEBSITEVIEWS", websiteViews);
 
                 console.log(route);
 
@@ -49,15 +55,38 @@
                     url:  route,
                     success: function(response) {
                         var overview = $.parseJSON(response);
-                        console.log(overview['validDates']);
+                        /*console.log(overview['validDates']);
                         console.log(overview['startDate']);
-                        console.log(overview['endDate']);
+                        console.log(overview['endDate']);*/
                         if(overview['query'] == true){
                             $('#users-all-source').text(overview['usersAllSource']);
                             $('#quotes-sent').text(overview['quotesSent']);
                             $('#users-interested').text(overview['usersInterested']);
                             $('#users-appointment').text(overview['usersAppointment'].length);
                             $('#users-interested-later').text(overview['usersInterestedLater']);
+                            $('#users-from-website').text(overview['usersFromWebsite']);
+                            $('#users-from-dem').text(overview['usersFromDem']);
+                            $('#users-from-facebook').text(overview['usersFromFacebook']);
+                            $('#users-from-agent').text(overview['usersFromAgent']);
+                            $('#users-from-wordofmouth').text(overview['usersFromWordofmouth']);
+                            $('#users-from-presentation').text(overview['usersFromPresentation']);
+                            $('#users-from-other').text(overview['usersFromOther']);
+                            $('#first-contact-phone').text(overview['firstContactPhone']);
+                            $('#first-contact-email').text(overview['firstContactEmail']);
+                            $('#first-contact-viber').text(overview['firstContactViber']);
+                            $('#first-contact-whatsapp').text(overview['firstContactWhatsapp']);
+                            $('#first-contact-facebook').text(overview['firstContactFacebook']);
+                            $('#first-contact-facetime').text(overview['firstContactFacetime']);
+                            $('#first-contact-facetoface').text(overview['firstContactFacetoface']);
+                            $('#first-contact-form').text(overview['firstContactForm']);
+                            $('#first-contact-other').text(overview['firstContactOther']);
+                            $('#presentations-by-users').text(overview['usersAllSource']+" / "+overview['usersFromPresentation']);
+                            $('#clients-by-websiteviews').text(overview['usersClient']+" / "+overview['websiteViews']);
+                            $('#messages-by-websiteviews').text(overview['messages']+" / "+overview['websiteViews']);
+                            $('#quotes-by-users').text( ((parseFloat(overview['quotesSent'])/parseFloat(overview['usersAllSource']))*100).toFixed(3) );
+                            $('#interested-by-quotes').text( ((parseFloat(overview['usersInterested'])/parseFloat(overview['quotesSent']))*100).toFixed(3) );
+                            $('#journey-by-quotes').text( ((parseFloat(overview['usersAppointment'].length)/parseFloat(overview['quotesSent']))*100).toFixed(3) );
+
                         }
                     },
                     async: true
@@ -90,7 +119,7 @@
         <div class="col-sm-12">
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Overview WORK IN PROGRESS</h3>
+                    <h3 class="panel-title">Overview</h3>
                 </div>
                 <div class="panel-body">
                     <div class="form-inline">
@@ -101,6 +130,10 @@
                         <div class="form-group">
                             <span>To: </span>
                             <input type="text" id="overview-to-date" class="form-control" class="datepicker" name="to" data-plugin="datepicker">
+                        </div>
+                        <div class="form-group">
+                            <span>Website View: </span>
+                            <input type="number" id="overview-website-views" class="form-control">
                         </div>
                         <button id="report-overview" type="submit" class="btn btn-default">OK</button>
                     </div>
@@ -172,6 +205,309 @@
             </div>
             <!-- End Card -->
         </div>
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="users-from-website" class="counter-number">{{ usersFromWebsite }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Users from website</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="users-from-dem" class="counter-number">{{ usersFromDem }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Users from dem</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="users-from-facebook" class="counter-number">{{ usersFromFacebook }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Users from facebook</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="users-from-agent" class="counter-number">{{ usersFromAgent }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Users from agent</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="users-from-wordofmouth" class="counter-number">{{ usersFromWordofmouth }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Users from word of mouth</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="users-from-presentation" class="counter-number">{{ usersFromPresentation }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Users from presentation</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="users-from-other" class="counter-number">{{ usersFromOther }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Users from other</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="first-contact-phone" class="counter-number">{{ firstContactPhone }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">First contact phone</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="first-contact-email" class="counter-number">{{ firstContactEmail }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">First contact email</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="first-contact-viber" class="counter-number">{{ firstContactViber }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">First contact viber</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="first-contact-whatsapp" class="counter-number">{{ firstContactWhatsapp }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">First contact whatsapp</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="first-contact-facebook" class="counter-number">{{ firstContactFacebook }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">First contact facebook</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="first-contact-facetime" class="counter-number">{{ firstContactFacetime }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">First contact facetime</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="first-contact-facetoface" class="counter-number">{{ firstContactFacetoface }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">First contact facetoface</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="first-contact-form" class="counter-number">{{ firstContactForm }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">First contact form</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="first-contact-other" class="counter-number">{{ firstContactOther }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">First contact other</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="presentations-by-users" class="counter-number">{{ usersAllSource }} / {{ usersFromPresentation }}</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Users / From Presentations</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="clients-by-websiteviews" class="counter-number">{{ usersClient }} / 0</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Clients / Website Views</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="messages-by-websiteviews" class="counter-number">{{ messages }} / 0</span>
+                        <span class="counter-icon m-l-10"><i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Messages / Website Views</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="quotes-by-users" class="counter-number">{{ ((quotesSent/usersAllSource)*100)|round(3, 'floor') }} </span>
+                        <span class="counter-icon m-l-10">%  <i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Quotes / Users</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="interested-by-quotes" class="counter-number">{{ ((usersInterested/quotesSent)*100)|round(3, 'floor') }} </span>
+                        <span class="counter-icon m-l-10">%  <i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Interested / Quotes</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
+        <div class="col-lg-3 col-xs-12">
+            <!-- Card -->
+            <div class="card card-block p-35 clearfix">
+                <div class="counter counter-md pull-xs-left text-xs-left">
+                    <div class="counter-number-group">
+                        <span id="journey-by-quotes" class="counter-number">{{ (((usersAppointment|length)/quotesSent)*100)|round(3, 'floor') }} </span>
+                        <span class="counter-icon m-l-10">%  <i class="icon md-assignment" aria-hidden="true"></i></span>
+                        <div class="counter-label text-capitalize font-size-16">Appointment / Quotes</div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Card -->
+        </div>
+
     </div>
 
     <div class="row">

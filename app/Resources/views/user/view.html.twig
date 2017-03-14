@@ -420,7 +420,7 @@
                 </div>
                 <div class="panel-body">
                     {% for quote in quotes %}
-                        <div class="row"><span class="heading col-md-4">Quote:</span><a href="{{ path('userQuote', {'userid': user.id, 'quoteid': quote.id}) }}"><span class="content col-md-4">{{ quote.date|date('d/m/Y') }}</span></a><span class="content col-md-4">{{ quote.treatmentTotalFare }} €</span></div>
+                        <div class="row"><span class="heading col-md-2">Quote:</span><a href="{{ path('userQuote', {'userid': user.id, 'quoteid': quote.id}) }}"><span class="content col-md-2">{{ quote.date|date('d/m/Y') }}</span></a><span class="content col-md-2">{{ quote.treatmentTotalFare }} €</span><span class="content col-md-2">Settled: </span><span class="content col-md-4"><input type="number" value="{{ quote.settled }}"><button class="btn btn-default waves-effect settled" data-quoteid="{{ quote.id }}" data-userid="{{ user.id }}">OK</button></span></div>
                         <hr>
                     {% endfor %}
                 </div>
@@ -448,6 +448,32 @@
                 </div>
             </div>
             <!-- End Modal -->
+
+            <script>
+                $( document ).ready(function() {
+                    $('.settled').click(function() {
+
+                        var route = '{{ path('quoteSettleUpdate', { 'userid': "USERID", 'quoteid': "QUOTEID", 'settle': "SETTLE" }) }}';
+                        route = route.replace("USERID", $(this).data( "userid" ));
+                        route = route.replace("QUOTEID", $(this).data( "quoteid" ));
+                        route = route.replace("SETTLE", $(this).prev().val());
+
+                        console.log(route);
+
+                        $.ajax({
+                            type: 'POST',
+                            url:  route,
+                            success: function(response) {
+
+                            },
+                            async: true
+                        })
+
+
+
+                    });
+                });
+            </script>
 
         </div>
 
