@@ -6888,6 +6888,14 @@ span.heading {
   padding: 10px 0;
   border-bottom: 1px solid #e0e0e0;
 }
+.settle {
+  max-width: 60px;
+  margin-right: 10px;
+  height: 35px;
+}
+.settle + button {
+  margin-top: -4px;
+}
 /************ ADD SERVICE*********************************************************/
 .h-600 {
   height: 600px;
